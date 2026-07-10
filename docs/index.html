@@ -4,326 +4,106 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Brennen — Family Meme Pack · 尖塔工房</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #070809;
-      --ink: #e8e0d0;
-      --muted: #8a8478;
-      --gold: #e8c56a;
-      --gold-hi: #f5e6a8;
-      --frame-red: #8b2e24;
-      --frame-red-hi: #a83c30;
-      --frame-red-lo: #4a1612;
-      --panel: #141210;
-    }
-
+    :root { --bg:#070809; --ink:#e8e0d0; --muted:#8a8478; --gold:#e8c56a; }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Source Sans 3", system-ui, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       background:
         radial-gradient(ellipse 70% 40% at 50% 0%, #3a1510 0%, transparent 55%),
-        radial-gradient(ellipse 50% 30% at 90% 80%, #1a2030 0%, transparent 50%),
         var(--bg);
       color: var(--ink);
       min-height: 100vh;
     }
-
     a { color: var(--gold); }
-
-    /* ——— Hero ——— */
-    .hero {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2.25rem 1.5rem 1rem;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 1.75rem;
-      align-items: end;
+    header {
+      max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 1rem;
+      display: grid; grid-template-columns: 180px 1fr; gap: 1.5rem; align-items: end;
     }
-    @media (max-width: 720px) {
-      .hero { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    @media (max-width:720px){ header{grid-template-columns:1fr;justify-items:center;text-align:center;} }
+    .portrait {
+      width: 180px; aspect-ratio: 3/4; border-radius: 10px; overflow: hidden;
+      border: 2px solid #6a2a22; box-shadow: 0 12px 32px rgba(0,0,0,.5);
     }
-    .hero-portrait {
-      width: 200px;
-      aspect-ratio: 3/4;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 2px solid #6a2a22;
-      box-shadow: 0 16px 40px rgba(0,0,0,.55);
+    .portrait img { width:100%; height:100%; object-fit:cover; display:block; }
+    h1 { margin: 0 0 .25rem; font-size: clamp(1.8rem,4vw,2.6rem); }
+    .sub { color: var(--gold); margin-bottom: .5rem; }
+    p { color: var(--muted); max-width: 40rem; line-height: 1.5; }
+    .meta {
+      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 1.25rem;
+      color: var(--muted); font-size: .85rem;
     }
-    .hero-portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero h1 {
-      font-family: Cinzel, serif;
-      font-size: clamp(2rem, 5vw, 2.8rem);
-      margin: 0 0 .2rem;
-      letter-spacing: .04em;
-    }
-    .hero .pack {
-      color: var(--gold);
-      font-size: .95rem;
-      margin-bottom: .6rem;
-    }
-    .hero p { color: var(--muted); max-width: 38rem; margin: 0 0 .8rem; line-height: 1.5; }
-    .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .chip {
-      font-size: .72rem;
-      padding: .22rem .6rem;
-      border-radius: 999px;
-      border: 1px solid #4a3530;
-      background: #1a1412;
-      color: #d0c8b8;
-    }
-
-    /* ——— Filters ——— */
+    .meta code { color: #d0c8b0; background: #1a1612; padding: .1rem .35rem; border-radius: 4px; }
     .filters {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: .5rem 1.5rem 1.25rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: .45rem;
-      align-items: center;
+      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 1rem;
+      display: flex; flex-wrap: wrap; gap: .4rem; align-items: center;
     }
-    .filters span { color: var(--muted); font-size: .8rem; margin-right: .25rem; }
     .filters button {
-      background: #161412;
-      border: 1px solid #333;
-      color: var(--ink);
-      padding: .38rem .8rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: .82rem;
-      font-family: inherit;
+      background: #161412; border: 1px solid #333; color: var(--ink);
+      padding: .35rem .75rem; border-radius: 6px; cursor: pointer; font: inherit; font-size: .82rem;
     }
-    .filters button.active,
-    .filters button:hover { border-color: var(--gold); color: var(--gold); }
-
-    /* ——— Grid ——— */
-    main { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem 3rem; }
-    section { margin-bottom: 2.25rem; }
+    .filters button.active, .filters button:hover { border-color: var(--gold); color: var(--gold); }
+    main { max-width: 1200px; margin: 0 auto; padding: 0 1rem 3rem; }
+    section { margin-bottom: 2rem; }
     section h2 {
-      font-family: Cinzel, serif;
-      font-size: .85rem;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: var(--muted);
-      border-bottom: 1px solid #2a2620;
-      padding-bottom: .55rem;
-      margin: 0 0 1.35rem;
+      font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); border-bottom: 1px solid #2a2620; padding-bottom: .5rem; margin: 0 0 1.25rem;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem 1rem;
       justify-items: center;
     }
-
-    /* =========================================
-       FULL STS2-STYLE CARD (matches feeding mock)
-       ========================================= */
-    .sts-card {
-      --w: 240px;
-      width: var(--w);
-      /* outer red frame */
-      background: linear-gradient(165deg, var(--frame-red-hi) 0%, var(--frame-red) 35%, var(--frame-red-lo) 100%);
-      border-radius: 14px;
-      padding: 7px;
-      box-shadow:
-        0 12px 28px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,220,180,.15),
-        inset 0 -2px 4px rgba(0,0,0,.35);
-      position: relative;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .sts-card:hover {
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 18px 36px rgba(0,0,0,.6), 0 0 0 1px rgba(232,197,106,.25);
-    }
-    .sts-card.skill-frame {
-      background: linear-gradient(165deg, #3a5a7a 0%, #2a4058 40%, #152030 100%);
-    }
-    .sts-card.rare-frame {
-      background: linear-gradient(165deg, #b8942e 0%, #8a6a18 40%, #3a2a08 100%);
-    }
-    .sts-card.relic-frame {
-      background: linear-gradient(165deg, #c9a84a 0%, #7a6020 45%, #2a2008 100%);
-    }
-
-    .sts-inner {
-      background: linear-gradient(180deg, #1c1814 0%, #12100e 55%, #0c0a08 100%);
-      border-radius: 9px;
+    .card {
+      width: min(100%, 260px);
+      border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(0,0,0,.5);
-      display: flex;
-      flex-direction: column;
-      min-height: 360px;
-    }
-
-    /* Energy orb */
-    .sts-cost {
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 46px;
-      height: 46px;
-      z-index: 5;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 30%, #ffc070 0%, #e87820 40%, #8a2808 75%, #3a1008 100%);
-      border: 3px solid #f0c890;
-      box-shadow: 0 3px 8px rgba(0,0,0,.55), inset 0 2px 4px rgba(255,255,255,.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Cinzel, serif;
-      font-weight: 700;
-      font-size: 1.35rem;
-      color: #fff;
-      text-shadow: 0 1px 3px rgba(0,0,0,.7);
-    }
-    .sts-cost.none { display: none; }
-
-    /* Title banner */
-    .sts-banner-wrap {
-      padding: 10px 10px 0 42px;
-    }
-    .sts-banner {
-      background: linear-gradient(180deg, #e8e0d0 0%, #c0b8a8 45%, #9a9288 100%);
-      color: #2a2218;
-      text-align: center;
-      font-family: Cinzel, serif;
-      font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: .03em;
-      padding: .32rem .4rem .38rem;
-      border-radius: 3px 3px 0 0;
-      box-shadow: 0 2px 0 #6a6458, 0 3px 6px rgba(0,0,0,.35);
-      position: relative;
-      clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%);
-    }
-
-    /* Art window */
-    .sts-art-wrap {
-      margin: 0 9px;
-      position: relative;
-    }
-    .sts-art {
-      height: 148px;
-      background: #1a1210 center/cover no-repeat;
-      border: 2px solid #3a2a24;
-      border-radius: 4px;
-      box-shadow: inset 0 0 20px rgba(0,0,0,.45);
-    }
-    .sts-type {
-      position: absolute;
-      left: 50%;
-      bottom: -11px;
-      transform: translateX(-50%);
-      background: linear-gradient(180deg, #e0d8c8, #a8a090);
-      color: #2a2420;
-      font-size: .68rem;
-      font-weight: 700;
-      letter-spacing: .04em;
-      padding: .18rem .7rem;
-      border-radius: 3px;
-      border: 1px solid #7a7268;
-      box-shadow: 0 2px 4px rgba(0,0,0,.4);
-      white-space: nowrap;
-      z-index: 2;
-    }
-
-    /* Body text */
-    .sts-body {
-      flex: 1;
-      padding: 1.35rem .85rem .55rem;
-      text-align: center;
-      font-size: .9rem;
-      line-height: 1.4;
-      color: #e0d6c4;
-    }
-    .sts-body .line { display: block; margin: .12rem 0; }
-    .sts-body .kw { color: var(--gold); font-weight: 700; }
-    .sts-body .num { color: #7ec8ff; font-weight: 700; }
-    .sts-flavor {
-      margin-top: .55rem;
-      font-size: .72rem;
-      font-style: italic;
-      color: #6a6458;
-    }
-
-    /* Bottom stats bar like 0/10/0 */
-    .sts-stats {
-      text-align: center;
-      font-size: .72rem;
-      font-weight: 600;
-      color: var(--gold);
-      letter-spacing: .06em;
-      padding: .2rem 0 .55rem;
-      opacity: .85;
-    }
-
-    .sts-rarity {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: .58rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.35);
-      z-index: 4;
-      font-weight: 700;
-    }
-
-    /* Full-bleed mode for user-provided complete card */
-    .sts-card.full-bleed {
-      padding: 0;
-      background: transparent;
       box-shadow: 0 12px 28px rgba(0,0,0,.55);
+      transition: transform .15s ease;
+      background: #000;
     }
-    .sts-card.full-bleed img.full-card {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 14px;
+    .card:hover { transform: translateY(-4px) scale(1.02); }
+    .card img { width: 100%; height: auto; display: block; vertical-align: middle; }
+    .card .label {
+      text-align: center; font-size: .7rem; color: #6a6558; padding: .35rem;
+      background: #0c0a08; letter-spacing: .06em; text-transform: uppercase;
     }
-
-    footer {
-      text-align: center;
-      padding: 1rem 1rem 2.5rem;
-      color: var(--muted);
-      font-size: .78rem;
-    }
+    footer { text-align:center; padding: 1rem 1rem 2.5rem; color: var(--muted); font-size: .78rem; }
     .hidden { display: none !important; }
+    .sizes {
+      max-width: 1200px; margin: 0 auto 1.5rem; padding: 1rem 1.25rem;
+      background: #12100e; border: 1px solid #2a2420; border-radius: 10px;
+      font-size: .88rem; color: #c0b8a8; line-height: 1.55;
+    }
+    .sizes strong { color: var(--gold); }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="hero-portrait">
-      <img src="assets/brennen/portrait.jpg" alt="Brennen" />
-    </div>
+  <header>
+    <div class="portrait"><img src="assets/brennen/portrait.jpg" alt="Brennen" /></div>
     <div>
-      <div class="pack">尖塔工房 · Family Meme Pack · Character 1</div>
+      <div class="sub">尖塔工房 · Family Meme Pack · Character 1</div>
       <h1>Brennen</h1>
       <p>
-        Older brother. League nights. Corvette energy. Signature card
-        <strong style="color:var(--gold)">Feeding</strong> — literally feed the monster.
-        Full kit below in STS2-style frames.
+        Catalog previews use the <strong style="color:var(--gold)">Feeding</strong> card’s extracted shell
+        (same chrome as your mock). In-game the mod only ships <em>portrait art</em> — the game draws the real frame.
       </p>
-      <div class="chips">
-        <span class="chip">HP 74</span>
-        <span class="chip">Duo Queue</span>
-        <span class="chip">5 Strike · 4 Defend · Feeding</span>
-        <span class="chip">13 cards + relic</span>
-      </div>
     </div>
   </header>
 
+  <div class="meta">
+    <div class="sizes">
+      <strong>Image sizes (for game assets)</strong><br/>
+      Portrait big: <code>1000×760</code> → <code>Brennen/images/card_portraits/big/*.png</code><br/>
+      Portrait small: <code>250×190</code> → <code>Brennen/images/card_portraits/*.png</code><br/>
+      Frame shell source: <code>docs/assets/brennen/frame/shell-clean.png</code> (1032×1523, art hole ~796×795)<br/>
+      Preview cards: <code>docs/assets/brennen/cards/*.jpg</code> (full framed, for this page only)
+    </div>
+  </div>
+
   <nav class="filters" id="filters">
-    <span>Show:</span>
     <button type="button" data-filter="all" class="active">All</button>
     <button type="button" data-filter="relic">Relic</button>
     <button type="button" data-filter="basic">Basic</button>
@@ -342,246 +122,34 @@
 
   <footer>
     <a href="https://github.com/StephenSHorton/sentou-koubou">github.com/StephenSHorton/sentou-koubou</a>
-    · Personal family meme mod · Not affiliated with MegaCrit
+    · Framed previews for catalog · Game uses portraits only
   </footer>
 
   <script>
     const CARDS = [
-      {
-        id: "duoqueue",
-        name: "Duo Queue",
-        rarity: "relic",
-        type: "Relic",
-        cost: null,
-        art: "assets/brennen/duoqueue.jpg",
-        lines: ["At the start of combat,", "gain 1 Energy."],
-        flavor: "I've got you. Don't feed.",
-        stats: "Starter",
-      },
-      {
-        id: "strike",
-        name: "Strike",
-        rarity: "basic",
-        type: "Attack",
-        cost: 1,
-        art: "assets/brennen/strike.jpg",
-        lines: ["Deal 6 damage."],
-        flavor: "Basic auto-attack.",
-        stats: "0 / 0 / 0",
-        upgrade: "9 dmg",
-      },
-      {
-        id: "defend",
-        name: "Defend",
-        rarity: "basic",
-        type: "Skill",
-        cost: 1,
-        art: "assets/brennen/defend.jpg",
-        lines: ["Gain 5 Block."],
-        flavor: "Holding the wave.",
-        stats: "0 / 0 / 0",
-        upgrade: "8 Block",
-      },
-      {
-        id: "gank",
-        name: "Gank",
-        rarity: "common",
-        type: "Attack",
-        cost: 1,
-        art: "assets/brennen/gank.jpg",
-        lines: ["Deal 4 damage to a random enemy", "2 times."],
-        flavor: "Roaming mid. BRB.",
-        stats: "0 / 0 / 0",
-        upgrade: "6 dmg",
-      },
-      {
-        id: "flash",
-        name: "Flash",
-        rarity: "common",
-        type: "Skill",
-        cost: 0,
-        art: "assets/brennen/flash.jpg",
-        lines: ["Gain 6 Block.", "Exhaust."],
-        flavor: "Panic button.",
-        stats: "0 / 0 / 0",
-        upgrade: "9 Block",
-      },
-      {
-        id: "tilt",
-        name: "Tilt",
-        rarity: "common",
-        type: "Attack",
-        cost: 1,
-        art: "assets/brennen/tilt.jpg",
-        lines: ["Deal 9 damage.", "Take 2 damage."],
-        flavor: "Chat is cooking me.",
-        stats: "0 / 0 / 0",
-        upgrade: "12 dmg",
-      },
-      {
-        id: "ward",
-        name: "Ward",
-        rarity: "common",
-        type: "Skill",
-        cost: 1,
-        art: "assets/brennen/ward.jpg",
-        lines: ["Gain 7 Block.", "Draw 1 card."],
-        flavor: "Vision wins games.",
-        stats: "0 / 0 / 0",
-        upgrade: "10 Block",
-      },
-      {
-        id: "feed",
-        name: "Feeding",
-        rarity: "uncommon",
-        type: "Skill",
-        cost: 1,
-        // Full card as provided by user — gold standard look
-        fullCard: "assets/brennen/feed-full.jpg",
-        art: "assets/brennen/feed-art.jpg",
-        lines: [
-          "Heal the monster to full HP.",
-          "Exhaust.",
-        ],
-        flavor: "My bad. Free gold.",
-        stats: "0 / 10 / 0",
-        highlight: true,
-      },
-      {
-        id: "maincharacter",
-        name: "Main Character",
-        rarity: "uncommon",
-        type: "Attack",
-        cost: 2,
-        art: "assets/brennen/maincharacter.jpg",
-        lines: [
-          "Deal 14 damage.",
-          "If at 50% HP or less,",
-          "deal 20 instead.",
-        ],
-        flavor: "Plot armor.",
-        stats: "0 / 0 / 0",
-        upgrade: "18 / 24",
-      },
-      {
-        id: "muteall",
-        name: "Mute All",
-        rarity: "uncommon",
-        type: "Skill",
-        cost: 1,
-        art: "assets/brennen/muteall.jpg",
-        lines: ["Apply 2 Weak to ALL enemies."],
-        flavor: "Silence.",
-        stats: "0 / 0 / 0",
-        upgrade: "3 Weak",
-      },
-      {
-        id: "firstblood",
-        name: "First Blood",
-        rarity: "uncommon",
-        type: "Attack",
-        cost: 0,
-        art: "assets/brennen/firstblood.jpg",
-        lines: [
-          "Deal 3 damage.",
-          "If Fatal, gain 1 Energy",
-          "and draw 1 card.",
-        ],
-        flavor: "Snowball time.",
-        stats: "0 / 0 / 0",
-        upgrade: "5 dmg",
-      },
-      {
-        id: "pentakill",
-        name: "Pentakill",
-        rarity: "rare",
-        type: "Attack",
-        cost: 2,
-        art: "assets/brennen/pentakill.jpg",
-        lines: ["Deal 6 damage to ALL enemies", "3 times."],
-        flavor: "Ace. GG.",
-        stats: "0 / 0 / 0",
-        upgrade: "8 dmg",
-      },
-      {
-        id: "afk",
-        name: "AFK",
-        rarity: "rare",
-        type: "Skill",
-        cost: 3,
-        art: "assets/brennen/afk.jpg",
-        lines: ["Gain 20 Block.", "Exhaust."],
-        flavor: "brb snack",
-        stats: "0 / 0 / 0",
-        upgrade: "26 Block",
-      },
-      {
-        id: "remake",
-        name: "Remake",
-        rarity: "rare",
-        type: "Skill",
-        cost: 1,
-        art: "assets/brennen/remake.jpg",
-        lines: ["Draw 5 cards.", "Exhaust."],
-        flavor: "/remake",
-        stats: "0 / 0 / 0",
-        upgrade: "Draw 6",
-      },
+      { id: "duoqueue", rarity: "relic", name: "Duo Queue" },
+      { id: "strike", rarity: "basic", name: "Strike" },
+      { id: "defend", rarity: "basic", name: "Defend" },
+      { id: "gank", rarity: "common", name: "Gank" },
+      { id: "flash", rarity: "common", name: "Flash" },
+      { id: "tilt", rarity: "common", name: "Tilt" },
+      { id: "ward", rarity: "common", name: "Ward" },
+      { id: "feeding", rarity: "uncommon", name: "Feeding" },
+      { id: "maincharacter", rarity: "uncommon", name: "Main Character" },
+      { id: "muteall", rarity: "uncommon", name: "Mute All" },
+      { id: "firstblood", rarity: "uncommon", name: "First Blood" },
+      { id: "pentakill", rarity: "rare", name: "Pentakill" },
+      { id: "afk", rarity: "rare", name: "AFK" },
+      { id: "remake", rarity: "rare", name: "Remake" },
     ];
-
-    function frameClass(c) {
-      if (c.rarity === "relic") return "relic-frame";
-      if (c.rarity === "rare") return "rare-frame";
-      if (c.type === "Skill") return "skill-frame";
-      return "";
-    }
-
-    function fmt(t) {
-      return t
-        .replace(/\b(Block|Strength|Weak|Exhaust|Energy|Fatal|HP)\b/g, '<span class="kw">$1</span>')
-        .replace(/\b(\d+%?)\b/g, '<span class="num">$1</span>');
-    }
-
-    function render(card) {
-      const el = document.createElement("article");
-      el.dataset.rarity = card.rarity;
-
-      // User-provided full Feeding card — show as-is for pixel-perfect match
-      if (card.fullCard) {
-        el.className = "sts-card full-bleed";
-        el.innerHTML = `<img class="full-card" src="${card.fullCard}" alt="${card.name}" />`;
-        return el;
-      }
-
-      el.className = `sts-card ${frameClass(card)}`;
-      const cost = card.cost === null
-        ? ""
-        : `<div class="sts-cost">${card.cost}</div>`;
-      const lines = card.lines.map(l => `<span class="line">${fmt(l)}</span>`).join("");
-      const flavor = card.flavor
-        ? `<div class="sts-flavor">${card.flavor}${card.upgrade ? " · ↑ " + card.upgrade : ""}</div>`
-        : "";
-
-      el.innerHTML = `
-        ${cost}
-        <div class="sts-rarity">${card.rarity}</div>
-        <div class="sts-inner">
-          <div class="sts-banner-wrap"><div class="sts-banner">${card.name}</div></div>
-          <div class="sts-art-wrap">
-            <div class="sts-art" style="background-image:url('${card.art}')"></div>
-            <div class="sts-type">${card.type}</div>
-          </div>
-          <div class="sts-body">${lines}${flavor}</div>
-          <div class="sts-stats">${card.stats || ""}</div>
-        </div>
-      `;
-      return el;
-    }
-
     for (const c of CARDS) {
-      document.getElementById(c.rarity).appendChild(render(c));
+      const el = document.createElement("article");
+      el.className = "card";
+      el.innerHTML = `
+        <img src="assets/brennen/cards/${c.id}.jpg" alt="${c.name}" loading="lazy" />
+        <div class="label">${c.name} · ${c.rarity}</div>`;
+      document.getElementById(c.rarity).appendChild(el);
     }
-
     document.getElementById("filters").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-filter]");
       if (!btn) return;

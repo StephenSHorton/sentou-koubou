@@ -1,0 +1,29 @@
+{
+  "card_size": [
+    1032,
+    1523
+  ],
+  "art_box": [
+    118,
+    195,
+    914,
+    990
+  ],
+  "art_size": [
+    796,
+    795
+  ],
+  "game_portrait": {
+    "big": [
+      1000,
+      760
+    ],
+    "small": [
+      250,
+      190
+    ]
+  },
+  "in_game": "STS2 only uses portrait images (not the framed card). Export big=1000x760 to card_portraits/big/, small=250x190 to card_portraits/.",
+  "preview_shell": "docs/assets/brennen/frame/shell-clean.png extracted from Feeding mock",
+  "script": "tools/compose_brennen_cards.py (see repo tools/)"
+}

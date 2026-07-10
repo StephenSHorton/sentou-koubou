@@ -19,3 +19,4 @@
 # Godot junk
 **/*.translation
 .import/
+.venv/

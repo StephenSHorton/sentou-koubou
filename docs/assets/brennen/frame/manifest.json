@@ -1,0 +1,282 @@
+[
+  {
+    "id": "feeding",
+    "name": "feeding",
+    "type": "Skill",
+    "cost": 1,
+    "preview": "assets/brennen/cards/feeding.jpg",
+    "game_portrait": "assets/brennen/game-portraits/feed.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "strike",
+    "name": "Strike",
+    "type": "Attack",
+    "cost": 1,
+    "preview": "assets/brennen/cards/strike.jpg",
+    "game_portrait": "assets/brennen/game-portraits/strikebrennen.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "defend",
+    "name": "Defend",
+    "type": "Skill",
+    "cost": 1,
+    "preview": "assets/brennen/cards/defend.jpg",
+    "game_portrait": "assets/brennen/game-portraits/defendbrennen.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "gank",
+    "name": "Gank",
+    "type": "Attack",
+    "cost": 1,
+    "preview": "assets/brennen/cards/gank.jpg",
+    "game_portrait": "assets/brennen/game-portraits/gank.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "flash",
+    "name": "Flash",
+    "type": "Skill",
+    "cost": 0,
+    "preview": "assets/brennen/cards/flash.jpg",
+    "game_portrait": "assets/brennen/game-portraits/flash.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "tilt",
+    "name": "Tilt",
+    "type": "Attack",
+    "cost": 1,
+    "preview": "assets/brennen/cards/tilt.jpg",
+    "game_portrait": "assets/brennen/game-portraits/tilt.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "ward",
+    "name": "Ward",
+    "type": "Skill",
+    "cost": 1,
+    "preview": "assets/brennen/cards/ward.jpg",
+    "game_portrait": "assets/brennen/game-portraits/ward.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "maincharacter",
+    "name": "Main Character",
+    "type": "Attack",
+    "cost": 2,
+    "preview": "assets/brennen/cards/maincharacter.jpg",
+    "game_portrait": "assets/brennen/game-portraits/maincharacter.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "muteall",
+    "name": "Mute All",
+    "type": "Skill",
+    "cost": 1,
+    "preview": "assets/brennen/cards/muteall.jpg",
+    "game_portrait": "assets/brennen/game-portraits/muteall.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "firstblood",
+    "name": "First Blood",
+    "type": "Attack",
+    "cost": 0,
+    "preview": "assets/brennen/cards/firstblood.jpg",
+    "game_portrait": "assets/brennen/game-portraits/firstblood.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "pentakill",
+    "name": "Pentakill",
+    "type": "Attack",
+    "cost": 2,
+    "preview": "assets/brennen/cards/pentakill.jpg",
+    "game_portrait": "assets/brennen/game-portraits/pentakill.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "afk",
+    "name": "AFK",
+    "type": "Skill",
+    "cost": 3,
+    "preview": "assets/brennen/cards/afk.jpg",
+    "game_portrait": "assets/brennen/game-portraits/afk.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "remake",
+    "name": "Remake",
+    "type": "Skill",
+    "cost": 1,
+    "preview": "assets/brennen/cards/remake.jpg",
+    "game_portrait": "assets/brennen/game-portraits/remake.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  },
+  {
+    "id": "duoqueue",
+    "name": "Duo Queue",
+    "type": "Relic",
+    "cost": null,
+    "preview": "assets/brennen/cards/duoqueue.jpg",
+    "game_portrait": "assets/brennen/game-portraits/duoqueue.png",
+    "game_size": [
+      1000,
+      760
+    ],
+    "game_small": [
+      250,
+      190
+    ],
+    "panel_size": [
+      796,
+      795
+    ]
+  }
+]
