@@ -1,0 +1,16 @@
+{
+  "BRENNEN-BRENNEN.title": "Brennen",
+  "BRENNEN-BRENNEN.titleObject": "Brennen",
+  "BRENNEN-BRENNEN.description": "Your older brother. League nights, Corvette energy, and a talent for [gold]feeding[/gold] the enemy just enough to [gold]draw[/gold] two.\nFamily meme pack — character 1.",
+  "BRENNEN-BRENNEN.pronounObject": "him",
+  "BRENNEN-BRENNEN.possessiveAdjective": "his",
+  "BRENNEN-BRENNEN.pronounPossessive": "his",
+  "BRENNEN-BRENNEN.pronounSubject": "he",
+  "BRENNEN-BRENNEN.goldMonologue": "[sine]Gold for skins. And snacks.[/sine]",
+  "BRENNEN-BRENNEN.eventDeathPrevention": "I still have flash.",
+  "BRENNEN-BRENNEN.aromaPrinciple": "[sine][red]Trust me bro.[/red][/sine]",
+  "BRENNEN-BRENNEN.cardsModifierTitle": "Brennen Cards",
+  "BRENNEN-BRENNEN.cardsModifierDescription": "Brennen cards will now appear in rewards and shops.",
+  "BRENNEN-BRENNEN.banter.alive.endTurnPing": "[sine]One more game...[/sine]",
+  "BRENNEN-BRENNEN.banter.dead.endTurnPing": "gg"
+}

@@ -23,7 +23,15 @@ Short alternatives considered: `yagura` (櫓), `tounobori` (塔登り), `toukura
 
 | Folder | Status | What it is |
 |--------|--------|------------|
-| [`mods/henro`](mods/henro) | Vertical slice | **The Pilgrim (遍路)** — selectable character, Strike/Defend, starter relic |
+| [`mods/brennen`](mods/brennen) | Family meme pack #1 | **Brennen** — League-flavored kit (Feed, Gank, Flash, Tilt…) |
+| [`mods/henro`](mods/henro) | Vertical slice | **The Pilgrim (遍路)** — starter character template slice |
+
+### Card catalog (browse in a browser)
+
+```bash
+open docs/index.html
+# or: python3 -m http.server -d docs 8765  →  http://localhost:8765
+```
 
 More packages land under `mods/` as they appear.
 

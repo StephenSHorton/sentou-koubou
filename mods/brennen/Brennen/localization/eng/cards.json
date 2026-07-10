@@ -1,0 +1,40 @@
+{
+  "BRENNEN-STRIKE_BRENNEN.title": "Strike",
+  "BRENNEN-STRIKE_BRENNEN.description": "Deal {Damage:diff()} damage.",
+
+  "BRENNEN-DEFEND_BRENNEN.title": "Defend",
+  "BRENNEN-DEFEND_BRENNEN.description": "Gain {Block:diff()} [gold]Block[/gold].",
+
+  "BRENNEN-FEED.title": "Feed",
+  "BRENNEN-FEED.description": "Deal {Damage:diff()} damage.\nThe enemy gains [blue]1[/blue] [gold]Strength[/gold].\nDraw {Cards:diff()} cards.",
+
+  "BRENNEN-GANK.title": "Gank",
+  "BRENNEN-GANK.description": "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.",
+
+  "BRENNEN-FLASH.title": "Flash",
+  "BRENNEN-FLASH.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Exhaust[/gold].",
+
+  "BRENNEN-TILT.title": "Tilt",
+  "BRENNEN-TILT.description": "Deal {Damage:diff()} damage.\nTake [blue]2[/blue] damage.",
+
+  "BRENNEN-WARD.title": "Ward",
+  "BRENNEN-WARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nDraw {Cards:diff()} card.",
+
+  "BRENNEN-MAIN_CHARACTER.title": "Main Character",
+  "BRENNEN-MAIN_CHARACTER.description": "Deal {Damage:diff()} damage.\nIf you have [blue]50%[/blue] or less HP, deal {LowHpDamage:diff()} damage instead.",
+
+  "BRENNEN-MUTE_ALL.title": "Mute All",
+  "BRENNEN-MUTE_ALL.description": "Apply [blue]2[/blue] ([blue]3[/blue]) [gold]Weak[/gold] to ALL enemies.",
+
+  "BRENNEN-FIRST_BLOOD.title": "First Blood",
+  "BRENNEN-FIRST_BLOOD.description": "Deal {Damage:diff()} damage.\nIf Fatal, gain {Energy:energyIcons()} and draw {Cards:diff()} card.",
+
+  "BRENNEN-PENTAKILL.title": "Pentakill",
+  "BRENNEN-PENTAKILL.description": "Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times.",
+
+  "BRENNEN-AFK.title": "AFK",
+  "BRENNEN-AFK.description": "Gain {Block:diff()} [gold]Block[/gold].\n[gold]Exhaust[/gold].",
+
+  "BRENNEN-REMAKE.title": "Remake",
+  "BRENNEN-REMAKE.description": "Draw {Cards:diff()} cards.\n[gold]Exhaust[/gold]."
+}
