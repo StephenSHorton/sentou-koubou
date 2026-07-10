@@ -4,8 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Brennen — Family Meme Pack · 尖塔工房</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
-    :root { --bg:#070809; --ink:#e8e0d0; --muted:#8a8478; --gold:#e8c56a; }
+    :root {
+      --bg: #070809;
+      --ink: #e8e0d0;
+      --muted: #8a8478;
+      --gold: #e8c56a;
+      --blue: #78c3ff;
+      --cream: #e6dece;
+      --title-dark: #2a2218;
+      --frame-red: #8b2e24;
+      --frame-red-hi: #a83c30;
+      --frame-red-lo: #4a1612;
+      --font-title: "Cinzel", "Times New Roman", serif;
+      --font-body: "EB Garamond", "Times New Roman", serif;
+    }
+
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -18,77 +35,299 @@
     }
     body.modal-open { overflow: hidden; }
     a { color: var(--gold); }
+
+    /* ——— Page chrome ——— */
     header {
-      max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 1rem;
-      display: grid; grid-template-columns: 180px 1fr; gap: 1.5rem; align-items: end;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1rem;
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 1.5rem;
+      align-items: end;
     }
-    @media (max-width:720px){ header{grid-template-columns:1fr;justify-items:center;text-align:center;} }
+    @media (max-width: 720px) {
+      header { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    }
     .portrait {
-      width: 180px; aspect-ratio: 3/4; border-radius: 10px; overflow: hidden;
-      border: 2px solid #6a2a22; box-shadow: 0 12px 32px rgba(0,0,0,.5);
+      width: 180px;
+      aspect-ratio: 3/4;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #6a2a22;
+      box-shadow: 0 12px 32px rgba(0,0,0,.5);
     }
-    .portrait img { width:100%; height:100%; object-fit:cover; display:block; }
-    h1 { margin: 0 0 .25rem; font-size: clamp(1.8rem,4vw,2.6rem); }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    h1 {
+      margin: 0 0 .25rem;
+      font-family: var(--font-title);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: .04em;
+    }
     .sub { color: var(--gold); margin-bottom: .5rem; }
-    p { color: var(--muted); max-width: 40rem; line-height: 1.5; }
-    .meta {
-      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 1.25rem;
-      color: var(--muted); font-size: .85rem;
+    header p { color: var(--muted); max-width: 42rem; line-height: 1.5; margin: 0; }
+
+    .note {
+      max-width: 1200px;
+      margin: 0 auto 1.25rem;
+      padding: 1rem 1.25rem;
+      background: #12100e;
+      border: 1px solid #2a2420;
+      border-radius: 10px;
+      font-size: .88rem;
+      color: #c0b8a8;
+      line-height: 1.55;
     }
-    .meta code { color: #d0c8b0; background: #1a1612; padding: .1rem .35rem; border-radius: 4px; }
+    .note strong { color: var(--gold); }
+    .note code {
+      color: #d0c8b0;
+      background: #1a1612;
+      padding: .1rem .35rem;
+      border-radius: 4px;
+      font-size: .84em;
+    }
+
     .filters {
-      max-width: 1200px; margin: 0 auto; padding: 0 1.5rem 1rem;
-      display: flex; flex-wrap: wrap; gap: .4rem; align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      align-items: center;
     }
     .filters button {
-      background: #161412; border: 1px solid #333; color: var(--ink);
-      padding: .35rem .75rem; border-radius: 6px; cursor: pointer; font: inherit; font-size: .82rem;
+      background: #161412;
+      border: 1px solid #333;
+      color: var(--ink);
+      padding: .35rem .75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .82rem;
     }
-    .filters button.active, .filters button:hover { border-color: var(--gold); color: var(--gold); }
+    .filters button.active,
+    .filters button:hover { border-color: var(--gold); color: var(--gold); }
+
     main { max-width: 1200px; margin: 0 auto; padding: 0 1rem 3rem; }
     section { margin-bottom: 2rem; }
     section h2 {
-      font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--muted); border-bottom: 1px solid #2a2620; padding-bottom: .5rem; margin: 0 0 1.25rem;
+      font-size: .8rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid #2a2620;
+      padding-bottom: .5rem;
+      margin: 0 0 1.25rem;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 1.5rem 1rem;
       justify-items: center;
     }
-    .card {
-      width: min(100%, 260px);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 12px 28px rgba(0,0,0,.55);
-      transition: transform .15s ease, box-shadow .15s ease;
-      background: #000;
-      cursor: zoom-in;
+    footer {
+      text-align: center;
+      padding: 1rem 1rem 2.5rem;
+      color: var(--muted);
+      font-size: .78rem;
+    }
+    .hidden { display: none !important; }
+
+    /* =========================================
+       LAYERED STS2-STYLE CARD (no baked text)
+       ========================================= */
+    .sts-card {
+      /* scale via --card-w; aspect ~ 1032/1523 */
+      --card-w: 240px;
+      --card-h: calc(var(--card-w) * 1.476);
+      width: var(--card-w);
+      height: var(--card-h);
+      position: relative;
       border: none;
       padding: 0;
+      background: transparent;
+      cursor: zoom-in;
       font: inherit;
       color: inherit;
       text-align: left;
+      filter: drop-shadow(0 12px 22px rgba(0,0,0,.55));
+      transition: transform .15s ease, filter .15s ease;
     }
-    .card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 16px 36px rgba(0,0,0,.65); }
-    .card:focus-visible {
+    .sts-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      filter: drop-shadow(0 16px 28px rgba(0,0,0,.65));
+    }
+    .sts-card:focus-visible {
       outline: 2px solid var(--gold);
-      outline-offset: 3px;
+      outline-offset: 4px;
+      border-radius: 12px;
     }
-    .card img { width: 100%; height: auto; display: block; vertical-align: middle; pointer-events: none; }
-    .card .label {
-      text-align: center; font-size: .7rem; color: #6a6558; padding: .35rem;
-      background: #0c0a08; letter-spacing: .06em; text-transform: uppercase;
+
+    .sts-card--attack .sts-frame {
+      background: linear-gradient(165deg, var(--frame-red-hi) 0%, var(--frame-red) 40%, var(--frame-red-lo) 100%);
     }
-    footer { text-align:center; padding: 1rem 1rem 2.5rem; color: var(--muted); font-size: .78rem; }
-    .hidden { display: none !important; }
-    .sizes {
-      max-width: 1200px; margin: 0 auto 1.5rem; padding: 1rem 1.25rem;
-      background: #12100e; border: 1px solid #2a2420; border-radius: 10px;
-      font-size: .88rem; color: #c0b8a8; line-height: 1.55;
+    .sts-card--skill .sts-frame {
+      background: linear-gradient(165deg, #3d5f7e 0%, #2a4560 40%, #142030 100%);
     }
-    .sizes strong { color: var(--gold); }
+    .sts-card--relic .sts-frame {
+      background: linear-gradient(165deg, #c9a84a 0%, #8a6a20 45%, #2a2008 100%);
+    }
+    .sts-card--rare.sts-card--attack .sts-frame {
+      background: linear-gradient(165deg, #b8942e 0%, #8a3a18 40%, #3a1608 100%);
+    }
+    .sts-card--rare.sts-card--skill .sts-frame {
+      background: linear-gradient(165deg, #b8942e 0%, #5a4a20 40%, #1a1808 100%);
+    }
+
+    .sts-frame {
+      position: absolute;
+      inset: 0;
+      border-radius: calc(var(--card-w) * 0.055);
+      padding: calc(var(--card-w) * 0.028);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 220, 180, .12),
+        inset 0 -2px 4px rgba(0,0,0,.35);
+    }
+    .sts-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: calc(var(--card-w) * 0.035);
+      background: linear-gradient(180deg, #1c1814 0%, #12100e 55%, #0c0a08 100%);
+      border: 1px solid rgba(0,0,0,.45);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Energy orb + live number */
+    .sts-cost {
+      position: absolute;
+      z-index: 5;
+      top: calc(var(--card-w) * -0.01);
+      left: calc(var(--card-w) * -0.01);
+      width: calc(var(--card-w) * 0.195);
+      height: calc(var(--card-w) * 0.195);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #ffc878 0%, #e87820 42%, #8a2808 78%, #3a1008 100%);
+      border: 3px solid #f0c890;
+      box-shadow: 0 3px 8px rgba(0,0,0,.5), inset 0 2px 4px rgba(255,255,255,.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: calc(var(--card-w) * 0.095);
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,.75);
+      line-height: 1;
+    }
+    .sts-cost.is-empty { display: none; }
+
+    /* Title ribbon — empty chrome, text on top */
+    .sts-banner-wrap {
+      position: relative;
+      z-index: 3;
+      padding: calc(var(--card-w) * 0.045) calc(var(--card-w) * 0.04) 0 calc(var(--card-w) * 0.16);
+    }
+    .sts-banner {
+      position: relative;
+      background: linear-gradient(180deg, #e8e0d0 0%, #c0b8a8 48%, #9a9288 100%);
+      color: var(--title-dark);
+      text-align: center;
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: calc(var(--card-w) * 0.072);
+      letter-spacing: .03em;
+      padding: calc(var(--card-w) * 0.028) calc(var(--card-w) * 0.04);
+      clip-path: polygon(3% 0, 97% 0, 100% 100%, 0 100%);
+      box-shadow: 0 2px 0 #6a6458, 0 3px 6px rgba(0,0,0,.3);
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Art layer */
+    .sts-art-wrap {
+      position: relative;
+      margin: 0 calc(var(--card-w) * 0.038);
+      flex: 0 0 auto;
+      z-index: 1;
+    }
+    .sts-art {
+      height: calc(var(--card-w) * 0.62);
+      background: #1a1210 center/cover no-repeat;
+      border: 2px solid #3a2a24;
+      border-radius: 4px;
+      box-shadow: inset 0 0 20px rgba(0,0,0,.4);
+    }
+    .sts-type {
+      position: absolute;
+      left: 50%;
+      bottom: calc(var(--card-w) * -0.042);
+      transform: translateX(-50%);
+      z-index: 4;
+      background: linear-gradient(180deg, #e0d8c8, #a8a090);
+      color: var(--title-dark);
+      font-family: var(--font-title);
+      font-size: calc(var(--card-w) * 0.048);
+      font-weight: 700;
+      letter-spacing: .04em;
+      padding: calc(var(--card-w) * 0.014) calc(var(--card-w) * 0.05);
+      border-radius: 3px;
+      border: 1px solid #7a7268;
+      box-shadow: 0 2px 4px rgba(0,0,0,.35);
+      white-space: nowrap;
+    }
+
+    /* Live body text */
+    .sts-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--card-w) * 0.1) calc(var(--card-w) * 0.055) calc(var(--card-w) * 0.02);
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: calc(var(--card-w) * 0.068);
+      line-height: 1.28;
+      color: var(--cream);
+    }
+    .sts-body .line { display: block; }
+    .sts-body .kw { color: var(--gold); font-weight: 700; }
+    .sts-body .num { color: var(--blue); font-weight: 700; }
+    .sts-flavor {
+      margin-top: calc(var(--card-w) * 0.03);
+      font-size: calc(var(--card-w) * 0.048);
+      font-style: italic;
+      color: #6a6458;
+      font-family: var(--font-body);
+    }
+    .sts-stats {
+      text-align: center;
+      font-family: var(--font-title);
+      font-size: calc(var(--card-w) * 0.048);
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: .06em;
+      padding: calc(var(--card-w) * 0.015) 0 calc(var(--card-w) * 0.04);
+      opacity: .9;
+    }
+    .sts-rarity-tag {
+      position: absolute;
+      top: calc(var(--card-w) * 0.04);
+      right: calc(var(--card-w) * 0.04);
+      z-index: 4;
+      font-size: calc(var(--card-w) * 0.038);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.32);
+      font-weight: 700;
+      font-family: system-ui, sans-serif;
+    }
 
     /* ——— Modal ——— */
     .modal {
@@ -103,14 +342,11 @@
       visibility: hidden;
       transition: opacity .18s ease, visibility .18s ease;
     }
-    .modal.is-open {
-      opacity: 1;
-      visibility: visible;
-    }
+    .modal.is-open { opacity: 1; visibility: visible; }
     .modal-backdrop {
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, .78);
+      background: rgba(0,0,0,.8);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       cursor: zoom-out;
@@ -118,41 +354,39 @@
     .modal-panel {
       position: relative;
       z-index: 1;
-      max-width: min(92vw, 520px);
-      max-height: 92vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: .75rem;
-      animation: modal-in .2s ease;
-    }
-    .modal.is-open .modal-panel {
+      gap: .85rem;
+      max-height: 94vh;
       animation: modal-in .2s ease;
     }
     @keyframes modal-in {
       from { opacity: 0; transform: scale(0.94) translateY(8px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
-    .modal-panel img {
-      max-width: 100%;
-      max-height: calc(92vh - 3.5rem);
-      width: auto;
-      height: auto;
-      border-radius: 14px;
-      box-shadow: 0 24px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(232,197,106,.15);
-      display: block;
+    .modal-panel .sts-card {
+      --card-w: min(420px, 86vw);
+      cursor: default;
+      filter: drop-shadow(0 24px 48px rgba(0,0,0,.75));
     }
+    .modal-panel .sts-card:hover { transform: none; }
     .modal-caption {
       color: var(--muted);
-      font-size: .85rem;
-      letter-spacing: .04em;
+      font-size: .9rem;
       text-align: center;
+      font-family: var(--font-body);
     }
-    .modal-caption strong { color: var(--ink); font-weight: 600; }
+    .modal-caption strong {
+      color: var(--ink);
+      font-family: var(--font-title);
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
     .modal-close {
       position: absolute;
-      top: -0.25rem;
-      right: -0.25rem;
+      top: -0.35rem;
+      right: -0.35rem;
       width: 2.25rem;
       height: 2.25rem;
       border-radius: 50%;
@@ -165,18 +399,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 2;
       box-shadow: 0 4px 12px rgba(0,0,0,.4);
     }
-    .modal-close:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
+    .modal-close:hover { border-color: var(--gold); color: var(--gold); }
     @media (max-width: 520px) {
-      .modal-close {
-        top: 0.5rem;
-        right: 0.5rem;
-        position: fixed;
-      }
+      .modal-close { position: fixed; top: .6rem; right: .6rem; }
     }
   </style>
 </head>
@@ -187,20 +415,19 @@
       <div class="sub">尖塔工房 · Family Meme Pack · Character 1</div>
       <h1>Brennen</h1>
       <p>
-        Catalog previews use the <strong style="color:var(--gold)">Feeding</strong> card’s extracted shell
-        (same chrome as your mock). Click any card for a larger view. In-game the mod only ships
-        <em>portrait art</em> — the game draws the real frame.
+        Layered catalog: portrait art + CSS shell + live type
+        (<strong style="color:var(--gold)">Cinzel</strong> titles / cost,
+        <strong style="color:var(--gold)">EB Garamond</strong> body).
+        Click a card to enlarge. In-game the mod only ships portraits — STS2 draws the real frame &amp; text from loc.
       </p>
     </div>
   </header>
 
-  <div class="meta">
-    <div class="sizes">
-      <strong>Image sizes (for game assets)</strong><br/>
-      Portrait big: <code>1000×760</code> → <code>Brennen/images/card_portraits/big/*.png</code><br/>
-      Portrait small: <code>250×190</code> → <code>Brennen/images/card_portraits/*.png</code><br/>
-      Frame shell source: <code>docs/assets/brennen/frame/shell-clean.png</code> (1032×1523, art hole ~796×795)<br/>
-      Preview cards: <code>docs/assets/brennen/cards/*.jpg</code> (full framed, for this page only)
+  <div class="note" style="max-width:1200px;margin:0 auto 1.25rem;padding:0 1.5rem;">
+    <div class="note" style="margin:0;">
+      <strong>Pipeline</strong><br/>
+      Art only in the image slot · Cost / title / type / description are HTML · Keywords gold, numbers blue<br/>
+      Game portraits: <code>1000×760</code> big · <code>250×190</code> small · Data: <code>docs/cards.json</code>
     </div>
   </div>
 
@@ -223,57 +450,120 @@
 
   <footer>
     <a href="https://github.com/StephenSHorton/sentou-koubou">github.com/StephenSHorton/sentou-koubou</a>
-    · Framed previews for catalog · Game uses portraits only
+    · Layered previews · Game uses portraits + loc only
   </footer>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
     <div class="modal-backdrop" data-close></div>
     <div class="modal-panel">
       <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
-      <img id="modal-img" src="" alt="" />
+      <div id="modal-card-host"></div>
       <div class="modal-caption">
-        <strong id="modal-title"></strong>
-        <span id="modal-meta"></span>
+        <strong id="modal-title"></strong><span id="modal-meta"></span>
       </div>
     </div>
   </div>
 
   <script>
-    const CARDS = [
-      { id: "duoqueue", rarity: "relic", name: "Duo Queue" },
-      { id: "strike", rarity: "basic", name: "Strike" },
-      { id: "defend", rarity: "basic", name: "Defend" },
-      { id: "gank", rarity: "common", name: "Gank" },
-      { id: "flash", rarity: "common", name: "Flash" },
-      { id: "tilt", rarity: "common", name: "Tilt" },
-      { id: "ward", rarity: "common", name: "Ward" },
-      { id: "feeding", rarity: "uncommon", name: "Feeding" },
-      { id: "maincharacter", rarity: "uncommon", name: "Main Character" },
-      { id: "muteall", rarity: "uncommon", name: "Mute All" },
-      { id: "firstblood", rarity: "uncommon", name: "First Blood" },
-      { id: "pentakill", rarity: "rare", name: "Pentakill" },
-      { id: "afk", rarity: "rare", name: "AFK" },
-      { id: "remake", rarity: "rare", name: "Remake" },
-    ];
+    const KEYWORD_SET = new Set([
+      "Block", "Strength", "Weak", "Vulnerable", "Exhaust", "Energy",
+      "Fatal", "HP", "Innate", "Retain", "Ethereal", "Unplayable",
+    ]);
 
+    function formatLine(text, extraKeywords = []) {
+      const kws = new Set([...KEYWORD_SET, ...extraKeywords]);
+      return text.split(/(\s+)/).map((tok) => {
+        if (/^\s+$/.test(tok)) return tok;
+        const bare = tok.replace(/[.,;:!?]+$/g, "");
+        const punct = tok.slice(bare.length);
+        if (/^\d+%?$/.test(bare)) {
+          return `<span class="num">${bare}</span>${punct}`;
+        }
+        if (kws.has(bare)) {
+          return `<span class="kw">${bare}</span>${punct}`;
+        }
+        return tok;
+      }).join("");
+    }
+
+    function typeClass(type) {
+      if (type === "Relic") return "sts-card--relic";
+      if (type === "Skill") return "sts-card--skill";
+      return "sts-card--attack";
+    }
+
+    function buildCard(card, { interactive = true, large = false } = {}) {
+      const el = document.createElement(interactive ? "button" : "div");
+      if (interactive) el.type = "button";
+      el.className = [
+        "sts-card",
+        typeClass(card.type),
+        card.rarity === "rare" ? "sts-card--rare" : "",
+      ].filter(Boolean).join(" ");
+      if (large) el.style.setProperty("--card-w", "min(420px, 86vw)");
+      if (interactive) {
+        el.setAttribute("aria-label", `View larger: ${card.name}`);
+      }
+
+      const costHtml = card.cost === null || card.cost === undefined
+        ? ""
+        : `<div class="sts-cost" aria-hidden="true">${card.cost}</div>`;
+
+      const linesHtml = (card.lines || [])
+        .map((l) => `<span class="line">${formatLine(l, card.keywords || [])}</span>`)
+        .join("");
+
+      const flavorBits = [];
+      if (card.flavor) flavorBits.push(card.flavor);
+      if (card.upgrade) flavorBits.push("↑ " + card.upgrade);
+      const flavorHtml = flavorBits.length
+        ? `<div class="sts-flavor">${flavorBits.join(" · ")}</div>`
+        : "";
+
+      el.innerHTML = `
+        <div class="sts-frame">
+          <div class="sts-inner">
+            ${costHtml}
+            <div class="sts-rarity-tag">${card.rarity}</div>
+            <div class="sts-banner-wrap">
+              <div class="sts-banner">${escapeHtml(card.name)}</div>
+            </div>
+            <div class="sts-art-wrap">
+              <div class="sts-art" style="background-image:url('${card.art}')" role="img" aria-label=""></div>
+              <div class="sts-type">${escapeHtml(card.type)}</div>
+            </div>
+            <div class="sts-body">
+              ${linesHtml}
+              ${flavorHtml}
+            </div>
+            <div class="sts-stats">${escapeHtml(card.stats || "")}</div>
+          </div>
+        </div>
+      `;
+      return el;
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    /* Modal */
     const modal = document.getElementById("modal");
-    const modalImg = document.getElementById("modal-img");
+    const modalHost = document.getElementById("modal-card-host");
     const modalTitle = document.getElementById("modal-title");
     const modalMeta = document.getElementById("modal-meta");
     let lastFocus = null;
 
-    function cardSrc(id) {
-      return `assets/brennen/cards/${id}.jpg`;
-    }
-
     function openModal(card) {
       lastFocus = document.activeElement;
-      modalImg.src = cardSrc(card.id);
-      modalImg.alt = card.name;
+      modalHost.replaceChildren(buildCard(card, { interactive: false, large: true }));
       modalTitle.textContent = card.name;
       modalMeta.textContent = ` · ${card.rarity}`;
       modal.hidden = false;
-      // force reflow so transition runs
       void modal.offsetWidth;
       modal.classList.add("is-open");
       document.body.classList.add("modal-open");
@@ -283,34 +573,20 @@
     function closeModal() {
       modal.classList.remove("is-open");
       document.body.classList.remove("modal-open");
-      const done = () => {
+      const finish = () => {
         if (!modal.classList.contains("is-open")) {
           modal.hidden = true;
-          modalImg.removeAttribute("src");
+          modalHost.replaceChildren();
         }
       };
-      modal.addEventListener("transitionend", done, { once: true });
-      // fallback if transition skipped
-      setTimeout(done, 220);
-      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-    }
-
-    for (const c of CARDS) {
-      const el = document.createElement("button");
-      el.type = "button";
-      el.className = "card";
-      el.setAttribute("aria-label", `View larger: ${c.name}`);
-      el.innerHTML = `
-        <img src="${cardSrc(c.id)}" alt="" loading="lazy" />
-        <div class="label">${c.name} · ${c.rarity}</div>`;
-      el.addEventListener("click", () => openModal(c));
-      document.getElementById(c.rarity).appendChild(el);
+      modal.addEventListener("transitionend", finish, { once: true });
+      setTimeout(finish, 220);
+      if (lastFocus?.focus) lastFocus.focus();
     }
 
     modal.addEventListener("click", (e) => {
       if (e.target.closest("[data-close]")) closeModal();
     });
-
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && modal.classList.contains("is-open")) {
         e.preventDefault();
@@ -318,16 +594,46 @@
       }
     });
 
+    /* Filters */
     document.getElementById("filters").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-filter]");
       if (!btn) return;
-      document.querySelectorAll("#filters button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll("#filters button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
       const f = btn.dataset.filter;
-      document.querySelectorAll("main section").forEach(sec => {
+      document.querySelectorAll("main section").forEach((sec) => {
         sec.classList.toggle("hidden", f !== "all" && f !== sec.dataset.section);
       });
     });
+
+    /* Load data + mount */
+    async function main() {
+      let cards;
+      try {
+        const res = await fetch("cards.json");
+        if (!res.ok) throw new Error(res.statusText);
+        cards = await res.json();
+      } catch (err) {
+        console.error("Failed to load cards.json — open via a local server if needed.", err);
+        document.querySelector("main").insertAdjacentHTML(
+          "afterbegin",
+          `<p style="color:#e88;padding:1rem">Could not load <code>cards.json</code>. If you opened the file directly, run:
+          <code>python3 -m http.server -d docs 8765</code> then visit
+          <a href="http://localhost:8765">localhost:8765</a>.</p>`
+        );
+        return;
+      }
+
+      for (const card of cards) {
+        const host = document.getElementById(card.rarity);
+        if (!host) continue;
+        const el = buildCard(card);
+        el.addEventListener("click", () => openModal(card));
+        host.appendChild(el);
+      }
+    }
+
+    main();
   </script>
 </body>
 </html>

@@ -1,0 +1,186 @@
+[
+  {
+    "id": "duoqueue",
+    "name": "Duo Queue",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/duoqueue.jpg",
+    "lines": ["At the start of combat,", "gain 1 Energy."],
+    "keywords": ["Energy"],
+    "stats": "Starter",
+    "flavor": "I've got you. Don't feed."
+  },
+  {
+    "id": "strike",
+    "name": "Strike",
+    "rarity": "basic",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/strike.jpg",
+    "lines": ["Deal 6 damage."],
+    "keywords": [],
+    "stats": "0/0/0",
+    "upgrade": "9 damage"
+  },
+  {
+    "id": "defend",
+    "name": "Defend",
+    "rarity": "basic",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/defend.jpg",
+    "lines": ["Gain 5 Block."],
+    "keywords": ["Block"],
+    "stats": "0/0/0",
+    "upgrade": "8 Block"
+  },
+  {
+    "id": "gank",
+    "name": "Gank",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/gank.jpg",
+    "lines": ["Deal 4 damage to a random enemy", "2 times."],
+    "keywords": [],
+    "stats": "0/0/0",
+    "upgrade": "6 damage"
+  },
+  {
+    "id": "flash",
+    "name": "Flash",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/brennen/flash.jpg",
+    "lines": ["Gain 6 Block.", "Exhaust."],
+    "keywords": ["Block", "Exhaust"],
+    "stats": "0/0/0",
+    "upgrade": "9 Block"
+  },
+  {
+    "id": "tilt",
+    "name": "Tilt",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/tilt.jpg",
+    "lines": ["Deal 9 damage.", "Take 2 damage."],
+    "keywords": [],
+    "stats": "0/0/0",
+    "upgrade": "12 damage",
+    "flavor": "Chat is cooking me."
+  },
+  {
+    "id": "ward",
+    "name": "Ward",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/ward.jpg",
+    "lines": ["Gain 7 Block.", "Draw 1 card."],
+    "keywords": ["Block"],
+    "stats": "0/0/0",
+    "upgrade": "10 Block"
+  },
+  {
+    "id": "feeding",
+    "name": "Feeding",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/feed-art.jpg",
+    "lines": [
+      "Heal the monster to full HP.",
+      "If the monster has no damage done,",
+      "or Block, Exhaust."
+    ],
+    "keywords": ["Block", "Exhaust", "HP"],
+    "stats": "0/10/0",
+    "flavor": "My bad. Free gold."
+  },
+  {
+    "id": "maincharacter",
+    "name": "Main Character",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/brennen/maincharacter.jpg",
+    "lines": [
+      "Deal 14 damage.",
+      "If at 50% HP or less,",
+      "deal 20 instead."
+    ],
+    "keywords": ["HP"],
+    "stats": "0/0/0",
+    "upgrade": "18 / 24",
+    "flavor": "Plot armor."
+  },
+  {
+    "id": "muteall",
+    "name": "Mute All",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/muteall.jpg",
+    "lines": ["Apply 2 Weak to ALL enemies."],
+    "keywords": ["Weak"],
+    "stats": "0/0/0",
+    "upgrade": "3 Weak"
+  },
+  {
+    "id": "firstblood",
+    "name": "First Blood",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/brennen/firstblood.jpg",
+    "lines": [
+      "Deal 3 damage.",
+      "If Fatal, gain 1 Energy",
+      "and draw 1 card."
+    ],
+    "keywords": ["Fatal", "Energy"],
+    "stats": "0/0/0",
+    "upgrade": "5 damage"
+  },
+  {
+    "id": "pentakill",
+    "name": "Pentakill",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/brennen/pentakill.jpg",
+    "lines": ["Deal 6 damage to ALL enemies", "3 times."],
+    "keywords": [],
+    "stats": "0/0/0",
+    "upgrade": "8 damage"
+  },
+  {
+    "id": "afk",
+    "name": "AFK",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 3,
+    "art": "assets/brennen/afk.jpg",
+    "lines": ["Gain 20 Block.", "Exhaust."],
+    "keywords": ["Block", "Exhaust"],
+    "stats": "0/0/0",
+    "upgrade": "26 Block",
+    "flavor": "brb snack"
+  },
+  {
+    "id": "remake",
+    "name": "Remake",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/remake.jpg",
+    "lines": ["Draw 5 cards.", "Exhaust."],
+    "keywords": ["Exhaust"],
+    "stats": "0/0/0",
+    "upgrade": "Draw 6",
+    "flavor": "/remake"
+  }
+]

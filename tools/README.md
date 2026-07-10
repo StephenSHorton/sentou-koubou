@@ -1,25 +1,45 @@
 # tools
 
-## Brennen card frame compositor
+## Card catalog pipeline
 
-The Feeding mock’s chrome was extracted to:
+### Catalog (layered HTML — preferred)
 
-- `docs/assets/brennen/frame/shell-clean.png` — full card shell (1032×1523) with art hole + cleared text
-- `docs/assets/brennen/frame/layout.json` — art box, sizes, game export specs
-- `docs/assets/brennen/cards/*.jpg` — catalog previews (framed, as if in-game)
-- `docs/assets/brennen/game-portraits/*.png` — game-ready portraits
+`docs/index.html` renders cards as **layers**:
 
-### Game vs catalog
+1. CSS frame chrome (no baked-in text)
+2. Portrait art only (`docs/assets/brennen/*.jpg`)
+3. Live text: cost, title, type, description
 
-| Asset | Size | Used by |
-|-------|------|---------|
-| Portrait big | **1000×760** | STS2 / BaseLib `card_portraits/big/` |
-| Portrait small | **250×190** | STS2 / BaseLib `card_portraits/` |
-| Art panel (shell hole) | **~796×795** | Catalog frame composite only |
-| Framed preview | **1032×1523** | `docs/index.html` only — **not** loaded by the game |
+**Fonts (Google Fonts / OFL):**
 
-The game draws its own card UI around the portrait. We only ship PNG portraits in the mod.
+| Role | Font |
+|------|------|
+| Title, type pill, energy digit | **Cinzel** |
+| Body description | **EB Garamond** |
+| Keywords | same body, gold color |
+| Numbers | same body, blue color |
 
-### Regen
+**Data:** `docs/cards.json` — single source for catalog text.
 
-Use the project venv and re-run the compose pipeline from a prior session, or ask the agent to recompose after new art lands.
+```bash
+# Serve so fetch('cards.json') works
+cd docs && python3 -m http.server 8765
+# open http://localhost:8765
+```
+
+Opening `index.html` via `file://` may block `fetch`; use the server above.
+
+### Game assets (mod package)
+
+STS2 only loads portraits, not framed cards:
+
+| Asset | Size | Path |
+|-------|------|------|
+| Portrait big | 1000×760 | `mods/brennen/Brennen/images/card_portraits/big/` |
+| Portrait small | 250×190 | `mods/brennen/Brennen/images/card_portraits/` |
+
+Card names/descriptions for the game live in `mods/brennen/Brennen/localization/eng/*.json`.
+
+### Legacy frame extract
+
+Earlier experiments extracted chrome from the Feeding mock into `docs/assets/brennen/frame/`. Useful as style reference only; catalog no longer re-letters those PNGs.
