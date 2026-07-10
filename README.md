@@ -26,12 +26,17 @@ Short alternatives considered: `yagura` (櫓), `tounobori` (塔登り), `toukura
 | [`mods/brennen`](mods/brennen) | Family meme pack #1 | **Brennen** — League-flavored kit (Feed, Gank, Flash, Tilt…) |
 | [`mods/henro`](mods/henro) | Vertical slice | **The Pilgrim (遍路)** — starter character template slice |
 
-### Card catalog (browse in a browser)
+### Card catalog
+
+**Live site (GitHub Pages):** https://stephenshorton.github.io/sentou-koubou/
 
 ```bash
-open docs/index.html
-# or: python3 -m http.server -d docs 8765  →  http://localhost:8765
+# Local
+python3 -m http.server -d docs 8765   # http://localhost:8765
 ```
+
+Pages deploys from the `docs/` folder on `main` (`index.html` + assets).
+
 
 More packages land under `mods/` as they appear.
 
