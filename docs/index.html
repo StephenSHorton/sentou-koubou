@@ -16,6 +16,7 @@
       color: var(--ink);
       min-height: 100vh;
     }
+    body.modal-open { overflow: hidden; }
     a { color: var(--gold); }
     header {
       max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 1rem;
@@ -61,11 +62,21 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: 0 12px 28px rgba(0,0,0,.55);
-      transition: transform .15s ease;
+      transition: transform .15s ease, box-shadow .15s ease;
       background: #000;
+      cursor: zoom-in;
+      border: none;
+      padding: 0;
+      font: inherit;
+      color: inherit;
+      text-align: left;
     }
-    .card:hover { transform: translateY(-4px) scale(1.02); }
-    .card img { width: 100%; height: auto; display: block; vertical-align: middle; }
+    .card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 16px 36px rgba(0,0,0,.65); }
+    .card:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+    .card img { width: 100%; height: auto; display: block; vertical-align: middle; pointer-events: none; }
     .card .label {
       text-align: center; font-size: .7rem; color: #6a6558; padding: .35rem;
       background: #0c0a08; letter-spacing: .06em; text-transform: uppercase;
@@ -78,6 +89,95 @@
       font-size: .88rem; color: #c0b8a8; line-height: 1.55;
     }
     .sizes strong { color: var(--gold); }
+
+    /* ——— Modal ——— */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .18s ease, visibility .18s ease;
+    }
+    .modal.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      cursor: zoom-out;
+    }
+    .modal-panel {
+      position: relative;
+      z-index: 1;
+      max-width: min(92vw, 520px);
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .75rem;
+      animation: modal-in .2s ease;
+    }
+    .modal.is-open .modal-panel {
+      animation: modal-in .2s ease;
+    }
+    @keyframes modal-in {
+      from { opacity: 0; transform: scale(0.94) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-panel img {
+      max-width: 100%;
+      max-height: calc(92vh - 3.5rem);
+      width: auto;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.75), 0 0 0 1px rgba(232,197,106,.15);
+      display: block;
+    }
+    .modal-caption {
+      color: var(--muted);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      text-align: center;
+    }
+    .modal-caption strong { color: var(--ink); font-weight: 600; }
+    .modal-close {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      border: 1px solid #444;
+      background: #1a1612;
+      color: var(--ink);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,.4);
+    }
+    .modal-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    @media (max-width: 520px) {
+      .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        position: fixed;
+      }
+    }
   </style>
 </head>
 <body>
@@ -88,7 +188,8 @@
       <h1>Brennen</h1>
       <p>
         Catalog previews use the <strong style="color:var(--gold)">Feeding</strong> card’s extracted shell
-        (same chrome as your mock). In-game the mod only ships <em>portrait art</em> — the game draws the real frame.
+        (same chrome as your mock). Click any card for a larger view. In-game the mod only ships
+        <em>portrait art</em> — the game draws the real frame.
       </p>
     </div>
   </header>
@@ -125,6 +226,18 @@
     · Framed previews for catalog · Game uses portraits only
   </footer>
 
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel">
+      <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+      <img id="modal-img" src="" alt="" />
+      <div class="modal-caption">
+        <strong id="modal-title"></strong>
+        <span id="modal-meta"></span>
+      </div>
+    </div>
+  </div>
+
   <script>
     const CARDS = [
       { id: "duoqueue", rarity: "relic", name: "Duo Queue" },
@@ -142,14 +255,69 @@
       { id: "afk", rarity: "rare", name: "AFK" },
       { id: "remake", rarity: "rare", name: "Remake" },
     ];
+
+    const modal = document.getElementById("modal");
+    const modalImg = document.getElementById("modal-img");
+    const modalTitle = document.getElementById("modal-title");
+    const modalMeta = document.getElementById("modal-meta");
+    let lastFocus = null;
+
+    function cardSrc(id) {
+      return `assets/brennen/cards/${id}.jpg`;
+    }
+
+    function openModal(card) {
+      lastFocus = document.activeElement;
+      modalImg.src = cardSrc(card.id);
+      modalImg.alt = card.name;
+      modalTitle.textContent = card.name;
+      modalMeta.textContent = ` · ${card.rarity}`;
+      modal.hidden = false;
+      // force reflow so transition runs
+      void modal.offsetWidth;
+      modal.classList.add("is-open");
+      document.body.classList.add("modal-open");
+      modal.querySelector(".modal-close").focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove("is-open");
+      document.body.classList.remove("modal-open");
+      const done = () => {
+        if (!modal.classList.contains("is-open")) {
+          modal.hidden = true;
+          modalImg.removeAttribute("src");
+        }
+      };
+      modal.addEventListener("transitionend", done, { once: true });
+      // fallback if transition skipped
+      setTimeout(done, 220);
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
     for (const c of CARDS) {
-      const el = document.createElement("article");
+      const el = document.createElement("button");
+      el.type = "button";
       el.className = "card";
+      el.setAttribute("aria-label", `View larger: ${c.name}`);
       el.innerHTML = `
-        <img src="assets/brennen/cards/${c.id}.jpg" alt="${c.name}" loading="lazy" />
+        <img src="${cardSrc(c.id)}" alt="" loading="lazy" />
         <div class="label">${c.name} · ${c.rarity}</div>`;
+      el.addEventListener("click", () => openModal(c));
       document.getElementById(c.rarity).appendChild(el);
     }
+
+    modal.addEventListener("click", (e) => {
+      if (e.target.closest("[data-close]")) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) {
+        e.preventDefault();
+        closeModal();
+      }
+    });
+
     document.getElementById("filters").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-filter]");
       if (!btn) return;
