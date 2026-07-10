@@ -20,3 +20,5 @@
 **/*.translation
 .import/
 .venv/
+
+tools/gen_out/
