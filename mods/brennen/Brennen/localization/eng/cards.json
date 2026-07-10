@@ -5,8 +5,8 @@
   "BRENNEN-DEFEND_BRENNEN.title": "Defend",
   "BRENNEN-DEFEND_BRENNEN.description": "Gain {Block:diff()} [gold]Block[/gold].",
 
-  "BRENNEN-FEED.title": "Feed",
-  "BRENNEN-FEED.description": "Deal {Damage:diff()} damage.\nThe enemy gains [blue]1[/blue] [gold]Strength[/gold].\nDraw {Cards:diff()} cards.",
+  "BRENNEN-FEED.title": "Feeding",
+  "BRENNEN-FEED.description": "Heal the enemy to full HP.\n[gold]Exhaust[/gold].",
 
   "BRENNEN-GANK.title": "Gank",
   "BRENNEN-GANK.description": "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.",

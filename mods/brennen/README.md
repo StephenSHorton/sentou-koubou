@@ -15,7 +15,7 @@ Playable character for **sentou-koubou**: your older brother, League energy, Cor
 | Rarity | Card | Effect (short) |
 |--------|------|----------------|
 | Basic | Strike / Defend | 6 dmg / 5 Block |
-| Uncommon | **Feed** | 7 dmg, enemy +1 Str, draw 2 |
+| Uncommon | **Feeding** | Heal enemy to full HP. Exhaust. |
 | Common | Gank | 4 dmg ×2 random |
 | Common | Flash | 6 Block, Exhaust |
 | Common | Tilt | 9 dmg, take 2 |
