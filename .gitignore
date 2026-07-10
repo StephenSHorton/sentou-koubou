@@ -1,0 +1,21 @@
+# OS / IDE
+.DS_Store
+.idea/
+.vs/
+*.user
+*.suo
+
+# Build
+**/bin/
+**/obj/
+**/.godot/
+**/publish/
+**/packages/
+
+# Local machine paths (Godot, STS2 overrides)
+**/Directory.Build.props
+**/local.props
+
+# Godot junk
+**/*.translation
+.import/

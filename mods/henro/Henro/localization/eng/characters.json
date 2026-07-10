@@ -1,0 +1,16 @@
+{
+  "HENRO-HENRO.title": "The Pilgrim",
+  "HENRO-HENRO.titleObject": "the Pilgrim",
+  "HENRO-HENRO.description": "A quiet traveler walking the Spire's temple circuit.\n[gold]Vertical slice[/gold] — Strike, Defend, and Pilgrim Beads.",
+  "HENRO-HENRO.pronounObject": "them",
+  "HENRO-HENRO.possessiveAdjective": "their",
+  "HENRO-HENRO.pronounPossessive": "theirs",
+  "HENRO-HENRO.pronounSubject": "they",
+  "HENRO-HENRO.goldMonologue": "[sine]Coin for the road. Nothing more.[/sine]",
+  "HENRO-HENRO.eventDeathPrevention": "The path is not finished.",
+  "HENRO-HENRO.aromaPrinciple": "[sine][purple]One step. Then another.[/purple][/sine]",
+  "HENRO-HENRO.cardsModifierTitle": "Pilgrim Cards",
+  "HENRO-HENRO.cardsModifierDescription": "Pilgrim cards will now appear in rewards and shops.",
+  "HENRO-HENRO.banter.alive.endTurnPing": "[sine]The road continues...[/sine]",
+  "HENRO-HENRO.banter.dead.endTurnPing": "..."
+}
