@@ -11,6 +11,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - Publish regenerates `.pck` (assets/loc); Build alone is fine for C#-only changes.
 - Game is Early Access — expect BaseLib/game bumps to break mods; pin `min_game_version` and BaseLib `min_version` in manifests.
 
-## First mod
+## Mods
 
-`mods/henro` — The Pilgrim vertical slice (Strike, Defend, Pilgrim Beads).
+- `mods/henro` — The Pilgrim vertical slice (Strike, Defend, Pilgrim Beads).
+- `mods/brennen` — Full character kit (vanilla 20/35/25 reward pool). Regen generated cards with `python tools/generate_brennen_kit.py`.

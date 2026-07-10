@@ -1,5 +1,19 @@
 # tools
 
+## Brennen full kit generator
+
+```bash
+python tools/generate_brennen_kit.py
+```
+
+Writes reward-card C# under `mods/brennen/BrennenCode/Cards/{Common,Uncommon,Rare}/`,
+merges `cards.json` localization, copies portrait placeholders, and refreshes `docs/cards.json`.
+
+Vanilla target: **20 Common / 35 Uncommon / 25 Rare** plus Basic Strike/Defend/Feeding.
+
+Hand-authored keepers (not overwritten): Strike, Defend, Feed, Gank, Flash, Tilt, Ward,
+FirstBlood, MainCharacter, MuteAll, Pentakill, AFK, Remake.
+
 ## Card catalog pipeline
 
 ### Catalog (layered HTML — preferred)

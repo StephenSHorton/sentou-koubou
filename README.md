@@ -7,7 +7,8 @@ Monorepo for [Slay the Spire 2](https://store.steampowered.com/app/2868840/Slay_
 ```
 sentou-koubou/
 └── mods/
-    └── henro/          # The Pilgrim (遍路) — first vertical slice
+    ├── henro/          # The Pilgrim (遍路) — vertical slice template
+    └── brennen/        # Family meme pack #1 — full 80-card pool
 ```
 
 ## Why this name?
@@ -23,7 +24,7 @@ Short alternatives considered: `yagura` (櫓), `tounobori` (塔登り), `toukura
 
 | Folder | Status | What it is |
 |--------|--------|------------|
-| [`mods/brennen`](mods/brennen) | Family meme pack #1 | **Brennen** — League-flavored kit (Feed, Gank, Flash, Tilt…) |
+| [`mods/brennen`](mods/brennen) | Full character kit | **Brennen** — League-flavored; 20/35/25 reward pool + starter basics |
 | [`mods/henro`](mods/henro) | Vertical slice | **The Pilgrim (遍路)** — starter character template slice |
 
 ### Card catalog

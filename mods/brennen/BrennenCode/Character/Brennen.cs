@@ -1,8 +1,6 @@
 using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
-using Brennen.BrennenCode.Cards;
 using Brennen.BrennenCode.Cards.Basic;
-using Brennen.BrennenCode.Cards.Uncommon;
 using Brennen.BrennenCode.Extensions;
 using Brennen.BrennenCode.Relics;
 using Godot;

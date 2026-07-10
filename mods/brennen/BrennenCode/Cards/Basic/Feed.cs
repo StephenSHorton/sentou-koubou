@@ -2,13 +2,13 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 
-namespace Brennen.BrennenCode.Cards.Uncommon;
+namespace Brennen.BrennenCode.Cards.Basic;
 
 /// <summary>
 /// Signature meme card — literally feed the monster.
 /// Heal target enemy to full HP. Exhaust.
 /// </summary>
-public sealed class Feed() : BrennenCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+public sealed class Feed() : BrennenCard(1, CardType.Skill, CardRarity.Basic, TargetType.AnyEnemy)
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
