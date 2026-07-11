@@ -1,5 +1,30 @@
 # tools
 
+## STS2 vanilla reference dump
+
+Pulls every base character's cards/relics/potions (plus shared content) from the
+[Spire Codex](https://spire-codex.com) public API into a **gitignored** tree for
+kit balancing:
+
+```bash
+python tools/fetch_sts2_reference.py
+# → reference/sts2/  (gitignored)
+```
+
+Layout:
+
+| Path | Contents |
+|------|----------|
+| `reference/sts2/README.md` | Index + per-character reward pool counts |
+| `reference/sts2/by_character/<id>/` | `character.json`, `cards.json`, `relics.json`, `summary.json`, readable `README.md` |
+| `reference/sts2/shared/` | Colorless / curse / status / token / event cards + shared relics/potions |
+| `reference/sts2/raw/` | Full API dumps (monsters, events, powers, …) |
+
+Observed vanilla reward shape (C/U/R only): about **20 / 36 / 26** per character —
+see `reference/sts2/by_character/*/summary.json` after a fetch. Basics/Ancients are extra.
+
+Re-run after game patches. Data is community-sourced (Spire Codex), not an official MegaCrit export.
+
 ## Brennen full kit generator
 
 ```bash
