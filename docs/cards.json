@@ -1,5 +1,122 @@
 [
   {
+    "id": "mutecharm",
+    "name": "Mute Charm",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/mutecharm.png",
+    "lines": [
+      "At the start of each combat,",
+      "apply 1 Frail to ALL enemies."
+    ],
+    "keywords": [
+      "Frail"
+    ],
+    "stats": "Rare",
+    "flavor": "/mute all"
+  },
+  {
+    "id": "firstbloodcoin",
+    "name": "First Blood Coin",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/firstbloodcoin.png",
+    "lines": [
+      "The first time you kill an enemy",
+      "each combat, gain 1 Energy."
+    ],
+    "keywords": [
+      "Energy"
+    ],
+    "stats": "Uncommon",
+    "flavor": "First blood gold."
+  },
+  {
+    "id": "reporttotem",
+    "name": "Report Totem",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/reporttotem.png",
+    "lines": [
+      "At the start of each combat,",
+      "apply 1 Weak to ALL enemies."
+    ],
+    "keywords": [
+      "Weak"
+    ],
+    "stats": "Uncommon",
+    "flavor": "After the game."
+  },
+  {
+    "id": "rankedbadge",
+    "name": "Ranked Badge",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/rankedbadge.png",
+    "lines": [
+      "At the start of each combat,",
+      "gain 6 Block."
+    ],
+    "keywords": [
+      "Block"
+    ],
+    "stats": "Common",
+    "flavor": "Promo season."
+  },
+  {
+    "id": "flamekeycap",
+    "name": "Flame Keycap",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/flamekeycap.png",
+    "lines": [
+      "The first Attack you play each turn",
+      "grants 3 Vigor."
+    ],
+    "keywords": [
+      "Vigor"
+    ],
+    "stats": "Rare",
+    "flavor": "All-chat flamer."
+  },
+  {
+    "id": "ggbadge",
+    "name": "GG Badge",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/ggbadge.png",
+    "lines": [
+      "Whenever you kill an enemy,",
+      "gain 4 Block."
+    ],
+    "keywords": [
+      "Block"
+    ],
+    "stats": "Uncommon",
+    "flavor": "gg ez"
+  },
+  {
+    "id": "wardtoken",
+    "name": "Ward Token",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/brennen/wardtoken.png",
+    "lines": [
+      "At the start of each combat,",
+      "draw 1 card."
+    ],
+    "keywords": [],
+    "stats": "Common",
+    "flavor": "Pink ward up."
+  },
+  {
     "id": "strike",
     "name": "Strike",
     "rarity": "basic",
@@ -206,7 +323,7 @@
     ],
     "stats": "Starter",
     "flavor": "I've got you. Don't feed.",
-    "art": "assets/brennen/duoqueue.jpg",
+    "art": "assets/brennen/duoqueue.png",
     "keywords": []
   },
   {

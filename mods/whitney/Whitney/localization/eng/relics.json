@@ -1,5 +1,33 @@
 {
   "WHITNEY-TRAVELERS_INKPOT.title": "Traveler's Inkpot",
   "WHITNEY-TRAVELERS_INKPOT.description": "At the start of each combat, gain [blue]3[/blue] [gold]Ink[/gold].",
-  "WHITNEY-TRAVELERS_INKPOT.flavor": "Never travel without a full pot."
+  "WHITNEY-TRAVELERS_INKPOT.flavor": "Never travel without a full pot.",
+
+  "WHITNEY-APPRENTICE_RIBBON.title": "Apprentice Ribbon",
+  "WHITNEY-APPRENTICE_RIBBON.description": "At the start of combat turn 1, draw [blue]1[/blue] card.",
+  "WHITNEY-APPRENTICE_RIBBON.flavor": "Tied by the master.",
+
+  "WHITNEY-SEALED_VIAL.title": "Sealed Vial",
+  "WHITNEY-SEALED_VIAL.description": "At the start of each combat, gain [blue]2[/blue] [gold]Ink[/gold].",
+  "WHITNEY-SEALED_VIAL.flavor": "Emergency reserve.",
+
+  "WHITNEY-ELEMENTAL_RIBBON.title": "Elemental Ribbon",
+  "WHITNEY-ELEMENTAL_RIBBON.description": "Whenever you play a Power, gain [blue]1[/blue] [gold]Ink[/gold].",
+  "WHITNEY-ELEMENTAL_RIBBON.flavor": "Four colors, one bow.",
+
+  "WHITNEY-MOSS_CHARM.title": "Moss Charm",
+  "WHITNEY-MOSS_CHARM.description": "Whenever you spend [gold]Ink[/gold], gain [blue]3[/blue] [gold]Block[/gold].",
+  "WHITNEY-MOSS_CHARM.flavor": "Earth remembers.",
+
+  "WHITNEY-FOUR_COLOR_PALETTE.title": "Four-Color Palette",
+  "WHITNEY-FOUR_COLOR_PALETTE.description": "At the start of each combat, gain [blue]2[/blue] [gold]Attunement[/gold].",
+  "WHITNEY-FOUR_COLOR_PALETTE.flavor": "Coral, teal, moss, lilac.",
+
+  "WHITNEY-JOURNAL_QUILL.title": "Journal Quill",
+  "WHITNEY-JOURNAL_QUILL.description": "The first time you gain [gold]Ink[/gold] each turn, draw [blue]1[/blue] card.",
+  "WHITNEY-JOURNAL_QUILL.flavor": "Notes become spells.",
+
+  "WHITNEY-BRUSH_CASE.title": "Brush Case",
+  "WHITNEY-BRUSH_CASE.description": "At the start of combat turn 1, gain [blue]1[/blue] Energy.",
+  "WHITNEY-BRUSH_CASE.flavor": "Pack the brushes."
 }

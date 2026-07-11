@@ -1,0 +1,85 @@
+travelersinkpot | relic | Traveler's Inkpot | assets/whitney/travelersinkpot.png
+spark | basic | Spark | assets/whitney/spark.jpg
+ripple | basic | Ripple | assets/whitney/ripple.jpg
+channelink | basic | Channel Ink | assets/whitney/channelink.jpg
+noviceseal | basic | Novice Seal | assets/whitney/noviceseal.jpg
+emberstroke | common | Ember Stroke | assets/whitney/emberstroke.jpg
+cinderpin | common | Cinder Pin | assets/whitney/cinderpin.jpg
+tideguard | common | Tideguard | assets/whitney/tideguard.jpg
+rippleward | common | Ripple Ward | assets/whitney/rippleward.jpg
+stoneglyph | common | Stone Glyph | assets/whitney/stoneglyph.jpg
+dustseal | common | Dust Seal | assets/whitney/dustseal.jpg
+gust | common | Gust | assets/whitney/gust.jpg
+zephyrdraft | common | Zephyr Draft | assets/whitney/zephyrdraft.jpg
+drenchseal | common | Drench Seal | assets/whitney/drenchseal.jpg
+sparkler | common | Sparkler | assets/whitney/sparkler.jpg
+puddle | common | Puddle | assets/whitney/puddle.jpg
+pebble | common | Pebble | assets/whitney/pebble.jpg
+draft | common | Draft | assets/whitney/draft.jpg
+sootmark | common | Soot Mark | assets/whitney/sootmark.jpg
+mosscoat | common | Moss Coat | assets/whitney/mosscoat.jpg
+crossbreeze | common | Crossbreeze | assets/whitney/crossbreeze.jpg
+inkdrip | common | Ink Drip | assets/whitney/inkdrip.jpg
+sealpress | common | Seal Press | assets/whitney/sealpress.jpg
+wetstone | common | Wet Stone | assets/whitney/wetstone.jpg
+kindling | common | Kindling | assets/whitney/kindling.jpg
+magmaflow | uncommon | Magma Flow | assets/whitney/magmaflow.jpg
+steamburst | uncommon | Steam Burst | assets/whitney/steamburst.jpg
+grandseal | uncommon | Grand Seal | assets/whitney/grandseal.jpg
+focusedstroke | uncommon | Focused Stroke | assets/whitney/focusedstroke.jpg
+blizzardseal | uncommon | Blizzard Seal | assets/whitney/blizzardseal.jpg
+lightningrod | uncommon | Lightning Rod | assets/whitney/lightningrod.jpg
+tidaldraw | uncommon | Tidal Draw | assets/whitney/tidaldraw.jpg
+quake | uncommon | Quake | assets/whitney/quake.jpg
+updraft | uncommon | Updraft | assets/whitney/updraft.jpg
+inkwell | uncommon | Ink Well | assets/whitney/inkwell.jpg
+scorchline | uncommon | Scorch Line | assets/whitney/scorchline.jpg
+icelattice | uncommon | Ice Lattice | assets/whitney/icelattice.jpg
+rootbind | uncommon | Rootbind | assets/whitney/rootbind.jpg
+galecut | uncommon | Gale Cut | assets/whitney/galecut.jpg
+refill | uncommon | Refill | assets/whitney/refill.jpg
+confluence | uncommon | Confluence | assets/whitney/confluence.jpg
+searingmist | uncommon | Searing Mist | assets/whitney/searingmist.jpg
+mudslide | uncommon | Mudslide | assets/whitney/mudslide.jpg
+tempest | uncommon | Tempest | assets/whitney/tempest.jpg
+attunedeep | uncommon | Deep Attune | assets/whitney/attunedeep.jpg
+inkshield | uncommon | Ink Shield | assets/whitney/inkshield.jpg
+sealstorm | uncommon | Sealstorm | assets/whitney/sealstorm.jpg
+whirlpool | uncommon | Whirlpool | assets/whitney/whirlpool.jpg
+pyreglyph | uncommon | Pyre Glyph | assets/whitney/pyreglyph.jpg
+skywrite | uncommon | Skywrite | assets/whitney/skywrite.jpg
+floodgate | uncommon | Floodgate | assets/whitney/floodgate.jpg
+emberarmor | uncommon | Ember Armor | assets/whitney/emberarmor.jpg
+stonescript | uncommon | Stone Script | assets/whitney/stonescript.jpg
+windscript | uncommon | Wind Script | assets/whitney/windscript.jpg
+tidescript | uncommon | Tide Script | assets/whitney/tidescript.jpg
+flamescript | uncommon | Flame Script | assets/whitney/flamescript.jpg
+dualquill | uncommon | Dual Quill | assets/whitney/dualquill.jpg
+spray | uncommon | Spray | assets/whitney/spray.jpg
+bedrock | uncommon | Bedrock | assets/whitney/bedrock.jpg
+afterburn | uncommon | Afterburn | assets/whitney/afterburn.jpg
+elementalform | rare | Elemental Form | assets/whitney/elementalform.jpg
+cataclysmseal | rare | Cataclysm Seal | assets/whitney/cataclysmseal.jpg
+monsoon | rare | Monsoon | assets/whitney/monsoon.jpg
+wildfire | rare | Wildfire | assets/whitney/wildfire.jpg
+mountainheart | rare | Mountain Heart | assets/whitney/mountainheart.jpg
+skyfall | rare | Skyfall | assets/whitney/skyfall.jpg
+perfectseal | rare | Perfect Seal | assets/whitney/perfectseal.jpg
+inktide | rare | Ink Tide | assets/whitney/inktide.jpg
+fourwinds | rare | Four Winds | assets/whitney/fourwinds.jpg
+obsidianscript | rare | Obsidian Script | assets/whitney/obsidianscript.jpg
+aquascript | rare | Aqua Script | assets/whitney/aquascript.jpg
+galeform | rare | Gale Form | assets/whitney/galeform.jpg
+infernoseal | rare | Inferno Seal | assets/whitney/infernoseal.jpg
+glacier | rare | Glacier | assets/whitney/glacier.jpg
+tectonic | rare | Tectonic | assets/whitney/tectonic.jpg
+hurricane | rare | Hurricane | assets/whitney/hurricane.jpg
+masterwork | rare | Masterwork | assets/whitney/masterwork.jpg
+livingink | rare | Living Ink | assets/whitney/livingink.jpg
+eclipseseal | rare | Eclipse Seal | assets/whitney/eclipseseal.jpg
+sanctuary | rare | Sanctuary | assets/whitney/sanctuary.jpg
+prismburst | rare | Prism Burst | assets/whitney/prismburst.jpg
+eternalquill | rare | Eternal Quill | assets/whitney/eternalquill.jpg
+cataclysmlite | rare | Lesser Cataclysm | assets/whitney/cataclysmlite.jpg
+archive | rare | Archive | assets/whitney/archive.jpg
+worldseal | rare | World Seal | assets/whitney/worldseal.jpg
