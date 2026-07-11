@@ -1,87 +1,82 @@
-# STS2 Character Animation Pipeline
+# STS2 Character Anim Editor
 
-Local **HTML/JS** tool for planning and previewing combat animation states **without launching Slay the Spire 2**.
+Local browser **full pipeline editor** for combat characters:
 
-Use it to:
+| Mode | What it does |
+|------|----------------|
+| **Rig** | Bone hierarchy (FK), place/edit bones, attach part images, reference fullbody |
+| **Animate** | Keyframe poses per combat state, timeline scrub, playback |
+| **Frames** | Flipbook fallback (PNG sequences) when you skip bones |
+| **Spine preview** | Official **Spine Player** for real `.json`/`.skel` + `.atlas` exports |
+| **Export** | Manifest / full project / skeleton JSON + BaseLib C# snippet |
 
-- Track multiple characters (Brennen, Whitney, future kits)
-- Drop **frame PNGs per state** and scrub/play them (Idle, Attack, Cast, Hit, Dead, Relaxed, Revive)
-- Manage **part checklists** (cut-apart art for Spine)
-- Keep a **bone hierarchy** template aligned with BaseLib / Spine export
-- Export a **manifest JSON** + generated **C# `SetupAnimationState` snippet**
+## Libraries we use
 
-This is **not** a full Spine editor. It is the production desk for the pipeline: what clips exist, how they look, and what still needs rigging.
+| Library | Role | License note |
+|---------|------|----------------|
+| **[Konva](https://konvajs.org/)** (`unpkg.com/konva`) | Interactive canvas, bone handles, drag | MIT |
+| **[@esotericsoftware/spine-player](https://en.esotericsoftware.com/spine-player)** 4.2.x | Play real Spine exports in-browser | Runtime free; **Spine Editor** is paid for authoring |
+| **Our FK core** (`core.js`) | Local-angle skeleton + keyframe interpolation | Project code |
+| *(optional later)* **spine-webgl / pixi-spine** | Deeper Spine tooling if we need mesh edit | Runtime free |
+
+### Why not “only Spine Editor”?
+
+- Spine Editor is still the **pro authoring** path that matches STS2 (MegaSpine).
+- This tool lets you **block out rigs, states, and timing without the game**, and **preview Spine exports** when you have them.
+- Flipbook + bone keyframes cover the path before a paid Spine license / rigger is available.
+
+### Other ecosystem options (not embedded)
+
+| Tool | Notes |
+|------|--------|
+| **DragonBones / LoongBones** | Free-ish alternative; JS runtimes stale; not STS2-native |
+| **Synfig** | FOSS 2D animation; different export path |
+| **Godot Skeleton2D** | Free bones inside Godot; BaseLib still prefers Spine for combat |
+| **CustomSkeletonLoader** (Nexus) | Runtime swap of Spine assets in STS2 |
 
 ## Run
 
-Open in a browser (Chrome/Edge/Firefox):
-
-```text
-tools/char-anim-pipeline/index.html
-```
-
-Double-click the file, or from the repo:
+CDN scripts need network once. Prefer a tiny local server (avoids some browser `file://` limits):
 
 ```powershell
-start tools/char-anim-pipeline/index.html
+cd tools/char-anim-pipeline
+python -m http.server 8765
+# open http://localhost:8765/
 ```
 
-No build step. Data is stored in **localStorage** (project meta) + **IndexedDB** (images).
+Or double-click `index.html` (works in Chrome/Edge if CDN is allowed).
 
-## Quick start
+## Workflow
 
-1. Click **Seed Brennen / Whitney shells** (or **+** to create a character).
-2. Select **Idle** → **Add frames** (or drag images onto the canvas).
-3. Repeat for **Attack**, **Hit**, **Dead**, **Cast**.
-4. Set a **reference fullbody** to compare scale/pose.
-5. Use **Parts** / **Bones** tabs while preparing Spine cutouts.
-6. Open **Export guide** → copy C# snippet; **Export manifest JSON** for the team.
+1. **Seed Brennen / Whitney** (or create character).
+2. **Rig** — default humanoid bones; drag tips to pose; attach cut-out part PNGs; set ref fullbody.
+3. **Animate** — pick state (Idle/Attack/…); scrub timeline; pose; **Key pose**; play.
+4. **Frames** (optional) — drop flipbook PNGs per state.
+5. **Spine preview** — load export set from Spine Editor when ready.
+6. **Export** — skeleton JSON + C# `SetupAnimationState` wiring for BaseLib.
 
-## Animation states (BaseLib)
+## Combat states (BaseLib)
 
-| State    | Typical loop | Notes                          |
-|----------|--------------|--------------------------------|
-| Idle     | yes          | Required                       |
-| Attack   | no           | Strike / attack cards          |
-| Cast     | no           | Skills / non-basic             |
-| Hit      | no           | Damage reaction                |
-| Dead     | no           | Death hold / fall              |
-| Relaxed  | yes          | Optional calm pose             |
-| Revive   | no           | Optional                       |
+`idle`, `attack`, `cast`, `hit`, `dead`, `relaxed`, `revive`  
+Mapped via `SetupAnimationState` (clip names editable per state).
 
-Clip names default to lowercase (`idle`, `attack`, …) and are editable per state. In-game, BaseLib can remap missing Spine clips onto idle via `SetupAnimationState`.
+## Data storage
 
-## Export types
-
-| Button | Contents |
-|--------|----------|
-| **Export manifest JSON** | Lightweight: state meta, parts, bones, frame counts (no images) |
-| **Export full project** | Includes base64 frame/part blobs (shareable backup; can be large) |
-| **Import project** | Restores a full project export into this browser |
-
-## Suggested art → game flow
-
-```text
-Locked combat likeness
-  → part-split PNG set (Parts tab)
-  → Spine rig (Bones tab as reference)
-  → animate clips matching state names
-  → export .skel / .atlas / .png
-  → pack under scenes/creature_visuals/
-  → wire CustomVisualPath + SetupCustomAnimationStates
-```
-
-While Spine is in progress, use **frame previews** here (and optional Godot `AnimatedSprite2D`) so combat is not Ironclad.
+- **localStorage** — project metadata  
+- **IndexedDB** — images  
+- **Export full project** for backup/share  
 
 ## Files
 
-| File | Role |
-|------|------|
-| `index.html` | Shell UI |
-| `styles.css` | Dark pipeline theme |
-| `app.js` | State, IndexedDB, player, export |
-| `README.md` | This doc |
+```
+index.html    UI shell + CDN tags
+styles.css
+core.js       Model, IDB, FK, export skeleton
+editor.js     Konva stages
+app.js        UI glue, flipbook, Spine player, IO
+README.md
+```
 
-## Privacy
+## Honest scope
 
-Everything stays **in your browser** unless you export a JSON file. Clearing site data wipes projects—export full projects for backup.
+This is a **production bone/keyframe editor + Spine player**, not a 1:1 clone of Spine Pro (no mesh weights, IK solvers, or constraints yet). Next upgrades if you need them: simple 2-bone IK, mesh deformation, and Spine JSON export that opens in Spine Editor.

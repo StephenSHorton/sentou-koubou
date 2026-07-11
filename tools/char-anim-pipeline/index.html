@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>STS2 Character Anim Pipeline</title>
+  <title>STS2 Character Anim Editor</title>
+  <link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.2.66/dist/spine-player.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -12,208 +13,229 @@
       <header class="brand">
         <div class="brand-mark">尖</div>
         <div>
-          <h1>Anim Pipeline</h1>
-          <p class="muted">STS2 · BaseLib states</p>
+          <h1>Anim Editor</h1>
+          <p class="muted">STS2 · bones · frames · Spine</p>
         </div>
       </header>
 
       <section class="panel">
         <div class="panel-head">
           <h2>Characters</h2>
-          <button type="button" id="btn-add-char" class="btn btn-sm" title="New character">+</button>
+          <button type="button" id="btn-add-char" class="btn btn-sm">+</button>
         </div>
         <ul id="char-list" class="char-list"></ul>
       </section>
 
       <section class="panel">
-        <div class="panel-head">
-          <h2>Animation states</h2>
-        </div>
+        <div class="panel-head"><h2>Combat states</h2></div>
         <ul id="state-list" class="state-list"></ul>
-        <p class="hint">
-          Names match BaseLib <code>SetupAnimationState</code>.
-          Missing clips fall back to idle in-game.
-        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head"><h2>Bones</h2>
+          <button type="button" id="btn-add-bone" class="btn btn-sm" title="Add child bone">+bone</button>
+        </div>
+        <ul id="bone-list" class="bone-list"></ul>
+        <div class="bone-actions">
+          <button type="button" id="btn-del-bone" class="btn btn-sm btn-ghost">Delete</button>
+          <button type="button" id="btn-reset-rig" class="btn btn-sm btn-ghost">Reset rig</button>
+        </div>
       </section>
 
       <section class="panel tools-panel">
-        <button type="button" id="btn-export-manifest" class="btn btn-block">Export manifest JSON</button>
+        <button type="button" id="btn-export-manifest" class="btn btn-block">Export manifest</button>
         <button type="button" id="btn-export-project" class="btn btn-block btn-ghost">Export full project</button>
+        <button type="button" id="btn-export-skeleton" class="btn btn-block btn-ghost">Export skeleton JSON</button>
         <label class="btn btn-block btn-ghost file-btn">
           Import project
           <input type="file" id="input-import" accept="application/json,.json" hidden />
         </label>
-        <button type="button" id="btn-seed-brennen" class="btn btn-block btn-ghost">Seed Brennen / Whitney shells</button>
+        <button type="button" id="btn-seed" class="btn btn-block btn-ghost">Seed Brennen / Whitney</button>
       </section>
     </aside>
 
     <main class="main">
       <header class="main-bar">
         <div class="char-meta">
-          <input id="char-name" type="text" placeholder="Character name" />
-          <input id="char-id" type="text" placeholder="class id (e.g. brennen)" />
-          <input id="char-notes" type="text" placeholder="Notes / fantasy" />
+          <input id="char-name" type="text" placeholder="Name" />
+          <input id="char-id" type="text" placeholder="id" />
+          <input id="char-notes" type="text" placeholder="Notes" />
         </div>
         <nav class="tabs" role="tablist">
-          <button type="button" class="tab active" data-tab="preview">Preview</button>
-          <button type="button" class="tab" data-tab="parts">Parts</button>
-          <button type="button" class="tab" data-tab="bones">Bones</button>
-          <button type="button" class="tab" data-tab="export">Export guide</button>
+          <button type="button" class="tab active" data-tab="rig">Rig</button>
+          <button type="button" class="tab" data-tab="animate">Animate</button>
+          <button type="button" class="tab" data-tab="frames">Frames</button>
+          <button type="button" class="tab" data-tab="spine">Spine preview</button>
+          <button type="button" class="tab" data-tab="export">Export</button>
         </nav>
       </header>
 
-      <!-- PREVIEW -->
-      <section id="tab-preview" class="tab-panel active">
-        <div class="preview-layout">
-          <div class="stage-wrap">
-            <div class="stage-chrome">
-              <span id="stage-state-label">Idle</span>
-              <span id="stage-frame-label" class="muted">0 / 0</span>
-            </div>
-            <canvas id="stage" width="720" height="720" aria-label="Animation preview"></canvas>
-            <div class="stage-controls">
-              <button type="button" id="btn-prev" class="btn btn-sm" title="Prev frame">‹</button>
-              <button type="button" id="btn-play" class="btn" title="Play/Pause">▶</button>
-              <button type="button" id="btn-next" class="btn btn-sm" title="Next frame">›</button>
-              <label class="inline">
-                FPS
-                <input id="input-fps" type="number" min="1" max="60" value="12" />
-              </label>
-              <label class="inline">
-                <input id="input-loop" type="checkbox" checked />
-                Loop
-              </label>
-              <label class="inline">
-                <input id="input-onion" type="checkbox" />
-                Onion
-              </label>
-              <label class="inline grow">
-                <input id="input-scrub" type="range" min="0" max="0" value="0" />
-              </label>
-            </div>
-          </div>
-
-          <div class="inspector">
-            <h3>State setup · <span id="insp-state-name">Idle</span></h3>
-            <div class="field-row">
-              <label>Clip name (export)
-                <input id="insp-clip-name" type="text" />
-              </label>
-              <label class="check">
-                <input id="insp-loop" type="checkbox" />
-                Loop in-game
-              </label>
-            </div>
-            <div class="field-row">
-              <label>FPS override
-                <input id="insp-fps" type="number" min="0" max="60" placeholder="use global" />
-              </label>
-              <label>Duration hint (s)
-                <input id="insp-duration" type="number" min="0" step="0.05" placeholder="auto" />
-              </label>
-            </div>
-            <label class="block">Notes
-              <textarea id="insp-notes" rows="2" placeholder="e.g. wind-up on frames 1–3, impact frame 5"></textarea>
-            </label>
-
-            <div class="frame-toolbar">
+      <!-- RIG -->
+      <section id="tab-rig" class="tab-panel active">
+        <div class="editor-layout">
+          <div class="stage-col">
+            <div class="toolbar">
+              <span class="tool-label">Setup</span>
+              <button type="button" class="btn btn-sm tool active" data-tool="select">Select</button>
+              <button type="button" class="btn btn-sm tool" data-tool="bone">Place bone</button>
+              <button type="button" class="btn btn-sm tool" data-tool="pan">Pan</button>
+              <label class="inline"><input type="checkbox" id="chk-show-bones" checked /> Bones</label>
+              <label class="inline"><input type="checkbox" id="chk-show-images" checked /> Images</label>
               <label class="btn btn-sm file-btn">
-                Add frames
-                <input type="file" id="input-frames" accept="image/*" multiple hidden />
+                Attach image to bone
+                <input type="file" id="input-attach" accept="image/*" hidden />
               </label>
-              <button type="button" id="btn-clear-frames" class="btn btn-sm btn-ghost">Clear frames</button>
-              <button type="button" id="btn-dup-frame" class="btn btn-sm btn-ghost">Dup current</button>
-              <button type="button" id="btn-del-frame" class="btn btn-sm btn-danger">Delete current</button>
-            </div>
-            <div id="frame-strip" class="frame-strip"></div>
-
-            <div class="ref-row">
-              <label class="btn btn-sm file-btn">
-                Set reference fullbody
+              <label class="btn btn-sm file-btn btn-ghost">
+                Ref fullbody
                 <input type="file" id="input-ref" accept="image/*" hidden />
               </label>
               <button type="button" id="btn-clear-ref" class="btn btn-sm btn-ghost">Clear ref</button>
             </div>
-            <p class="hint">
-              Drop frame PNGs for this state to preview without the game.
-              Reference fullbody shows as a ghost behind frames for scale/pose checks.
+            <div id="konva-host" class="konva-host"></div>
+            <p class="hint stage-hint">
+              <strong>Place bone:</strong> click to set child tip from selected bone (or root).
+              <strong>Select:</strong> drag joint to move, drag tip to rotate/length.
+              Attach cut-out part PNGs to bones for paper-doll preview.
             </p>
           </div>
-        </div>
-      </section>
-
-      <!-- PARTS -->
-      <section id="tab-parts" class="tab-panel">
-        <div class="two-col">
-          <div>
-            <div class="panel-head">
-              <h3>Part checklist</h3>
-              <button type="button" id="btn-reset-parts" class="btn btn-sm btn-ghost">Reset template</button>
-            </div>
-            <p class="hint">
-              Spine needs cut-apart pieces, not one flat PNG. Tick parts as you export them from PSD/Krita.
-            </p>
+          <aside class="inspector">
+            <h3>Selected bone</h3>
+            <div id="bone-insp" class="bone-insp empty">Select a bone</div>
+            <h3>Parts checklist</h3>
             <ul id="part-list" class="check-list"></ul>
             <div class="inline-add">
-              <input id="part-new" type="text" placeholder="Add custom part…" />
+              <input id="part-new" type="text" placeholder="Add part…" />
               <button type="button" id="btn-add-part" class="btn btn-sm">Add</button>
             </div>
-          </div>
-          <div>
-            <h3>Part art slots</h3>
-            <p class="hint">Optional: attach a PNG to each part for a paper-doll preview later.</p>
-            <div id="part-slots" class="part-slots"></div>
-          </div>
+            <div class="callout small">
+              Libraries in use:
+              <ul>
+                <li><strong>Konva</strong> — interactive canvas / handles</li>
+                <li><strong>Our FK core</strong> — bone hierarchy + keyframes</li>
+                <li><strong>Spine Player</strong> — official runtime for .json/.skel exports</li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </section>
 
-      <!-- BONES -->
-      <section id="tab-bones" class="tab-panel">
-        <div class="two-col">
-          <div>
-            <div class="panel-head">
-              <h3>Suggested bone tree</h3>
-              <button type="button" id="btn-reset-bones" class="btn btn-sm btn-ghost">Reset template</button>
+      <!-- ANIMATE -->
+      <section id="tab-animate" class="tab-panel">
+        <div class="editor-layout">
+          <div class="stage-col">
+            <div class="toolbar">
+              <span class="tool-label">Animate · <span id="anim-state-label">Idle</span></span>
+              <button type="button" id="btn-key" class="btn btn-sm">◆ Key pose</button>
+              <button type="button" id="btn-del-key" class="btn btn-sm btn-ghost">Del key</button>
+              <button type="button" id="btn-anim-play" class="btn btn-sm">▶</button>
+              <label class="inline">FPS <input id="anim-fps" type="number" min="1" max="60" value="12" /></label>
+              <label class="inline"><input id="anim-loop" type="checkbox" checked /> Loop</label>
+              <button type="button" id="btn-reset-pose" class="btn btn-sm btn-ghost">Rest pose</button>
             </div>
+            <div id="konva-anim-host" class="konva-host"></div>
+            <div class="timeline-wrap">
+              <div class="timeline-head">
+                <span>Timeline (ms)</span>
+                <span id="timeline-time">0</span>
+              </div>
+              <input id="timeline" type="range" min="0" max="1000" value="0" />
+              <div id="key-marks" class="key-marks"></div>
+              <div class="timeline-meta">
+                <label>Clip length (ms) <input id="clip-length" type="number" min="100" step="50" value="1000" /></label>
+                <label>Clip name <input id="clip-name" type="text" /></label>
+              </div>
+            </div>
+          </div>
+          <aside class="inspector">
+            <h3>Keyframe editor</h3>
+            <p class="hint">Pose bones in the viewport, then <strong>Key pose</strong> at the current time. Scrub to interpolate.</p>
+            <div id="key-list" class="key-list"></div>
+            <h3>State notes</h3>
+            <textarea id="state-notes" rows="4" placeholder="Impact frame, wind-up…"></textarea>
+          </aside>
+        </div>
+      </section>
+
+      <!-- FRAMES (spritesheet / flipbook fallback) -->
+      <section id="tab-frames" class="tab-panel">
+        <div class="editor-layout">
+          <div class="stage-col">
+            <div class="toolbar">
+              <span class="tool-label">Flipbook · <span id="frame-state-label">Idle</span></span>
+              <button type="button" id="btn-frame-play" class="btn btn-sm">▶</button>
+              <label class="inline">FPS <input id="frame-fps" type="number" min="1" max="60" value="12" /></label>
+              <label class="inline"><input id="frame-loop" type="checkbox" checked /> Loop</label>
+              <label class="inline"><input id="frame-onion" type="checkbox" /> Onion</label>
+              <label class="btn btn-sm file-btn">Add frames <input type="file" id="input-frames" accept="image/*" multiple hidden /></label>
+              <button type="button" id="btn-clear-frames" class="btn btn-sm btn-ghost">Clear</button>
+            </div>
+            <canvas id="frame-stage" width="720" height="720"></canvas>
+            <input id="frame-scrub" type="range" min="0" max="0" value="0" />
+            <div id="frame-strip" class="frame-strip"></div>
+          </div>
+          <aside class="inspector">
+            <h3>Flipbook fallback</h3>
             <p class="hint">
-              Mirror this hierarchy in Spine. Parent → child order matters for attacks and hit reactions.
+              Use when you don’t have a bone rig yet — or for VFX overlays.
+              BaseLib can also drive Godot <code>AnimatedSprite2D</code> from frame sequences.
             </p>
-            <ul id="bone-tree" class="bone-tree"></ul>
-            <div class="inline-add">
-              <input id="bone-new" type="text" placeholder="bone name" />
-              <input id="bone-parent" type="text" placeholder="parent (optional)" />
-              <button type="button" id="btn-add-bone" class="btn btn-sm">Add bone</button>
+            <div class="field-row">
+              <label class="check"><input id="frame-state-loop" type="checkbox" /> Loop in-game</label>
             </div>
+            <label class="block">Notes<textarea id="frame-notes" rows="3"></textarea></label>
+          </aside>
+        </div>
+      </section>
+
+      <!-- SPINE -->
+      <section id="tab-spine" class="tab-panel">
+        <div class="editor-layout">
+          <div class="stage-col">
+            <div class="toolbar">
+              <span class="tool-label">Spine Player (official runtime)</span>
+              <label class="btn btn-sm file-btn">
+                Load skeleton files
+                <input type="file" id="input-spine" multiple hidden
+                  accept=".json,.skel,.atlas,.png,.txt,application/json,image/png" />
+              </label>
+              <button type="button" id="btn-spine-clear" class="btn btn-sm btn-ghost">Clear</button>
+            </div>
+            <div id="spine-host" class="spine-host"></div>
+            <p class="hint">
+              Drop a Spine export set: <code>*.json</code> or <code>*.skel</code> + <code>*.atlas</code> + texture PNG(s).
+              Version should match runtime <strong>4.2.x</strong> (change CDN if you export with another Spine version).
+            </p>
           </div>
-          <div>
-            <h3>Spine setup notes</h3>
-            <textarea id="bone-notes" rows="16" class="big-notes" placeholder="IK, mesh deform, constraints…"></textarea>
+          <aside class="inspector">
+            <h3>Why Spine Player?</h3>
+            <p class="hint">
+              STS2 uses Spine under the hood (MegaSpine). Previewing real exports here is the closest
+              in-browser check before packing into the mod.
+            </p>
             <div class="callout">
-              <strong>Export targets</strong>
+              <strong>CDN libs</strong>
               <ul>
-                <li><code>.skel</code> or skeleton JSON</li>
-                <li><code>.atlas</code></li>
-                <li>texture <code>.png</code></li>
+                <li><code>@esotericsoftware/spine-player@4.2</code></li>
+                <li>Runtimes are free; Spine <em>Editor</em> is paid for authoring</li>
               </ul>
-              Pack under <code>res://…/creature_visuals/</code> and wire via BaseLib
-              <code>CustomVisualPath</code> + <code>SetupCustomAnimationStates</code>.
             </div>
-          </div>
+            <pre id="spine-status" class="codegen small">No skeleton loaded</pre>
+          </aside>
         </div>
       </section>
 
       <!-- EXPORT -->
       <section id="tab-export" class="tab-panel">
         <div class="export-guide">
-          <h3>Pipeline checklist</h3>
+          <h3>Pipeline status</h3>
           <ol id="pipeline-steps" class="pipeline-steps"></ol>
-
-          <h3>Generated BaseLib snippet</h3>
+          <h3>BaseLib C# snippet</h3>
           <pre id="codegen" class="codegen"></pre>
           <button type="button" id="btn-copy-codegen" class="btn btn-sm">Copy C#</button>
-
-          <h3>Folder layout suggestion</h3>
+          <h3>Suggested folders</h3>
           <pre id="folder-layout" class="codegen"></pre>
+          <h3>Libraries reference</h3>
+          <div class="lib-grid" id="lib-grid"></div>
         </div>
       </section>
     </main>
@@ -231,6 +253,11 @@
     </form>
   </dialog>
 
-  <script src="app.js" type="module"></script>
+  <!-- Libraries -->
+  <script src="https://unpkg.com/konva@9.3.20/konva.min.js"></script>
+  <script src="https://unpkg.com/@esotericsoftware/spine-player@4.2.66/dist/iife/spine-player.js"></script>
+  <script src="core.js"></script>
+  <script src="editor.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
