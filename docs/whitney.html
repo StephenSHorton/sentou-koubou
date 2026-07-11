@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Whitney — Atelier Witch · 尖塔工房</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e0c;
+      --ink: #e6ebe4;
+      --muted: #8a968c;
+      --gold: #c9b27a;
+      --sage: #7a9e8a;
+      --font-title: "Cinzel", serif;
+      --font-body: "EB Garamond", serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse 70% 40% at 50% 0%, #1a3328 0%, transparent 55%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 1rem;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 1.5rem;
+      align-items: end;
+    }
+    @media (max-width: 720px) {
+      header { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    }
+    .portrait {
+      width: 160px;
+      aspect-ratio: 3/4;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--sage);
+      box-shadow: 0 12px 32px rgba(0,0,0,.45);
+    }
+    .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    h1 {
+      margin: 0 0 .25rem;
+      font-family: var(--font-title);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: .04em;
+    }
+    .sub { color: var(--gold); margin-bottom: .5rem; }
+    header p { color: var(--muted); max-width: 40rem; line-height: 1.5; margin: 0; }
+    .note {
+      max-width: 1100px;
+      margin: 0 auto 1.25rem;
+      padding: 1rem 1.25rem;
+      background: #101612;
+      border: 1px solid #243028;
+      border-radius: 10px;
+      font-size: .9rem;
+      color: #b8c4b8;
+      line-height: 1.55;
+    }
+    .filters {
+      max-width: 1100px;
+      margin: 0 auto 1rem;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+    .filters button {
+      background: #162019;
+      border: 1px solid #2a3a30;
+      color: var(--ink);
+      padding: .4rem .75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: .85rem;
+    }
+    .filters button.active { border-color: var(--sage); color: var(--gold); }
+    .grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #121814;
+      border: 1px solid #2a3a30;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card .art {
+      aspect-ratio: 1000/760;
+      background: #0c100e;
+      overflow: hidden;
+    }
+    .card .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card .body { padding: .85rem 1rem 1rem; }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: .5rem;
+      margin-bottom: .35rem;
+    }
+    .name { font-family: var(--font-title); font-size: 1.05rem; }
+    .cost {
+      font-family: var(--font-title);
+      color: var(--gold);
+      font-size: .95rem;
+    }
+    .tags { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .5rem; }
+    .lines {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      line-height: 1.35;
+      color: #d8e0d6;
+    }
+    .lines em { color: var(--gold); font-style: normal; }
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 2rem;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+    a { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="portrait"><img src="assets/whitney/portrait.jpg" alt="Whitney" /></div>
+    <div>
+      <h1>Whitney</h1>
+      <div class="sub">Atelier Witch · Energy + Ink · 尖塔工房</div>
+      <p>
+        Four-element seals with dual-purpose spells. Bank <strong>Ink</strong> (second mana),
+        spend it on Grand Seal and Cataclysm. Witch Hat Atelier outfit language.
+      </p>
+    </div>
+  </header>
+  <div class="note">
+    Vertical slice kit — starters + sample commons/uncommons/rares.
+    Dual mana is custom <em>Ink</em> (power counter), not Stars.
+    Full 20/35/25 pool comes next.
+    · <a href="index.html">Brennen catalog</a>
+  </div>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+  <footer>sentou-koubou · Whitney v0.1 · Local preview</footer>
+  <script>
+    const rarityOrder = { relic: 0, basic: 1, common: 2, uncommon: 3, rare: 4 };
+    fetch("whitney-cards.json")
+      .then((r) => r.json())
+      .then((cards) => {
+        const rarities = [...new Set(cards.map((c) => c.rarity))];
+        const filters = document.getElementById("filters");
+        let active = "all";
+        const renderFilters = () => {
+          filters.innerHTML = "";
+          ["all", ...rarities].forEach((r) => {
+            const b = document.createElement("button");
+            b.textContent = r;
+            b.className = active === r ? "active" : "";
+            b.onclick = () => { active = r; renderFilters(); render(); };
+            filters.appendChild(b);
+          });
+        };
+        const render = () => {
+          const grid = document.getElementById("grid");
+          grid.innerHTML = "";
+          cards
+            .filter((c) => active === "all" || c.rarity === active)
+            .sort((a, b) => (rarityOrder[a.rarity] ?? 9) - (rarityOrder[b.rarity] ?? 9) || a.name.localeCompare(b.name))
+            .forEach((c) => {
+              const el = document.createElement("article");
+              el.className = "card";
+              const cost = c.cost === null || c.cost === undefined ? "—" : c.cost;
+              const lines = (c.lines || [])
+                .map((l) => l.replace(/Ink/g, "<em>Ink</em>").replace(/Attunement/g, "<em>Attunement</em>"))
+                .join("<br/>");
+              el.innerHTML = `
+                <div class="art"><img src="${c.art}" alt="" onerror="this.style.opacity=.2"/></div>
+                <div class="body">
+                  <div class="meta"><span class="name">${c.name}</span><span class="cost">${cost}</span></div>
+                  <div class="tags">${c.rarity} · ${c.type}${c.element ? " · " + c.element : ""}</div>
+                  <div class="lines">${lines}</div>
+                </div>`;
+              grid.appendChild(el);
+            });
+        };
+        renderFilters();
+        render();
+      });
+  </script>
+</body>
+</html>

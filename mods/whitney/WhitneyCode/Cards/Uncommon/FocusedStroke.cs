@@ -1,0 +1,49 @@
+using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
+using Whitney.WhitneyCode.Powers;
+
+namespace Whitney.WhitneyCode.Cards.Uncommon;
+
+/// <summary>Spend Ink + Energy — scale with Attunement.</summary>
+public sealed class FocusedStroke() : WhitneyCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+{
+    protected override int InkCost => 2;
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromPower<InkPower>(),
+        HoverTipFactory.FromPower<AttunementPower>(),
+    ];
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(12, ValueProp.Move),
+    ];
+
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
+    {
+        if (!await Ink.TrySpend(choiceContext, Owner, InkCost, this))
+            return;
+
+        var bonus = Owner.Creature?.GetPower<AttunementPower>()?.Amount ?? 0;
+        var stored = DynamicVars.Damage.BaseValue;
+        DynamicVars.Damage.BaseValue = stored + bonus;
+        try
+        {
+            await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        }
+        finally
+        {
+            DynamicVars.Damage.BaseValue = stored;
+        }
+    }
+
+    protected override void OnUpgrade()
+    {
+        DynamicVars.Damage.UpgradeValueBy(4m);
+    }
+}

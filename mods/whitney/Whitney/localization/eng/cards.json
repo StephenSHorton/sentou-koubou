@@ -1,0 +1,46 @@
+{
+  "WHITNEY-SPARK.title": "Spark",
+  "WHITNEY-SPARK.description": "Deal {Damage:diff()} damage.",
+
+  "WHITNEY-RIPPLE.title": "Ripple",
+  "WHITNEY-RIPPLE.description": "Gain {Block:diff()} [gold]Block[/gold].",
+
+  "WHITNEY-CHANNEL_INK.title": "Channel Ink",
+  "WHITNEY-CHANNEL_INK.description": "Gain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-NOVICE_SEAL.title": "Novice Seal",
+  "WHITNEY-NOVICE_SEAL.description": "Deal {Damage:diff()} damage.\nApply {Weak:diff()} [gold]Weak[/gold].\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-EMBER_STROKE.title": "Ember Stroke",
+  "WHITNEY-EMBER_STROKE.description": "Deal {Damage:diff()} damage.\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-TIDEGUARD.title": "Tideguard",
+  "WHITNEY-TIDEGUARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-STONE_GLYPH.title": "Stone Glyph",
+  "WHITNEY-STONE_GLYPH.description": "Deal {Damage:diff()} damage.\nGain {Attune:diff()} [gold]Attunement[/gold].",
+
+  "WHITNEY-GUST.title": "Gust",
+  "WHITNEY-GUST.description": "Deal {Damage:diff()} damage {Repeat:diff()} times.\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-DRENCH_SEAL.title": "Drench Seal",
+  "WHITNEY-DRENCH_SEAL.description": "Apply {Weak:diff()} [gold]Weak[/gold].\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-ZEPHYR_DRAFT.title": "Zephyr Draft",
+  "WHITNEY-ZEPHYR_DRAFT.description": "Draw {Cards:diff()} cards.\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-GRAND_SEAL.title": "Grand Seal",
+  "WHITNEY-GRAND_SEAL.description": "Costs [blue]3[/blue] [gold]Ink[/gold].\nDeal {Damage:diff()} damage.",
+
+  "WHITNEY-STEAM_BURST.title": "Steam Burst",
+  "WHITNEY-STEAM_BURST.description": "Deal {Damage:diff()} damage to ALL enemies.\nApply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.\nGain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-FOCUSED_STROKE.title": "Focused Stroke",
+  "WHITNEY-FOCUSED_STROKE.description": "Costs [blue]2[/blue] [gold]Ink[/gold].\nDeal {Damage:diff()} damage.\nDeals additional damage equal to your [gold]Attunement[/gold].",
+
+  "WHITNEY-ELEMENTAL_FORM.title": "Elemental Form",
+  "WHITNEY-ELEMENTAL_FORM.description": "At the start of your turn, gain {Ink:diff()} [gold]Ink[/gold].",
+
+  "WHITNEY-CATACLYSM_SEAL.title": "Cataclysm Seal",
+  "WHITNEY-CATACLYSM_SEAL.description": "Costs [blue]5[/blue] [gold]Ink[/gold].\nDeal {Damage:diff()} damage to ALL enemies.\nApply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies."
+}
