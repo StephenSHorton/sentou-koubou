@@ -14,8 +14,11 @@ namespace Whitney.WhitneyCode.Powers;
 public abstract class WhitneyPower : CustomPowerModel
 {
     //Loads from Whitney/images/powers/your_power.png
-    public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
-    public override string CustomBigIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigPowerImagePath();
+    private string PowerStem =>
+        Id.Entry.RemovePrefix().Replace("_", "", StringComparison.Ordinal).ToLowerInvariant();
+
+    public override string CustomPackedIconPath => $"{PowerStem}.png".PowerImagePath();
+    public override string CustomBigIconPath => $"{PowerStem}.png".BigPowerImagePath();
 
     /// <summary>
     /// Whether this power is a buff or debuff.
