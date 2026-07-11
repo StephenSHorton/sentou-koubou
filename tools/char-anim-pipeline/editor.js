@@ -89,11 +89,39 @@
     ed.layerBg.find("Rect")[0]?.size({ width: w, height: h });
   }
 
+  function worldBBox(world) {
+    let minX = Infinity;
+    let maxX = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
+    for (const w of Object.values(world)) {
+      minX = Math.min(minX, w.x, w.tipX);
+      maxX = Math.max(maxX, w.x, w.tipX);
+      minY = Math.min(minY, w.y, w.tipY);
+      maxY = Math.max(maxY, w.y, w.tipY);
+    }
+    if (!Number.isFinite(minX)) {
+      return { minX: 0, maxX: 0, minY: 0, maxY: 0, cx: 0, cy: 0, bottom: 0 };
+    }
+    return {
+      minX,
+      maxX,
+      minY,
+      maxY,
+      cx: (minX + maxX) / 2,
+      cy: (minY + maxY) / 2,
+      bottom: maxY,
+    };
+  }
+
   async function redraw(ed) {
     if (!ed) return;
     const char = ed.getChar();
     ed.layerImg.destroyChildren();
     ed.layerBones.destroyChildren();
+    ed.layerImg.position({ x: 0, y: 0 });
+    ed.layerBones.position({ x: 0, y: 0 });
+    ed.viewShift = { x: 0, y: 0 };
     if (!char) {
       ed.stage.draw();
       return;
@@ -102,19 +130,28 @@
     const pose = ed.mode === "animate" ? ed.pose : {};
     const world = C().computeWorld(char.bones, pose);
 
-    // reference
+    // Keep rig + sprites centered on the stage (bone setup is in its own space;
+    // the panel is often wider than the 720-ish coords used when the starter was built).
+    const bb = worldBBox(world);
+    const shiftX = ed.width / 2 - bb.cx;
+    const shiftY = ed.height * 0.9 - bb.bottom;
+    ed.viewShift = { x: shiftX, y: shiftY };
+    ed.layerImg.position({ x: shiftX, y: shiftY });
+    ed.layerBones.position({ x: shiftX, y: shiftY });
+
+    // reference — same character frame as bones (not independently stage-centered)
     if (char.refImageId && ed.showImages) {
       const ref = await loadImg(char.refImageId);
       if (ref) {
-        const maxH = ed.height * 0.85;
+        const maxH = Math.min(ed.height * 0.85, Math.max(80, bb.maxY - bb.minY) * 1.15 || ed.height * 0.85);
         const scale = maxH / ref.height;
         const dw = ref.width * scale;
         const dh = ref.height * scale;
         ed.layerImg.add(
           new Konva.Image({
             image: ref,
-            x: (ed.width - dw) / 2,
-            y: ed.height * 0.9 - dh,
+            x: bb.cx - dw / 2,
+            y: bb.bottom - dh,
             width: dw,
             height: dh,
             opacity: 0.2,
@@ -295,7 +332,14 @@
       }
       const char = ed.getChar();
       if (!char) return;
-      const pos = ed.stage.getPointerPosition();
+      // Layer is view-shifted for centering; work in bone/world space.
+      const pos =
+        ed.layerBones.getRelativePointerPosition() ||
+        (() => {
+          const p = ed.stage.getPointerPosition();
+          if (!p) return null;
+          return { x: p.x - (ed.viewShift?.x || 0), y: p.y - (ed.viewShift?.y || 0) };
+        })();
       if (!pos) return;
 
       const parentId = ed.selectedId || (char.bones.find((b) => !b.parent)?.id ?? null);
