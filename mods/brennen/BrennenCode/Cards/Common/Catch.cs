@@ -15,13 +15,13 @@ public sealed class Catch() : BrennenCard(1, CardType.Attack, CardRarity.Common,
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<VulnerablePower>(),
+        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(7, ValueProp.Move),
-        new DynamicVar("Vulnerable", 1),
+        new DynamicVar("Weak", 2),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -29,10 +29,10 @@ public sealed class Catch() : BrennenCard(1, CardType.Attack, CardRarity.Common,
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
         if (play.Target is not null)
         {
-            await PowerCmd.Apply<VulnerablePower>(
+            await PowerCmd.Apply<WeakPower>(
                 choiceContext,
                 play.Target,
-                DynamicVars["Vulnerable"].IntValue,
+                DynamicVars["Weak"].IntValue,
                 Owner.Creature,
                 this);
         }
@@ -41,5 +41,6 @@ public sealed class Catch() : BrennenCard(1, CardType.Attack, CardRarity.Common,
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars["Weak"].UpgradeValueBy(1m);
     }
 }

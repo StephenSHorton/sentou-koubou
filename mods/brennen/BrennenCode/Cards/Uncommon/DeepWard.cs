@@ -18,7 +18,7 @@ public sealed class DeepWard() : BrennenCard(1, CardType.Skill, CardRarity.Uncom
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(11, ValueProp.Move),
+        new BlockVar(13, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

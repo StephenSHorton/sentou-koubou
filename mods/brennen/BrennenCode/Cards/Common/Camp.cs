@@ -17,7 +17,7 @@ public sealed class Camp() : BrennenCard(1, CardType.Skill, CardRarity.Common, T
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(10, ValueProp.Move),
+        new BlockVar(12, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -27,6 +27,6 @@ public sealed class Camp() : BrennenCard(1, CardType.Skill, CardRarity.Common, T
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(4m);
     }
 }

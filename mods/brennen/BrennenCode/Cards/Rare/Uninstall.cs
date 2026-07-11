@@ -17,7 +17,7 @@ public sealed class Uninstall() : BrennenCard(1, CardType.Attack, CardRarity.Rar
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(28, ValueProp.Move),
+        new DamageVar(22, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -27,6 +27,6 @@ public sealed class Uninstall() : BrennenCard(1, CardType.Attack, CardRarity.Rar
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(8m);
+        DynamicVars.Damage.UpgradeValueBy(6m);
     }
 }

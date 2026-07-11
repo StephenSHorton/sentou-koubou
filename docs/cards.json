@@ -1,122 +1,5 @@
 [
   {
-    "id": "mutecharm",
-    "name": "Mute Charm",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/mutecharm.png",
-    "lines": [
-      "At the start of each combat,",
-      "apply 1 Frail to ALL enemies."
-    ],
-    "keywords": [
-      "Frail"
-    ],
-    "stats": "Rare",
-    "flavor": "/mute all"
-  },
-  {
-    "id": "firstbloodcoin",
-    "name": "First Blood Coin",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/firstbloodcoin.png",
-    "lines": [
-      "The first time you kill an enemy",
-      "each combat, gain 1 Energy."
-    ],
-    "keywords": [
-      "Energy"
-    ],
-    "stats": "Uncommon",
-    "flavor": "First blood gold."
-  },
-  {
-    "id": "reporttotem",
-    "name": "Report Totem",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/reporttotem.png",
-    "lines": [
-      "At the start of each combat,",
-      "apply 1 Weak to ALL enemies."
-    ],
-    "keywords": [
-      "Weak"
-    ],
-    "stats": "Uncommon",
-    "flavor": "After the game."
-  },
-  {
-    "id": "rankedbadge",
-    "name": "Ranked Badge",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/rankedbadge.png",
-    "lines": [
-      "At the start of each combat,",
-      "gain 6 Block."
-    ],
-    "keywords": [
-      "Block"
-    ],
-    "stats": "Common",
-    "flavor": "Promo season."
-  },
-  {
-    "id": "flamekeycap",
-    "name": "Flame Keycap",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/flamekeycap.png",
-    "lines": [
-      "The first Attack you play each turn",
-      "grants 3 Vigor."
-    ],
-    "keywords": [
-      "Vigor"
-    ],
-    "stats": "Rare",
-    "flavor": "All-chat flamer."
-  },
-  {
-    "id": "ggbadge",
-    "name": "GG Badge",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/ggbadge.png",
-    "lines": [
-      "Whenever you kill an enemy,",
-      "gain 4 Block."
-    ],
-    "keywords": [
-      "Block"
-    ],
-    "stats": "Uncommon",
-    "flavor": "gg ez"
-  },
-  {
-    "id": "wardtoken",
-    "name": "Ward Token",
-    "rarity": "relic",
-    "type": "Relic",
-    "cost": null,
-    "art": "assets/brennen/wardtoken.png",
-    "lines": [
-      "At the start of each combat,",
-      "draw 1 card."
-    ],
-    "keywords": [],
-    "stats": "Common",
-    "flavor": "Pink ward up."
-  },
-  {
     "id": "strike",
     "name": "Strike",
     "rarity": "basic",
@@ -323,7 +206,7 @@
     ],
     "stats": "Starter",
     "flavor": "I've got you. Don't feed.",
-    "art": "assets/brennen/duoqueue.png",
+    "art": "assets/brennen/duoqueue.jpg",
     "keywords": []
   },
   {
@@ -334,10 +217,11 @@
     "cost": 1,
     "art": "assets/brennen/auto.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage."
+      "Deal {Damage:diff()} damage.",
+      "Gain {Block:diff()} [gold]Block[/gold]."
     ],
     "keywords": [],
-    "flavor": "Right-click the minion."
+    "flavor": "Right-click the minion. With armor."
   },
   {
     "id": "poke",
@@ -416,7 +300,7 @@
       "Take [blue]4[/blue] damage."
     ],
     "keywords": [],
-    "flavor": "Trust the process."
+    "flavor": "Trust the process. For the team."
   },
   {
     "id": "boost",
@@ -477,9 +361,10 @@
     "art": "assets/brennen/catch.jpg",
     "lines": [
       "Deal {Damage:diff()} damage.",
-      "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold]."
+      "Apply {Weak:diff()} [gold]Weak[/gold]."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Hook landed. Peel ready."
   },
   {
     "id": "smite",
@@ -545,10 +430,10 @@
     "cost": 1,
     "art": "assets/brennen/snowball.jpg",
     "lines": [
-      "Whenever you kill an enemy, gain {Snowball:diff()} [gold]Strength[/gold]."
+      "Whenever you kill an enemy, gain {Snowball:diff()} [gold]Block[/gold]."
     ],
     "keywords": [],
-    "flavor": "Don't throw."
+    "flavor": "Don't throw the lead."
   },
   {
     "id": "macro",
@@ -624,9 +509,10 @@
     "art": "assets/brennen/splitpush.jpg",
     "lines": [
       "Deal {Damage:diff()} damage.",
-      "Draw {Cards:diff()} card."
+      "Gain {Block:diff()} [gold]Block[/gold]."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Side lane pressure, full tank."
   },
   {
     "id": "tp",
@@ -729,7 +615,8 @@
       "Gain {Vigor:diff()} [gold]Vigor[/gold].",
       "Draw {Cards:diff()} card."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "I was there."
   },
   {
     "id": "jungleclear",
@@ -925,25 +812,25 @@
     "cost": 1,
     "art": "assets/brennen/doublebuff.jpg",
     "lines": [
-      "Gain {Vigor:diff()} [gold]Vigor[/gold].",
-      "Gain {Strength:diff()} [gold]Strength[/gold]."
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "Draw {Cards:diff()} card."
     ],
     "keywords": [],
-    "flavor": "Red + blue."
+    "flavor": "Red + blue. On a tank."
   },
   {
     "id": "freeobj",
     "name": "Free Obj",
     "rarity": "uncommon",
-    "type": "Attack",
+    "type": "Skill",
     "cost": 1,
     "art": "assets/brennen/freeobj.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage to ALL enemies.",
-      "If Fatal, gain {Energy:energyIcons()}."
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "Draw {Cards:diff()} cards."
     ],
     "keywords": [],
-    "flavor": "They gave it for free."
+    "flavor": "They gave it for free. (Armor)"
   },
   {
     "id": "campsetup",
@@ -978,7 +865,7 @@
     "cost": 1,
     "art": "assets/brennen/pentasecure.jpg",
     "lines": [
-      "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Penta:diff()} [gold]Strength[/gold]."
+      "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Penta:diff()} [gold]Plating[/gold]."
     ],
     "keywords": []
   },
@@ -1042,13 +929,15 @@
     "id": "perfectgame",
     "name": "Perfect Game",
     "rarity": "rare",
-    "type": "Attack",
-    "cost": 3,
+    "type": "Skill",
+    "cost": 2,
     "art": "assets/brennen/perfectgame.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage {Repeat:diff()} times."
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "[gold]Exhaust[/gold]."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "0 deaths. 12k damage taken."
   },
   {
     "id": "intingsion",
@@ -1062,7 +951,7 @@
       "Take [blue]8[/blue] damage."
     ],
     "keywords": [],
-    "flavor": "For the team."
+    "flavor": "Passive: for the team."
   },
   {
     "id": "openmid",
@@ -1088,10 +977,10 @@
     "cost": 2,
     "art": "assets/brennen/hardstuck.jpg",
     "lines": [
-      "At the start of your turn, gain {HardStuck:diff()} [gold]Strength[/gold]."
+      "At the start of your turn, gain {HardStuck:diff()} [gold]Plating[/gold]."
     ],
     "keywords": [],
-    "flavor": "Gold forever."
+    "flavor": "Gold forever. Still tanking."
   },
   {
     "id": "fountaindive",
@@ -1114,9 +1003,11 @@
     "cost": 2,
     "art": "assets/brennen/fullclear.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."
+      "Deal {Damage:diff()} damage to ALL enemies.",
+      "Gain {Block:diff()} [gold]Block[/gold]."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Clear camps. Clear waves. Clear the board."
   },
   {
     "id": "bait",
@@ -1181,14 +1072,15 @@
     "id": "adcdiff",
     "name": "ADC Diff",
     "rarity": "rare",
-    "type": "Attack",
+    "type": "Skill",
     "cost": 1,
     "art": "assets/brennen/adcdiff.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage {Repeat:diff()} times."
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "Draw {Cards:diff()} cards."
     ],
     "keywords": [],
-    "flavor": "Fully stacked."
+    "flavor": "I am the ADC now. (jk I peel)"
   },
   {
     "id": "supdiff",
@@ -1219,7 +1111,7 @@
     "keywords": [
       "Exhaust"
     ],
-    "flavor": "Prio."
+    "flavor": "Prio. Tank rotates first."
   },
   {
     "id": "dodgethedodge",
@@ -1255,9 +1147,73 @@
     "cost": 1,
     "art": "assets/brennen/maincharactersyndrome.jpg",
     "lines": [
-      "Whenever you play an Attack that costs [blue]2[/blue] or more, gain {MCS:diff()} [gold]Vigor[/gold]."
+      "Whenever you play a Skill, gain {MCS:diff()} [gold]Block[/gold]."
     ],
     "keywords": [],
-    "flavor": "It's about me."
+    "flavor": "It's about me. And my shield."
+  },
+  {
+    "id": "peelforadc",
+    "name": "Peel for ADC",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/peelforadc.jpg",
+    "lines": [
+      "Give another player 11 Block.",
+      "Multiplayer only."
+    ],
+    "keywords": [
+      "Block"
+    ],
+    "stats": "Multiplayer"
+  },
+  {
+    "id": "bodyblock",
+    "name": "Bodyblock",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/bodyblock.jpg",
+    "lines": [
+      "Gain 9 Block.",
+      "Redirect ally hits to you this turn.",
+      "Multiplayer only."
+    ],
+    "keywords": [
+      "Block"
+    ],
+    "stats": "Multiplayer"
+  },
+  {
+    "id": "teamfight",
+    "name": "Teamfight",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 2,
+    "art": "assets/brennen/teamfight.jpg",
+    "lines": [
+      "ALL players gain 12 Block.",
+      "Multiplayer only."
+    ],
+    "keywords": [
+      "Block"
+    ],
+    "stats": "Multiplayer"
+  },
+  {
+    "id": "frontline",
+    "name": "Frontline",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/frontline.jpg",
+    "lines": [
+      "Take double damage.",
+      "Allies take half damage.",
+      "Multiplayer only."
+    ],
+    "keywords": [],
+    "stats": "Multiplayer"
   }
 ]

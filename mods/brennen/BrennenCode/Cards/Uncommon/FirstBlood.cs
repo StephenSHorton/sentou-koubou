@@ -7,14 +7,16 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Uncommon;
 
-/// <summary>Snowball opener. Kill reward = energy + draw.</summary>
+/// <summary>First blood as tank: kill → Block (and a little energy).</summary>
 public sealed class FirstBlood() : BrennenCard(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(3, ValueProp.Move),
+        new DamageVar(4, ValueProp.Move),
+        new BlockVar(8, ValueProp.Move),
         new EnergyVar(1),
-        new CardsVar(1),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -24,12 +26,13 @@ public sealed class FirstBlood() : BrennenCard(0, CardType.Attack, CardRarity.Un
         var killed = play.Target is not null && play.Target.IsDead;
         if (!killed) return;
 
+        await CommonActions.CardBlock(this, play);
         await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

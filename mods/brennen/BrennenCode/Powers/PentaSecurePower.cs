@@ -7,11 +7,10 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Powers;
 
-/// <summary>Play 5 Attacks in a turn → Strength. Secure the penta.</summary>
+/// <summary>Secure the frontline: 5 Attacks in a turn → Plating.</summary>
 public sealed class PentaSecurePower : BrennenPower
 {
     private sealed class Data
@@ -25,11 +24,11 @@ public sealed class PentaSecurePower : BrennenPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Penta Secure",
-            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Strength[/gold].",
-            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Strength[/gold].");
+            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Plating[/gold].",
+            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Plating[/gold].");
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<StrengthPower>()];
+        [HoverTipFactory.FromPower<PlatingPower>()];
 
     protected override object InitInternalData() => new Data();
 
@@ -57,6 +56,6 @@ public sealed class PentaSecurePower : BrennenPower
 
         data.AttacksThisTurn = 0;
         Flash();
-        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, Amount, Owner, null);
+        await PowerCmd.Apply<PlatingPower>(choiceContext, Owner, Amount, Owner, null);
     }
 }

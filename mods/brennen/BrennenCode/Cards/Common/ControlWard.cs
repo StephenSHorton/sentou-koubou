@@ -18,7 +18,7 @@ public sealed class ControlWard() : BrennenCard(1, CardType.Skill, CardRarity.Co
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(6, ValueProp.Move),
+        new BlockVar(8, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

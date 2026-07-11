@@ -11,23 +11,23 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Rare;
 
-public sealed class PerfectGame() : BrennenCard(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+public sealed class PerfectGame() : BrennenCard(2, CardType.Skill, CardRarity.Rare, TargetType.None)
 {
+    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8, ValueProp.Move),
-        new RepeatVar(5),
+        new BlockVar(28, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await CommonActions.CardAttack(this, play)
-            .WithHitCount(DynamicVars.Repeat.IntValue)
-            .Execute(choiceContext);
+        await CommonActions.CardBlock(this, play);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Block.UpgradeValueBy(8m);
     }
 }

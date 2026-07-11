@@ -18,7 +18,7 @@ public sealed class Tp() : BrennenCard(0, CardType.Skill, CardRarity.Uncommon, T
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(12, ValueProp.Move),
+        new BlockVar(14, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -28,6 +28,6 @@ public sealed class Tp() : BrennenCard(0, CardType.Skill, CardRarity.Uncommon, T
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(4m);
+        DynamicVars.Block.UpgradeValueBy(5m);
     }
 }

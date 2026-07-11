@@ -17,8 +17,8 @@ public sealed class Cs() : BrennenCard(1, CardType.Attack, CardRarity.Common, Ta
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6, ValueProp.Move),
-        new BlockVar(3, ValueProp.Move),
+        new DamageVar(5, ValueProp.Move),
+        new BlockVar(5, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

@@ -21,8 +21,8 @@ public sealed class PeelBot() : BrennenCard(1, CardType.Skill, CardRarity.Uncomm
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(8, ValueProp.Move),
-        new DynamicVar("Weak", 1),
+        new BlockVar(10, ValueProp.Move),
+        new DynamicVar("Weak", 2),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -44,5 +44,6 @@ public sealed class PeelBot() : BrennenCard(1, CardType.Skill, CardRarity.Uncomm
     protected override void OnUpgrade()
     {
         DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars["Weak"].UpgradeValueBy(1m);
     }
 }

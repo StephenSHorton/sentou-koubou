@@ -13,20 +13,23 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class SplitPush() : BrennenCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move),
-        new CardsVar(1),
+        new DamageVar(8, ValueProp.Move),
+        new BlockVar(6, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+        await CommonActions.CardBlock(this, play);
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(2m);
     }
 }

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brennen character variants — pick one</title>
+  <style>
+    :root {
+      --bg: #12141a;
+      --panel: #1b1f28;
+      --text: #f2efe8;
+      --muted: #9aa3b2;
+      --accent: #e85d04;
+      --line: #2c3340;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #2a1810 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.25rem 3rem;
+    }
+    header {
+      max-width: 1200px;
+      margin: 0 auto 1.75rem;
+    }
+    h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.65rem;
+      letter-spacing: 0.02em;
+    }
+    .sub {
+      color: var(--muted);
+      max-width: 52rem;
+      line-height: 1.5;
+    }
+    .sub strong { color: var(--accent); }
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(232, 93, 4, 0.35), 0 12px 40px rgba(0,0,0,0.35);
+    }
+    .img-wrap {
+      background: #0d0f14;
+      aspect-ratio: 3 / 4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
+    }
+    .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .body {
+      padding: 1rem 1.1rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      flex: 1;
+    }
+    .label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .label h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+    .badge {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      border: 1px solid rgba(232, 93, 4, 0.45);
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .body p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .pick {
+      margin-top: auto;
+      appearance: none;
+      border: 1px solid var(--line);
+      background: #252b36;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.65rem 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .pick:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .card.selected .pick {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .current {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    .current h3 {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .current-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .current-thumb {
+      width: 160px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      background: #0d0f14;
+    }
+    .current-thumb img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1;
+      object-fit: cover;
+    }
+    .current-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      max-width: 36rem;
+    }
+    .choice {
+      max-width: 1200px;
+      margin: 1.25rem auto 0;
+      min-height: 1.4rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    /* lightbox */
+    .lb {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 50;
+      cursor: zoom-out;
+    }
+    .lb.open { display: flex; }
+    .lb img {
+      max-width: min(920px, 100%);
+      max-height: 92vh;
+      border-radius: 10px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Brennen — character base variants</h1>
+    <p class="sub">
+      Compare three redraws that keep the same identity (hair, goatee, leather, ember dagger)
+      but push away from the current cartoony kit look. Click an image to enlarge.
+      Pick one and tell the agent <strong>A</strong>, <strong>B</strong>, or <strong>C</strong>.
+    </p>
+  </header>
+
+  <div class="grid" id="grid">
+    <article class="card" data-id="A">
+      <div class="img-wrap" data-src="assets/brennen/variants/A_painterly_sts2.jpg">
+        <img src="assets/brennen/variants/A_painterly_sts2.jpg" alt="Variant A — Painterly STS2" />
+      </div>
+      <div class="body">
+        <div class="label">
+          <h2>A — Painterly STS2</h2>
+          <span class="badge">polish</span>
+        </div>
+        <p>
+          Adult proportions, polished hand-painted digital portrait, warm ember lighting.
+          Closest to a premium card-game hero paint job while still illustrated.
+        </p>
+        <button type="button" class="pick" data-pick="A">Pick A</button>
+      </div>
+    </article>
+
+    <article class="card" data-id="B">
+      <div class="img-wrap" data-src="assets/brennen/variants/B_drawn_gouache.jpg">
+        <img src="assets/brennen/variants/B_drawn_gouache.jpg" alt="Variant B — Drawn gouache" />
+      </div>
+      <div class="body">
+        <div class="label">
+          <h2>B — Drawn gouache</h2>
+          <span class="badge">most drawn</span>
+        </div>
+        <p>
+          More traditional drawn feel: brush texture, softer ink structure, cooler smoke backdrop.
+          The least cartoony of the three.
+        </p>
+        <button type="button" class="pick" data-pick="B">Pick B</button>
+      </div>
+    </article>
+
+    <article class="card" data-id="C">
+      <div class="img-wrap" data-src="assets/brennen/variants/C_bold_graphic.jpg">
+        <img src="assets/brennen/variants/C_bold_graphic.jpg" alt="Variant C — Bold graphic" />
+      </div>
+      <div class="body">
+        <div class="label">
+          <h2>C — Bold graphic</h2>
+          <span class="badge">readable</span>
+        </div>
+        <p>
+          Chunkier graphic shapes, more stylized face, still more adult than the current kit mid-ref.
+          Strong at small card sizes.
+        </p>
+        <button type="button" class="pick" data-pick="C">Pick C</button>
+      </div>
+    </article>
+  </div>
+
+  <p class="choice" id="choice" aria-live="polite"></p>
+
+  <section class="current">
+    <h3>Current kit base (for comparison)</h3>
+    <div class="current-row">
+      <div class="current-thumb img-wrap" data-src="assets/brennen/variants/current_cartoony.jpg">
+        <img src="assets/brennen/variants/current_cartoony.jpg" alt="Current cartoony Brennen base" />
+      </div>
+      <p class="current-note">
+        This is the cartoony mid-reference used on the recent cohesion cards.
+        Variants A–C aim for more drawn/painted adult proportions while keeping Brennen recognizable.
+      </p>
+    </div>
+  </section>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" hidden>
+    <img id="lb-img" alt="Enlarged variant" />
+  </div>
+
+  <script>
+    const lb = document.getElementById("lb");
+    const lbImg = document.getElementById("lb-img");
+    const choice = document.getElementById("choice");
+
+    document.querySelectorAll(".img-wrap").forEach((el) => {
+      el.addEventListener("click", () => {
+        const src = el.getAttribute("data-src");
+        if (!src) return;
+        lbImg.src = src;
+        lb.hidden = false;
+        lb.classList.add("open");
+      });
+    });
+
+    function closeLb() {
+      lb.classList.remove("open");
+      lb.hidden = true;
+      lbImg.removeAttribute("src");
+    }
+    lb.addEventListener("click", closeLb);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLb();
+    });
+
+    document.querySelectorAll(".pick").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-pick");
+        document.querySelectorAll(".card").forEach((c) => c.classList.remove("selected"));
+        document.querySelector(`.card[data-id="${id}"]`)?.classList.add("selected");
+        const names = {
+          A: "A — Painterly STS2",
+          B: "B — Drawn gouache",
+          C: "C — Bold graphic",
+        };
+        choice.textContent = `Selected: ${names[id]}. Tell the agent “${id}” (or paste this line).`;
+        try {
+          localStorage.setItem("brennen-variant-pick", id);
+        } catch (_) {}
+      });
+    });
+
+    try {
+      const saved = localStorage.getItem("brennen-variant-pick");
+      if (saved) {
+        document.querySelector(`.pick[data-pick="${saved}"]`)?.click();
+      }
+    } catch (_) {}
+  </script>
+</body>
+</html>

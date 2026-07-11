@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace Brennen.BrennenCode.Powers;
 
-/// <summary>Demon Form lite — gold forever.</summary>
+/// <summary>Hard stuck gold — permanent armor stacking (Plating).</summary>
 public sealed class HardStuckPower : BrennenPower
 {
     public override PowerType Type => PowerType.Buff;
@@ -21,11 +21,11 @@ public sealed class HardStuckPower : BrennenPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Hard Stuck",
-            "At the start of your turn, gain {Amount} [gold]Strength[/gold].",
-            "At the start of your turn, gain {Amount} [gold]Strength[/gold].");
+            "At the start of your turn, gain {Amount} [gold]Plating[/gold].",
+            "At the start of your turn, gain {Amount} [gold]Plating[/gold].");
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<StrengthPower>()];
+        [HoverTipFactory.FromPower<PlatingPower>()];
 
     public override async Task AfterSideTurnStart(
         CombatSide side,
@@ -36,7 +36,7 @@ public sealed class HardStuckPower : BrennenPower
             return;
 
         Flash();
-        await PowerCmd.Apply<StrengthPower>(
+        await PowerCmd.Apply<PlatingPower>(
             new ThrowingPlayerChoiceContext(),
             Owner,
             Amount,

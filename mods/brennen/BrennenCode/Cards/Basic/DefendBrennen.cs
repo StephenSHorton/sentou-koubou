@@ -13,7 +13,8 @@ public sealed class DefendBrennen() : BrennenCard(1, CardType.Skill, CardRarity.
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Defend];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(5, ValueProp.Move)];
+        // Tank basics: chunkier Block.
+        [new BlockVar(6, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

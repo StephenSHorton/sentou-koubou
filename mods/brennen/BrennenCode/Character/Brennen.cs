@@ -10,19 +10,21 @@ using MegaCrit.Sts2.Core.Models;
 namespace Brennen.BrennenCode.Character;
 
 /// <summary>
-/// Brennen — older brother, League nights, Corvette energy.
+/// Brennen — older brother, League nights, tank main energy.
+/// Peels, bodyblocks, and still feeds for the meme.
 /// Family meme pack character #1 for sentou-koubou.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
 {
     public const string CharacterId = "Brennen";
 
-    /// <summary>Warm ember red — aggressive lane energy.</summary>
+    /// <summary>Warm ember red — frontline engage energy.</summary>
     public static readonly Color Color = new("e85d4c");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Masculine;
-    public override int StartingHp => 74;
+    /// <summary>Tankier baseline — soaks so the "ADC" can cook.</summary>
+    public override int StartingHp => 82;
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
@@ -30,7 +32,7 @@ public class Brennen : PlaceholderCharacterModel
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
-        ModelDb.Card<StrikeBrennen>(),
+        ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
