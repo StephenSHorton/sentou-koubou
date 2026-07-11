@@ -63,4 +63,11 @@ public class Brennen : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_brennen.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_brennen_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_brennen.png".CharacterUiPath();
+
+    /// <summary>
+    /// Full-screen character select backdrop (otherwise vanilla Ironclad scene is reused).
+    /// Scene lives at res://scenes/screens/char_select/char_select_bg_brennen.tscn per BaseLib.
+    /// </summary>
+    public override string CustomCharacterSelectBg =>
+        "res://scenes/screens/char_select/char_select_bg_brennen.tscn";
 }

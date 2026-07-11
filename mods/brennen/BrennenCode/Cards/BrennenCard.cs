@@ -11,12 +11,11 @@ namespace Brennen.BrennenCode.Cards;
 public abstract class BrennenCard(int cost, CardType type, CardRarity rarity, TargetType target) :
     CustomCardModel(cost, type, rarity, target)
 {
-    public override string CustomPortraitPath =>
-        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigCardImagePath();
+    // Id.Entry e.g. BRENNEN-MAIN_CHARACTER → maincharacter.png (files have no underscores).
+    private string PortraitStem =>
+        Id.Entry.RemovePrefix().Replace("_", "", StringComparison.Ordinal).ToLowerInvariant();
 
-    public override string PortraitPath =>
-        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
-
-    public override string BetaPortraitPath =>
-        $"beta/{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
+    public override string CustomPortraitPath => $"{PortraitStem}.png".BigCardImagePath();
+    public override string PortraitPath => $"{PortraitStem}.png".CardImagePath();
+    public override string BetaPortraitPath => $"beta/{PortraitStem}.png".CardImagePath();
 }

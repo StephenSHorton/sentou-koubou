@@ -147,7 +147,9 @@ Enable BaseLib + character mods in-game. BaseLib is required.
 7. **In-game character select ≠ catalog header.** BaseLib loads:
    - `images/charui/char_select_<id>.png` (+ `_locked`) — picker tiles (typically ~864×1152)
    - `images/charui/character_icon_<id>.png` — small icon (~256×256)
+   - `CustomCharacterSelectBg` → scene at `res://scenes/screens/char_select/char_select_bg_<class>.tscn` (else **Ironclad** backdrop is reused)
    - Catalog `docs/assets/<char>/portrait_sts2.jpg` is HTML-only until you also overwrite those charui files and rebuild the `.pck`.
+8. **Asset filenames strip underscores.** `Id.Entry` is like `BRENNEN-DUO_QUEUE`; files must be `duoqueue.png`. Always map with `RemovePrefix().Replace("_","").ToLowerInvariant()` for cards, relics, and powers.
 7. **User taste beats model defaults.** Whitney “younger” + “more like Brennen’s drawn C” + “blue eyes” + “ready not attack” + “face readable 3/4” were all necessary corrections; bake them into the bible.
 8. **Re-roll is normal.** Budget time for a “dupe audit” pass after the first full gen (Scorch/Refill/Updraft, Moss Coat/Zephyr Draft, Spark/Ripple/Novice Seal/Ember Armor, photoreal Drench Seal).
 9. **Catalog HTML is the QA tool.** Tabbed `docs/index.html` + hard refresh is faster than launching the game for art review; then build `.pck` when art is locked.
