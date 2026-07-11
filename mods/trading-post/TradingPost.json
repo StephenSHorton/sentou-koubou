@@ -2,7 +2,7 @@
   "id": "TradingPost",
   "name": "Trading Post",
   "author": "BlakeHorton",
-  "description": "Co-op shop trading: once per shop visit, gift gold, gift a card, or request a friend's relic (the requester pays ALL of their gold). One trade each — then back to shopping.",
+  "description": "Co-op trading: gift gold freely at shops; gift a card (upgrades included) at campfires — trading spends your campfire action.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": false,

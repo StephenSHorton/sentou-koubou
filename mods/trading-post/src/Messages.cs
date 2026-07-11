@@ -80,63 +80,23 @@ public class GiftCardMessage : TradeMessageBase
 }
 
 /// <summary>
-/// Sender asks <see cref="targetNetId" /> for one of their relics, offering ALL of the
-/// sender's gold in return. Only the target acts on this (shows an accept/decline prompt).
+/// Outcome of a campfire trade flow, broadcast by the trading player. Remote clients'
+/// mirrored rest-site option resolves with this so the action is consumed (or not)
+/// identically everywhere.
 /// </summary>
-public class RelicRequestMessage : TradeMessageBase
+public class CampfireTradeResultMessage : TradeMessageBase
 {
-    public ulong targetNetId;
-
-    public string category = "";
-
-    public string entry = "";
+    public bool success;
 
     public override void Serialize(PacketWriter writer)
     {
-        writer.WriteULong(targetNetId);
-        writer.WriteString(category);
-        writer.WriteString(entry);
+        writer.WriteBool(success);
         writer.Write(Location);
     }
 
     public override void Deserialize(PacketReader reader)
     {
-        targetNetId = reader.ReadULong();
-        category = reader.ReadString();
-        entry = reader.ReadString();
-        Location = reader.Read<RunLocation>();
-    }
-}
-
-/// <summary>
-/// The relic owner's answer. If accepted, every client transfers the relic to
-/// <see cref="requesterNetId" /> and burns all of the requester's gold.
-/// </summary>
-public class RelicResponseMessage : TradeMessageBase
-{
-    public ulong requesterNetId;
-
-    public string category = "";
-
-    public string entry = "";
-
-    public bool accepted;
-
-    public override void Serialize(PacketWriter writer)
-    {
-        writer.WriteULong(requesterNetId);
-        writer.WriteString(category);
-        writer.WriteString(entry);
-        writer.WriteBool(accepted);
-        writer.Write(Location);
-    }
-
-    public override void Deserialize(PacketReader reader)
-    {
-        requesterNetId = reader.ReadULong();
-        category = reader.ReadString();
-        entry = reader.ReadString();
-        accepted = reader.ReadBool();
+        success = reader.ReadBool();
         Location = reader.Read<RunLocation>();
     }
 }

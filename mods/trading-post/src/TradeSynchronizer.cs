@@ -1,6 +1,6 @@
+using System.Collections.Concurrent;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
@@ -12,9 +12,11 @@ using MegaCrit.Sts2.Core.Runs;
 namespace TradingPost;
 
 /// <summary>
-/// Synchronizes shop trades between co-op players, modeled on the game's OneOffSynchronizer.
-/// The initiating client applies the trade locally and broadcasts a message; every other
-/// client mirrors the same state change for the involved players.
+/// Synchronizes trades between co-op players, modeled on the game's OneOffSynchronizer.
+/// Gold gifts are unlimited and available at shops; card gifts and relic requests happen
+/// at campfires through <see cref="TradeRestSiteOption" /> and consume that action.
+/// The initiating client applies state changes locally and broadcasts messages; every
+/// other client mirrors the same change for the involved players.
 /// </summary>
 public class TradeSynchronizer : IDisposable
 {
@@ -28,11 +30,8 @@ public class TradeSynchronizer : IDisposable
 
     private readonly ulong _localPlayerId;
 
-    /// <summary>The local player has used their one trade for this shop visit.</summary>
-    public bool LocalTradeUsed { get; private set; }
-
-    /// <summary>A relic request is in flight; block further trade attempts until answered.</summary>
-    public bool RelicRequestPending { get; private set; }
+    /// <summary>Mirrored campfire trades: outcome per trading player, keyed by net id.</summary>
+    private readonly ConcurrentDictionary<ulong, TaskCompletionSource<bool>> _campfireResults = new();
 
     private Player LocalPlayer => _playerCollection.GetPlayer(_localPlayerId);
 
@@ -45,23 +44,14 @@ public class TradeSynchronizer : IDisposable
         _localPlayerId = localPlayerId;
         messageBuffer.RegisterMessageHandler<GiftGoldMessage>(HandleGiftGold);
         messageBuffer.RegisterMessageHandler<GiftCardMessage>(HandleGiftCard);
-        messageBuffer.RegisterMessageHandler<RelicRequestMessage>(HandleRelicRequest);
-        messageBuffer.RegisterMessageHandler<RelicResponseMessage>(HandleRelicResponse);
+        messageBuffer.RegisterMessageHandler<CampfireTradeResultMessage>(HandleCampfireResult);
     }
 
     public void Dispose()
     {
         _messageBuffer.UnregisterMessageHandler<GiftGoldMessage>(HandleGiftGold);
         _messageBuffer.UnregisterMessageHandler<GiftCardMessage>(HandleGiftCard);
-        _messageBuffer.UnregisterMessageHandler<RelicRequestMessage>(HandleRelicRequest);
-        _messageBuffer.UnregisterMessageHandler<RelicResponseMessage>(HandleRelicResponse);
-    }
-
-    /// <summary>Called each time a merchant room loads; every shop visit grants a fresh trade.</summary>
-    public void ResetVisit()
-    {
-        LocalTradeUsed = false;
-        RelicRequestPending = false;
+        _messageBuffer.UnregisterMessageHandler<CampfireTradeResultMessage>(HandleCampfireResult);
     }
 
     public IReadOnlyList<Player> OtherPlayers =>
@@ -72,9 +62,42 @@ public class TradeSynchronizer : IDisposable
         return PlatformUtil.GetPlayerNameRaw(RunManager.Instance.NetService.Platform, player.NetId);
     }
 
+    // ---------------------------------------------------------------- campfire orchestration
+
+    /// <summary>Local player picked the campfire Trade option: run the menu-driven flow.</summary>
+    public async Task<bool> RunLocalCampfireTrade()
+    {
+        var outcome = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        TradeUi.OpenCampfireMenu(outcome);
+        bool traded = await outcome.Task;
+        _gameService.SendMessage(new CampfireTradeResultMessage
+        {
+            success = traded,
+            Location = _messageBuffer.CurrentLocation
+        });
+        return traded;
+    }
+
+    /// <summary>Remote mirror of a campfire trade: resolves when the trader broadcasts the outcome.</summary>
+    public async Task<bool> AwaitCampfireResult(ulong traderNetId)
+    {
+        TaskCompletionSource<bool> tcs = _campfireResults.GetOrAdd(traderNetId,
+            _ => new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously));
+        bool result = await tcs.Task;
+        _campfireResults.TryRemove(traderNetId, out _);
+        return result;
+    }
+
+    private void HandleCampfireResult(CampfireTradeResultMessage message, ulong senderId)
+    {
+        _campfireResults.GetOrAdd(senderId,
+                _ => new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously))
+            .TrySetResult(message.success);
+    }
+
     // ---------------------------------------------------------------- gold
 
-    /// <summary>Local player gifts gold to another player. Free — this is pure generosity.</summary>
+    /// <summary>Local player gifts gold. Free, unlimited, available whenever the shop button shows.</summary>
     public async Task GiftGoldLocal(Player target, int amount)
     {
         amount = Math.Clamp(amount, 0, LocalPlayer.Gold);
@@ -82,14 +105,22 @@ public class TradeSynchronizer : IDisposable
         {
             return;
         }
-        LocalTradeUsed = true;
+        try
+        {
+            await ApplyGoldGift(LocalPlayer, target, amount);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"Gold gift failed: {e}");
+            TradeUi.Notify("The trade fizzled — nothing was exchanged.");
+            return;
+        }
         _gameService.SendMessage(new GiftGoldMessage
         {
             targetNetId = target.NetId,
             amount = amount,
             Location = _messageBuffer.CurrentLocation
         });
-        await ApplyGoldGift(LocalPlayer, target, amount);
     }
 
     private void HandleGiftGold(GiftGoldMessage message, ulong senderId)
@@ -109,11 +140,11 @@ public class TradeSynchronizer : IDisposable
         await PlayerCmd.GainGold(amount, receiver);
     }
 
-    // ---------------------------------------------------------------- cards
+    // ---------------------------------------------------------------- cards (campfire)
 
     /// <summary>
-    /// Local player picks a card from their deck and gifts it. Free.
-    /// Returns false if the player backed out of the card picker.
+    /// Local player picks a card from their deck and gifts it.
+    /// Returns false if they backed out of the card picker or the transfer failed.
     /// </summary>
     public async Task<bool> GiftCardLocal(Player target)
     {
@@ -127,16 +158,25 @@ public class TradeSynchronizer : IDisposable
         {
             return false;
         }
-        LocalTradeUsed = true;
+        int upgradeLevel = card.CurrentUpgradeLevel;
+        try
+        {
+            await ApplyCardGift(LocalPlayer, target, card.Id, upgradeLevel);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"Card gift failed, trade refunded: {e}");
+            TradeUi.Notify("The trade fizzled — nothing was exchanged.");
+            return false;
+        }
         _gameService.SendMessage(new GiftCardMessage
         {
             targetNetId = target.NetId,
             category = card.Id.Category,
             entry = card.Id.Entry,
-            upgradeLevel = card.CurrentUpgradeLevel,
+            upgradeLevel = upgradeLevel,
             Location = _messageBuffer.CurrentLocation
         });
-        await ApplyCardGift(LocalPlayer, target, card.Id, card.CurrentUpgradeLevel);
         return true;
     }
 
@@ -162,106 +202,12 @@ public class TradeSynchronizer : IDisposable
             await CardPileCmd.RemoveFromDeck(original, showPreview: false);
         }
         CardModel copy = ModelDb.GetById<CardModel>(cardId).ToMutable();
-        copy.Owner = receiver;
         for (int i = 0; i < upgradeLevel; i++)
         {
             copy.UpgradeInternal();
         }
+        // Fresh cards must be registered with the run before joining a deck.
+        receiver.RunState.AddCard(copy, receiver);
         await CardPileCmd.Add(copy, receiver.Deck, skipVisuals: true);
-    }
-
-    // ---------------------------------------------------------------- relics
-
-    /// <summary>
-    /// Local player browses the target's relics and asks for one, offering ALL their gold.
-    /// The target must accept before anything changes hands.
-    /// Returns false if the player backed out of the relic picker.
-    /// </summary>
-    public async Task<bool> RequestRelicLocal(Player target)
-    {
-        RelicModel? relic = await RelicSelectCmd.FromChooseARelicScreen(LocalPlayer, target.Relics.ToList());
-        if (relic == null)
-        {
-            return false;
-        }
-        LocalTradeUsed = true;
-        RelicRequestPending = true;
-        _gameService.SendMessage(new RelicRequestMessage
-        {
-            targetNetId = target.NetId,
-            category = relic.Id.Category,
-            entry = relic.Id.Entry,
-            Location = _messageBuffer.CurrentLocation
-        });
-        TradeUi.Notify($"Offer sent to {NameOf(target)} — waiting for their answer…");
-        return true;
-    }
-
-    private void HandleRelicRequest(RelicRequestMessage message, ulong senderId)
-    {
-        // Only the relic's owner reacts here; everyone else waits for the response message.
-        if (message.targetNetId != _localPlayerId)
-        {
-            return;
-        }
-        Player requester = _playerCollection.GetPlayer(senderId);
-        var id = new ModelId(message.category, message.entry);
-        string relicName = ModelDb.GetByIdOrNull<RelicModel>(id)?.Title.GetFormattedText() ?? message.entry;
-        TradeUi.Confirm(
-            $"{NameOf(requester)} offers ALL of their gold ({requester.Gold}) for your {relicName}. Hand it over?",
-            accepted =>
-            {
-                _gameService.SendMessage(new RelicResponseMessage
-                {
-                    requesterNetId = senderId,
-                    category = message.category,
-                    entry = message.entry,
-                    accepted = accepted,
-                    Location = _messageBuffer.CurrentLocation
-                });
-                if (accepted)
-                {
-                    TaskHelper.RunSafely(ApplyRelicTrade(LocalPlayer, requester, id));
-                }
-            });
-    }
-
-    private void HandleRelicResponse(RelicResponseMessage message, ulong senderId)
-    {
-        Player giver = _playerCollection.GetPlayer(senderId);
-        Player requester = _playerCollection.GetPlayer(message.requesterNetId);
-        var id = new ModelId(message.category, message.entry);
-        if (!message.accepted)
-        {
-            if (requester == LocalPlayer)
-            {
-                // Declined: give the trade back — nothing changed hands.
-                RelicRequestPending = false;
-                LocalTradeUsed = false;
-                TradeUi.Notify($"{NameOf(giver)} declined your offer.");
-            }
-            return;
-        }
-        if (requester == LocalPlayer)
-        {
-            RelicRequestPending = false;
-            TradeUi.Notify($"{NameOf(giver)} accepted! The relic is yours.");
-        }
-        TaskHelper.RunSafely(ApplyRelicTrade(giver, requester, id));
-    }
-
-    private static async Task ApplyRelicTrade(Player giver, Player requester, ModelId relicId)
-    {
-        RelicModel? relic = giver.Relics.FirstOrDefault(r => r.Id == relicId);
-        if (relic != null)
-        {
-            await RelicCmd.Remove(relic);
-        }
-        // The requester pays with everything they've got; the gold is burned, not transferred.
-        if (requester.Gold > 0)
-        {
-            await PlayerCmd.LoseGold(requester.Gold, requester, GoldLossType.Spent);
-        }
-        await RelicCmd.Obtain(ModelDb.GetById<RelicModel>(relicId).ToMutable(), requester);
     }
 }

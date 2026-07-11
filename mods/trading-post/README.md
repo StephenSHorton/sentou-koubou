@@ -1,41 +1,51 @@
 # Trading Post
 
-Co-op shop trading for **Slay the Spire 2** multiplayer. At every merchant, each player
-gets **one trade per visit** — pick one, use it, and you're done trading (shopping with
-the merchant stays open as usual).
+Co-op trading for **Slay the Spire 2** multiplayer.
 
-## The three trades
+## What it does
 
-| Trade | Cost to you | What happens |
-|-------|-------------|--------------|
-| **Give gold** | Nothing extra | Pick a friend and an amount; they receive it. |
-| **Give a card** | Nothing extra | Pick a card from your deck; it moves to their deck (upgrades preserved). |
-| **Request a relic** | **ALL of your gold** | Browse a friend's relics and make an offer. If they accept, the relic is yours and every coin you own is burned (the giver loses only the relic — they don't get your gold). If they decline, your trade is refunded. |
+| Where | Trade | Cost |
+|-------|-------|------|
+| **Shop** | Give gold to a friend (any amount, as often as you like) | Just the gold |
+| **Campfire** | Give a card from your deck — **upgrades carry over** (works with uncapped upgrades) | **Your campfire action** — no resting, smithing, or digging after |
 
-## How it works
-
-- A **Trade** button appears in the bottom-left of the shop screen (co-op runs only).
-- One trade per player per shop visit; the lockout resets at the next shop.
-- Relic requests need the owner's consent via an accept/decline popup.
-- **Every player in the lobby must have the mod installed** — trades are synced with
-  custom network messages, and clients without the mod cannot decode them.
+- The shop gets a **Trade** button (bottom-left, co-op only) with a slider + typed amount.
+- Campfires get a **Trade** tile alongside Rest/Smith/etc. with custom art. Completing a
+  trade consumes the action through the game's own rest-site flow; backing out refunds it.
+- Notifications and prompts use the game's native popup scene; the trade menu adopts the
+  game's fonts at runtime.
+- Only the card's upgrade level transfers; enchantments and other one-off card mods don't.
+- **Every player in the lobby must have the mod installed** — trades are custom network
+  messages, and clients without the mod cannot decode them.
 
 ## Build
 
 ```bash
-dotnet build   # copies TradingPost.dll + TradingPost.json into the game's mods folder
+dotnet build   # copies TradingPost.dll + .json + option_trade.png into the game's mods folder
 ```
 
-No `.pck` needed — the UI is built from stock Godot controls and localization is
-injected at runtime.
+No `.pck` needed — UI is stock Godot controls styled from the game's own theme, localization
+is injected at runtime, and the campfire icon is a plain PNG loaded from the mod folder.
 
 ## Implementation notes
 
-- `TradeSynchronizer` mirrors the game's own `OneOffSynchronizer` pattern: the initiating
-  client applies the change locally and broadcasts an `INetMessage`; peers mirror it.
-  Mod message types are auto-registered by the game (`MessageTypes.Initialize` scans mods).
-- Harmony patches: `RunManager.InitializeShared` / `RunManager.CleanUp` (synchronizer
-  lifecycle) and `NMerchantRoom._Ready` (button + per-visit reset).
-- Gold burned in relic trades uses the requester's gold *at acceptance time* on each
-  client; message ordering is reliable and location-buffered, and the game's
-  `ChecksumTracker` will flag any divergence.
+- `TradeSynchronizer` mirrors the game's `OneOffSynchronizer` pattern: the initiating client
+  applies the change locally and broadcasts an `INetMessage` (auto-registered by the game's
+  mod scan); peers mirror it.
+- The campfire option is a `RestSiteOption` subclass appended via a Harmony postfix on
+  `RestSiteOption.Generate`. Selection syncs by option index through the game's
+  `RestSiteSynchronizer`; remote mirrors await a `CampfireTradeResultMessage` so the action
+  is consumed identically everywhere.
+- Fresh card copies must be registered via `RunState.AddCard` before `CardPileCmd.Add`.
+- Harmony patches: `RunManager.InitializeShared`/`CleanUp` (synchronizer lifecycle),
+  `NMerchantRoom._Ready` (shop button), `RestSiteOption.Generate` (campfire tile),
+  `RestSiteOption.Icon` (custom art from disk).
+
+## Local 2-player testing (no second PC needed)
+
+1. `steam_appid.txt` containing `2868840` in the game folder lets a second copy launch
+   directly from `SlayTheSpire2.exe` while Steam runs.
+2. In both windows: dev console (`` ` ``) → `multiplayer test` → **Host** in one,
+   **Join** (defaults) in the other → Ready in both.
+3. Useful console commands: `gold 500`, `room shop`, `room restsite` (networked — warps
+   everyone together).
