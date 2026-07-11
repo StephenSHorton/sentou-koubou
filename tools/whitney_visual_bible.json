@@ -1,0 +1,32 @@
+{
+  "character": {
+    "name": "Whitney",
+    "locked_variant": "D3",
+    "locked_asset": "docs/assets/whitney/variants/whitney_locked_d3.jpg",
+    "combat_asset": "docs/assets/whitney/variants/whitney_combat_right.png",
+    "combat_green": "docs/assets/whitney/variants/whitney_combat_right_green.jpg",
+    "look": "Young adult woman, blonde wavy shoulder-length hair, bright blue eyes, warm friendly smile, big round black glasses",
+    "outfit": "Indigo/purple ink-mage dress matching indigo tall witch hat; cyan/turquoise glowing ink quill",
+    "hat": "Tall indigo cone witch hat (D3 locked look); hat color matches dress",
+    "palette": [
+      "indigo #4B3F8C",
+      "deep violet dress #3D2E7A",
+      "cyan ink #3ECBFF",
+      "blonde #F2D48A",
+      "blue eyes #3B9EFF"
+    ],
+    "sts2_style": "Same bold graphic drawn Mega Crit language as Brennen kit: chunky brush, simplified shapes, limited facial detail, strong silhouette",
+    "combat_orientation": "STS2 left-side fighter: body oriented toward the RIGHT, but use three-quarter angle so the face stays readable (both eyes). Default base is READY/idle stance — not attacking or thrusting.",
+    "notes": [
+      "Locked 2026-07-11: user chose D3 ('absolutely perfect'), blue eyes required",
+      "Do not drift back to soft painterly or matronly designs",
+      "Shared props: ink quill, ink seals, elemental glyphs, inkwell, ribbons"
+    ]
+  },
+  "shared_props": {
+    "ink_quill": "Cyan/turquoise glowing feather quill with ink tip",
+    "ink_seals": "Elemental seal glyphs (fire/water/earth/air)",
+    "inkwell": "Traveling inkpot relic motif",
+    "ribbons": "Apprentice / elemental ribbons"
+  }
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Whitney — locked combat base (D3)</title>
+  <style>
+    :root {
+      --bg: #12141a;
+      --panel: #1b1f28;
+      --text: #f2efe8;
+      --muted: #9aa3b2;
+      --accent: #7c6cf0;
+      --ok: #3ecf8e;
+      --line: #2c3340;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 50% -10%, #1a1630 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.25rem 3rem;
+    }
+    header { max-width: 1100px; margin: 0 auto 1.5rem; }
+    h1 { margin: 0 0 0.35rem; font-size: 1.65rem; }
+    .sub { color: var(--muted); max-width: 48rem; line-height: 1.5; }
+    .sub strong { color: var(--accent); }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ok);
+      border: 1px solid rgba(62, 207, 142, 0.45);
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      margin-bottom: 0.55rem;
+    }
+    .grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 1.1rem;
+    }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+    }
+    .img-wrap {
+      background:
+        linear-gradient(45deg, #2a2f3a 25%, transparent 25%),
+        linear-gradient(-45deg, #2a2f3a 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #2a2f3a 75%),
+        linear-gradient(-45deg, transparent 75%, #2a2f3a 75%);
+      background-size: 24px 24px;
+      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+      background-color: #1a1e26;
+      aspect-ratio: 2 / 3;
+      cursor: zoom-in;
+      min-height: 360px;
+    }
+    .img-wrap.solid { background: #0d0f14; }
+    .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .body {
+      padding: 1rem 1.1rem 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .body h2 { margin: 0; font-size: 1.1rem; }
+    .body p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
+    .meta {
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.78rem;
+      color: #c9d0dc;
+      background: #12151c;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.5rem 0.65rem;
+      word-break: break-all;
+    }
+    .notes {
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .notes ul { margin: 0.4rem 0 0; padding-left: 1.2rem; }
+    .lb {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 50;
+      cursor: zoom-out;
+    }
+    .lb.open { display: flex; }
+    .lb img {
+      max-width: min(920px, 100%);
+      max-height: 92vh;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tag">Locked · D3 painted · ready stance · faces right</div>
+    <h1>Whitney — ready combat base</h1>
+    <p class="sub">
+      D3 painted style, <strong>idle ready pose</strong> (not attacking).
+      Three-quarter view: body oriented right but <strong>face fully readable</strong>
+      (both eyes), not pure side profile.
+    </p>
+  </header>
+
+  <div class="grid">
+    <article class="card">
+      <div class="img-wrap" data-src="assets/whitney/variants/whitney_combat_right.png">
+        <img src="assets/whitney/variants/whitney_combat_right.png" alt="Whitney combat transparent" />
+      </div>
+      <div class="body">
+        <h2>Ready cutout (main)</h2>
+        <p>Painted D3-style full body, right-facing ready stance (not attacking).</p>
+        <div class="meta">whitney_combat_right.png</div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img-wrap solid" data-src="assets/whitney/variants/whitney_combat_right_green.jpg">
+        <img src="assets/whitney/variants/whitney_combat_right_green.jpg" alt="Whitney combat green plate" />
+      </div>
+      <div class="body">
+        <h2>Green plate</h2>
+        <p>Source before keying — compare style to D3 portrait.</p>
+        <div class="meta">whitney_combat_right_green.jpg</div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img-wrap solid" data-src="assets/whitney/variants/whitney_locked_d3.jpg">
+        <img src="assets/whitney/variants/whitney_locked_d3.jpg" alt="Whitney D3 portrait base" />
+      </div>
+      <div class="body">
+        <h2>D3 portrait lock</h2>
+        <p>Style target. Combat pose should feel like this paint language.</p>
+        <div class="meta">whitney_locked_d3.jpg</div>
+      </div>
+    </article>
+  </div>
+
+  <div class="notes">
+    <strong style="color:var(--text)">Locked design notes</strong>
+    <ul>
+      <li>D3 indigo hat + indigo dress, cyan ink quill, big round glasses, blue eyes</li>
+      <li>Full body, prepared fighting stance <strong style="color:var(--text)">facing right</strong></li>
+      <li>STS2 bold graphic drawn style (Brennen-matched language)</li>
+      <li>Ready for pose variety + full kit card regen</li>
+    </ul>
+  </div>
+
+  <div class="lb" id="lb" role="dialog" aria-modal="true" hidden>
+    <img id="lb-img" alt="Enlarged" />
+  </div>
+  <script>
+    const lb = document.getElementById("lb");
+    const lbImg = document.getElementById("lb-img");
+    document.querySelectorAll(".img-wrap").forEach((el) => {
+      el.addEventListener("click", () => {
+        const src = el.getAttribute("data-src");
+        if (!src) return;
+        lbImg.src = src;
+        lb.hidden = false;
+        lb.classList.add("open");
+      });
+    });
+    function closeLb() {
+      lb.classList.remove("open");
+      lb.hidden = true;
+      lbImg.removeAttribute("src");
+    }
+    lb.addEventListener("click", closeLb);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLb();
+    });
+  </script>
+</body>
+</html>
