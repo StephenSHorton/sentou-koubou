@@ -911,6 +911,25 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       save();
       refreshAll();
     };
+
+    async function loadStarter(path, label) {
+      try {
+        const res = await fetch(path, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status} — is the server running from char-anim-pipeline/?`);
+        const data = await res.json();
+        await importProject(data);
+        alert(`${label} loaded.\n\n1) Select the character\n2) Rig tab — check bones vs fullbody\n3) Animate → Idle → Play\n4) Animate → Attack → Play`);
+      } catch (err) {
+        console.error(err);
+        alert(
+          `Could not auto-load ${label}.\n\nUse Import project and pick:\n${path}\n\n(${err.message})`
+        );
+      }
+    }
+    $("#btn-load-brennen-starter").onclick = () =>
+      loadStarter("starters/brennen-starter-project.json", "Brennen starter");
+    $("#btn-load-whitney-starter").onclick = () =>
+      loadStarter("starters/whitney-starter-project.json", "Whitney starter");
     $("#btn-copy-codegen").onclick = async () => {
       await navigator.clipboard.writeText($("#codegen").textContent);
       $("#btn-copy-codegen").textContent = "Copied!";
