@@ -1,0 +1,195 @@
+{
+  "character": {
+    "name": "Brennen",
+    "look": "Short spiky dark brown hair, neat goatee/stubble, warm confident half-smile, athletic build",
+    "outfit": "Dark leather adventurer jacket with straps and brass buckles, ember-orange accents, dark undershirt",
+    "palette": [
+      "ember orange #E85D04",
+      "deep charcoal #1A1A1E",
+      "blood red #9B2226",
+      "gold #F4A261",
+      "purple fog #5A189A"
+    ],
+    "sts2_style": "Mega Crit STS2 graphic painted: simplified shapes, limited facial detail, chunky brush, strong silhouette"
+  },
+  "shared_props": {
+    "ember_dagger": "Short curved ember-orange dagger with brass guard",
+    "pink_ward": "Glowing pink control-ward crystal on a short iron stake",
+    "cracked_headset": "Dark gaming headset with one cracked earcup and ember cracks",
+    "gold_coin": "Thick gold first-blood coin with dagger scratch",
+    "smite_bolt": "Jagged divine yellow-white smite lightning",
+    "rank_badge": "Polished metal ranked badge with small ember star",
+    "mute_rune": "Iron speaker disc with bold black X mute mark",
+    "duo_headset": "Two linked headset charms on a short chain"
+  },
+  "themes": {
+    "character_core": {
+      "ids": [
+        "strike",
+        "defend",
+        "feed",
+        "flash",
+        "gank",
+        "dive",
+        "allin",
+        "clutch",
+        "outplay",
+        "auto",
+        "assist",
+        "peel",
+        "peelforadc",
+        "peelbot",
+        "bait",
+        "catch",
+        "flashengage",
+        "fountaindive",
+        "inter",
+        "inting",
+        "intingsion",
+        "onevnine",
+        "maincharacter",
+        "maincharactersyndrome",
+        "disrespect",
+        "emote",
+        "afk",
+        "duoqueue",
+        "remake"
+      ],
+      "brennan": "often",
+      "motifs": [
+        "ember dagger",
+        "leather jacket with straps",
+        "short dark hair goatee"
+      ]
+    },
+    "vision": {
+      "ids": [
+        "ward",
+        "controlward",
+        "deepward",
+        "visionscore",
+        "missing",
+        "facecheck",
+        "wardhop",
+        "camp",
+        "campsetup"
+      ],
+      "brennan": "sometimes",
+      "motifs": [
+        "pink control ward crystal",
+        "teal vision beam",
+        "fog brush"
+      ]
+    },
+    "chat_tilt": {
+      "ids": [
+        "muteall",
+        "flame",
+        "allchat",
+        "tilt",
+        "mentalboom",
+        "chatmod",
+        "chatrestrict",
+        "report",
+        "ggez",
+        "spamping",
+        "uninstall",
+        "hardstuck"
+      ],
+      "brennan": "sometimes",
+      "motifs": [
+        "cracked headset",
+        "fiery chat bubbles",
+        "mute speaker rune"
+      ]
+    },
+    "kills_gold": {
+      "ids": [
+        "firstblood",
+        "pentakill",
+        "ace",
+        "shutdown",
+        "kda",
+        "snowball",
+        "bounty",
+        "quadra",
+        "pentasecure",
+        "perfectgame",
+        "tax",
+        "cs",
+        "itemspike",
+        "powerspike"
+      ],
+      "brennan": "sometimes",
+      "motifs": [
+        "gold first-blood coin",
+        "skull tally marks",
+        "ember gold coins"
+      ]
+    },
+    "jungle_obj": {
+      "ids": [
+        "smite",
+        "baron",
+        "drake",
+        "fullclear",
+        "jungleclear",
+        "invade",
+        "objective",
+        "freeobj",
+        "doublebuff",
+        "jgdiff"
+      ],
+      "brennan": "sometimes",
+      "motifs": [
+        "smite lightning bolt",
+        "dragon/pit glow",
+        "jungle canopy purple-green"
+      ]
+    },
+    "macro_map": {
+      "ids": [
+        "macro",
+        "micro",
+        "rotate",
+        "roam",
+        "roambot",
+        "roamtimer",
+        "splitpush",
+        "backdoor",
+        "openmid",
+        "tp",
+        "ult",
+        "zone",
+        "freeze",
+        "boost",
+        "poke",
+        "ping"
+      ],
+      "brennan": "rare",
+      "motifs": [
+        "glowing minimap",
+        "path lines",
+        "teleport beacon"
+      ]
+    },
+    "role_diff": {
+      "ids": [
+        "diff",
+        "topdiff",
+        "middiff",
+        "adcdiff",
+        "supdiff",
+        "challengerdiff",
+        "throw",
+        "dodgethedodge"
+      ],
+      "brennan": "often",
+      "motifs": [
+        "rank medal halo",
+        "ember aura",
+        "skill-issue cracked badge"
+      ]
+    }
+  }
+}
