@@ -62,9 +62,6 @@ public class Whitney : PlaceholderCharacterModel
     public override string CustomCharacterSelectLockedIconPath => "char_select_whitney_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_whitney.png".CharacterUiPath();
 
-    /// <summary>
-    /// Full-screen character select backdrop (otherwise vanilla Ironclad scene is reused).
-    /// </summary>
-    public override string CustomCharacterSelectBg =>
-        "res://scenes/screens/char_select/char_select_bg_whitney.tscn";
+    // Character select splash injected into .pck at
+    // res://scenes/screens/char_select/char_select_bg_whitney.tscn (see inject_char_select_bg.py).
 }
