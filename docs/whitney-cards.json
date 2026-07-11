@@ -5,9 +5,14 @@
     "rarity": "relic",
     "type": "Relic",
     "cost": null,
-    "art": "assets/whitney/portrait.jpg",
-    "lines": ["At the start of each combat,", "gain 3 Ink."],
-    "keywords": ["Ink"],
+    "art": "assets/whitney/travelersinkpot.jpg",
+    "lines": [
+      "At the start of each combat,",
+      "gain 3 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
     "stats": "Starter",
     "flavor": "Never travel without a full pot."
   },
@@ -18,7 +23,9 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/spark.jpg",
-    "lines": ["Deal 6 damage."],
+    "lines": [
+      "Deal 6 damage."
+    ],
     "keywords": [],
     "upgrade": "9 damage"
   },
@@ -29,8 +36,12 @@
     "type": "Skill",
     "cost": 1,
     "art": "assets/whitney/ripple.jpg",
-    "lines": ["Gain 5 Block."],
-    "keywords": ["Block"],
+    "lines": [
+      "Gain 5 Block."
+    ],
+    "keywords": [
+      "Block"
+    ],
     "upgrade": "8 Block"
   },
   {
@@ -40,8 +51,12 @@
     "type": "Skill",
     "cost": 1,
     "art": "assets/whitney/channelink.jpg",
-    "lines": ["Gain 2 Ink."],
-    "keywords": ["Ink"],
+    "lines": [
+      "Gain 2 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
     "upgrade": "3 Ink"
   },
   {
@@ -51,8 +66,15 @@
     "type": "Attack",
     "cost": 0,
     "art": "assets/whitney/noviceseal.jpg",
-    "lines": ["Deal 5 damage.", "Apply 1 Weak.", "Gain 1 Ink."],
-    "keywords": ["Weak", "Ink"],
+    "lines": [
+      "Deal 5 damage.",
+      "Apply 1 Weak.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Weak",
+      "Ink"
+    ],
     "upgrade": "+3 damage"
   },
   {
@@ -62,8 +84,13 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/emberstroke.jpg",
-    "lines": ["Deal 8 damage.", "Gain 1 Ink."],
-    "keywords": ["Ink"],
+    "lines": [
+      "Deal 8 damage.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
     "element": "Fire"
   },
   {
@@ -73,8 +100,14 @@
     "type": "Skill",
     "cost": 1,
     "art": "assets/whitney/tideguard.jpg",
-    "lines": ["Gain 8 Block.", "Gain 1 Ink."],
-    "keywords": ["Block", "Ink"],
+    "lines": [
+      "Gain 8 Block.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Block",
+      "Ink"
+    ],
     "element": "Water"
   },
   {
@@ -84,8 +117,13 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/stoneglyph.jpg",
-    "lines": ["Deal 6 damage.", "Gain 2 Attunement."],
-    "keywords": ["Attunement"],
+    "lines": [
+      "Deal 6 damage.",
+      "Gain 2 Attunement."
+    ],
+    "keywords": [
+      "Attunement"
+    ],
     "element": "Earth"
   },
   {
@@ -95,8 +133,13 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/gust.jpg",
-    "lines": ["Deal 3 damage 2 times.", "Gain 1 Ink."],
-    "keywords": ["Ink"],
+    "lines": [
+      "Deal 3 damage 2 times.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
     "element": "Air"
   },
   {
@@ -106,8 +149,14 @@
     "type": "Skill",
     "cost": 0,
     "art": "assets/whitney/drenchseal.jpg",
-    "lines": ["Apply 2 Weak.", "Gain 1 Ink."],
-    "keywords": ["Weak", "Ink"],
+    "lines": [
+      "Apply 2 Weak.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Weak",
+      "Ink"
+    ],
     "element": "Water"
   },
   {
@@ -117,8 +166,13 @@
     "type": "Skill",
     "cost": 1,
     "art": "assets/whitney/zephyrdraft.jpg",
-    "lines": ["Draw 2 cards.", "Gain 1 Ink."],
-    "keywords": ["Ink"],
+    "lines": [
+      "Draw 2 cards.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
     "element": "Air"
   },
   {
@@ -128,8 +182,13 @@
     "type": "Attack",
     "cost": 0,
     "art": "assets/whitney/grandseal.jpg",
-    "lines": ["Costs 3 Ink.", "Deal 18 damage."],
-    "keywords": ["Ink"]
+    "lines": [
+      "Costs 3 Ink.",
+      "Deal 18 damage."
+    ],
+    "keywords": [
+      "Ink"
+    ]
   },
   {
     "id": "steamburst",
@@ -138,8 +197,15 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/steamburst.jpg",
-    "lines": ["Deal 7 damage to ALL enemies.", "Apply 1 Weak to ALL.", "Gain 1 Ink."],
-    "keywords": ["Weak", "Ink"],
+    "lines": [
+      "Deal 7 damage to ALL enemies.",
+      "Apply 1 Weak to ALL.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Weak",
+      "Ink"
+    ],
     "element": "Fire+Water"
   },
   {
@@ -149,8 +215,15 @@
     "type": "Attack",
     "cost": 1,
     "art": "assets/whitney/focusedstroke.jpg",
-    "lines": ["Costs 2 Ink.", "Deal 12 damage.", "Plus your Attunement."],
-    "keywords": ["Ink", "Attunement"]
+    "lines": [
+      "Costs 2 Ink.",
+      "Deal 12 damage.",
+      "Plus your Attunement."
+    ],
+    "keywords": [
+      "Ink",
+      "Attunement"
+    ]
   },
   {
     "id": "elementalform",
@@ -159,8 +232,13 @@
     "type": "Power",
     "cost": 2,
     "art": "assets/whitney/elementalform.jpg",
-    "lines": ["At the start of your turn,", "gain 1 Ink."],
-    "keywords": ["Ink"]
+    "lines": [
+      "At the start of your turn,",
+      "gain 1 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ]
   },
   {
     "id": "cataclysmseal",
@@ -169,7 +247,15 @@
     "type": "Attack",
     "cost": 0,
     "art": "assets/whitney/cataclysmseal.jpg",
-    "lines": ["Costs 5 Ink.", "Deal 14 damage to ALL enemies.", "Apply 2 Weak and 2 Vulnerable to ALL."],
-    "keywords": ["Ink", "Weak", "Vulnerable"]
+    "lines": [
+      "Costs 5 Ink.",
+      "Deal 14 damage to ALL enemies.",
+      "Apply 2 Weak and 2 Vulnerable to ALL."
+    ],
+    "keywords": [
+      "Ink",
+      "Weak",
+      "Vulnerable"
+    ]
   }
 ]
