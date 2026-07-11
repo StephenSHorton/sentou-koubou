@@ -20,6 +20,96 @@
   let animT = 0;
   let lastTs = 0;
 
+  // ─── Undo / redo ─────────────────────────────────────────────────────────
+  const history = {
+    undo: [],
+    redo: [],
+    max: 80,
+    applying: false,
+    coalescing: false, // skip duplicate pushes in same gesture if needed
+  };
+
+  function cloneMetaCharacters() {
+    return structuredClone(meta.characters);
+  }
+
+  function takeSnapshot(label) {
+    return {
+      label: label || "edit",
+      activeCharId: meta.activeCharId,
+      activeState: meta.activeState,
+      characters: cloneMetaCharacters(),
+      animT,
+      frameIndex,
+      animPose: animEd ? structuredClone(animEd.pose || {}) : {},
+    };
+  }
+
+  function updateHistoryButtons() {
+    const u = $("#btn-undo");
+    const r = $("#btn-redo");
+    if (u) {
+      u.disabled = history.undo.length === 0;
+      u.title =
+        history.undo.length === 0
+          ? "Undo (Ctrl+Z)"
+          : `Undo: ${history.undo[history.undo.length - 1].label} (Ctrl+Z)`;
+    }
+    if (r) {
+      r.disabled = history.redo.length === 0;
+      r.title =
+        history.redo.length === 0
+          ? "Redo (Ctrl+Y)"
+          : `Redo: ${history.redo[history.redo.length - 1].label} (Ctrl+Y)`;
+    }
+  }
+
+  /** Call *before* mutating project data. */
+  function pushHistory(label) {
+    if (history.applying) return;
+    history.undo.push(takeSnapshot(label));
+    if (history.undo.length > history.max) history.undo.shift();
+    history.redo.length = 0;
+    updateHistoryButtons();
+  }
+
+  function applySnapshot(snap) {
+    history.applying = true;
+    meta.characters = structuredClone(snap.characters);
+    meta.activeCharId = snap.activeCharId;
+    meta.activeState = snap.activeState || "idle";
+    animT = snap.animT ?? 0;
+    frameIndex = snap.frameIndex ?? 0;
+    if (animEd) animEd.pose = structuredClone(snap.animPose || {});
+    if (rigEd) rigEd.selectedId = null;
+    C.saveMeta(meta);
+    refreshAll();
+    history.applying = false;
+    updateHistoryButtons();
+  }
+
+  function undo() {
+    if (!history.undo.length || history.applying) return;
+    history.redo.push(takeSnapshot("before-undo"));
+    if (history.redo.length > history.max) history.redo.shift();
+    const snap = history.undo.pop();
+    applySnapshot(snap);
+  }
+
+  function redo() {
+    if (!history.redo.length || history.applying) return;
+    history.undo.push(takeSnapshot("before-redo"));
+    if (history.undo.length > history.max) history.undo.shift();
+    const snap = history.redo.pop();
+    applySnapshot(snap);
+  }
+
+  function clearHistory() {
+    history.undo.length = 0;
+    history.redo.length = 0;
+    updateHistoryButtons();
+  }
+
   function activeChar() {
     return meta.characters.find((c) => c.id === meta.activeCharId) || null;
   }
@@ -30,6 +120,7 @@
   }
 
   function save() {
+    if (history.applying) return;
     const ch = activeChar();
     if (ch) ch.updatedAt = Date.now();
     C.saveMeta(meta);
@@ -145,18 +236,21 @@
       ${att?.imageId ? `<button type="button" class="btn btn-sm btn-ghost" id="bi-clear-att">Detach image</button>` : ""}
     `;
     $("#bi-name").onchange = () => {
+      pushHistory("rename bone");
       b.name = $("#bi-name").value.trim() || b.id;
       save();
       renderBoneList();
       E.redraw(rigEd);
     };
     $("#bi-len").onchange = () => {
+      pushHistory("bone length");
       b.length = Math.max(8, Number($("#bi-len").value) || 8);
       C.bakeSetupFromAngles(char.bones);
       save();
       E.redraw(rigEd);
     };
     $("#bi-ang").onchange = () => {
+      pushHistory("bone angle");
       b.angle = Number($("#bi-ang").value) || 0;
       C.bakeSetupFromAngles(char.bones);
       save();
@@ -165,6 +259,7 @@
     const clr = $("#bi-clear-att");
     if (clr) {
       clr.onclick = async () => {
+        pushHistory("detach image");
         if (att?.imageId) await C.idbDel(att.imageId);
         delete char.attachments[b.id];
         save();
@@ -184,6 +279,7 @@
       if (p.done) li.classList.add("done");
       li.innerHTML = `<input type="checkbox" ${p.done ? "checked" : ""} /><span>${escapeHtml(p.name)}</span>`;
       li.querySelector("input").onchange = (e) => {
+        pushHistory("part checklist");
         p.done = e.target.checked;
         save();
         renderParts();
@@ -566,7 +662,8 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     if (idx >= 0) meta.characters[idx] = merged;
     else meta.characters.push(merged);
     meta.activeCharId = merged.id;
-    save();
+    if (!history.applying) save();
+    else C.saveMeta(meta);
     E.clearImageCache();
     refreshAll();
   }
@@ -574,6 +671,23 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
   // ─── Events ──────────────────────────────────────────────────────────────
 
   function bind() {
+    $("#btn-undo").onclick = () => undo();
+    $("#btn-redo").onclick = () => redo();
+    window.addEventListener("keydown", (e) => {
+      const tag = (e.target && e.target.tagName) || "";
+      const typing =
+        tag === "INPUT" || tag === "TEXTAREA" || e.target?.isContentEditable;
+      if (typing && !e.ctrlKey && !e.metaKey) return;
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key.toLowerCase() === "z" && !e.shiftKey) {
+        e.preventDefault();
+        undo();
+      } else if (mod && (e.key.toLowerCase() === "y" || (e.key.toLowerCase() === "z" && e.shiftKey))) {
+        e.preventDefault();
+        redo();
+      }
+    });
+
     $("#btn-add-char").onclick = () => $("#dlg-new-char").showModal();
     $("#btn-cancel-char").onclick = () => $("#dlg-new-char").close();
     $("#form-new-char").onsubmit = (e) => {
@@ -582,6 +696,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const name = String(fd.get("name")).trim();
       const id = String(fd.get("id")).trim().toLowerCase();
       if (meta.characters.some((c) => c.id === id)) return alert("Id exists");
+      pushHistory("create character");
       meta.characters.push(C.makeCharacter(name, id));
       meta.activeCharId = id;
       save();
@@ -590,16 +705,32 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       refreshAll();
     };
 
+    let nameHistArmed = false;
+    $("#char-name").onfocus = () => {
+      nameHistArmed = true;
+    };
     $("#char-name").oninput = () => {
       const c = activeChar();
       if (!c) return;
+      if (nameHistArmed) {
+        pushHistory("rename character");
+        nameHistArmed = false;
+      }
       c.name = $("#char-name").value;
       save();
       renderCharList();
     };
+    let notesHistArmed = false;
+    $("#char-notes").onfocus = () => {
+      notesHistArmed = true;
+    };
     $("#char-notes").oninput = () => {
       const c = activeChar();
       if (!c) return;
+      if (notesHistArmed) {
+        pushHistory("edit notes");
+        notesHistArmed = false;
+      }
       c.notes = $("#char-notes").value;
       save();
     };
@@ -652,6 +783,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const id = rigEd?.selectedId;
       if (!char || !id) return;
       if (char.bones.some((b) => b.parent === id)) return alert("Delete children first");
+      pushHistory("delete bone");
       char.bones = char.bones.filter((b) => b.id !== id);
       delete char.attachments[id];
       rigEd.selectedId = null;
@@ -661,6 +793,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     $("#btn-reset-rig").onclick = () => {
       const char = activeChar();
       if (!char || !confirm("Reset bones to default humanoid template?")) return;
+      pushHistory("reset rig");
       char.bones = C.defaultBones();
       char.attachments = {};
       save();
@@ -672,6 +805,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const id = rigEd?.selectedId;
       const f = $("#input-attach").files?.[0];
       if (!char || !id || !f) return alert("Select a bone first");
+      pushHistory("attach image");
       const bid = C.blobKey(char.id, "att", id, C.uid());
       await C.idbPut(bid, f);
       char.attachments[id] = {
@@ -691,6 +825,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const char = activeChar();
       const f = $("#input-ref").files?.[0];
       if (!char || !f) return;
+      pushHistory("set reference");
       const id = C.blobKey(char.id, "ref", C.uid());
       await C.idbPut(id, f);
       if (char.refImageId) await C.idbDel(char.refImageId);
@@ -703,6 +838,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     $("#btn-clear-ref").onclick = async () => {
       const char = activeChar();
       if (!char?.refImageId) return;
+      pushHistory("clear reference");
       await C.idbDel(char.refImageId);
       char.refImageId = null;
       save();
@@ -714,8 +850,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const char = activeChar();
       const st = stateData();
       if (!char || !st || !animEd) return;
-      const pose = E.getWorkingPose(animEd);
-      // store only deltas from rest? store full angles
+      pushHistory("key pose");
       const bones = {};
       for (const b of char.bones) {
         const p = animEd.pose[b.id];
@@ -737,6 +872,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     $("#btn-del-key").onclick = () => {
       const st = stateData();
       if (!st) return;
+      pushHistory("delete key");
       st.keys = (st.keys || []).filter((k) => Math.abs(k.t - animT) >= 1);
       save();
       renderKeys();
@@ -754,6 +890,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     $("#clip-length").onchange = () => {
       const st = stateData();
       if (!st) return;
+      pushHistory("clip length");
       st.lengthMs = Math.max(100, Number($("#clip-length").value) || 1000);
       $("#timeline").max = String(st.lengthMs);
       save();
@@ -762,19 +899,29 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
     $("#clip-name").onchange = () => {
       const st = stateData();
       if (!st) return;
+      pushHistory("clip name");
       st.clipName = $("#clip-name").value.trim();
       save();
       renderExport();
     };
+    let stateNotesArmed = false;
+    $("#state-notes").onfocus = () => {
+      stateNotesArmed = true;
+    };
     $("#state-notes").oninput = () => {
       const st = stateData();
       if (!st) return;
+      if (stateNotesArmed) {
+        pushHistory("state notes");
+        stateNotesArmed = false;
+      }
       st.notes = $("#state-notes").value;
       save();
     };
     $("#anim-loop").onchange = () => {
       const st = stateData();
       if (!st) return;
+      pushHistory("loop flag");
       st.loop = $("#anim-loop").checked;
       save();
     };
@@ -816,6 +963,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const char = activeChar();
       const st = stateData();
       if (!char || !st) return;
+      pushHistory("add frames");
       for (const f of $("#input-frames").files || []) {
         const id = C.blobKey(char.id, "frame", meta.activeState, C.uid());
         await C.idbPut(id, f);
@@ -831,6 +979,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const st = stateData();
       if (!st?.frameIds?.length) return;
       if (!confirm("Clear flipbook frames?")) return;
+      pushHistory("clear frames");
       for (const id of st.frameIds) await C.idbDel(id);
       st.frameIds = [];
       frameIndex = 0;
@@ -872,6 +1021,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const char = activeChar();
       const name = $("#part-new").value.trim();
       if (!char || !name) return;
+      pushHistory("add part");
       char.parts.push({ name, done: false });
       $("#part-new").value = "";
       save();
@@ -892,12 +1042,14 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       const f = $("#input-import").files?.[0];
       if (!f) return;
       try {
+        pushHistory("import project");
         await importProject(JSON.parse(await f.text()));
       } catch (err) {
         alert("Import failed: " + err.message);
       }
     };
     $("#btn-seed").onclick = () => {
+      pushHistory("seed shells");
       for (const s of [
         { name: "Brennen", id: "brennen", notes: "Tank · greatsword" },
         { name: "Whitney", id: "whitney", notes: "Witch · quill" },
@@ -918,7 +1070,8 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
         if (!res.ok) throw new Error(`HTTP ${res.status} — is the server running from char-anim-pipeline/?`);
         const data = await res.json();
         await importProject(data);
-        alert(`${label} loaded.\n\n1) Select the character\n2) Rig tab — check bones vs fullbody\n3) Animate → Idle → Play\n4) Animate → Attack → Play`);
+        clearHistory(); // start clean after load; first edit creates undo step
+        alert(`${label} loaded.\n\n1) Select the character\n2) Rig tab — check bones vs fullbody\n3) Animate → Idle → Play\n4) Animate → Attack → Play\n\nUndo: Ctrl+Z · Redo: Ctrl+Y`);
       } catch (err) {
         console.error(err);
         alert(
@@ -956,6 +1109,7 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
         renderBoneInsp(id);
         renderBoneList();
       },
+      onBeforeEdit: (label) => pushHistory(label || "rig edit"),
       onChange: () => {
         save();
         renderBoneList();
@@ -971,8 +1125,9 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
         renderBoneList();
         renderBoneInsp(id);
       },
+      onBeforeEdit: (label) => pushHistory(label || "pose edit"),
       onChange: () => {
-        /* pose only until keyed */
+        /* live pose; keyframe commits separately */
       },
     });
   }
@@ -981,4 +1136,5 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
   bind();
   initStages();
   refreshAll();
+  updateHistoryButtons();
 })();

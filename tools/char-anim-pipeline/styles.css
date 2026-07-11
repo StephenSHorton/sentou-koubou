@@ -203,6 +203,16 @@ body {
 .char-meta input:nth-child(2) { width: 120px; font-family: var(--mono); font-size: 0.78rem; }
 .char-meta input:nth-child(3) { flex: 1; min-width: 140px; }
 
+.history-btns {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.history-btns .btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .tabs { display: flex; gap: 0.2rem; flex-wrap: wrap; }
 .tab {
   background: transparent;

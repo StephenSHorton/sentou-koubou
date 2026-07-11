@@ -73,6 +73,7 @@
       pose: {}, // temporary pose override for animate scrub
       onSelect: opts.onSelect || (() => {}),
       onChange: opts.onChange || (() => {}),
+      onBeforeEdit: opts.onBeforeEdit || (() => {}),
       getChar: opts.getChar || (() => null),
     };
   }
@@ -193,6 +194,7 @@
         });
         if (ed.mode === "rig") {
           node.draggable(true);
+          node.on("dragstart", () => ed.onBeforeEdit("move attachment"));
           node.on("dragend", () => {
             const a = char.attachments[b.id];
             if (!a) return;
@@ -238,6 +240,7 @@
           redraw(ed);
         });
         if (!b.parent && ed.mode === "rig") {
+          joint.on("dragstart", () => ed.onBeforeEdit("move root"));
           joint.on("dragmove", () => {
             b.setupX = joint.x();
             b.setupY = joint.y();
@@ -264,6 +267,9 @@
           ed.selectedId = b.id;
           ed.onSelect(b.id);
         });
+        tip.on("dragstart", () =>
+          ed.onBeforeEdit(ed.mode === "animate" ? "pose bone" : "edit bone")
+        );
         tip.on("dragmove", () => {
           const parentWorld = b.parent ? world[b.parent] : null;
           const ox = parentWorld ? parentWorld.tipX : b.setupX;
@@ -342,6 +348,7 @@
         })();
       if (!pos) return;
 
+      ed.onBeforeEdit("add bone");
       const parentId = ed.selectedId || (char.bones.find((b) => !b.parent)?.id ?? null);
       const world = C().computeWorld(char.bones, {});
       let jx = pos.x;
