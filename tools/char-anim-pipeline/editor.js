@@ -118,95 +118,107 @@
 
   async function redraw(ed) {
     if (!ed) return;
+    // Cancel stale async redraws (await loadImg) so images don't stack.
+    const gen = (ed._redrawGen = (ed._redrawGen || 0) + 1);
     const char = ed.getChar();
-    ed.layerImg.destroyChildren();
-    ed.layerBones.destroyChildren();
-    ed.layerImg.position({ x: 0, y: 0 });
-    ed.layerBones.position({ x: 0, y: 0 });
-    ed.viewShift = { x: 0, y: 0 };
+
     if (!char) {
+      ed.layerImg.destroyChildren();
+      ed.layerBones.destroyChildren();
+      ed.layerImg.position({ x: 0, y: 0 });
+      ed.layerBones.position({ x: 0, y: 0 });
+      ed.viewShift = { x: 0, y: 0 };
       ed.stage.draw();
       return;
     }
 
     const pose = ed.mode === "animate" ? ed.pose : {};
     const world = C().computeWorld(char.bones, pose);
-
-    // Keep rig + sprites centered on the stage (bone setup is in its own space;
-    // the panel is often wider than the 720-ish coords used when the starter was built).
     const bb = worldBBox(world);
     const shiftX = ed.width / 2 - bb.cx;
     const shiftY = ed.height * 0.9 - bb.bottom;
+
+    // Preload images BEFORE clearing layers so concurrent redraws can't stack nodes.
+    let refImg = null;
+    if (char.refImageId && ed.showRef) {
+      refImg = await loadImg(char.refImageId);
+      if (gen !== ed._redrawGen) return;
+    }
+    const attachList = [];
+    if (ed.showAttach) {
+      for (const b of char.bones) {
+        const att = char.attachments?.[b.id];
+        if (!att?.imageId) continue;
+        const w = world[b.id];
+        if (!w) continue;
+        const img = await loadImg(att.imageId);
+        if (gen !== ed._redrawGen) return;
+        if (!img) continue;
+        attachList.push({ b, att, w, img });
+      }
+    }
+    if (gen !== ed._redrawGen) return;
+
+    ed.layerImg.destroyChildren();
+    ed.layerBones.destroyChildren();
     ed.viewShift = { x: shiftX, y: shiftY };
     ed.layerImg.position({ x: shiftX, y: shiftY });
     ed.layerBones.position({ x: shiftX, y: shiftY });
 
     // Ghost reference — alignment guide only (not part of the rig). Not draggable.
-    if (char.refImageId && ed.showRef) {
-      const ref = await loadImg(char.refImageId);
-      if (ref) {
-        const maxH = Math.min(ed.height * 0.85, Math.max(80, bb.maxY - bb.minY) * 1.15 || ed.height * 0.85);
-        const scale = maxH / ref.height;
-        const dw = ref.width * scale;
-        const dh = ref.height * scale;
-        ed.layerImg.add(
-          new Konva.Image({
-            image: ref,
-            x: bb.cx - dw / 2,
-            y: bb.bottom - dh,
-            width: dw,
-            height: dh,
-            opacity: 0.22,
-            listening: false,
-            name: "ghost-ref",
-          })
-        );
-      }
+    if (refImg) {
+      const maxH = Math.min(ed.height * 0.85, Math.max(80, bb.maxY - bb.minY) * 1.15 || ed.height * 0.85);
+      const scale = maxH / refImg.height;
+      const dw = refImg.width * scale;
+      const dh = refImg.height * scale;
+      ed.layerImg.add(
+        new Konva.Image({
+          image: refImg,
+          x: bb.cx - dw / 2,
+          y: bb.bottom - dh,
+          width: dw,
+          height: dh,
+          opacity: 0.22,
+          listening: false,
+          name: "ghost-ref",
+        })
+      );
     }
 
     // Bone attachments — paper-doll pieces parented to bones (draggable in rig mode).
-    if (ed.showAttach) {
-      for (const b of char.bones) {
-        const att = char.attachments[b.id];
-        if (!att?.imageId) continue;
-        const w = world[b.id];
-        if (!w) continue;
-        const img = await loadImg(att.imageId);
-        if (!img) continue;
-        const scale = att.scale ?? 0.35;
-        const ox = att.offsetX ?? 0;
-        const oy = att.offsetY ?? 0;
-        // Art is authored upright (head up). Bones use local +X along the bone;
-        // rest spine points world -PI/2 (up). Map so upright bone => 0° image,
-        // and the sprite still tilts when the bone rotates.
-        const rotRad = (att.rotation ?? 0) + w.worldAngle + Math.PI / 2;
-        const rot = (rotRad * 180) / Math.PI;
-        const node = new Konva.Image({
-          image: img,
-          x: w.x + ox,
-          y: w.y + oy,
-          width: img.width * scale,
-          height: img.height * scale,
-          offsetX: (img.width * scale) / 2,
-          offsetY: (img.height * scale) / 2,
-          rotation: rot,
-          opacity: 0.95,
-          listening: ed.mode === "rig",
-          name: "att-" + b.id,
+    for (const { b, att, w, img } of attachList) {
+      const scale = att.scale ?? 0.35;
+      const ox = att.offsetX ?? 0;
+      const oy = att.offsetY ?? 0;
+      // Art is authored upright (head up). Bones use local +X along the bone;
+      // rest spine points world -PI/2 (up). Map so upright bone => 0° image.
+      const rotRad = (att.rotation ?? 0) + w.worldAngle + Math.PI / 2;
+      const rot = (rotRad * 180) / Math.PI;
+      const node = new Konva.Image({
+        image: img,
+        x: w.x + ox,
+        y: w.y + oy,
+        width: img.width * scale,
+        height: img.height * scale,
+        offsetX: (img.width * scale) / 2,
+        offsetY: (img.height * scale) / 2,
+        rotation: rot,
+        opacity: 0.95,
+        listening: ed.mode === "rig",
+        name: "att-" + b.id,
+      });
+      if (ed.mode === "rig") {
+        node.draggable(true);
+        node.on("dragstart", () => ed.onBeforeEdit("move attachment"));
+        node.on("dragend", () => {
+          const a = char.attachments[b.id];
+          if (!a) return;
+          a.offsetX = node.x() - w.x;
+          a.offsetY = node.y() - w.y;
+          ed.onChange();
         });
-        if (ed.mode === "rig") {
-          node.draggable(true);
-          node.on("dragstart", () => ed.onBeforeEdit("move attachment"));
-          node.on("dragend", () => {
-            const a = char.attachments[b.id];
-            if (!a) return;
-            a.offsetX = node.x() - w.x;
-            a.offsetY = node.y() - w.y;
-            ed.onChange();
-          });
-        }
-        ed.layerImg.add(node);
       }
+      ed.layerImg.add(node);
     }
 
     // bones

@@ -863,6 +863,45 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
       char.refImageId = null;
       save();
       E.redraw(rigEd);
+      E.redraw(animEd);
+    };
+
+    /** One body sprite: drop ghost ref; keep a single torso attachment if any exist. */
+    $("#btn-fix-sprites").onclick = () => {
+      const char = activeChar();
+      if (!char) return;
+      pushHistory("fix stacked sprites");
+      char.refImageId = null;
+      const atts = char.attachments || {};
+      const keys = Object.keys(atts);
+      if (keys.length > 1) {
+        const keep =
+          atts.torso ||
+          atts[keys.find((k) => k.includes("torso"))] ||
+          atts[keys[0]];
+        char.attachments = keep ? { torso: { ...keep, offsetX: 0, offsetY: keep.offsetY ?? 40 } } : {};
+        if (char.attachments.torso && !char.bones.some((b) => b.id === "torso")) {
+          // map onto first chest/torso-like bone id
+          const host = char.bones.find((b) => /torso|chest|hip/.test(b.id)) || char.bones[0];
+          if (host) {
+            char.attachments = {
+              [host.id]: { ...char.attachments.torso, offsetX: 0, offsetY: 40 },
+            };
+          }
+        }
+      } else if (keys.length === 1) {
+        const id = keys[0];
+        char.attachments[id].offsetX = 0;
+      }
+      if ($("#chk-show-ref")) $("#chk-show-ref").checked = false;
+      if (rigEd) rigEd.showRef = false;
+      if (animEd) animEd.showRef = false;
+      save();
+      E.redraw(rigEd);
+      E.redraw(animEd);
+      alert(
+        "Cleaned sprites.\n\n• Ghost ref removed\n• One body attachment kept\n• Ghost ref toggle forced off\n\nYou should see a single Brennen."
+      );
     };
 
     // animate
@@ -1089,9 +1128,22 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
         const res = await fetch(path, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status} — is the server running from char-anim-pipeline/?`);
         const data = await res.json();
+        // Force single-sprite setup (old local projects stacked ghost+attach).
+        if (data.character) {
+          data.character.refImageId = null;
+          const atts = data.character.attachments || {};
+          if (atts.torso) data.character.attachments = { torso: atts.torso };
+        }
         await importProject(data);
-        clearHistory(); // start clean after load; first edit creates undo step
-        alert(`${label} loaded.\n\n1) Select the character\n2) Rig tab — check bones vs fullbody\n3) Animate → Idle → Play\n4) Animate → Attack → Play\n\nUndo: Ctrl+Z · Redo: Ctrl+Y`);
+        if ($("#chk-show-ref")) $("#chk-show-ref").checked = false;
+        if (rigEd) rigEd.showRef = false;
+        if (animEd) animEd.showRef = false;
+        clearHistory();
+        E.redraw(rigEd);
+        E.redraw(animEd);
+        alert(
+          `${label} loaded (single body sprite).\n\nIf you still see doubles, click **Fix stacked sprites** on the Rig toolbar.\n\nUndo: Ctrl+Z · Redo: Ctrl+Y`
+        );
       } catch (err) {
         console.error(err);
         alert(
