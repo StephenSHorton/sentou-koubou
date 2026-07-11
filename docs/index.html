@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Brennen — Family Meme Pack · 尖塔工房</title>
+  <title>尖塔工房 · Card Catalog</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
@@ -19,8 +19,24 @@
       --frame-red: #8b2e24;
       --frame-red-hi: #a83c30;
       --frame-red-lo: #4a1612;
+      --accent: #e85d4c;
+      --accent-soft: #3a1510;
+      --panel: #12100e;
+      --panel-border: #2a2420;
       --font-title: "Cinzel", "Times New Roman", serif;
       --font-body: "EB Garamond", "Times New Roman", serif;
+    }
+
+    /* Whitney theme */
+    body.theme-whitney {
+      --accent: #7a9e8a;
+      --accent-soft: #1a3328;
+      --gold: #c9b27a;
+      --panel: #101612;
+      --panel-border: #243028;
+      --frame-red: #3d6b55;
+      --frame-red-hi: #5a9a78;
+      --frame-red-lo: #1a3028;
     }
 
     * { box-sizing: border-box; }
@@ -28,19 +44,70 @@
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
       background:
-        radial-gradient(ellipse 70% 40% at 50% 0%, #3a1510 0%, transparent 55%),
+        radial-gradient(ellipse 70% 40% at 50% 0%, var(--accent-soft) 0%, transparent 55%),
         var(--bg);
       color: var(--ink);
       min-height: 100vh;
+      transition: background .25s ease;
     }
     body.modal-open { overflow: hidden; }
     a { color: var(--gold); }
+
+    /* ——— Character tabs ——— */
+    .char-tabs {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      align-items: center;
+    }
+    .char-tabs .label {
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: .35rem;
+    }
+    .char-tabs button {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      background: #12100e;
+      border: 1px solid #333;
+      color: var(--ink);
+      padding: .45rem .9rem .45rem .45rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .9rem;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    body.theme-whitney .char-tabs button { background: #0e1411; }
+    .char-tabs button img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #444;
+    }
+    .char-tabs button.active {
+      border-color: var(--accent);
+      color: var(--gold);
+      background: color-mix(in srgb, var(--accent-soft) 80%, #000);
+    }
+    .char-tabs button:hover { border-color: var(--gold); color: var(--gold); }
+    .char-tabs button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
 
     /* ——— Page chrome ——— */
     header {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem 1.5rem 1rem;
+      padding: 1.25rem 1.5rem 1rem;
       display: grid;
       grid-template-columns: 180px 1fr;
       gap: 1.5rem;
@@ -54,8 +121,9 @@
       aspect-ratio: 3/4;
       border-radius: 10px;
       overflow: hidden;
-      border: 2px solid #6a2a22;
+      border: 2px solid var(--accent);
       box-shadow: 0 12px 32px rgba(0,0,0,.5);
+      transition: border-color .2s;
     }
     .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
     h1 {
@@ -71,13 +139,14 @@
       max-width: 1200px;
       margin: 0 auto 1.25rem;
       padding: 1rem 1.25rem;
-      background: #12100e;
-      border: 1px solid #2a2420;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
       border-radius: 10px;
       font-size: .88rem;
       color: #c0b8a8;
       line-height: 1.55;
     }
+    body.theme-whitney .note { color: #b8c4b8; }
     .note strong { color: var(--gold); }
     .note code {
       color: #d0c8b0;
@@ -106,6 +175,7 @@
       font: inherit;
       font-size: .82rem;
     }
+    body.theme-whitney .filters button { background: #162019; border-color: #2a3a30; }
     .filters button.active,
     .filters button:hover { border-color: var(--gold); color: var(--gold); }
 
@@ -120,6 +190,7 @@
       padding-bottom: .5rem;
       margin: 0 0 1.25rem;
     }
+    body.theme-whitney section h2 { border-color: #2a3a30; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -133,12 +204,17 @@
       font-size: .78rem;
     }
     .hidden { display: none !important; }
+    .loading {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      color: var(--muted);
+    }
 
     /* =========================================
-       LAYERED STS2-STYLE CARD (no baked text)
+       LAYERED STS2-STYLE CARD
        ========================================= */
     .sts-card {
-      /* scale via --card-w; aspect ~ 1032/1523 */
       --card-w: 240px;
       --card-h: calc(var(--card-w) * 1.476);
       width: var(--card-w);
@@ -170,6 +246,9 @@
     .sts-card--skill .sts-frame {
       background: linear-gradient(165deg, #3d5f7e 0%, #2a4560 40%, #142030 100%);
     }
+    .sts-card--power .sts-frame {
+      background: linear-gradient(165deg, #6a4a8a 0%, #4a3068 40%, #1a1028 100%);
+    }
     .sts-card--relic .sts-frame {
       background: linear-gradient(165deg, #c9a84a 0%, #8a6a20 45%, #2a2008 100%);
     }
@@ -178,6 +257,12 @@
     }
     .sts-card--rare.sts-card--skill .sts-frame {
       background: linear-gradient(165deg, #b8942e 0%, #5a4a20 40%, #1a1808 100%);
+    }
+    .sts-card--rare.sts-card--power .sts-frame {
+      background: linear-gradient(165deg, #b8942e 0%, #5a3a68 40%, #1a1020 100%);
+    }
+    body.theme-whitney .sts-card--skill .sts-frame {
+      background: linear-gradient(165deg, #4a7a6a 0%, #2a5048 40%, #142820 100%);
     }
 
     .sts-frame {
@@ -201,7 +286,6 @@
       flex-direction: column;
     }
 
-    /* Energy orb + live number */
     .sts-cost {
       position: absolute;
       z-index: 5;
@@ -226,7 +310,6 @@
     }
     .sts-cost.is-empty { display: none; }
 
-    /* Title ribbon — empty chrome, text on top */
     .sts-banner-wrap {
       position: relative;
       z-index: 3;
@@ -250,7 +333,6 @@
       text-overflow: ellipsis;
     }
 
-    /* Art layer */
     .sts-art-wrap {
       position: relative;
       margin: 0 calc(var(--card-w) * 0.038);
@@ -283,7 +365,6 @@
       white-space: nowrap;
     }
 
-    /* Live body text */
     .sts-body {
       flex: 1;
       display: flex;
@@ -328,8 +409,20 @@
       font-weight: 700;
       font-family: system-ui, sans-serif;
     }
+    .sts-element {
+      position: absolute;
+      top: calc(var(--card-w) * 0.04);
+      left: calc(var(--card-w) * 0.22);
+      z-index: 4;
+      font-size: calc(var(--card-w) * 0.038);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+      font-weight: 600;
+      font-family: system-ui, sans-serif;
+    }
 
-    /* ——— Modal ——— */
+    /* Modal */
     .modal {
       position: fixed;
       inset: 0;
@@ -408,30 +501,30 @@
     }
   </style>
 </head>
-<body>
+<body class="theme-brennen">
+  <nav class="char-tabs" id="char-tabs" aria-label="Character">
+    <span class="label">Character</span>
+    <!-- filled by JS -->
+  </nav>
+
   <header>
-    <div class="portrait"><img src="assets/brennen/portrait.jpg" alt="Brennen" /></div>
+    <div class="portrait"><img id="char-portrait" src="assets/brennen/portrait.jpg" alt="" /></div>
     <div>
-      <div class="sub">尖塔工房 · Family Meme Pack · Character 1</div>
-      <h1>Brennen</h1>
-      <p>
-        Layered catalog: portrait art + CSS shell + live type
-        (<strong style="color:var(--gold)">Cinzel</strong> titles / cost,
-        <strong style="color:var(--gold)">EB Garamond</strong> body).
-        Click a card to enlarge. In-game the mod only ships portraits — STS2 draws the real frame &amp; text from loc.
-      </p>
+      <div class="sub" id="char-sub">尖塔工房 · Card Catalog</div>
+      <h1 id="char-title">…</h1>
+      <p id="char-blurb"></p>
     </div>
   </header>
 
   <div class="note" style="max-width:1200px;margin:0 auto 1.25rem;padding:0 1.5rem;">
-    <div class="note" style="margin:0;">
+    <div class="note" style="margin:0;" id="char-note">
       <strong>Pipeline</strong><br/>
-      Art only in the image slot · Cost / title / type / description are HTML · Keywords gold, numbers blue<br/>
-      Game portraits: <code>1000×760</code> big · <code>250×190</code> small · Data: <code>docs/cards.json</code>
+      Art in the image slot · Cost / title / type / description are HTML · Keywords gold, numbers blue<br/>
+      Game portraits: <code>1000×760</code> big · <code>250×190</code> small
     </div>
   </div>
 
-  <nav class="filters" id="filters">
+  <nav class="filters" id="filters" aria-label="Rarity">
     <button type="button" data-filter="all" class="active">All</button>
     <button type="button" data-filter="relic">Relic</button>
     <button type="button" data-filter="basic">Basic</button>
@@ -440,7 +533,9 @@
     <button type="button" data-filter="rare">Rare</button>
   </nav>
 
-  <main>
+  <p class="loading" id="loading">Loading cards…</p>
+
+  <main id="main" class="hidden">
     <section data-section="relic"><h2>Starter Relic</h2><div class="grid" id="relic"></div></section>
     <section data-section="basic"><h2>Basic</h2><div class="grid" id="basic"></div></section>
     <section data-section="common"><h2>Common</h2><div class="grid" id="common"></div></section>
@@ -465,13 +560,60 @@
   </div>
 
   <script>
-    const KEYWORD_SET = new Set([
+    const CHARACTERS = {
+      brennen: {
+        id: "brennen",
+        name: "Brennen",
+        sub: "尖塔工房 · Family Meme Pack · Character 1",
+        blurb:
+          "League energy, dual-purpose memes, snowball & chat control. Layered catalog: portrait art + CSS shell + live type. Click a card to enlarge.",
+        noteHtml:
+          "<strong>Brennen</strong> — Energy-only kit · Full vanilla-sized pool (20C / 35U / 25R)<br/>" +
+          "Game portraits: <code>1000×760</code> big · <code>250×190</code> small · Data: <code>cards.json</code>",
+        portrait: "assets/brennen/portrait_anime.jpg",
+        portraitFallback: "assets/brennen/portrait.jpg",
+        tabIcon: "assets/brennen/portrait_anime.jpg",
+        dataUrl: "cards.json",
+        theme: "brennen",
+        keywords: [
+          "Block", "Strength", "Weak", "Vulnerable", "Exhaust", "Energy",
+          "Fatal", "HP", "Innate", "Retain", "Ethereal", "Unplayable",
+          "Vigor", "Frail", "Attunement",
+        ],
+      },
+      whitney: {
+        id: "whitney",
+        name: "Whitney",
+        sub: "尖塔工房 · Atelier Witch · Character 2",
+        blurb:
+          "Four-element seals with dual mana: Energy + Ink. Dual-purpose spells. Witch Hat Atelier vibes. Click a card to enlarge.",
+        noteHtml:
+          "<strong>Whitney</strong> — Dual mana: <em>Energy</em> + custom <em>Ink</em> (not Stars)<br/>" +
+          "Vertical slice kit · Data: <code>whitney-cards.json</code> · Portraits landscape <code>1000×760</code>",
+        portrait: "assets/whitney/portrait.jpg",
+        portraitFallback: "assets/whitney/portrait.jpg",
+        tabIcon: "assets/whitney/portrait.jpg",
+        dataUrl: "whitney-cards.json",
+        theme: "whitney",
+        keywords: [
+          "Block", "Strength", "Weak", "Vulnerable", "Exhaust", "Energy",
+          "Fatal", "HP", "Innate", "Retain", "Ethereal", "Unplayable",
+          "Ink", "Attunement", "Frail",
+        ],
+      },
+    };
+
+    const KEYWORD_BASE = new Set([
       "Block", "Strength", "Weak", "Vulnerable", "Exhaust", "Energy",
       "Fatal", "HP", "Innate", "Retain", "Ethereal", "Unplayable",
     ]);
 
+    let activeCharId = "brennen";
+    let cardsCache = {};
+    let activeFilter = "all";
+
     function formatLine(text, extraKeywords = []) {
-      const kws = new Set([...KEYWORD_SET, ...extraKeywords]);
+      const kws = new Set([...KEYWORD_BASE, ...extraKeywords]);
       return text.split(/(\s+)/).map((tok) => {
         if (/^\s+$/.test(tok)) return tok;
         const bare = tok.replace(/[.,;:!?]+$/g, "");
@@ -489,10 +631,19 @@
     function typeClass(type) {
       if (type === "Relic") return "sts-card--relic";
       if (type === "Skill") return "sts-card--skill";
+      if (type === "Power") return "sts-card--power";
       return "sts-card--attack";
     }
 
-    function buildCard(card, { interactive = true, large = false } = {}) {
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function buildCard(card, charCfg, { interactive = true, large = false } = {}) {
       const el = document.createElement(interactive ? "button" : "div");
       if (interactive) el.type = "button";
       el.className = [
@@ -510,26 +661,31 @@
         : `<div class="sts-cost" aria-hidden="true">${card.cost}</div>`;
 
       const linesHtml = (card.lines || [])
-        .map((l) => `<span class="line">${formatLine(l, card.keywords || [])}</span>`)
+        .map((l) => `<span class="line">${formatLine(l, [...(card.keywords || []), ...(charCfg.keywords || [])])}</span>`)
         .join("");
 
       const flavorBits = [];
       if (card.flavor) flavorBits.push(card.flavor);
       if (card.upgrade) flavorBits.push("↑ " + card.upgrade);
       const flavorHtml = flavorBits.length
-        ? `<div class="sts-flavor">${flavorBits.join(" · ")}</div>`
+        ? `<div class="sts-flavor">${escapeHtml(flavorBits.join(" · "))}</div>`
+        : "";
+
+      const elementHtml = card.element
+        ? `<div class="sts-element">${escapeHtml(card.element)}</div>`
         : "";
 
       el.innerHTML = `
         <div class="sts-frame">
           <div class="sts-inner">
             ${costHtml}
-            <div class="sts-rarity-tag">${card.rarity}</div>
+            <div class="sts-rarity-tag">${escapeHtml(card.rarity)}</div>
+            ${elementHtml}
             <div class="sts-banner-wrap">
               <div class="sts-banner">${escapeHtml(card.name)}</div>
             </div>
             <div class="sts-art-wrap">
-              <div class="sts-art" style="background-image:url('${card.art}')" role="img" aria-label=""></div>
+              <div class="sts-art" style="background-image:url('${escapeHtml(card.art)}')" role="img" aria-label=""></div>
               <div class="sts-type">${escapeHtml(card.type)}</div>
             </div>
             <div class="sts-body">
@@ -543,14 +699,6 @@
       return el;
     }
 
-    function escapeHtml(s) {
-      return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
-    }
-
     /* Modal */
     const modal = document.getElementById("modal");
     const modalHost = document.getElementById("modal-card-host");
@@ -558,11 +706,11 @@
     const modalMeta = document.getElementById("modal-meta");
     let lastFocus = null;
 
-    function openModal(card) {
+    function openModal(card, charCfg) {
       lastFocus = document.activeElement;
-      modalHost.replaceChildren(buildCard(card, { interactive: false, large: true }));
+      modalHost.replaceChildren(buildCard(card, charCfg, { interactive: false, large: true }));
       modalTitle.textContent = card.name;
-      modalMeta.textContent = ` · ${card.rarity}`;
+      modalMeta.textContent = ` · ${card.rarity}${card.element ? " · " + card.element : ""}`;
       modal.hidden = false;
       void modal.offsetWidth;
       modal.classList.add("is-open");
@@ -594,46 +742,121 @@
       }
     });
 
-    /* Filters */
+    /* Rarity filters */
     document.getElementById("filters").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-filter]");
       if (!btn) return;
       document.querySelectorAll("#filters button").forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      const f = btn.dataset.filter;
+      activeFilter = btn.dataset.filter;
       document.querySelectorAll("main section").forEach((sec) => {
-        sec.classList.toggle("hidden", f !== "all" && f !== sec.dataset.section);
+        sec.classList.toggle("hidden", activeFilter !== "all" && activeFilter !== sec.dataset.section);
       });
     });
 
-    /* Load data + mount */
-    async function main() {
-      let cards;
-      try {
-        const res = await fetch("cards.json");
-        if (!res.ok) throw new Error(res.statusText);
-        cards = await res.json();
-      } catch (err) {
-        console.error("Failed to load cards.json — open via a local server if needed.", err);
-        document.querySelector("main").insertAdjacentHTML(
-          "afterbegin",
-          `<p style="color:#e88;padding:1rem">Could not load <code>cards.json</code>. If you opened the file directly, run:
-          <code>python3 -m http.server -d docs 8765</code> then visit
-          <a href="http://localhost:8765">localhost:8765</a>.</p>`
-        );
-        return;
-      }
+    function clearGrids() {
+      ["relic", "basic", "common", "uncommon", "rare"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.replaceChildren();
+      });
+    }
 
+    function mountCards(cards, charCfg) {
+      clearGrids();
       for (const card of cards) {
         const host = document.getElementById(card.rarity);
         if (!host) continue;
-        const el = buildCard(card);
-        el.addEventListener("click", () => openModal(card));
+        const el = buildCard(card, charCfg);
+        el.addEventListener("click", () => openModal(card, charCfg));
         host.appendChild(el);
+      }
+      // re-apply rarity filter
+      document.querySelectorAll("main section").forEach((sec) => {
+        sec.classList.toggle("hidden", activeFilter !== "all" && activeFilter !== sec.dataset.section);
+      });
+    }
+
+    function updateHeader(charCfg) {
+      document.body.className = `theme-${charCfg.theme}`;
+      document.title = `${charCfg.name} · 尖塔工房`;
+      const img = document.getElementById("char-portrait");
+      img.alt = charCfg.name;
+      img.onerror = () => {
+        if (charCfg.portraitFallback && img.src !== new URL(charCfg.portraitFallback, location.href).href) {
+          img.src = charCfg.portraitFallback;
+        }
+      };
+      img.src = charCfg.portrait;
+      document.getElementById("char-sub").textContent = charCfg.sub;
+      document.getElementById("char-title").textContent = charCfg.name;
+      document.getElementById("char-blurb").textContent = charCfg.blurb;
+      document.getElementById("char-note").innerHTML = charCfg.noteHtml;
+    }
+
+    function buildCharTabs() {
+      const nav = document.getElementById("char-tabs");
+      const label = nav.querySelector(".label");
+      nav.replaceChildren(label);
+      for (const cfg of Object.values(CHARACTERS)) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.char = cfg.id;
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", cfg.id === activeCharId ? "true" : "false");
+        if (cfg.id === activeCharId) btn.classList.add("active");
+        btn.innerHTML = `<img src="${escapeHtml(cfg.tabIcon)}" alt="" onerror="this.style.opacity=.3"/><span>${escapeHtml(cfg.name)}</span>`;
+        btn.addEventListener("click", () => selectCharacter(cfg.id));
+        nav.appendChild(btn);
       }
     }
 
-    main();
+    async function loadCards(charCfg) {
+      if (cardsCache[charCfg.id]) return cardsCache[charCfg.id];
+      const res = await fetch(charCfg.dataUrl);
+      if (!res.ok) throw new Error(`${charCfg.dataUrl}: ${res.status}`);
+      const cards = await res.json();
+      cardsCache[charCfg.id] = cards;
+      return cards;
+    }
+
+    async function selectCharacter(id) {
+      const charCfg = CHARACTERS[id];
+      if (!charCfg) return;
+      activeCharId = id;
+      history.replaceState(null, "", `#${id}`);
+      buildCharTabs();
+      updateHeader(charCfg);
+
+      const loading = document.getElementById("loading");
+      const main = document.getElementById("main");
+      loading.classList.remove("hidden");
+      loading.textContent = `Loading ${charCfg.name}…`;
+      main.classList.add("hidden");
+
+      try {
+        const cards = await loadCards(charCfg);
+        mountCards(cards, charCfg);
+        loading.classList.add("hidden");
+        main.classList.remove("hidden");
+      } catch (err) {
+        console.error(err);
+        loading.innerHTML = `Could not load <code>${escapeHtml(charCfg.dataUrl)}</code>. Serve docs over HTTP:
+          <code>python -m http.server -d docs 8765</code>`;
+      }
+    }
+
+    function initialCharId() {
+      const hash = (location.hash || "").replace(/^#/, "").toLowerCase();
+      if (CHARACTERS[hash]) return hash;
+      return "brennen";
+    }
+
+    window.addEventListener("hashchange", () => {
+      const id = initialCharId();
+      if (id !== activeCharId) selectCharacter(id);
+    });
+
+    selectCharacter(initialCharId());
   </script>
 </body>
 </html>
