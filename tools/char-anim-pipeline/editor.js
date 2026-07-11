@@ -136,7 +136,11 @@
         const scale = att.scale ?? 0.35;
         const ox = att.offsetX ?? 0;
         const oy = att.offsetY ?? 0;
-        const rot = ((att.rotation ?? 0) + w.worldAngle) * (180 / Math.PI);
+        // Art is authored upright (head up). Bones use local +X along the bone;
+        // rest spine points world -PI/2 (up). Map so upright bone => 0° image,
+        // and the sprite still tilts when the bone rotates.
+        const rotRad = (att.rotation ?? 0) + w.worldAngle + Math.PI / 2;
+        const rot = (rotRad * 180) / Math.PI;
         const node = new Konva.Image({
           image: img,
           x: w.x + ox,
