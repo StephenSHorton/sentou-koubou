@@ -144,6 +144,10 @@ Enable BaseLib + character mods in-game. BaseLib is required.
 4. **Still-lifes are allowed and good** when they share props/palette — they reduce cookie-cutter faces *and* sell the kit fantasy (wards, seals, mute disc, inkpot).
 5. **Green screen is for cutouts only** (full-body sprite, relics). Never leave it on card portraits.
 6. **Header portraits are a product surface.** They need a dedicated half-body hero shot (Whitney D3 quality), not a crop of the combat PNG.
+7. **In-game character select ≠ catalog header.** BaseLib loads:
+   - `images/charui/char_select_<id>.png` (+ `_locked`) — picker tiles (typically ~864×1152)
+   - `images/charui/character_icon_<id>.png` — small icon (~256×256)
+   - Catalog `docs/assets/<char>/portrait_sts2.jpg` is HTML-only until you also overwrite those charui files and rebuild the `.pck`.
 7. **User taste beats model defaults.** Whitney “younger” + “more like Brennen’s drawn C” + “blue eyes” + “ready not attack” + “face readable 3/4” were all necessary corrections; bake them into the bible.
 8. **Re-roll is normal.** Budget time for a “dupe audit” pass after the first full gen (Scorch/Refill/Updraft, Moss Coat/Zephyr Draft, Spark/Ripple/Novice Seal/Ember Armor, photoreal Drench Seal).
 9. **Catalog HTML is the QA tool.** Tabbed `docs/index.html` + hard refresh is faster than launching the game for art review; then build `.pck` when art is locked.
