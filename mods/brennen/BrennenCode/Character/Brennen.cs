@@ -64,7 +64,10 @@ public class Brennen : PlaceholderCharacterModel
     public override string CustomCharacterSelectLockedIconPath => "char_select_brennen_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_brennen.png".CharacterUiPath();
 
-    // Character select splash: vanilla loads
-    // res://scenes/screens/char_select/char_select_bg_{Id.Entry.ToLower()}.tscn
-    // PckPacker can't ship .tscn, so tools/inject_char_select_bg.py injects it into the .pck after build.
+    /// <summary>
+    /// Full-screen character select backdrop (otherwise BaseLib reuses Ironclad).
+    /// Scene is injected into the .pck after pack — PckPacker cannot ship .tscn.
+    /// </summary>
+    public override string CustomCharacterSelectBg =>
+        "res://scenes/screens/char_select/char_select_bg_brennen.tscn";
 }
