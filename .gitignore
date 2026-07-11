@@ -22,3 +22,9 @@
 .venv/
 
 tools/gen_out/
+
+# Local STS2 balance dumps
+reference/
+tools/gen_out/
+tools/_decompile/
+

@@ -262,18 +262,6 @@
     "keywords": []
   },
   {
-    "id": "roam",
-    "name": "Roam",
-    "rarity": "common",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/roam.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage to a random enemy."
-    ],
-    "keywords": []
-  },
-  {
     "id": "spamping",
     "name": "Spam Ping",
     "rarity": "common",
@@ -351,18 +339,6 @@
     "keywords": []
   },
   {
-    "id": "ping",
-    "name": "Ping",
-    "rarity": "common",
-    "type": "Attack",
-    "cost": 0,
-    "art": "assets/brennen/ping.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage."
-    ],
-    "keywords": []
-  },
-  {
     "id": "tax",
     "name": "Tax",
     "rarity": "common",
@@ -374,19 +350,6 @@
     ],
     "keywords": [],
     "flavor": "Lane tax."
-  },
-  {
-    "id": "diff",
-    "name": "Diff",
-    "rarity": "common",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/diff.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage."
-    ],
-    "keywords": [],
-    "flavor": "Skill issue."
   },
   {
     "id": "catch",
@@ -415,6 +378,49 @@
     "keywords": []
   },
   {
+    "id": "emote",
+    "name": "Emote",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/brennen/emote.jpg",
+    "lines": [
+      "Apply {Weak:diff()} [gold]Weak[/gold] and {Frail:diff()} [gold]Frail[/gold]."
+    ],
+    "keywords": [],
+    "flavor": "Mastery emote in fountain."
+  },
+  {
+    "id": "missing",
+    "name": "Missing",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/missing.jpg",
+    "lines": [
+      "Deal {Damage:diff()} damage.",
+      "If the enemy has [gold]Weak[/gold], deal {WeakDamage:diff()} instead."
+    ],
+    "keywords": [],
+    "flavor": "ss mid."
+  },
+  {
+    "id": "controlward",
+    "name": "Control Ward",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/controlward.jpg",
+    "lines": [
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "[gold]Retain[/gold]."
+    ],
+    "keywords": [
+      "Retain"
+    ],
+    "flavor": "Pink ward."
+  },
+  {
     "id": "snowball",
     "name": "Snowball",
     "rarity": "uncommon",
@@ -422,10 +428,49 @@
     "cost": 1,
     "art": "assets/brennen/snowball.jpg",
     "lines": [
-      "Gain {Strength:diff()} [gold]Strength[/gold]."
+      "Whenever you kill an enemy, gain {Snowball:diff()} [gold]Strength[/gold]."
     ],
     "keywords": [],
     "flavor": "Don't throw."
+  },
+  {
+    "id": "macro",
+    "name": "Macro",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/macro.jpg",
+    "lines": [
+      "At the start of your turn, draw {Macro:diff()} card."
+    ],
+    "keywords": [],
+    "flavor": "Play the map."
+  },
+  {
+    "id": "mentalboom",
+    "name": "Mental Boom",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/mentalboom.jpg",
+    "lines": [
+      "Whenever you lose HP on your turn, draw {MentalBoom:diff()} card."
+    ],
+    "keywords": [],
+    "flavor": "Chat is cooking me."
+  },
+  {
+    "id": "inter",
+    "name": "Inter",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/inter.jpg",
+    "lines": [
+      "Whenever you lose HP on your turn, gain {Inter:diff()} [gold]Vigor[/gold]."
+    ],
+    "keywords": [],
+    "flavor": "For the team."
   },
   {
     "id": "baron",
@@ -450,18 +495,6 @@
     "lines": [
       "Gain {Block:diff()} [gold]Block[/gold].",
       "Draw {Cards:diff()} cards."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "objective",
-    "name": "Objective",
-    "rarity": "uncommon",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/objective.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."
     ],
     "keywords": []
   },
@@ -493,18 +526,6 @@
     "flavor": "Channeling..."
   },
   {
-    "id": "ult",
-    "name": "Ult",
-    "rarity": "uncommon",
-    "type": "Attack",
-    "cost": 2,
-    "art": "assets/brennen/ult.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage."
-    ],
-    "keywords": []
-  },
-  {
     "id": "flashengage",
     "name": "Flash Engage",
     "rarity": "uncommon",
@@ -514,18 +535,6 @@
     "lines": [
       "Deal {Damage:diff()} damage.",
       "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold]."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "zone",
-    "name": "Zone",
-    "rarity": "uncommon",
-    "type": "Skill",
-    "cost": 1,
-    "art": "assets/brennen/zone.jpg",
-    "lines": [
-      "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."
     ],
     "keywords": []
   },
@@ -540,20 +549,6 @@
       "Apply {Frail:diff()} [gold]Frail[/gold]."
     ],
     "keywords": []
-  },
-  {
-    "id": "flame",
-    "name": "Flame",
-    "rarity": "uncommon",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/flame.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage.",
-      "Take [blue]3[/blue] damage."
-    ],
-    "keywords": [],
-    "flavor": "All chat."
   },
   {
     "id": "outplay",
@@ -577,30 +572,6 @@
     "art": "assets/brennen/kda.jpg",
     "lines": [
       "Deal {Damage:diff()} damage {Repeat:diff()} times."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "roambot",
-    "name": "Roam Bot",
-    "rarity": "uncommon",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/roambot.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "visionscore",
-    "name": "Vision Score",
-    "rarity": "uncommon",
-    "type": "Skill",
-    "cost": 1,
-    "art": "assets/brennen/visionscore.jpg",
-    "lines": [
-      "Gain {Block:diff()} [gold]Block[/gold]."
     ],
     "keywords": []
   },
@@ -701,9 +672,10 @@
     "cost": 1,
     "art": "assets/brennen/powerspike.jpg",
     "lines": [
-      "Gain {Strength:diff()} [gold]Strength[/gold] this turn."
+      "Gain {Strength:diff()} [gold]Vigor[/gold]."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Item spike incoming."
   },
   {
     "id": "itemspike",
@@ -713,37 +685,12 @@
     "cost": 0,
     "art": "assets/brennen/itemspike.jpg",
     "lines": [
-      "Gain {Energy:energyIcons()}."
+      "Gain {Energy:energyIcons()}.",
+      "[gold]Exhaust[/gold]."
     ],
     "keywords": [
       "Exhaust"
     ]
-  },
-  {
-    "id": "dive",
-    "name": "Dive",
-    "rarity": "uncommon",
-    "type": "Attack",
-    "cost": 1,
-    "art": "assets/brennen/dive.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage.",
-      "Take [blue]2[/blue] damage."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "peelforadc",
-    "name": "Peel for ADC",
-    "rarity": "uncommon",
-    "type": "Skill",
-    "cost": 1,
-    "art": "assets/brennen/peelforadc.jpg",
-    "lines": [
-      "Gain {Block:diff()} [gold]Block[/gold].",
-      "Draw {Cards:diff()} card."
-    ],
-    "keywords": []
   },
   {
     "id": "invade",
@@ -768,31 +715,6 @@
     "lines": [
       "Gain {Block:diff()} [gold]Block[/gold].",
       "Draw {Cards:diff()} card."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "macro",
-    "name": "Macro",
-    "rarity": "uncommon",
-    "type": "Power",
-    "cost": 1,
-    "art": "assets/brennen/macro.jpg",
-    "lines": [
-      "Gain {Strength:diff()} [gold]Strength[/gold]."
-    ],
-    "keywords": [],
-    "flavor": "Play the map."
-  },
-  {
-    "id": "micro",
-    "name": "Micro",
-    "rarity": "uncommon",
-    "type": "Skill",
-    "cost": 1,
-    "art": "assets/brennen/micro.jpg",
-    "lines": [
-      "Gain {Vigor:diff()} [gold]Vigor[/gold]."
     ],
     "keywords": []
   },
@@ -823,6 +745,103 @@
     "flavor": "Dance in fountain."
   },
   {
+    "id": "peelbot",
+    "name": "Peel Bot",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/peelbot.jpg",
+    "lines": [
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."
+    ],
+    "keywords": [],
+    "flavor": "Peel for ADC."
+  },
+  {
+    "id": "allchat",
+    "name": "All Chat",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/allchat.jpg",
+    "lines": [
+      "Apply {Frail:diff()} [gold]Frail[/gold] to ALL enemies."
+    ],
+    "keywords": [],
+    "flavor": "Open mid."
+  },
+  {
+    "id": "roamtimer",
+    "name": "Roam Timer",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/roamtimer.jpg",
+    "lines": [
+      "Deal {Damage:diff()} damage to a random enemy.",
+      "Next turn, gain {Energy:energyIcons()}."
+    ],
+    "keywords": [],
+    "flavor": "Bot side missing."
+  },
+  {
+    "id": "deepward",
+    "name": "Deep Ward",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/deepward.jpg",
+    "lines": [
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "[gold]Retain[/gold]."
+    ],
+    "keywords": [
+      "Retain"
+    ]
+  },
+  {
+    "id": "doublebuff",
+    "name": "Double Buff",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/doublebuff.jpg",
+    "lines": [
+      "Gain {Vigor:diff()} [gold]Vigor[/gold].",
+      "Gain {Strength:diff()} [gold]Strength[/gold]."
+    ],
+    "keywords": [],
+    "flavor": "Red + blue."
+  },
+  {
+    "id": "freeobj",
+    "name": "Free Obj",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/freeobj.jpg",
+    "lines": [
+      "Deal {Damage:diff()} damage to ALL enemies.",
+      "If Fatal, gain {Energy:energyIcons()}."
+    ],
+    "keywords": [],
+    "flavor": "They gave it for free."
+  },
+  {
+    "id": "campsetup",
+    "name": "Camp Setup",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/campsetup.jpg",
+    "lines": [
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "Next turn, gain {Energy:energyIcons()}."
+    ],
+    "keywords": []
+  },
+  {
     "id": "ace",
     "name": "Ace",
     "rarity": "rare",
@@ -842,7 +861,7 @@
     "cost": 1,
     "art": "assets/brennen/pentasecure.jpg",
     "lines": [
-      "Gain {Strength:diff()} [gold]Strength[/gold]."
+      "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Penta:diff()} [gold]Strength[/gold]."
     ],
     "keywords": []
   },
@@ -949,25 +968,13 @@
     "name": "Hard Stuck",
     "rarity": "rare",
     "type": "Power",
-    "cost": 1,
+    "cost": 2,
     "art": "assets/brennen/hardstuck.jpg",
     "lines": [
-      "Gain {Strength:diff()} [gold]Strength[/gold]."
+      "At the start of your turn, gain {HardStuck:diff()} [gold]Strength[/gold]."
     ],
     "keywords": [],
     "flavor": "Gold forever."
-  },
-  {
-    "id": "challengerdiff",
-    "name": "Challenger Diff",
-    "rarity": "rare",
-    "type": "Attack",
-    "cost": 2,
-    "art": "assets/brennen/challengerdiff.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage."
-    ],
-    "keywords": []
   },
   {
     "id": "fountaindive",
@@ -989,18 +996,6 @@
     "type": "Attack",
     "cost": 2,
     "art": "assets/brennen/fullclear.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."
-    ],
-    "keywords": []
-  },
-  {
-    "id": "quadra",
-    "name": "Quadra",
-    "rarity": "rare",
-    "type": "Attack",
-    "cost": 2,
-    "art": "assets/brennen/quadra.jpg",
     "lines": [
       "Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."
     ],
@@ -1037,6 +1032,21 @@
     "flavor": "For the highlight."
   },
   {
+    "id": "topdiff",
+    "name": "TOP Diff",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/brennen/topdiff.jpg",
+    "lines": [
+      "Deal {Damage:diff()} damage.",
+      "Gain {Block:diff()} [gold]Block[/gold].",
+      "If there is only [blue]1[/blue] enemy, deal {SoloDamage:diff()} instead."
+    ],
+    "keywords": [],
+    "flavor": "Island king."
+  },
+  {
     "id": "jgdiff",
     "name": "JG Diff",
     "rarity": "rare",
@@ -1044,9 +1054,11 @@
     "cost": 1,
     "art": "assets/brennen/jgdiff.jpg",
     "lines": [
-      "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."
+      "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.",
+      "Draw {Cards:diff()} card."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Pathing diff."
   },
   {
     "id": "adcdiff",
@@ -1058,7 +1070,8 @@
     "lines": [
       "Deal {Damage:diff()} damage {Repeat:diff()} times."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Fully stacked."
   },
   {
     "id": "supdiff",
@@ -1068,9 +1081,11 @@
     "cost": 1,
     "art": "assets/brennen/supdiff.jpg",
     "lines": [
+      "Gain {Block:diff()} [gold]Block[/gold].",
       "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."
     ],
-    "keywords": []
+    "keywords": [],
+    "flavor": "Engages for free."
   },
   {
     "id": "middiff",
@@ -1081,22 +1096,13 @@
     "art": "assets/brennen/middiff.jpg",
     "lines": [
       "Draw {Cards:diff()} cards.",
-      "Gain {Energy:energyIcons()}."
+      "Gain {Energy:energyIcons()}.",
+      "[gold]Exhaust[/gold]."
     ],
-    "keywords": []
-  },
-  {
-    "id": "topdiff",
-    "name": "TOP Diff",
-    "rarity": "rare",
-    "type": "Attack",
-    "cost": 2,
-    "art": "assets/brennen/topdiff.jpg",
-    "lines": [
-      "Deal {Damage:diff()} damage.",
-      "Gain {Block:diff()} [gold]Block[/gold]."
+    "keywords": [
+      "Exhaust"
     ],
-    "keywords": []
+    "flavor": "Prio."
   },
   {
     "id": "dodgethedodge",
@@ -1110,5 +1116,31 @@
       "Draw {Cards:diff()} cards."
     ],
     "keywords": []
+  },
+  {
+    "id": "chatmod",
+    "name": "Chat Mod",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/chatmod.jpg",
+    "lines": [
+      "At the start of your turn, apply {ChatMod:diff()} [gold]Weak[/gold] to ALL enemies."
+    ],
+    "keywords": [],
+    "flavor": "Timeout applied."
+  },
+  {
+    "id": "maincharactersyndrome",
+    "name": "Main Character Syndrome",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/maincharactersyndrome.jpg",
+    "lines": [
+      "Whenever you play an Attack that costs [blue]2[/blue] or more, gain {MCS:diff()} [gold]Vigor[/gold]."
+    ],
+    "keywords": [],
+    "flavor": "It's about me."
   }
 ]

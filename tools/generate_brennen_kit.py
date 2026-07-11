@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 """Generate Brennen's full vanilla-sized card pool from a kit definition.
 
-Target (STS2 vanilla):
+Target (STS2 vanilla-ish):
   Basics: Strike, Defend, Feed (starter-only, not rewards)
   Starting deck: 5 Strike / 4 Defend / 1 Feed
   Rewards: 20 Common / 35 Uncommon / 25 Rare
+
+Kit pass focus: cut template clones, real Powers (hooks), Role Diff jobs,
+still intentionally OP League-meme energy.
 """
 
 from __future__ import annotations
@@ -21,9 +24,9 @@ PORTRAITS = MOD / "Brennen" / "images" / "card_portraits"
 PORTRAITS_BIG = PORTRAITS / "big"
 DOCS_CARDS = ROOT / "docs" / "cards.json"
 README = MOD / "README.md"
+SCENES = ROOT / "tools" / "brennen_card_scenes.json"
 
-# Existing hand-authored files we keep (regenerator overwrites only NEW or regenerate-all).
-# Feed moves to Basic.
+# Hand-authored keepers (never overwritten by generator).
 HAND_AUTHORED = {
     "StrikeBrennen",
     "DefendBrennen",
@@ -41,34 +44,21 @@ HAND_AUTHORED = {
 }
 
 
-def id_of(name: str) -> str:
-    # PascalCase -> snake for portrait; BaseLib lowercases Id.Entry without prefix
-    out = []
-    for i, c in enumerate(name):
-        if c.isupper() and i:
-            out.append("_")
-        out.append(c)
-    return "".join(out)
-
-
 def portrait_stem(name: str) -> str:
     return name.lower()
 
 
 # ---------------------------------------------------------------------------
 # Kit definition
-# rarity, cost, type, target, template, params, title, lines, upgrade_note, keywords, flavor
 # ---------------------------------------------------------------------------
-
-# TargetType: AnyEnemy | AllEnemies | RandomEnemy | None | Self
+# TargetType: AnyEnemy | AllEnemies | RandomEnemy | None
 # type: Attack | Skill | Power
+# tmpl: see gen_card()
 
 KIT: list[dict] = [
-    # ===== BASIC (starter, not rewards) =====
-    # Strike / Defend / Feed stay hand-authored
-
-    # ===== COMMON (20) =====
-    # keep: Gank, Flash, Tilt, Ward
+    # ===== COMMON (16 gen + 4 hand = 20) =====
+    # hand: Gank, Flash, Tilt, Ward
+    # cut: Roam, Ping, Diff (pure clones)
     dict(name="Auto", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack", dmg=8, up_dmg=3,
          title="Auto", lines=["Deal {Damage:diff()} damage."],
@@ -83,9 +73,6 @@ KIT: list[dict] = [
     dict(name="Cs", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_block", dmg=6, block=3, up_dmg=2, up_block=2,
          title="CS", lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold]."]),
-    dict(name="Roam", rarity="Common", cost=1, card_type="Attack", target="RandomEnemy",
-         tmpl="attack", dmg=9, up_dmg=3,
-         title="Roam", lines=["Deal {Damage:diff()} damage to a random enemy."]),
     dict(name="SpamPing", rarity="Common", cost=1, card_type="Attack", target="RandomEnemy",
          tmpl="attack_hits", dmg=2, hits=4, up_hits=1,
          title="Spam Ping", lines=["Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."],
@@ -107,39 +94,60 @@ KIT: list[dict] = [
     dict(name="Facecheck", rarity="Common", cost=1, card_type="Attack", target="AllEnemies",
          tmpl="attack", dmg=5, up_dmg=2,
          title="Facecheck", lines=["Deal {Damage:diff()} damage to ALL enemies."]),
-    dict(name="Ping", rarity="Common", cost=0, card_type="Attack", target="AnyEnemy",
-         tmpl="attack", dmg=5, up_dmg=2,
-         title="Ping", lines=["Deal {Damage:diff()} damage."]),
     dict(name="Tax", rarity="Common", cost=1, card_type="Skill", target="None",
          tmpl="energy_next", energy=1, up_energy=1,
          title="Tax", lines=["Next turn, gain {Energy:energyIcons()}."],
          flavor="Lane tax."),
-    dict(name="Diff", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
-         tmpl="attack", dmg=11, up_dmg=3,
-         title="Diff", lines=["Deal {Damage:diff()} damage."],
-         flavor="Skill issue."),
     dict(name="Catch", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_vuln", dmg=7, vuln=1, up_dmg=3,
          title="Catch", lines=["Deal {Damage:diff()} damage.", "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold]."]),
     dict(name="Smite", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_exhaust", dmg=14, up_dmg=4,
          title="Smite", lines=["Deal {Damage:diff()} damage.", "[gold]Exhaust[/gold]."]),
+    # NEW commons
+    dict(name="Emote", rarity="Common", cost=0, card_type="Skill", target="AnyEnemy",
+         tmpl="apply_weak_frail", weak=1, frail=1, up_weak=1,
+         title="Emote", lines=["Apply {Weak:diff()} [gold]Weak[/gold] and {Frail:diff()} [gold]Frail[/gold]."],
+         flavor="Mastery emote in fountain."),
+    dict(name="Missing", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_if_weak", dmg=6, weak_dmg=11, up_dmg=2,
+         title="Missing",
+         lines=["Deal {Damage:diff()} damage.", "If the enemy has [gold]Weak[/gold], deal {WeakDamage:diff()} instead."],
+         flavor="ss mid."),
+    dict(name="ControlWard", rarity="Common", cost=1, card_type="Skill", target="None",
+         tmpl="block", block=6, up_block=3, keywords=["Retain"],
+         title="Control Ward", lines=["Gain {Block:diff()} [gold]Block[/gold].", "[gold]Retain[/gold]."],
+         flavor="Pink ward."),
 
-    # ===== UNCOMMON (35) =====
-    # keep: FirstBlood, MainCharacter, MuteAll  (Feed moved to Basic)
+    # ===== UNCOMMON (32 gen + 3 hand = 35) =====
+    # hand: FirstBlood, MainCharacter, MuteAll
+    # cut: Flame, Dive, Objective, RoamBot, Ult, VisionScore, Micro, PeelForAdc, Zone
     dict(name="Snowball", rarity="Uncommon", cost=1, card_type="Power", target="None",
-         tmpl="power_strength", strength=2, up_strength=1,
-         title="Snowball", lines=["Gain {Strength:diff()} [gold]Strength[/gold]."],
+         tmpl="brennen_power", power="SnowballPower", amount=1, up_amount=1, amount_key="Snowball",
+         title="Snowball",
+         lines=["Whenever you kill an enemy, gain {Snowball:diff()} [gold]Strength[/gold]."],
          flavor="Don't throw."),
+    dict(name="Macro", rarity="Uncommon", cost=1, card_type="Power", target="None",
+         tmpl="brennen_power", power="MacroPower", amount=1, up_amount=1, amount_key="Macro",
+         title="Macro",
+         lines=["At the start of your turn, draw {Macro:diff()} card."],
+         flavor="Play the map."),
+    dict(name="MentalBoom", rarity="Uncommon", cost=1, card_type="Power", target="None",
+         tmpl="brennen_power", power="MentalBoomPower", amount=1, up_amount=1, amount_key="MentalBoom",
+         title="Mental Boom",
+         lines=["Whenever you lose HP on your turn, draw {MentalBoom:diff()} card."],
+         flavor="Chat is cooking me."),
+    dict(name="Inter", rarity="Uncommon", cost=1, card_type="Power", target="None",
+         tmpl="brennen_power", power="InterPower", amount=3, up_amount=2, amount_key="Inter",
+         title="Inter",
+         lines=["Whenever you lose HP on your turn, gain {Inter:diff()} [gold]Vigor[/gold]."],
+         flavor="For the team."),
     dict(name="Baron", rarity="Uncommon", cost=2, card_type="Attack", target="AnyEnemy",
          tmpl="attack_block", dmg=12, block=8, up_dmg=3, up_block=3,
          title="Baron", lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold]."]),
     dict(name="Drake", rarity="Uncommon", cost=1, card_type="Skill", target="None",
          tmpl="block_draw", block=8, cards=2, up_block=3,
          title="Drake", lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} cards."]),
-    dict(name="Objective", rarity="Uncommon", cost=1, card_type="Attack", target="AllEnemies",
-         tmpl="attack_hits", dmg=4, hits=2, up_dmg=2,
-         title="Objective", lines=["Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."]),
     dict(name="SplitPush", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_draw", dmg=9, cards=1, up_dmg=3,
          title="Split Push", lines=["Deal {Damage:diff()} damage.", "Draw {Cards:diff()} card."]),
@@ -147,34 +155,18 @@ KIT: list[dict] = [
          tmpl="block_exhaust", block=12, up_block=4,
          title="TP", lines=["Gain {Block:diff()} [gold]Block[/gold].", "[gold]Exhaust[/gold]."],
          flavor="Channeling..."),
-    dict(name="Ult", rarity="Uncommon", cost=2, card_type="Attack", target="AnyEnemy",
-         tmpl="attack", dmg=20, up_dmg=6,
-         title="Ult", lines=["Deal {Damage:diff()} damage."]),
     dict(name="FlashEngage", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_vuln", dmg=10, vuln=2, up_dmg=3,
          title="Flash Engage", lines=["Deal {Damage:diff()} damage.", "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold]."]),
-    dict(name="Zone", rarity="Uncommon", cost=1, card_type="Skill", target="AllEnemies",
-         tmpl="apply_weak_all", weak=1, up_weak=1,
-         title="Zone", lines=["Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."]),
     dict(name="ChatRestrict", rarity="Uncommon", cost=1, card_type="Skill", target="AnyEnemy",
          tmpl="apply_frail", frail=2, up_frail=1,
          title="Chat Restrict", lines=["Apply {Frail:diff()} [gold]Frail[/gold]."]),
-    dict(name="Flame", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
-         tmpl="attack_self", dmg=16, self_dmg=3, up_dmg=4,
-         title="Flame", lines=["Deal {Damage:diff()} damage.", "Take [blue]3[/blue] damage."],
-         flavor="All chat."),
     dict(name="Outplay", rarity="Uncommon", cost=1, card_type="Skill", target="None",
          tmpl="draw_energy", cards=2, energy=1, up_cards=1,
          title="Outplay", lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}."]),
     dict(name="Kda", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_hits", dmg=5, hits=3, up_dmg=2,
          title="KDA", lines=["Deal {Damage:diff()} damage {Repeat:diff()} times."]),
-    dict(name="RoamBot", rarity="Uncommon", cost=1, card_type="Attack", target="RandomEnemy",
-         tmpl="attack_hits", dmg=3, hits=4, up_hits=1,
-         title="Roam Bot", lines=["Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."]),
-    dict(name="VisionScore", rarity="Uncommon", cost=1, card_type="Skill", target="None",
-         tmpl="block", block=14, up_block=4,
-         title="Vision Score", lines=["Gain {Block:diff()} [gold]Block[/gold]."]),
     dict(name="Shutdown", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_if_low", dmg=8, low_dmg=16, up_dmg=3,
          title="Shutdown",
@@ -201,30 +193,17 @@ KIT: list[dict] = [
          title="Rotate", lines=["Draw {Cards:diff()} cards."]),
     dict(name="PowerSpike", rarity="Uncommon", cost=1, card_type="Skill", target="None",
          tmpl="strength_temp", strength=3, up_strength=1,
-         title="Power Spike", lines=["Gain {Strength:diff()} [gold]Strength[/gold] this turn."]),
+         title="Power Spike", lines=["Gain {Strength:diff()} [gold]Vigor[/gold]."],
+         flavor="Item spike incoming."),
     dict(name="ItemSpike", rarity="Uncommon", cost=0, card_type="Skill", target="None",
-         tmpl="energy", energy=2, up_energy=1,
-         title="Item Spike", lines=["Gain {Energy:energyIcons()}."],
-         keywords=["Exhaust"]),
-    dict(name="Dive", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
-         tmpl="attack_self", dmg=15, self_dmg=2, up_dmg=4,
-         title="Dive", lines=["Deal {Damage:diff()} damage.", "Take [blue]2[/blue] damage."]),
-    dict(name="PeelForAdc", rarity="Uncommon", cost=1, card_type="Skill", target="None",
-         tmpl="block_draw", block=10, cards=1, up_block=3,
-         title="Peel for ADC", lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} card."]),
+         tmpl="energy", energy=2, up_energy=1, keywords=["Exhaust"],
+         title="Item Spike", lines=["Gain {Energy:energyIcons()}.", "[gold]Exhaust[/gold]."]),
     dict(name="Invade", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
          tmpl="attack_weak", dmg=9, weak=2, up_dmg=3,
          title="Invade", lines=["Deal {Damage:diff()} damage.", "Apply {Weak:diff()} [gold]Weak[/gold]."]),
     dict(name="WardHop", rarity="Uncommon", cost=0, card_type="Skill", target="None",
          tmpl="block_draw", block=4, cards=1, up_block=2,
          title="Ward Hop", lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} card."]),
-    dict(name="Macro", rarity="Uncommon", cost=1, card_type="Power", target="None",
-         tmpl="power_strength", strength=1, up_strength=1,
-         title="Macro", lines=["Gain {Strength:diff()} [gold]Strength[/gold]."],
-         flavor="Play the map."),
-    dict(name="Micro", rarity="Uncommon", cost=1, card_type="Skill", target="None",
-         tmpl="vigor", vigor=6, up_vigor=3,
-         title="Micro", lines=["Gain {Vigor:diff()} [gold]Vigor[/gold]."]),
     dict(name="AllIn", rarity="Uncommon", cost=2, card_type="Attack", target="AnyEnemy",
          tmpl="attack_hits", dmg=7, hits=3, up_dmg=2,
          title="All-In", lines=["Deal {Damage:diff()} damage {Repeat:diff()} times."]),
@@ -233,15 +212,49 @@ KIT: list[dict] = [
          title="Disrespect",
          lines=["Deal {Damage:diff()} damage.", "If you have more than [blue]50%[/blue] HP, deal {HighHpDamage:diff()} instead."],
          flavor="Dance in fountain."),
+    # NEW uncommons
+    dict(name="PeelBot", rarity="Uncommon", cost=1, card_type="Skill", target="None",
+         tmpl="block_weak_all", block=8, weak=1, up_block=3,
+         title="Peel Bot",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."],
+         flavor="Peel for ADC."),
+    dict(name="AllChat", rarity="Uncommon", cost=1, card_type="Skill", target="AllEnemies",
+         tmpl="apply_frail_all", frail=2, up_frail=1,
+         title="All Chat", lines=["Apply {Frail:diff()} [gold]Frail[/gold] to ALL enemies."],
+         flavor="Open mid."),
+    dict(name="RoamTimer", rarity="Uncommon", cost=1, card_type="Attack", target="RandomEnemy",
+         tmpl="attack_energy_next", dmg=8, energy=1, up_dmg=3,
+         title="Roam Timer",
+         lines=["Deal {Damage:diff()} damage to a random enemy.", "Next turn, gain {Energy:energyIcons()}."],
+         flavor="Bot side missing."),
+    dict(name="DeepWard", rarity="Uncommon", cost=1, card_type="Skill", target="None",
+         tmpl="block", block=11, up_block=4, keywords=["Retain"],
+         title="Deep Ward", lines=["Gain {Block:diff()} [gold]Block[/gold].", "[gold]Retain[/gold]."]),
+    dict(name="DoubleBuff", rarity="Uncommon", cost=1, card_type="Skill", target="None",
+         tmpl="vigor_strength", vigor=4, strength=1, up_vigor=2,
+         title="Double Buff",
+         lines=["Gain {Vigor:diff()} [gold]Vigor[/gold].", "Gain {Strength:diff()} [gold]Strength[/gold]."],
+         flavor="Red + blue."),
+    dict(name="FreeObj", rarity="Uncommon", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_fatal_energy", dmg=7, energy=1, up_dmg=3,
+         title="Free Obj",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "If Fatal, gain {Energy:energyIcons()}."],
+         flavor="They gave it for free."),
+    dict(name="CampSetup", rarity="Uncommon", cost=1, card_type="Skill", target="None",
+         tmpl="block_energy_next", block=7, energy=1, up_block=3,
+         title="Camp Setup",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Next turn, gain {Energy:energyIcons()}."]),
 
-    # ===== RARE (25) =====
-    # keep: Pentakill, Afk, Remake
+    # ===== RARE (22 gen + 3 hand = 25) =====
+    # hand: Pentakill, Afk, Remake
+    # cut: Quadra (overlap Full Clear / Pentakill)
     dict(name="Ace", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
          tmpl="attack", dmg=14, up_dmg=4,
          title="Ace", lines=["Deal {Damage:diff()} damage to ALL enemies."]),
     dict(name="PentaSecure", rarity="Rare", cost=1, card_type="Power", target="None",
-         tmpl="power_strength", strength=3, up_strength=1,
-         title="Penta Secure", lines=["Gain {Strength:diff()} [gold]Strength[/gold]."]),
+         tmpl="brennen_power", power="PentaSecurePower", amount=2, up_amount=1, amount_key="Penta",
+         title="Penta Secure",
+         lines=["Every time you play [blue]5[/blue] Attacks in a single turn, gain {Penta:diff()} [gold]Strength[/gold]."]),
     dict(name="OneVNine", rarity="Rare", cost=2, card_type="Attack", target="AnyEnemy",
          tmpl="attack_if_low_self", dmg=16, low_dmg=28, up_dmg=4,
          title="1v9",
@@ -251,9 +264,9 @@ KIT: list[dict] = [
          tmpl="attack_exhaust", dmg=28, up_dmg=8,
          title="Uninstall", lines=["Deal {Damage:diff()} damage.", "[gold]Exhaust[/gold]."]),
     dict(name="GgEz", rarity="Rare", cost=0, card_type="Skill", target="AllEnemies",
-         tmpl="apply_weak_vuln_all", weak=2, vuln=2, up_weak=1,
-         title="GG EZ", lines=["Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies.", "[gold]Exhaust[/gold]."],
-         keywords=["Exhaust"],
+         tmpl="apply_weak_vuln_all", weak=2, vuln=2, up_weak=1, keywords=["Exhaust"],
+         title="GG EZ",
+         lines=["Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies.", "[gold]Exhaust[/gold]."],
          flavor="Honor me."),
     dict(name="Clutch", rarity="Rare", cost=1, card_type="Skill", target="None",
          tmpl="block_draw", block=15, cards=2, up_block=5,
@@ -266,51 +279,67 @@ KIT: list[dict] = [
          title="Inting Sion", lines=["Deal {Damage:diff()} damage.", "Take [blue]8[/blue] damage."],
          flavor="For the team."),
     dict(name="OpenMid", rarity="Rare", cost=0, card_type="Skill", target="None",
-         tmpl="draw_energy", cards=3, energy=2, up_cards=1,
-         title="Open Mid", lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}.", "[gold]Exhaust[/gold]."],
-         keywords=["Exhaust"]),
-    dict(name="HardStuck", rarity="Rare", cost=1, card_type="Power", target="None",
-         tmpl="power_strength", strength=4, up_strength=1,
-         title="Hard Stuck", lines=["Gain {Strength:diff()} [gold]Strength[/gold]."],
+         tmpl="draw_energy", cards=3, energy=2, up_cards=1, keywords=["Exhaust"],
+         title="Open Mid", lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}.", "[gold]Exhaust[/gold]."]),
+    dict(name="HardStuck", rarity="Rare", cost=2, card_type="Power", target="None",
+         tmpl="brennen_power", power="HardStuckPower", amount=1, up_amount=1, amount_key="HardStuck",
+         title="Hard Stuck",
+         lines=["At the start of your turn, gain {HardStuck:diff()} [gold]Strength[/gold]."],
          flavor="Gold forever."),
-    dict(name="ChallengerDiff", rarity="Rare", cost=2, card_type="Attack", target="AnyEnemy",
-         tmpl="attack", dmg=26, up_dmg=6,
-         title="Challenger Diff", lines=["Deal {Damage:diff()} damage."]),
+    # Challenger Diff cut — pure big-number clone of Uninstall/1v9 ladder
     dict(name="FountainDive", rarity="Rare", cost=1, card_type="Attack", target="AllEnemies",
          tmpl="attack_self_aoe", dmg=12, self_dmg=5, up_dmg=3,
          title="Fountain Dive", lines=["Deal {Damage:diff()} damage to ALL enemies.", "Take [blue]5[/blue] damage."]),
     dict(name="FullClear", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
          tmpl="attack_hits", dmg=5, hits=4, up_hits=1,
          title="Full Clear", lines=["Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."]),
-    dict(name="Quadra", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
-         tmpl="attack_hits", dmg=6, hits=4, up_dmg=2,
-         title="Quadra", lines=["Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times."]),
     dict(name="Bait", rarity="Rare", cost=1, card_type="Skill", target="None",
          tmpl="block_exhaust", block=25, up_block=8,
          title="Bait", lines=["Gain {Block:diff()} [gold]Block[/gold].", "[gold]Exhaust[/gold]."]),
     dict(name="Throw", rarity="Rare", cost=0, card_type="Skill", target="None",
-         tmpl="self_dmg_energy", self_dmg=5, energy=3, up_energy=1,
+         tmpl="self_dmg_energy", self_dmg=5, energy=3, up_energy=1, keywords=["Exhaust"],
          title="Throw", lines=["Take [blue]5[/blue] damage.", "Gain {Energy:energyIcons()}.", "[gold]Exhaust[/gold]."],
-         keywords=["Exhaust"],
          flavor="For the highlight."),
-    dict(name="JgDiff", rarity="Rare", cost=1, card_type="Attack", target="RandomEnemy",
-         tmpl="attack_hits", dmg=6, hits=4, up_dmg=2,
-         title="JG Diff", lines=["Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."]),
-    dict(name="AdcDiff", rarity="Rare", cost=1, card_type="Attack", target="AnyEnemy",
-         tmpl="attack_hits", dmg=4, hits=5, up_dmg=1,
-         title="ADC Diff", lines=["Deal {Damage:diff()} damage {Repeat:diff()} times."]),
-    dict(name="SupDiff", rarity="Rare", cost=1, card_type="Skill", target="AllEnemies",
-         tmpl="apply_weak_all", weak=3, up_weak=1,
-         title="SUP Diff", lines=["Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."]),
-    dict(name="MidDiff", rarity="Rare", cost=1, card_type="Skill", target="None",
-         tmpl="draw_energy", cards=2, energy=2, up_cards=1,
-         title="MID Diff", lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}."]),
+    # Role Diffs — five jobs, not five skins
     dict(name="TopDiff", rarity="Rare", cost=2, card_type="Attack", target="AnyEnemy",
-         tmpl="attack_block", dmg=16, block=12, up_dmg=4, up_block=4,
-         title="TOP Diff", lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold]."]),
+         tmpl="attack_solo_bonus", dmg=14, solo_dmg=22, block=10, up_dmg=4, up_block=3,
+         title="TOP Diff",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold].",
+                "If there is only [blue]1[/blue] enemy, deal {SoloDamage:diff()} instead."],
+         flavor="Island king."),
+    dict(name="JgDiff", rarity="Rare", cost=1, card_type="Attack", target="RandomEnemy",
+         tmpl="attack_hits_draw", dmg=5, hits=3, cards=1, up_dmg=2,
+         title="JG Diff",
+         lines=["Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.", "Draw {Cards:diff()} card."],
+         flavor="Pathing diff."),
+    dict(name="AdcDiff", rarity="Rare", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_hits", dmg=4, hits=5, up_hits=1,
+         title="ADC Diff", lines=["Deal {Damage:diff()} damage {Repeat:diff()} times."],
+         flavor="Fully stacked."),
+    dict(name="SupDiff", rarity="Rare", cost=1, card_type="Skill", target="None",
+         tmpl="block_weak_all", block=10, weak=2, up_block=4, up_weak=1,
+         title="SUP Diff",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."],
+         flavor="Engages for free."),
+    dict(name="MidDiff", rarity="Rare", cost=1, card_type="Skill", target="None",
+         tmpl="draw_energy", cards=2, energy=2, up_cards=1, keywords=["Exhaust"],
+         title="MID Diff",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}.", "[gold]Exhaust[/gold]."],
+         flavor="Prio."),
     dict(name="DodgeTheDodge", rarity="Rare", cost=1, card_type="Skill", target="None",
          tmpl="block_draw", block=12, cards=3, up_block=4,
          title="Dodge the Dodge", lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} cards."]),
+    # NEW rares (replace Quadra)
+    dict(name="ChatMod", rarity="Rare", cost=1, card_type="Power", target="None",
+         tmpl="brennen_power", power="ChatModPower", amount=1, up_amount=1, amount_key="ChatMod",
+         title="Chat Mod",
+         lines=["At the start of your turn, apply {ChatMod:diff()} [gold]Weak[/gold] to ALL enemies."],
+         flavor="Timeout applied."),
+    dict(name="MainCharacterSyndrome", rarity="Rare", cost=1, card_type="Power", target="None",
+         tmpl="brennen_power", power="MainCharacterPower", amount=4, up_amount=2, amount_key="MCS",
+         title="Main Character Syndrome",
+         lines=["Whenever you play an Attack that costs [blue]2[/blue] or more, gain {MCS:diff()} [gold]Vigor[/gold]."],
+         flavor="It's about me."),
 ]
 
 
@@ -319,6 +348,7 @@ KIT: list[dict] = [
 # ---------------------------------------------------------------------------
 
 USINGS_BASE = """using BaseLib.Utils;
+using Brennen.BrennenCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -342,12 +372,10 @@ def gen_card(c: dict) -> str:
     target = f"TargetType.{c['target']}"
     tmpl = c["tmpl"]
 
-    body_parts: list[str] = []
     props: list[str] = []
     vars_lines: list[str] = []
     on_play: list[str] = []
     on_up: list[str] = []
-    extra_methods: list[str] = []
 
     keywords = list(c.get("keywords") or [])
     if tmpl in ("attack_exhaust", "block_exhaust") or "Exhaust" in keywords:
@@ -357,28 +385,45 @@ def gen_card(c: dict) -> str:
         kws = ", ".join(f"CardKeyword.{k}" for k in keywords)
         props.append(f"    public override IEnumerable<CardKeyword> CanonicalKeywords => [{kws}];")
 
-    if c["card_type"] == "Skill" and tmpl.startswith("block"):
+    if c["card_type"] == "Skill" and (
+        tmpl.startswith("block") or tmpl in ("block_weak_all", "block_energy_next")
+    ):
         props.append("    public override bool GainsBlock => true;")
-    if tmpl in ("attack_block", "block", "block_draw", "block_weak", "block_exhaust", "attack_fatal_block"):
+    if tmpl in (
+        "attack_block",
+        "block",
+        "block_draw",
+        "block_weak",
+        "block_exhaust",
+        "attack_fatal_block",
+        "block_weak_all",
+        "block_energy_next",
+        "attack_solo_bonus",
+    ):
         if "GainsBlock" not in "\n".join(props):
             props.append("    public override bool GainsBlock => true;")
 
-    # hover tips for debuffs
     tips: list[str] = []
-    if "weak" in c or tmpl.endswith("weak") or "weak" in tmpl:
+    tip_blob = tmpl + " " + " ".join(str(x) for x in c.keys())
+    if "weak" in tip_blob.lower() or "Weak" in str(c.get("lines")):
         tips.append("HoverTipFactory.FromPower<WeakPower>()")
-    if "vuln" in c or "vuln" in tmpl:
+    if "vuln" in tip_blob or "Vulnerable" in str(c.get("lines")):
         tips.append("HoverTipFactory.FromPower<VulnerablePower>()")
-    if "frail" in c or "frail" in tmpl:
+    if "frail" in tip_blob or "Frail" in str(c.get("lines")):
         tips.append("HoverTipFactory.FromPower<FrailPower>()")
-    if "vigor" in tmpl or "vigor" in c:
+    if "vigor" in tip_blob or "Vigor" in str(c.get("lines")):
         tips.append("HoverTipFactory.FromPower<VigorPower>()")
-    if "strength" in tmpl:
+    if "strength" in tip_blob.lower() or "Strength" in str(c.get("lines")):
         tips.append("HoverTipFactory.FromPower<StrengthPower>()")
-    if tips:
+    # de-dupe tips
+    seen_tips: list[str] = []
+    for t in tips:
+        if t not in seen_tips:
+            seen_tips.append(t)
+    if seen_tips:
         props.append(
             "    protected override IEnumerable<IHoverTip> ExtraHoverTips =>\n    [\n        "
-            + ",\n        ".join(tips)
+            + ",\n        ".join(seen_tips)
             + ",\n    ];"
         )
 
@@ -493,6 +538,17 @@ def gen_card(c: dict) -> str:
         on_play.append("            .Execute(choiceContext);")
         up_dmg()
         up_hits()
+    elif tmpl == "attack_hits_draw":
+        add_dmg()
+        add_repeat()
+        add_cards()
+        on_play.append("        await CommonActions.CardAttack(this, play)")
+        on_play.append("            .WithHitCount(DynamicVars.Repeat.IntValue)")
+        on_play.append("            .Execute(choiceContext);")
+        on_play.append("        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);")
+        up_dmg()
+        up_hits()
+        up_cards()
     elif tmpl == "attack_draw":
         add_dmg()
         add_cards()
@@ -542,13 +598,6 @@ def gen_card(c: dict) -> str:
     elif tmpl == "attack_if_low":
         add_dmg()
         vars_lines.append(f"        new DamageVar(\"LowHpDamage\", {c['low_dmg']}, ValueProp.Move),")
-        extra_methods.append("""
-    private bool IsTargetLowHp()
-    {
-        var t = /* set at play */;
-        return false;
-    }
-""")
         on_play.append("""        var target = play.Target;
         var dmg = DynamicVars.Damage.BaseValue;
         if (target is not null && target.CurrentHp * 2 <= target.MaxHp)
@@ -603,6 +652,47 @@ def gen_card(c: dict) -> str:
         }""")
         up_dmg()
         on_up.append(f"        DynamicVars[\"HighHpDamage\"].UpgradeValueBy({c.get('up_dmg', 2)}m);")
+    elif tmpl == "attack_if_weak":
+        add_dmg()
+        vars_lines.append(f"        new DamageVar(\"WeakDamage\", {c['weak_dmg']}, ValueProp.Move),")
+        on_play.append("""        var target = play.Target;
+        var dmg = DynamicVars.Damage.BaseValue;
+        if (target is not null && target.GetPower<WeakPower>() is not null)
+            dmg = DynamicVars["WeakDamage"].BaseValue;
+        var stored = DynamicVars.Damage.BaseValue;
+        DynamicVars.Damage.BaseValue = dmg;
+        try
+        {
+            await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        }
+        finally
+        {
+            DynamicVars.Damage.BaseValue = stored;
+        }""")
+        up_dmg()
+        on_up.append(f"        DynamicVars[\"WeakDamage\"].UpgradeValueBy({c.get('up_dmg', 2)}m);")
+    elif tmpl == "attack_solo_bonus":
+        add_dmg()
+        add_block()
+        vars_lines.append(f"        new DamageVar(\"SoloDamage\", {c['solo_dmg']}, ValueProp.Move),")
+        on_play.append("""        var combat = Owner.Creature?.CombatState;
+        var dmg = DynamicVars.Damage.BaseValue;
+        if (combat is not null && combat.HittableEnemies.Count() == 1)
+            dmg = DynamicVars["SoloDamage"].BaseValue;
+        var stored = DynamicVars.Damage.BaseValue;
+        DynamicVars.Damage.BaseValue = dmg;
+        try
+        {
+            await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        }
+        finally
+        {
+            DynamicVars.Damage.BaseValue = stored;
+        }
+        await CommonActions.CardBlock(this, play);""")
+        up_dmg()
+        up_block()
+        on_up.append(f"        DynamicVars[\"SoloDamage\"].UpgradeValueBy({c.get('up_dmg', 4)}m);")
     elif tmpl == "attack_fatal_block":
         add_dmg()
         add_block()
@@ -611,6 +701,39 @@ def gen_card(c: dict) -> str:
             await CommonActions.CardBlock(this, play);""")
         up_dmg()
         up_block()
+    elif tmpl == "attack_fatal_energy":
+        add_dmg()
+        add_energy()
+        on_play.append("        await CommonActions.CardAttack(this, play).Execute(choiceContext);")
+        on_play.append("""        var combat = Owner.Creature?.CombatState;
+        if (combat is not null && combat.HittableEnemies.Any(e => e.IsDead) == false)
+        {
+            // Fatal check: any enemy killed by this play — use Target if single, else scan
+        }
+        if (play.Target is not null && play.Target.IsDead)
+            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+        else if (combat is not null)
+        {
+            // AoE: if any enemy died this play we can't easily know; check all dead that still in list is wrong.
+            // Fallback: grant energy if fewer living enemies than before is hard; skip if no target.
+        }""")
+        # Cleaner AoE fatal: track pre-play HP via AttackCommand — keep simple: energy if ANY enemy is dead after
+        on_play.clear()
+        on_play.append("""        var combat = Owner.Creature?.CombatState;
+        var livingBefore = combat?.HittableEnemies.Count() ?? 0;
+        await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        var livingAfter = combat?.HittableEnemies.Count() ?? 0;
+        if (livingAfter < livingBefore)
+            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);""")
+        up_dmg()
+        up_energy()
+    elif tmpl == "attack_energy_next":
+        add_dmg()
+        add_energy()
+        on_play.append("        await CommonActions.CardAttack(this, play).Execute(choiceContext);")
+        on_play.append(apply_power_self("EnergyNextTurnPower", "DynamicVars.Energy.IntValue"))
+        up_dmg()
+        up_energy()
     elif tmpl == "block":
         add_block()
         on_play.append("        await CommonActions.CardBlock(this, play);")
@@ -634,6 +757,21 @@ def gen_card(c: dict) -> str:
         up_block()
         if c.get("up_weak"):
             on_up.append(f"        DynamicVars[\"Weak\"].UpgradeValueBy({c['up_weak']}m);")
+    elif tmpl == "block_weak_all":
+        add_block()
+        vars_lines.append(f"        new DynamicVar(\"Weak\", {c['weak']}),")
+        on_play.append("        await CommonActions.CardBlock(this, play);")
+        on_play.append(apply_all("WeakPower", "DynamicVars[\"Weak\"].IntValue"))
+        up_block()
+        if c.get("up_weak"):
+            on_up.append(f"        DynamicVars[\"Weak\"].UpgradeValueBy({c['up_weak']}m);")
+    elif tmpl == "block_energy_next":
+        add_block()
+        add_energy()
+        on_play.append("        await CommonActions.CardBlock(this, play);")
+        on_play.append(apply_power_self("EnergyNextTurnPower", "DynamicVars.Energy.IntValue"))
+        up_block()
+        up_energy()
     elif tmpl == "apply_weak":
         vars_lines.append(f"        new DynamicVar(\"Weak\", {c['weak']}),")
         on_play.append(apply_power("WeakPower", "DynamicVars[\"Weak\"].IntValue"))
@@ -642,6 +780,11 @@ def gen_card(c: dict) -> str:
     elif tmpl == "apply_frail":
         vars_lines.append(f"        new DynamicVar(\"Frail\", {c['frail']}),")
         on_play.append(apply_power("FrailPower", "DynamicVars[\"Frail\"].IntValue"))
+        if c.get("up_frail"):
+            on_up.append(f"        DynamicVars[\"Frail\"].UpgradeValueBy({c['up_frail']}m);")
+    elif tmpl == "apply_frail_all":
+        vars_lines.append(f"        new DynamicVar(\"Frail\", {c['frail']}),")
+        on_play.append(apply_all("FrailPower", "DynamicVars[\"Frail\"].IntValue"))
         if c.get("up_frail"):
             on_up.append(f"        DynamicVars[\"Frail\"].UpgradeValueBy({c['up_frail']}m);")
     elif tmpl == "apply_weak_all":
@@ -657,6 +800,14 @@ def gen_card(c: dict) -> str:
         if c.get("up_weak"):
             on_up.append(f"        DynamicVars[\"Weak\"].UpgradeValueBy({c['up_weak']}m);")
             on_up.append(f"        DynamicVars[\"Vulnerable\"].UpgradeValueBy({c['up_weak']}m);")
+    elif tmpl == "apply_weak_frail":
+        vars_lines.append(f"        new DynamicVar(\"Weak\", {c['weak']}),")
+        vars_lines.append(f"        new DynamicVar(\"Frail\", {c['frail']}),")
+        on_play.append(apply_power("WeakPower", "DynamicVars[\"Weak\"].IntValue"))
+        on_play.append(apply_power("FrailPower", "DynamicVars[\"Frail\"].IntValue"))
+        if c.get("up_weak"):
+            on_up.append(f"        DynamicVars[\"Weak\"].UpgradeValueBy({c['up_weak']}m);")
+            on_up.append(f"        DynamicVars[\"Frail\"].UpgradeValueBy({c['up_weak']}m);")
     elif tmpl == "apply_weak_vuln_all":
         vars_lines.append(f"        new DynamicVar(\"Weak\", {c['weak']}),")
         vars_lines.append(f"        new DynamicVar(\"Vulnerable\", {c['vuln']}),")
@@ -678,18 +829,29 @@ def gen_card(c: dict) -> str:
         if c.get("up_vigor"):
             on_up.append(f"        DynamicVars[\"Vigor\"].UpgradeValueBy({c['up_vigor']}m);")
         up_cards()
+    elif tmpl == "vigor_strength":
+        vars_lines.append(f"        new DynamicVar(\"Vigor\", {c['vigor']}),")
+        vars_lines.append(f"        new DynamicVar(\"Strength\", {c['strength']}),")
+        on_play.append(apply_power_self("VigorPower", "DynamicVars[\"Vigor\"].IntValue"))
+        on_play.append(apply_power_self("StrengthPower", "DynamicVars[\"Strength\"].IntValue"))
+        if c.get("up_vigor"):
+            on_up.append(f"        DynamicVars[\"Vigor\"].UpgradeValueBy({c['up_vigor']}m);")
+        if c.get("up_strength"):
+            on_up.append(f"        DynamicVars[\"Strength\"].UpgradeValueBy({c['up_strength']}m);")
+    elif tmpl == "brennen_power":
+        key = c["amount_key"]
+        vars_lines.append(f"        new DynamicVar(\"{key}\", {c['amount']}),")
+        power = c["power"]
+        on_play.append(apply_power_self(power, f"DynamicVars[\"{key}\"].IntValue"))
+        if c.get("up_amount"):
+            on_up.append(f"        DynamicVars[\"{key}\"].UpgradeValueBy({c['up_amount']}m);")
     elif tmpl == "power_strength":
         vars_lines.append(f"        new DynamicVar(\"Strength\", {c['strength']}),")
         on_play.append(apply_power_self("StrengthPower", "DynamicVars[\"Strength\"].IntValue"))
         if c.get("up_strength"):
             on_up.append(f"        DynamicVars[\"Strength\"].UpgradeValueBy({c['up_strength']}m);")
     elif tmpl == "strength_temp":
-        # Temporary strength = Strength + loss next turn isn't easy; use Vigor as "this turn"
         vars_lines.append(f"        new DynamicVar(\"Strength\", {c['strength']}),")
-        # Use Vigor as temporary attack buff this turn — label as Strength in loc is wrong.
-        # Better: StrengthPower + TemporaryStrength isn't available simply.
-        # STS has TemporaryStrengthPower? We found TemporaryStrengthLossPower only.
-        # Use Vigor with amount that matches "strength this turn" fantasy.
         on_play.append(apply_power_self("VigorPower", "DynamicVars[\"Strength\"].IntValue"))
         if c.get("up_strength"):
             on_up.append(f"        DynamicVars[\"Strength\"].UpgradeValueBy({c['up_strength']}m);")
@@ -721,6 +883,14 @@ def gen_card(c: dict) -> str:
     else:
         raise ValueError(f"Unknown template {tmpl} for {name}")
 
+    # usings for LINQ when needed
+    needs_linq = tmpl in ("attack_solo_bonus", "attack_fatal_energy")
+    usings = USINGS_BASE
+    if needs_linq:
+        usings = "using System.Linq;\n" + usings
+    if tmpl == "attack_if_weak":
+        usings = USINGS_BASE  # WeakPower already imported via Models.Powers
+
     vars_block = ""
     if vars_lines:
         vars_block = (
@@ -745,13 +915,8 @@ def gen_card(c: dict) -> str:
             + "\n".join(on_up)
             + "\n    }\n"
         )
-    else:
-        # still need empty upgrade? not required
-        pass
 
-    # Fix strength_temp loc fantasy - change title description to Vigor in catalog later
-
-    return f"""{HEADER}{USINGS_BASE}
+    return f"""{HEADER}{usings}
 namespace {ns};
 
 public sealed class {name}() : BrennenCard({cost}, {ctype}, {crarity}, {target})
@@ -760,7 +925,6 @@ public sealed class {name}() : BrennenCard({cost}, {ctype}, {crarity}, {target})
 
 
 def loc_key(name: str) -> str:
-    # BRENNEN-CLASS_NAME with underscores for camel humps
     snake = []
     for i, ch in enumerate(name):
         if ch.isupper() and i:
@@ -769,8 +933,14 @@ def loc_key(name: str) -> str:
     return "BRENNEN-" + "".join(snake)
 
 
+def catalog_lines(c: dict) -> list[str]:
+    """Human-readable catalog lines (resolve {Var:diff()} to kit numbers when possible)."""
+    raw = list(c["lines"])
+    # Keep dynamic-style text for catalog consistency with game loc
+    return raw
+
+
 def main() -> None:
-    # Count check vs existing hand-authored
     by_rarity: dict[str, list] = {"Common": [], "Uncommon": [], "Rare": []}
     for c in KIT:
         by_rarity[c["rarity"]].append(c)
@@ -788,16 +958,21 @@ def main() -> None:
     assert total_u == 35, total_u
     assert total_r == 25, total_r
 
-    # Move Feed to Basic if still in Uncommon
-    feed_old = CODE / "Uncommon" / "Feed.cs"
-    feed_new = CODE / "Basic" / "Feed.cs"
-    if feed_old.exists():
-        text = feed_old.read_text(encoding="utf-8")
-        text = text.replace("namespace Brennen.BrennenCode.Cards.Uncommon;", "namespace Brennen.BrennenCode.Cards.Basic;")
-        text = text.replace("CardRarity.Uncommon", "CardRarity.Basic")
-        feed_new.write_text(text, encoding="utf-8")
-        feed_old.unlink()
-        print("Moved Feed -> Basic")
+    kit_names = {c["name"] for c in KIT}
+
+    # Remove orphaned generated card sources (not hand-authored, not in KIT)
+    for rarity in ("Common", "Uncommon", "Rare", "Basic"):
+        folder = CODE / rarity
+        if not folder.is_dir():
+            continue
+        for path in folder.glob("*.cs"):
+            stem = path.stem
+            if stem in HAND_AUTHORED:
+                continue
+            if stem in kit_names:
+                continue
+            path.unlink()
+            print(f"Removed orphan {path.relative_to(ROOT)}")
 
     # Generate card files
     for c in KIT:
@@ -807,52 +982,64 @@ def main() -> None:
         path.write_text(gen_card(c), encoding="utf-8")
     print(f"Wrote {len(KIT)} card source files")
 
-    # Merge localization
-    loc = {}
+    # Merge localization — rebuild generated keys, keep hand keys
+    loc: dict = {}
     if LOC.exists():
         loc = json.loads(LOC.read_text(encoding="utf-8"))
 
-    # Ensure hand-authored keys remain; add generated
+    # Drop loc keys for removed generated cards
+    keep_prefixes = {loc_key(n) for n in kit_names | HAND_AUTHORED}
+    # HAND uses class names; also StrikeBrennen etc.
+    keep_prefixes.add(loc_key("StrikeBrennen"))
+    keep_prefixes.add(loc_key("DefendBrennen"))
+    keep_prefixes.add(loc_key("Feed"))
+    for k in list(loc.keys()):
+        prefix = k.rsplit(".", 1)[0]
+        # Keep if any keep prefix matches
+        if not any(prefix == p or prefix.startswith(p) for p in keep_prefixes):
+            # only strip BRENNEN- card keys we no longer generate
+            if k.startswith("BRENNEN-") and (k.endswith(".title") or k.endswith(".description")):
+                # check if card still exists
+                card_id = prefix.removeprefix("BRENNEN-")
+                # map STRIKE_BRENNEN etc.
+                pass  # keep all hand-ish; clean only known cuts later
+
     for c in KIT:
         key = loc_key(c["name"])
-        title_k = f"{key}.title"
-        desc_k = f"{key}.description"
-        loc[title_k] = c["title"]
-        loc[desc_k] = "\n".join(c["lines"])
+        loc[f"{key}.title"] = c["title"]
+        loc[f"{key}.description"] = "\n".join(c["lines"])
 
-    # Fix Feed loc if needed (already present)
+    # Explicitly drop cut cards' loc
+    for cut in (
+        "ROAM", "PING", "DIFF", "FLAME", "DIVE", "OBJECTIVE", "ROAM_BOT", "ULT",
+        "VISION_SCORE", "MICRO", "PEEL_FOR_ADC", "ZONE", "QUADRA", "CHALLENGER_DIFF",
+    ):
+        loc.pop(f"BRENNEN-{cut}.title", None)
+        loc.pop(f"BRENNEN-{cut}.description", None)
+
     LOC.write_text(json.dumps(loc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote localization ({len(loc)} keys)")
 
-    # Placeholder portraits
+    # Placeholder portraits for new cards only
     placeholder = PORTRAITS / "card.png"
     big_placeholder = PORTRAITS_BIG / "card.png"
+    missing_art: list[str] = []
     for c in KIT:
         stem = portrait_stem(c["name"])
         small = PORTRAITS / f"{stem}.png"
         big = PORTRAITS_BIG / f"{stem}.png"
-        if not small.exists() and placeholder.exists():
-            shutil.copy2(placeholder, small)
+        if not small.exists():
+            missing_art.append(stem)
+            if placeholder.exists():
+                shutil.copy2(placeholder, small)
         if not big.exists() and big_placeholder.exists():
             shutil.copy2(big_placeholder, big)
-    print("Ensured portrait placeholders")
+    if missing_art:
+        print(f"New cards needing real art ({len(missing_art)}): {', '.join(missing_art)}")
+    else:
+        print("All kit portraits present")
 
-    # docs/cards.json catalog — include hand-authored + generated + relic
-    catalog = []
-    # Starter relic
-    catalog.append({
-        "id": "duoqueue",
-        "name": "Duo Queue",
-        "rarity": "relic",
-        "type": "Relic",
-        "cost": None,
-        "art": "assets/brennen/duoqueue.jpg",
-        "lines": ["At the start of combat,", "gain 1 Energy."],
-        "keywords": ["Energy"],
-        "stats": "Starter",
-        "flavor": "I've got you. Don't feed.",
-    })
-
+    # docs/cards.json catalog
     hand_meta = [
         dict(id="strike", name="Strike", rarity="basic", type="Attack", cost=1,
              lines=["Deal 6 damage."], upgrade="9 damage", art="assets/brennen/strike.jpg"),
@@ -884,7 +1071,6 @@ def main() -> None:
         dict(id="duoqueue", name="Duo Queue", rarity="relic", type="Relic", cost=None,
              lines=["At the start of combat,", "gain 1 Energy."], stats="Starter", flavor="I've got you. Don't feed.", art="assets/brennen/duoqueue.jpg"),
     ]
-    # rebuild catalog cleanly
     catalog = []
     seen = set()
     for h in hand_meta:
@@ -903,8 +1089,8 @@ def main() -> None:
             "rarity": c["rarity"].lower(),
             "type": c["card_type"],
             "cost": c["cost"],
-            "art": f"assets/brennen/{stem}.jpg",  # may 404; catalog falls back if missing
-            "lines": c["lines"],
+            "art": f"assets/brennen/{stem}.jpg",
+            "lines": catalog_lines(c),
             "keywords": c.get("keywords") or [],
         }
         if c.get("flavor"):
@@ -914,13 +1100,41 @@ def main() -> None:
     DOCS_CARDS.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"Wrote docs catalog ({len(catalog)} entries)")
 
-    # README
+    # Scene prompts for new cards (art pipeline)
+    scenes = {}
+    if SCENES.exists():
+        try:
+            scenes = json.loads(SCENES.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            scenes = {}
+    new_scenes = {
+        "emote": "League-style mastery emote flex in enemy fountain, cocky pose, neon UI, card portrait",
+        "missing": "jungler silhouette missing from lane, question marks, fog of war, card portrait",
+        "controlward": "pink control ward glowing in a brush, vision denied, card portrait",
+        "mentalboom": "gamer raging at chat, red chat log, cracked headset, card portrait",
+        "inter": "ally diving fountain for the team, sacrificial play, card portrait",
+        "peelbot": "support bodyblocking skillshots for ADC, protective stance, card portrait",
+        "allchat": "all-chat keyboard slam, toxic speech bubbles, card portrait",
+        "roamtimer": "minimap roam path with countdown timer, gank setup, card portrait",
+        "deepward": "deep tri-bush ward placement at night, card portrait",
+        "doublebuff": "red and blue buff spirits both claimed, glowing, card portrait",
+        "freeobj": "unguarded dragon pit objective, free take, card portrait",
+        "campsetup": "jungle camp stacked for gank, vision lines, card portrait",
+        "chatmod": "mod hammer slamming chat, mute icons, card portrait",
+        "maincharactersyndrome": "spotlight on one player hogging the camera, main character energy, card portrait",
+    }
+    for k, v in new_scenes.items():
+        scenes.setdefault(k, v)
+    SCENES.write_text(json.dumps(scenes, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Updated scene prompts ({len(scenes)} entries)")
+
+    power_count = sum(1 for c in KIT if c["card_type"] == "Power")
     README.write_text(
         f"""# Brennen — Family Meme Pack (char 1)
 
 Playable character for **sentou-koubou**: your older brother, League energy, Corvette shaka vibes.
 
-## Kit (vanilla-sized)
+## Kit (vanilla-sized, intentionally OP meme)
 
 | Piece | Detail |
 |-------|--------|
@@ -929,16 +1143,15 @@ Playable character for **sentou-koubou**: your older brother, League energy, Cor
 | Starting deck | 5× Strike, 4× Defend, **Feeding** |
 | Reward pool | **20 Common / 35 Uncommon / 25 Rare** (80 cards) |
 | Basics (non-reward) | Strike, Defend, Feeding |
-
-Matches STS2 base-character pool size (Ironclad/Silent/etc.).
+| Powers | **{power_count}** generated power cards + custom hook powers |
 
 ### Pillars
 
-1. **Snowball** — kill rewards, openers, strength stacking  
-2. **Tilt / int** — self-damage for payoff  
-3. **Vision / peel** — Block + draw tools  
-4. **Teamfight** — multi-hit and AoE  
-5. **Chat control** — Weak / Vulnerable / Frail debuffs  
+1. **Snowball** — kills grant Strength, Fatal payoffs, First Blood  
+2. **Tilt / int** — self-damage package (Tilt, Inting, Mental Boom, Inter)  
+3. **Vision / peel** — Wards, Retain Block, Peel Bot  
+4. **Teamfight** — AoE, Pentakill, Full Clear, Penta Secure  
+5. **Chat control** — Weak / Frail / Mute All / Chat Mod / GG EZ  
 
 ### Signature basics
 
@@ -947,10 +1160,19 @@ Matches STS2 base-character pool size (Ironclad/Silent/etc.).
 | Strike / Defend | 6 dmg / 5 Block |
 | **Feeding** | Heal enemy to full HP. Exhaust. (meme tax in the opener) |
 
+### Role Diffs (rares)
+
+| Diff | Job |
+|------|-----|
+| TOP Diff | Island 1v1 — big hit + Block, bonus if only 1 enemy |
+| JG Diff | Pathing — random multi-hit + draw |
+| MID Diff | Prio — draw + energy (Exhaust) |
+| ADC Diff | DPS — high multi-hit |
+| SUP Diff | Peel — Block + Weak ALL |
+
 ## Catalog
 
 ```bash
-# from repo root
 python -m http.server -d docs 8765
 # http://localhost:8765
 ```
@@ -962,15 +1184,9 @@ Live: https://stephenshorton.github.io/sentou-koubou/
 ```bash
 cp Directory.Build.props.example Directory.Build.props
 dotnet restore && dotnet build
-# Publish for .pck after assets/loc changes
 ```
 
-Requires BaseLib + STS2 + MegaDot/Godot 4.5.1.
-
-## Regenerating generated cards
-
-New reward cards under `BrennenCode/Cards/{{Common,Uncommon,Rare}}/` (except hand-tuned kits)
-are produced by:
+## Regenerating
 
 ```bash
 python tools/generate_brennen_kit.py
@@ -978,6 +1194,9 @@ python tools/generate_brennen_kit.py
 
 Hand-authored keepers: Strike, Defend, Feed, Gank, Flash, Tilt, Ward, FirstBlood,
 MainCharacter, MuteAll, Pentakill, AFK, Remake.
+
+Custom powers live under `BrennenCode/Powers/` (Snowball, Macro, Mental Boom, Inter,
+Penta Secure, Hard Stuck, Chat Mod, Main Character Syndrome).
 """,
         encoding="utf-8",
     )
