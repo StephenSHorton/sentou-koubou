@@ -766,11 +766,31 @@ protected override CreatureAnimator SetupCustomAnimationStates(MegaSprite contro
         rigEd.showBones = $("#chk-show-bones").checked;
         E.redraw(rigEd);
       }
+      if (animEd) {
+        animEd.showBones = $("#chk-show-bones").checked;
+        E.redraw(animEd);
+      }
     };
-    $("#chk-show-images").onchange = () => {
+    $("#chk-show-attach").onchange = () => {
+      const on = $("#chk-show-attach").checked;
       if (rigEd) {
-        rigEd.showImages = $("#chk-show-images").checked;
+        rigEd.showAttach = on;
         E.redraw(rigEd);
+      }
+      if (animEd) {
+        animEd.showAttach = on;
+        E.redraw(animEd);
+      }
+    };
+    $("#chk-show-ref").onchange = () => {
+      const on = $("#chk-show-ref").checked;
+      if (rigEd) {
+        rigEd.showRef = on;
+        E.redraw(rigEd);
+      }
+      if (animEd) {
+        animEd.showRef = on;
+        E.redraw(animEd);
       }
     };
 

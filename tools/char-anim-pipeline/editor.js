@@ -69,7 +69,8 @@
       tool: "select",
       selectedId: null,
       showBones: true,
-      showImages: true,
+      showAttach: true,
+      showRef: false, // ghost fullbody guide — off by default (starter used to stack it on the attachment)
       pose: {}, // temporary pose override for animate scrub
       onSelect: opts.onSelect || (() => {}),
       onChange: opts.onChange || (() => {}),
@@ -140,8 +141,8 @@
     ed.layerImg.position({ x: shiftX, y: shiftY });
     ed.layerBones.position({ x: shiftX, y: shiftY });
 
-    // reference — same character frame as bones (not independently stage-centered)
-    if (char.refImageId && ed.showImages) {
+    // Ghost reference — alignment guide only (not part of the rig). Not draggable.
+    if (char.refImageId && ed.showRef) {
       const ref = await loadImg(char.refImageId);
       if (ref) {
         const maxH = Math.min(ed.height * 0.85, Math.max(80, bb.maxY - bb.minY) * 1.15 || ed.height * 0.85);
@@ -155,15 +156,16 @@
             y: bb.bottom - dh,
             width: dw,
             height: dh,
-            opacity: 0.2,
+            opacity: 0.22,
             listening: false,
+            name: "ghost-ref",
           })
         );
       }
     }
 
-    // attachments
-    if (ed.showImages) {
+    // Bone attachments — paper-doll pieces parented to bones (draggable in rig mode).
+    if (ed.showAttach) {
       for (const b of char.bones) {
         const att = char.attachments[b.id];
         if (!att?.imageId) continue;
