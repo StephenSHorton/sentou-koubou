@@ -12,16 +12,24 @@ namespace Whitney.WhitneyCode.Character;
 
 /// <summary>
 /// Whitney — atelier witch. Energy + Ink dual mana, four elements, dual-purpose seals.
+/// Starter teaches gen (Channel/Novice) and spend (Apprentice Seal). Attunement scales all attacks.
 /// Family pack character #2 for sentou-koubou.
 /// </summary>
 public class Whitney : PlaceholderCharacterModel
 {
     public const string CharacterId = "Whitney";
 
-    /// <summary>Soft sage — Witch Hat Atelier parchment &amp; leaf.</summary>
-    public static readonly Color Color = new("7a9e8a");
+    /// <summary>Indigo ink-mage — matches D3 dress / hat clothing lock.</summary>
+    public static readonly Color Color = new("4B3F8C");
 
     public override Color NameColor => Color;
+
+    /// <summary>Map path / pen color when drawing routes — same violet as clothing.</summary>
+    public override Color MapDrawingColor => Color;
+
+    /// <summary>Multiplayer remote-target line matches map / name color.</summary>
+    public override Color RemoteTargetingLineColor => Color;
+
     public override CharacterGender Gender => CharacterGender.Feminine;
     public override int StartingHp => 74;
 
@@ -34,9 +42,9 @@ public class Whitney : PlaceholderCharacterModel
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
-        ModelDb.Card<Ripple>(),
         ModelDb.Card<ChannelInk>(),
         ModelDb.Card<NoviceSeal>(),
+        ModelDb.Card<ApprenticeSeal>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

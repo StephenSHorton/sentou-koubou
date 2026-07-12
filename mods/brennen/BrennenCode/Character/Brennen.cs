@@ -11,9 +11,9 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 namespace Brennen.BrennenCode.Character;
 
 /// <summary>
-/// Brennen — older brother, League nights, tank main energy.
-/// Peels, bodyblocks, and still feeds for the meme.
-/// Family meme pack character #1 for sentou-koubou.
+/// Brennen — frontline tank.
+/// Peels, pays HP for tempo, keeps Block (Proxy Camp), slams with Tower Dive.
+/// Feed is a reward-pool meme, not a starter.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
 {
@@ -23,6 +23,13 @@ public class Brennen : PlaceholderCharacterModel
     public static readonly Color Color = new("e85d4c");
 
     public override Color NameColor => Color;
+
+    /// <summary>Map path / pen color when drawing routes.</summary>
+    public override Color MapDrawingColor => Color;
+
+    /// <summary>Multiplayer remote-target line matches map / name color.</summary>
+    public override Color RemoteTargetingLineColor => Color;
+
     public override CharacterGender Gender => CharacterGender.Masculine;
     /// <summary>Tankier baseline — soaks so the "ADC" can cook.</summary>
     public override int StartingHp => 82;
@@ -33,12 +40,12 @@ public class Brennen : PlaceholderCharacterModel
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
+        ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
-        ModelDb.Card<Feed>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

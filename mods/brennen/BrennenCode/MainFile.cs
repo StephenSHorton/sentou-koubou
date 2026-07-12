@@ -15,9 +15,10 @@ public partial class MainFile : Node
 
     public static void Initialize()
     {
-        Logger.Info("Brennen loaded — family meme pack, character 1. Queue up.");
+        Logger.Info("Brennen loaded — tank kit ready. Queue up.");
 
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
+        CookieCursorBridge.TryRegister();
     }
 }
