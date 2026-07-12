@@ -8,6 +8,7 @@ Playable character for **sentou-koubou**: your older brother, League energy, Cor
 |-------|--------|
 | HP | 74 |
 | Starter relic | **Duo Queue** — +1 Energy on combat turn 1 |
+| Combat body | Blender flipbook (`images/combat/`) via `CreateCustomVisuals` — see `tools/char-anim-pipeline/BLENDER_PIPELINE.md` |
 | Starting deck | 5× Strike, 4× Defend, **Feeding** |
 | Reward pool | **20 Common / 35 Uncommon / 25 Rare** (80 cards) |
 | Basics (non-reward) | Strike, Defend, Feeding |

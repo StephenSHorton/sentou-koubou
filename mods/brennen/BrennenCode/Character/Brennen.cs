@@ -6,6 +6,7 @@ using Brennen.BrennenCode.Relics;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 
 namespace Brennen.BrennenCode.Character;
 
@@ -70,4 +71,13 @@ public class Brennen : PlaceholderCharacterModel
     /// </summary>
     public override string CustomCharacterSelectBg =>
         "res://scenes/screens/char_select/char_select_bg_brennen.tscn";
+
+    /// <summary>
+    /// Combat body: Blender flipbook (idle / attack / hit / dead) instead of Ironclad.
+    /// See tools/char-anim-pipeline/BLENDER_PIPELINE.md.
+    /// </summary>
+    public override NCreatureVisuals? CreateCustomVisuals() => BrennenCombatVisuals.Create();
+
+    /// <summary>Dead clip is 20 frames @ 24fps ≈ 0.83s; give a little headroom.</summary>
+    public override float DeathAnimTime => 1.0f;
 }
