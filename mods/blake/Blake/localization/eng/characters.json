@@ -1,0 +1,16 @@
+{
+  "BLAKE-BLAKE.title": "Blake",
+  "BLAKE-BLAKE.titleObject": "Blake",
+  "BLAKE-BLAKE.description": "A racer-brawler who [gold]winds up[/gold] an exponential [gold]Charge[/gold], protects the fist, and [gold]Unleashes[/gold] a fully charged punch. Every fight asks how long you dare to hold.",
+  "BLAKE-BLAKE.pronounObject": "him",
+  "BLAKE-BLAKE.possessiveAdjective": "his",
+  "BLAKE-BLAKE.pronounPossessive": "his",
+  "BLAKE-BLAKE.pronounSubject": "he",
+  "BLAKE-BLAKE.goldMonologue": "[sine]Show me your moves.[/sine]",
+  "BLAKE-BLAKE.eventDeathPrevention": "Not yet — still charging.",
+  "BLAKE-BLAKE.aromaPrinciple": "[sine][blue]FALCON PUNCH![/blue][/sine]",
+  "BLAKE-BLAKE.cardsModifierTitle": "Blake Cards",
+  "BLAKE-BLAKE.cardsModifierDescription": "Blake cards will now appear in rewards and shops.",
+  "BLAKE-BLAKE.banter.alive.endTurnPing": "[sine]Still winding up...[/sine]",
+  "BLAKE-BLAKE.banter.dead.endTurnPing": "Too slow."
+}

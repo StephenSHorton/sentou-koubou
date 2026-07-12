@@ -17,6 +17,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 
 - `mods/brennen` — Full tank character kit. Regen generated cards with `python tools/generate_brennen_kit.py`.
 - `mods/whitney` — Atelier witch, Energy + Ink dual mana, full 20C/35U/25R kit + combat flipbooks.
+- `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
 
 ## Local catalog

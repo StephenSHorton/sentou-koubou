@@ -1,0 +1,33 @@
+{
+  "character": "Blake",
+  "title": "The Falcon",
+  "fantasy": "Racer-brawler; exponential Charge / Rev / Unleash punch fantasy (Captain Falcon homage).",
+  "palette": {
+    "primary": "#2B6CB0",
+    "accent_gold": "#F6C945",
+    "gauntlet_red": "#C23B2A",
+    "charge_glow": "#5CE1FF",
+    "suit": "blue racing pilot suit with yellow/gold trim"
+  },
+  "identity_lock": {
+    "status": "variants pending user pick",
+    "photo_refs": [
+      "docs/assets/blake/variants/blake_ref_office.png",
+      "docs/assets/blake/variants/blake_ref_restaurant.png"
+    ],
+    "variants": [
+      "docs/assets/blake/variants/blake_variant_A_office.jpg",
+      "docs/assets/blake/variants/blake_variant_B_restaurant.jpg"
+    ],
+    "locked_portrait": null,
+    "notes": "Lock after user picks A/B (or further pass). Then generate combat_right + char_select tiles."
+  },
+  "recurring_props": [
+    "racing gauntlet / charged fist meter",
+    "blue pilot scarf",
+    "yellow racing stripes",
+    "speed-line energy",
+    "checkered flag / trophy belt (relics)"
+  ],
+  "style": "STS2 bold painted graphic — chunky brush, thick outlines, simplified face. Match Brennen C / Whitney D3 language."
+}

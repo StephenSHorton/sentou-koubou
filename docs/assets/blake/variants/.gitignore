@@ -1,0 +1,5 @@
+# Personal photo refs — keep local only
+blake_ref_*.png
+blake_ref_*.jpg
+_style_*.jpg
+_style_*.png

@@ -1,0 +1,13 @@
+<Project>
+    <PropertyGroup>
+        <!-- Megadot current version is 4.5.1; the game won't load a .pck built with a newer Godot. -->
+        <!-- Download: https://megadot.megacrit.com/  (fallback: Godot 4.5.1 .NET) -->
+        <!-- macOS example: -->
+        <GodotPath>/Applications/MegaDot.app/Contents/MacOS/MegaDot</GodotPath>
+        <!-- Or Godot mono: -->
+        <!-- <GodotPath>/Applications/Godot_mono.app/Contents/MacOS/Godot</GodotPath> -->
+
+        <!-- Uncomment if STS2 is not found automatically -->
+        <!-- <Sts2Path>$(HOME)/Library/Application Support/Steam/steamapps/common/Slay the Spire 2</Sts2Path> -->
+    </PropertyGroup>
+</Project>
