@@ -1,6 +1,6 @@
 {
-  "THE_ARCHITECT.talk.WHITNEY-WHITNEY.0-0r.char": "Every seal has a cost.",
-  "THE_ARCHITECT.talk.WHITNEY-WHITNEY.0-0r.next": "Continue",
-  "THE_ARCHITECT.talk.WHITNEY-WHITNEY.0-1r.ancient": "Ink is patient.",
-  "THE_ARCHITECT.talk.WHITNEY-WHITNEY.0-attack": "Both"
+  "THE_ARCHITECT.talk.WHITNEY-WHITNEY_CHARACTER.0-0r.char": "The ink is still wet.",
+  "THE_ARCHITECT.talk.WHITNEY-WHITNEY_CHARACTER.0-0r.next": "Continue",
+  "THE_ARCHITECT.talk.WHITNEY-WHITNEY_CHARACTER.0-1r.ancient": "Finish the page.",
+  "THE_ARCHITECT.talk.WHITNEY-WHITNEY_CHARACTER.0-attack": "Both"
 }

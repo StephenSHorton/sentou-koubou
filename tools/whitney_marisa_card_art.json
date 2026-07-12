@@ -1,0 +1,572 @@
+[
+  {
+    "stem": "whitney-absolute_magnitude",
+    "loc_id": "WHITNEY-ABSOLUTE_MAGNITUDE",
+    "title": "Absolute Magnitude",
+    "desc": "Deal  damage for each Saturate you have. damage)|}"
+  },
+  {
+    "stem": "whitney-acceleration",
+    "loc_id": "WHITNEY-ACCELERATION",
+    "title": "Acceleration",
+    "desc": "Draw top  cards of your Draw Pile.\nAmplify : Draw  more."
+  },
+  {
+    "stem": "whitney-alices_gift",
+    "loc_id": "WHITNEY-ALICES_GIFT",
+    "title": "Alice's Gift",
+    "desc": "Deal  damage.\nAmplify : Hit three times."
+  },
+  {
+    "stem": "whitney-asteroid_belt",
+    "loc_id": "WHITNEY-ASTEROID_BELT",
+    "title": "Asteroid Belt",
+    "desc": "Gain  Block.\nAmplify : At the start of your next turn, gain  Block."
+  },
+  {
+    "stem": "whitney-big_crunch",
+    "loc_id": "WHITNEY-BIG_CRUNCH",
+    "title": "Big Crunch",
+    "desc": "Exhaust half of your Draw Pile and Discard Pile. For every  cards exhausted, gain  and draw 1 card. gain and draw:  )|}"
+  },
+  {
+    "stem": "whitney-binary_stars",
+    "loc_id": "WHITNEY-BINARY_STARS",
+    "title": "Binary Stars",
+    "desc": "Choose one from Black Flare Star and White Dwarf to add to your Hand.\nAmplify : Add both cards to your Hand."
+  },
+  {
+    "stem": "whitney-black_flare_star",
+    "loc_id": "WHITNEY-BLACK_FLARE_STAR",
+    "title": "Black Flare Star",
+    "desc": "Can only be played if there are 4 or more cards in your Hand.Discard any number of cards, gaining  Block for each."
+  },
+  {
+    "stem": "whitney-blaze_away",
+    "loc_id": "WHITNEY-BLAZE_AWAY",
+    "title": "Blaze Away",
+    "desc": "Choose an Attack card. Add a copy of that card into your Hand. Gain  equals to the cost of that card (including its Ampl"
+  },
+  {
+    "stem": "whitney-blazing_star",
+    "loc_id": "WHITNEY-BLAZING_STAR",
+    "title": "Blazing Star",
+    "desc": "Deal  damage. Add  Burns into your Hand.\nAmplify : Stun the enemy and Exhaust this card."
+  },
+  {
+    "stem": "whitney-bound_of_protagonists",
+    "loc_id": "WHITNEY-BOUND_OF_PROTAGONISTS",
+    "title": "Bond of Protagonists",
+    "desc": "Once each turn, gain 1 Flight when a Curse or Status is Exhausted."
+  },
+  {
+    "stem": "whitney-butt_smash",
+    "loc_id": "WHITNEY-BUTT_SMASH",
+    "title": "Butt Smash",
+    "desc": "Deal  damage.\nGain Block equal to unblocked damage dealt."
+  },
+  {
+    "stem": "whitney-card_swiper",
+    "loc_id": "WHITNEY-CARD_SWIPER",
+    "title": "Brazen Borrower",
+    "desc": "Steal cards from other players. Return after combat."
+  },
+  {
+    "stem": "whitney-casket_of_star",
+    "loc_id": "WHITNEY-CASKET_OF_STAR",
+    "title": "Casket of Star",
+    "desc": "Whenever you gain 3 or more Block, add  Spark into your Hand."
+  },
+  {
+    "stem": "whitney-charge_up_spray",
+    "loc_id": "WHITNEY-CHARGE_UP_SPRAY",
+    "title": "Saturate Spray",
+    "desc": "Deal  damage.\nIf this card consumes Saturate, gain  and draw 2 cards."
+  },
+  {
+    "stem": "whitney-charging_up",
+    "loc_id": "WHITNEY-CHARGING_UP",
+    "title": "Charging Up",
+    "desc": "Gain  Saturate."
+  },
+  {
+    "stem": "whitney-collecting_quirk",
+    "loc_id": "WHITNEY-COLLECTING_QUIRK",
+    "title": "Collecting Quirk",
+    "desc": "For every  relics you have, deal  damage to a random enemy. )|}"
+  },
+  {
+    "stem": "whitney-d_c",
+    "loc_id": "WHITNEY-D_C",
+    "title": "Direct Hit",
+    "desc": "Deal  damage.\nEnchant up to  random cards in your Hand with Inkbound."
+  },
+  {
+    "stem": "whitney-dark_matter",
+    "loc_id": "WHITNEY-DARK_MATTER",
+    "title": "Dark Matter",
+    "desc": "You can only play one Dark Matter each turn.\nAdd two copies of this card into your Draw Pile. Draw  .\nGain  Block when t"
+  },
+  {
+    "stem": "whitney-dark_spark",
+    "loc_id": "WHITNEY-DARK_SPARK",
+    "title": "Dark Spark",
+    "desc": "Deal  damage to ALL enemies.\nDeals  additional damage for each card in your Exhaust Pile."
+  },
+  {
+    "stem": "whitney-deep_ecological_bomb",
+    "loc_id": "WHITNEY-DEEP_ECOLOGICAL_BOMB",
+    "title": "Deep Ecological Bomb",
+    "desc": "Deal  damage. Enemy loses  Strength this turn.\nAmplify : Repeat this effect."
+  },
+  {
+    "stem": "whitney-defend_whitney",
+    "loc_id": "WHITNEY-DEFEND_WHITNEY",
+    "title": "Defend",
+    "desc": "Gain  Block."
+  },
+  {
+    "stem": "whitney-double_spark",
+    "loc_id": "WHITNEY-DOUBLE_SPARK",
+    "title": "Double Spark",
+    "desc": "Deal  damage and add  Spark into your Hand."
+  },
+  {
+    "stem": "whitney-dragon_meteor",
+    "loc_id": "WHITNEY-DRAGON_METEOR",
+    "title": "Dragon Meteor",
+    "desc": "Deal  damage.\nIf there is an Enchanted card in your Hand, gain ."
+  },
+  {
+    "stem": "whitney-earth_light_ray",
+    "loc_id": "WHITNEY-EARTH_LIGHT_RAY",
+    "title": "Earthlight Ray",
+    "desc": "Heal  HP.\nAmplify : Put a card from your Discard Pile into your Hand."
+  },
+  {
+    "stem": "whitney-eccentric_asteroid",
+    "loc_id": "WHITNEY-ECCENTRIC_ASTEROID",
+    "title": "Eccentric Asteroid",
+    "desc": "Gain  Block.\nThis card has Replay 1 if you have played a Spark card this turn."
+  },
+  {
+    "stem": "whitney-energy_flow",
+    "loc_id": "WHITNEY-ENERGY_FLOW",
+    "title": "Energy Flow",
+    "desc": "At the end of your turn, gain  Saturate."
+  },
+  {
+    "stem": "whitney-energy_recoil",
+    "loc_id": "WHITNEY-ENERGY_RECOIL",
+    "title": "Energy Recoil",
+    "desc": "Gain Block equal to your Saturate. Block)|}"
+  },
+  {
+    "stem": "whitney-escape_velocity",
+    "loc_id": "WHITNEY-ESCAPE_VELOCITY",
+    "title": "Escape Velocity",
+    "desc": "If you end your turn with cards in your Hand, draw that many cards (up to ) next turn."
+  },
+  {
+    "stem": "whitney-event_horizon",
+    "loc_id": "WHITNEY-EVENT_HORIZON",
+    "title": "Event Horizon",
+    "desc": "Whenever you active an Amplify effect, you may put an Attack from your Discard Pile into your Hand, up to   each turn."
+  },
+  {
+    "stem": "whitney-exhaustion",
+    "loc_id": "WHITNEY-EXHAUSTION",
+    "title": "Exhaustion",
+    "desc": "You cannot gain Saturate while this in your Hand."
+  },
+  {
+    "stem": "whitney-fairy_destruction_ray",
+    "loc_id": "WHITNEY-FAIRY_DESTRUCTION_RAY",
+    "title": "Fairy Destruction Ray",
+    "desc": "Deal  damage to ALL enemies.\nAmplify : Kill enemies with  or less HP."
+  },
+  {
+    "stem": "whitney-final_master_spark",
+    "loc_id": "WHITNEY-FINAL_MASTER_SPARK",
+    "title": "Final Master Spark",
+    "desc": "Deal  damage to ALL enemies.\nAmplify : Deal  damage instead."
+  },
+  {
+    "stem": "whitney-final_spark",
+    "loc_id": "WHITNEY-FINAL_SPARK",
+    "title": "Final Spark",
+    "desc": "Costs  less when you play a Spark card.\nDeal  damage to ALL enemies."
+  },
+  {
+    "stem": "whitney-firepower_hyoui",
+    "loc_id": "WHITNEY-FIREPOWER_HYOUI",
+    "title": "Firepower Hyoui",
+    "desc": "gain  Saturate."
+  },
+  {
+    "stem": "whitney-galactic_halo",
+    "loc_id": "WHITNEY-GALACTIC_HALO",
+    "title": "Galactic Halo",
+    "desc": "Gain  Block. Gain  Saturate"
+  },
+  {
+    "stem": "whitney-gas_giant",
+    "loc_id": "WHITNEY-GAS_GIANT",
+    "title": "Gas Giant",
+    "desc": "Gain  Block.\nAdd a Burn into your Hand."
+  },
+  {
+    "stem": "whitney-grand_cross",
+    "loc_id": "WHITNEY-GRAND_CROSS",
+    "title": "Grand Cross",
+    "desc": "Deal  damage.\nCosts 0  if you have activated an Amplify effect this turn."
+  },
+  {
+    "stem": "whitney-gravity_beat",
+    "loc_id": "WHITNEY-GRAVITY_BEAT",
+    "title": "Gravity Beat",
+    "desc": "Deal  damage and draw 1 card for every  cards in your deck.)|}"
+  },
+  {
+    "stem": "whitney-illusion_star",
+    "loc_id": "WHITNEY-ILLUSION_STAR",
+    "title": "Illusion Star",
+    "desc": "Add  random cards into your Hand.\nPut   from your Hand on top of your Draw Pile."
+  },
+  {
+    "stem": "whitney-initiator",
+    "loc_id": "WHITNEY-INITIATOR",
+    "title": "Initiator",
+    "desc": "Deal  damage.Add up to  random Attacks from your Draw Pile to your Hand,increase their damage by unblocked damage dealt "
+  },
+  {
+    "stem": "whitney-inkbound_potion",
+    "loc_id": "WHITNEY-INKBOUND_POTION",
+    "title": "Inkbound Potion",
+    "desc": "Choose up to  cards in your Hand,Enchant them with Inkbound."
+  },
+  {
+    "stem": "whitney-lumines_strike",
+    "loc_id": "WHITNEY-LUMINES_STRIKE",
+    "title": "Luminous Strike",
+    "desc": "Add a Burn into your Hand.\n Deal  to All Enemies.Deal  additional damage for each Burn you created."
+  },
+  {
+    "stem": "whitney-machine_gun_spark",
+    "loc_id": "WHITNEY-MACHINE_GUN_SPARK",
+    "title": "Machine Gun Spark",
+    "desc": "Deal  damage  times."
+  },
+  {
+    "stem": "whitney-magic_absorber",
+    "loc_id": "WHITNEY-MAGIC_ABSORBER",
+    "title": "Magic Absorber",
+    "desc": "Gain  Block. \nRemove a random debuff from yourself."
+  },
+  {
+    "stem": "whitney-magic_and_red_dream",
+    "loc_id": "WHITNEY-MAGIC_AND_RED_DREAM",
+    "title": "Magic and Red Dream",
+    "desc": "The first time you create a card each turn, draw  cards."
+  },
+  {
+    "stem": "whitney-magic_chant",
+    "loc_id": "WHITNEY-MAGIC_CHANT",
+    "title": "Magic Chant",
+    "desc": "Put a card from your Draw Pile into your Hand. Upgrade it if able."
+  },
+  {
+    "stem": "whitney-magical_r360",
+    "loc_id": "WHITNEY-MAGICAL_R360",
+    "title": "Magical R360",
+    "desc": "Gain  Block.\nEnchant a card in your Hand with Inkbound."
+  },
+  {
+    "stem": "whitney-mana_convection",
+    "loc_id": "WHITNEY-MANA_CONVECTION",
+    "title": "Mana Convection",
+    "desc": "Exhaust up to  cards in your Hand. Gain  for each card Exhausted and draw  card for each Burn Exhausted."
+  },
+  {
+    "stem": "whitney-mana_rampage",
+    "loc_id": "WHITNEY-MANA_RAMPAGE",
+    "title": "Mana Rampage",
+    "desc": "Play X random Attacks."
+  },
+  {
+    "stem": "whitney-master_spark",
+    "loc_id": "WHITNEY-MASTER_SPARK",
+    "title": "Master Spark",
+    "desc": "Deal  damage.\nAmplify : Deal  damage instead."
+  },
+  {
+    "stem": "whitney-maximise_power",
+    "loc_id": "WHITNEY-MAXIMISE_POWER",
+    "title": "Maximum Power",
+    "desc": "Convert your Saturate into .\nYour Attacks deal double damage this turn.\nYou cannot gain any more Buff this turn."
+  },
+  {
+    "stem": "whitney-meteoric_shower",
+    "loc_id": "WHITNEY-METEORIC_SHOWER",
+    "title": "Meteoric Shower",
+    "desc": "Exhaust up to X cards in your Hand.\nDeal  damage to a random enemy for each card Exhausted. Each Burn Exhausted deals da"
+  },
+  {
+    "stem": "whitney-milky_way",
+    "loc_id": "WHITNEY-MILKY_WAY",
+    "title": "Milky Way",
+    "desc": "Gain  Block.\nDraw 1 card.\nIncrease the damage of Attacks in your Hand by ."
+  },
+  {
+    "stem": "whitney-millisecond_pulsars",
+    "loc_id": "WHITNEY-MILLISECOND_PULSARS",
+    "title": "Millisecond Pulsars",
+    "desc": "Amplify effects do not require extra Energy to activate."
+  },
+  {
+    "stem": "whitney-mysterious_beam",
+    "loc_id": "WHITNEY-MYSTERIOUS_BEAM",
+    "title": "Mysterious Beam",
+    "desc": "Deal  damage. Add a random Attack into your Hand. This card's damage become same of the card added."
+  },
+  {
+    "stem": "whitney-non_directional_laser",
+    "loc_id": "WHITNEY-NON_DIRECTIONAL_LASER",
+    "title": "Non-Directional Laser",
+    "desc": "Deal  damage to ALL enemies.If you created any card this turn, repeat this effect."
+  },
+  {
+    "stem": "whitney-occultation",
+    "loc_id": "WHITNEY-OCCULTATION",
+    "title": "Occultation",
+    "desc": "Gain Block equal to the number of cards in your Draw Pile, then discard your Draw Pile. block)|}"
+  },
+  {
+    "stem": "whitney-one_time_off",
+    "loc_id": "WHITNEY-ONE_TIME_OFF",
+    "title": "One Time Off",
+    "desc": "Gain  Block.\nYou will not activate Saturate or Amplify this turn.\nNext turn, draw  ."
+  },
+  {
+    "stem": "whitney-oort_cloud",
+    "loc_id": "WHITNEY-OORT_CLOUD",
+    "title": "Oort Cloud",
+    "desc": "Gain  Plating.\nAmplify : Gain  more Plating."
+  },
+  {
+    "stem": "whitney-open_universe",
+    "loc_id": "WHITNEY-OPEN_UNIVERSE",
+    "title": "Open Universe",
+    "desc": "Add  random cards into your Draw Pile.\nDraw  cards and Upgrade them."
+  },
+  {
+    "stem": "whitney-orbital",
+    "loc_id": "WHITNEY-ORBITAL",
+    "title": "Orbital",
+    "desc": "Draw 1 card when drawn.\nIf this card is Exhausted, put up to   from your Exhaust Pile into your hand."
+  },
+  {
+    "stem": "whitney-orrerys_sun",
+    "loc_id": "WHITNEY-ORRERYS_SUN",
+    "title": "Orrery's Sun",
+    "desc": "Whenever your Saturate is consumed, gain  Block."
+  },
+  {
+    "stem": "whitney-orrerys_universe",
+    "loc_id": "WHITNEY-ORRERYS_UNIVERSE",
+    "title": "Orrery's Universe",
+    "desc": "Whenever you gain Inkbound, increase the damage of Attacks in your Hand have by ."
+  },
+  {
+    "stem": "whitney-perseids",
+    "loc_id": "WHITNEY-PERSEIDS",
+    "title": "Perseids",
+    "desc": "Gain  when drawn.\nIf this card is Exhausted, add  Super Perseids to your Hand."
+  },
+  {
+    "stem": "whitney-polaris_unique",
+    "loc_id": "WHITNEY-POLARIS_UNIQUE",
+    "title": "Polaris Unique",
+    "desc": "You can only play one Polaris Unique each turn.\nChoose a card in your Hand,increase its cost by 1.\nGain  and draw  ."
+  },
+  {
+    "stem": "whitney-power_up",
+    "loc_id": "WHITNEY-POWER_UP",
+    "title": "Upgrade!",
+    "desc": "Increase the damage of Attacks in your Hand have by ."
+  },
+  {
+    "stem": "whitney-prop_bag",
+    "loc_id": "WHITNEY-PROP_BAG",
+    "title": "Prop Bag",
+    "desc": "Obtain 3 random relics. Remove it at the end of combat."
+  },
+  {
+    "stem": "whitney-pulse_magic",
+    "loc_id": "WHITNEY-PULSE_MAGIC",
+    "title": "Pulse Magic",
+    "desc": "Next turn, gain .\nAmplify : Amplify effects do not require extra Energy to activate this turn."
+  },
+  {
+    "stem": "whitney-refraction_spark",
+    "loc_id": "WHITNEY-REFRACTION_SPARK",
+    "title": "Refraction Spark",
+    "desc": "Deal  damage. Increase the damage of ALL Spark cards in your hand by the unblocked damage dealt.\nAmplify : Deal  damage "
+  },
+  {
+    "stem": "whitney-rob",
+    "loc_id": "WHITNEY-ROB",
+    "title": "Robbery",
+    "desc": "Deal  damage. Gain Gold equal to unblocked damage dealt.\nAmplify : Double the Gold gain."
+  },
+  {
+    "stem": "whitney-satellite_illusion",
+    "loc_id": "WHITNEY-SATELLITE_ILLUSION",
+    "title": "Satellite Illusion",
+    "desc": "Gain  when you shuffle your Draw pile or when the number of cards in your Draw Pile increases after you play a card."
+  },
+  {
+    "stem": "whitney-shoot_the_danmaku_barrier",
+    "loc_id": "WHITNEY-SHOOT_THE_DANMAKU_BARRIER",
+    "title": "Shoot the Danmaku Barrier!",
+    "desc": "Deal  damage.\nThis card has Replay 1 if Enchanted."
+  },
+  {
+    "stem": "whitney-shoot_the_moon",
+    "loc_id": "WHITNEY-SHOOT_THE_MOON",
+    "title": "Shoot the Moon",
+    "desc": "Deal  damage.\nAmplify : Remove  from the target if it is not a boss."
+  },
+  {
+    "stem": "whitney-shooting_echo",
+    "loc_id": "WHITNEY-SHOOTING_ECHO",
+    "title": "Shooting Echo",
+    "desc": "Deal  damage.\nExhaust a card. If the Exhausted card is a Burn, return this card to your Hand."
+  },
+  {
+    "stem": "whitney-singularity",
+    "loc_id": "WHITNEY-SINGULARITY",
+    "title": "Singularity",
+    "desc": "Whenever you play a card that cost 0 , increase the damage of a random Attack in your Hand by ."
+  },
+  {
+    "stem": "whitney-spark",
+    "loc_id": "WHITNEY-SPARK",
+    "title": "Spark",
+    "desc": "Deal  damage."
+  },
+  {
+    "stem": "whitney-spark_strike",
+    "loc_id": "WHITNEY-SPARK_STRIKE",
+    "title": "Spark Strike",
+    "desc": "Deal  damage."
+  },
+  {
+    "stem": "whitney-spore_bomb",
+    "loc_id": "WHITNEY-SPORE_BOMB",
+    "title": "Spore Crump",
+    "desc": "Apply  Vulnerable.\nAmplify : Apply to ALL enemies."
+  },
+  {
+    "stem": "whitney-sprinkle_star_n_heart",
+    "loc_id": "WHITNEY-SPRINKLE_STAR_N_HEART",
+    "title": "Sprinkle Star & Heart",
+    "desc": "Your Inkbound will not be removed upon trigger this turn.\nAmplify : Gain  Inkbound."
+  },
+  {
+    "stem": "whitney-sprinkle_star_seal",
+    "loc_id": "WHITNEY-SPRINKLE_STAR_SEAL",
+    "title": "Sprinkle Star Seal",
+    "desc": "Apply  Weak."
+  },
+  {
+    "stem": "whitney-star_barrage",
+    "loc_id": "WHITNEY-STAR_BARRAGE",
+    "title": "Star Barrage",
+    "desc": "Deal  damage  .\nIncrease the hit count of this card by 1."
+  },
+  {
+    "stem": "whitney-star_dust_reverie",
+    "loc_id": "WHITNEY-STAR_DUST_REVERIE",
+    "title": "Stardust Reverie",
+    "desc": "Put your Hand back into your Draw Pile, then add that many plus one random cards into your Hand."
+  },
+  {
+    "stem": "whitney-starlight_typhoon",
+    "loc_id": "WHITNEY-STARLIGHT_TYPHOON",
+    "title": "Starlight Typhoon",
+    "desc": "Exhaust ALL non-Attack cards in your Hand. Add  Spark into your Hand for each card Exhausted."
+  },
+  {
+    "stem": "whitney-super_nova",
+    "loc_id": "WHITNEY-SUPER_NOVA",
+    "title": "Supernova",
+    "desc": "Burn your Hand at end of your turn.\nBurn no longer burn you.\nGain  Strength whenever a Burn is Burnt."
+  },
+  {
+    "stem": "whitney-super_perseids",
+    "loc_id": "WHITNEY-SUPER_PERSEIDS",
+    "title": "Super Perseids",
+    "desc": "Deal  damage to a random enemy  times."
+  },
+  {
+    "stem": "whitney-test_whitney_card",
+    "loc_id": "WHITNEY-TEST_WHITNEY_CARD",
+    "title": "whitney-test_whitney_card",
+    "desc": ""
+  },
+  {
+    "stem": "whitney-treasure_hunter",
+    "loc_id": "WHITNEY-TREASURE_HUNTER",
+    "title": "Treasure Hunter",
+    "desc": "Deal  damage.\nIf Fatal against a Boss or Elite, gain an additional Relic reward."
+  },
+  {
+    "stem": "whitney-ultra_short_wave",
+    "loc_id": "WHITNEY-ULTRA_SHORT_WAVE",
+    "title": "Ultimate Shortwave",
+    "desc": "Gain  and  Saturate.\nIncrease this card's  gain by 1 and Saturate gain by ."
+  },
+  {
+    "stem": "whitney-unstable_bomb",
+    "loc_id": "WHITNEY-UNSTABLE_BOMB",
+    "title": "Unstable Bomb",
+    "desc": "Deal  to  damage to a random enemy  times.\nAmplify : hit  more ."
+  },
+  {
+    "stem": "whitney-up_sweep",
+    "loc_id": "WHITNEY-UP_SWEEP",
+    "title": "Up Sweep",
+    "desc": "Deal  damage. Gain  Saturate."
+  },
+  {
+    "stem": "whitney-violent_tricholoma",
+    "loc_id": "WHITNEY-VIOLENT_TRICHOLOMA",
+    "title": "Violent Tricholoma",
+    "desc": "Draw  cards.\nGain  Saturate."
+  },
+  {
+    "stem": "whitney-walpurgisnacht",
+    "loc_id": "WHITNEY-WALPURGISNACHT",
+    "title": "Walpurgisnacht",
+    "desc": "Whenever you play an Enchanted card, gain  next turn.\nAmplify : At the start of your turn, Enchant  random  in your hand"
+  },
+  {
+    "stem": "whitney-white_dwarf",
+    "loc_id": "WHITNEY-WHITE_DWARF",
+    "title": "White Dwarf",
+    "desc": "Can only be played if there are 4 or fewer cards in your Hand.Deal  times the damage of your Discard Pile and add 2 Burn"
+  },
+  {
+    "stem": "whitney-witch_leyline",
+    "loc_id": "WHITNEY-WITCH_LEYLINE",
+    "title": "Witch Leyline",
+    "desc": "Deal  damage.\nAdd a Burn into your Hand."
+  },
+  {
+    "stem": "whitney-witch_of_greed",
+    "loc_id": "WHITNEY-WITCH_OF_GREED",
+    "title": "Witch of Greed",
+    "desc": "At the end of combat, gain  Gold.\nAmplify :Also obtain a Potion."
+  }
+]

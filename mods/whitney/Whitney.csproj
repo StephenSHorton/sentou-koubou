@@ -43,12 +43,16 @@
     </ItemGroup>
 
     <ItemGroup>
+        <!-- Asset roots: do not treat PNG/tscn as compile inputs, but keep C# under Whitney/scenes -->
         <Compile Remove="Whitney/**" />
+        <Compile Include="Whitney/**/*.cs" />
         <Compile Remove="materials/**" />
+        <Compile Remove="Materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
         <EmbeddedResource Remove="Whitney/**" />
         <EmbeddedResource Remove="materials/**" />
+        <EmbeddedResource Remove="Materials/**" />
         <EmbeddedResource Remove="shaders/**" />
         <EmbeddedResource Remove="images/**" />
     </ItemGroup>

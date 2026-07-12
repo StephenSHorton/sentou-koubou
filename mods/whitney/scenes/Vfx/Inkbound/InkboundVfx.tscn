@@ -1,0 +1,124 @@
+[gd_scene load_steps=20 format=3 uid="uid://dwhm6ptua58bb"]
+
+[ext_resource type="Shader" uid="uid://bm4b6jkg21kmp" path="res://Materials/Shader/Spark/Spark.gdshader" id="1_0w0t3"]
+[ext_resource type="Script" uid="uid://q1al8nqijia6" path="res://Scenes/Vfx/Inkbound/InkboundVfx.cs" id="1_tou1e"]
+[ext_resource type="Shader" uid="uid://bj1r8n8b1dhh7" path="res://Materials/Shader/Inkbound/InkboundRingVfx.gdshader" id="2_tou1e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0w0t3"]
+resource_local_to_scene = true
+shader = ExtResource("1_0w0t3")
+shader_parameter/ray_count = 4.0
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 4.0
+shader_parameter/pulse_period = 4.5
+shader_parameter/pulse_amplitude = 0.25
+shader_parameter/Saturation = 0.2
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_tou1e"]
+
+[sub_resource type="Curve" id="Curve_n5gn5"]
+_data = [Vector2(0.022857144, 0), 0.0, 0.0, 0, 0, Vector2(0.28571427, 1), 0.0, 0.0, 0, 0, Vector2(0.75714284, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_0rph7"]
+curve = SubResource("Curve_n5gn5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mn5ci"]
+resource_local_to_scene = true
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(10, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+inherit_velocity_ratio = 0.02
+gravity = Vector3(0, 200, 0)
+scale_max = 16.0
+scale_curve = SubResource("CurveTexture_0rph7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n5gn5"]
+resource_local_to_scene = true
+shader = ExtResource("1_0w0t3")
+shader_parameter/ray_count = 4.0
+shader_parameter/arm_factor = 2.43
+shader_parameter/arm_factor2 = 0.7
+shader_parameter/glow_factor = 5.585
+shader_parameter/pulse_period = 4.5
+shader_parameter/pulse_amplitude = 0.1
+shader_parameter/Saturation = 0.8
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_0rph7"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_0w0t3"]
+noise_type = 3
+seed = 100
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tou1e"]
+noise = SubResource("FastNoiseLite_0w0t3")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mn5ci"]
+resource_local_to_scene = true
+shader = ExtResource("2_tou1e")
+shader_parameter/power = 1.0
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_tou1e")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_gfaso"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tou1e"]
+shader = ExtResource("1_0w0t3")
+shader_parameter/ray_count = 4.0
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 3.5
+shader_parameter/pulse_period = 4.5
+shader_parameter/pulse_amplitude = 0.25
+shader_parameter/Saturation = 0.8
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_n5gn5"]
+
+[sub_resource type="Curve" id="Curve_0rph7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.34571427, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mn5ci"]
+curve = SubResource("Curve_0rph7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gfaso"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 213.01
+initial_velocity_max = 418.62
+gravity = Vector3(0, 0, 0)
+damping_max = 100.00001
+scale_max = 12.0
+scale_curve = SubResource("CurveTexture_mn5ci")
+
+[node name="InkboundVfx" type="Node2D"]
+scale = Vector2(5, 5)
+script = ExtResource("1_tou1e")
+
+[node name="particle" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_0w0t3")
+amount = 16
+texture = SubResource("CanvasTexture_tou1e")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_mn5ci")
+
+[node name="star" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_n5gn5")
+texture = SubResource("CanvasTexture_0rph7")
+
+[node name="ring" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_mn5ci")
+texture = SubResource("CanvasTexture_gfaso")
+
+[node name="explode" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_tou1e")
+emitting = false
+amount = 50
+texture = SubResource("CanvasTexture_n5gn5")
+lifetime = 0.9
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_gfaso")

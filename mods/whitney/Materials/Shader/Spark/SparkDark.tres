@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://n0ukp2bxhx6x"]
+
+[ext_resource type="Shader" uid="uid://dgviir81nyvbq" path="res://Materials/Shader/Spark/SparkDark.gdshader" id="1_iy7ve"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_iy7ve")
+shader_parameter/ring_radius = 0.1
+shader_parameter/ring_factor = 0.545
+shader_parameter/ring_brightness = 0.03
+shader_parameter/ray_count = 4.0
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.5
+shader_parameter/glow_factor = 4.0
+shader_parameter/pulse_period = 3.5
+shader_parameter/pulse_amplitude = 0.25

@@ -1,3 +1,6 @@
 {
-  
+  "WHITNEY-INKBOUND_POWER.tile": "Inkbound",
+  "WHITNEY-INKBOUND_POWER.description": "Gain [gold]Block[/gold] and deal damage to all enemies at end of turn.",
+  "WHITNEY-INKBOUND_ENCHANTMENT.tile": "Inkbound",
+  "WHITNEY-INKBOUND_ENCHANTMENT.description": "Cards with [gold]Inkbound[/gold] apply [gold]Inkbound[/gold] to you when played."
 }

@@ -1,0 +1,85 @@
+[gd_scene load_steps=16 format=3 uid="uid://dfoyxogdbr14p"]
+
+[ext_resource type="Script" uid="uid://bfbgck564n37g" path="res://Scenes/Vfx/SparkProjectile/VfxSparkProjectile.cs" id="1_5waeo"]
+[ext_resource type="Material" uid="uid://croem2yk678ru" path="res://Materials/Shader/Trail/VfxSparkProjectileTrail.tres" id="2_5waeo"]
+[ext_resource type="Script" uid="uid://dsif6b5dl3ire" path="res://Scenes/Vfx/SparkProjectile/Trail.cs" id="3_ikjg3"]
+[ext_resource type="Shader" uid="uid://d0tams4w5r1k2" path="res://Materials/Shader/SparkSlug.gdshader" id="4_cc6ra"]
+[ext_resource type="Shader" uid="uid://js2ii34t7oqt" path="res://Materials/Shader/Spark/SparkParticle.gdshader" id="5_qog2o"]
+[ext_resource type="Material" uid="uid://brj544djoqatt" path="res://Materials/ParticleProcess/SpreadSpawnParticle.tres" id="6_ikjg3"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_bw1qh"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_ayf4r"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_e4roo"]
+noise_type = 3
+seed = 95
+frequency = 0.013
+fractal_type = 2
+fractal_octaves = 4
+fractal_lacunarity = 2.27
+fractal_gain = 0.385
+fractal_ping_pong_strength = 4.17
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o1lt7"]
+width = 128
+noise = SubResource("FastNoiseLite_e4roo")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4roo"]
+resource_local_to_scene = true
+shader = ExtResource("4_cc6ra")
+shader_parameter/Saturation = 0.2
+shader_parameter/spark_color = Color(0.4, 0.8352941, 0.84705883, 1)
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_o1lt7")
+shader_parameter/projectile_speed = 1.0
+shader_parameter/turn_amount = 0.0
+shader_parameter/visible = 1.0
+shader_parameter/explosion_progress = 0.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_ikjg3"]
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_0eixb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ikjg3"]
+shader = ExtResource("5_qog2o")
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 4.0
+shader_parameter/spark_color = Color(0.4, 0.8, 0.8, 1)
+shader_parameter/rainbow_ratio = 0.2
+shader_parameter/Saturation = 0.2
+shader_parameter/size = 1500.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_cc6ra"]
+
+[node name="VfxSparkProjectile" type="Node2D"]
+script = ExtResource("1_5waeo")
+
+[node name="trail" type="MeshInstance2D" parent="."]
+material = ExtResource("2_5waeo")
+position = Vector2(-9, 0)
+scale = Vector2(25, 25)
+mesh = SubResource("ArrayMesh_bw1qh")
+texture = SubResource("CanvasTexture_ayf4r")
+script = ExtResource("3_ikjg3")
+
+[node name="slug" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_e4roo")
+scale = Vector2(200, 200)
+mesh = SubResource("QuadMesh_ikjg3")
+texture = SubResource("CanvasTexture_0eixb")
+
+[node name="particles" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_ikjg3")
+emitting = false
+amount = 300
+amount_ratio = 0.2
+texture = SubResource("CanvasTexture_cc6ra")
+lifetime = 0.8
+trail_lifetime = 0.2
+trail_sections = 20
+trail_section_subdivisions = 8
+process_material = ExtResource("6_ikjg3")

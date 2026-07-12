@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c85rh5jieaaa5"]
+
+[ext_resource type="Shader" uid="uid://bm4b6jkg21kmp" path="res://Materials/Shader/Spark/Spark.gdshader" id="1_x7vvc"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_x7vvc")
+shader_parameter/ray_count = 4.0
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.45
+shader_parameter/glow_factor = 4.0
+shader_parameter/pulse_period = 4.5
+shader_parameter/pulse_amplitude = 0.25
+shader_parameter/Saturation = 0.2
