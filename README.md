@@ -67,6 +67,19 @@ dotnet build          # copies .dll + .json into the game mods folder
 
 **Quit STS2 before build** — the game locks `Mods/*.dll`.
 
+## Releases (local, per mod)
+
+Each mod gets its own GitHub Release via tags like **`whitney/v0.2.0`** (not a monorepo `v1.0.0`).  
+Build on a machine with STS2 installed — same model as most character mods (e.g. Marisa).
+
+```bash
+# Quit the game first. Bump version, build, zip, tag, upload Release:
+python tools/release_mod.py whitney 0.2.1 --local-upload
+```
+
+Zip layout: `Whitney.zip` → `Whitney/{Whitney.dll, Whitney.json, Whitney.pck}`.  
+Details: [`docs/releasing.md`](docs/releasing.md) · agent notes: `AGENTS.md` → Releases.
+
 ## Workshop upload
 
 Official tool: [megacrit/sts2-mod-uploader](https://github.com/megacrit/sts2-mod-uploader).

@@ -20,6 +20,43 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
 
+## Releases (local, per mod)
+
+Ship **one GitHub Release per mod**, built on a machine that has STS2 installed (no cloud CI).  
+Tag format: `mod-id/vX.Y.Z` — e.g. `whitney/v0.2.0`, `brennen/v0.1.1`, `blake/v0.1.0`, `trading-post/v0.1.0`.
+
+### Package shape
+
+```text
+Whitney.zip
+└── Whitney/
+    ├── Whitney.dll
+    ├── Whitney.json
+    └── Whitney.pck          # when applicable
+```
+
+Players unzip into `Slay the Spire 2/mods/`. Character mods need BaseLib.
+
+### Cut a release
+
+```bash
+# Quit STS2 first (DLL lock). From a clean worktree / ready branch:
+python tools/release_mod.py whitney 0.2.1 --local-upload
+```
+
+What that does: bump `mods/<mod>/<Assembly>.json` version → Release build → zip under `tools/gen_out/releases/` → commit version if dirty → annotated tag `mod/vX.Y.Z` → `gh release create` with the zip.
+
+| Flag | Use |
+|------|-----|
+| `--local-upload` | Full path: build, tag, GitHub Release (preferred) |
+| `--build-only` | Build + zip only; no git/gh |
+| `--push` | Tag + `git push` branch/tag (no asset upload) |
+| `--skip-build` | Reuse last local build when re-packaging |
+
+Known mod ids: `whitney`, `brennen`, `blake`, `trading-post`.
+
+More detail: `docs/releasing.md`.
+
 ## Local catalog
 
 ```bash
