@@ -16,6 +16,9 @@ public sealed class RunItDown() : BrennenCard(0, CardType.Skill, CardRarity.Rare
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Tilted, BrennenTips.Fed];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new EnergyVar(2),

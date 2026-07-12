@@ -14,6 +14,9 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class Shutdown() : BrennenCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Tilted, BrennenTips.Fed];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(9, ValueProp.Move),

@@ -12,23 +12,26 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Uncommon;
 
+/// <summary>First-turn execute for gold — Fatal on turn 1 → 100 Gold.</summary>
 public sealed class FirstBlood() : BrennenCard(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(4, ValueProp.Move),
-        new EnergyVar(1),
+        new DynamicVar("Gold", 100),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        if (play.Target is not null && play.Target.IsDead)
-        {
-            await Fed.Gain(choiceContext, Owner, 2, this);
-            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-            await CardPileCmd.Draw(choiceContext, 1, Owner);
-        }
+        if (play.Target is null || !play.Target.IsDead)
+            return;
+
+        // First combat turn only (PlayerCombatState.TurnNumber starts at 1).
+        if (Owner.PlayerCombatState is not { TurnNumber: 1 })
+            return;
+
+        await PlayerCmd.GainGold(DynamicVars["Gold"].IntValue, Owner);
     }
 
     protected override void OnUpgrade()

@@ -14,10 +14,11 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class ObjectiveDragon() : BrennenCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<VigorPower>()];
+    [
+        BrennenTips.Fed,
+        HoverTipFactory.FromPower<VigorPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

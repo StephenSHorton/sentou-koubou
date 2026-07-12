@@ -15,6 +15,9 @@ namespace Brennen.BrennenCode.Cards.Basic;
 /// <summary>Secure the kill — Fatal: Fed + draw.</summary>
 public sealed class LastHit() : BrennenCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Fed];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(6, ValueProp.Move)];
 

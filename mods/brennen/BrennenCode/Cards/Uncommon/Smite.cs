@@ -12,10 +12,9 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Uncommon;
 
+/// <summary>Unblockable hit + Energy. No Exhaust; Energy is unconditional.</summary>
 public sealed class Smite() : BrennenCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(12, ValueProp.Unblockable | ValueProp.Move),
@@ -25,12 +24,9 @@ public sealed class Smite() : BrennenCard(1, CardType.Attack, CardRarity.Uncommo
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        if (play.Target is not null && play.Target.IsDead)
-        {
-            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-            if (IsUpgraded)
-                await Fed.Gain(choiceContext, Owner, 1, this);
-        }
+        await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+        if (IsUpgraded && play.Target is not null && play.Target.IsDead)
+            await Fed.Gain(choiceContext, Owner, 1, this);
     }
 
     protected override void OnUpgrade()

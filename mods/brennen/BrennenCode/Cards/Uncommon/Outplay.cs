@@ -16,6 +16,9 @@ public sealed class Outplay() : BrennenCard(1, CardType.Skill, CardRarity.Uncomm
 {
     public override bool GainsBlock => true;
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Tilted];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new BlockVar(8, ValueProp.Move),

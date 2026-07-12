@@ -10,36 +10,25 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
-namespace Brennen.BrennenCode.Cards.Rare;
+namespace Brennen.BrennenCode.Cards.Common;
 
-public sealed class OneVNine() : BrennenCard(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+/// <summary>Become Tilted and cycle a card. Pure Tilted enabler.</summary>
+public sealed class Requeue() : BrennenCard(0, CardType.Skill, CardRarity.Common, TargetType.None)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [BrennenTips.Tilted];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(22, ValueProp.Move)];
-
-    protected override bool ShouldGlowGoldInternal => Tilted.IsTilted(Owner);
-
-    public override bool TryModifyEnergyCostInCombat(CardModel card, decimal originalCost, out decimal modifiedCost)
-    {
-        if (card != this || !Tilted.IsTilted(Owner))
-        {
-            modifiedCost = originalCost;
-            return false;
-        }
-        modifiedCost = 0;
-        return true;
-    }
+        [new CardsVar(1)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        await Tilted.Become(choiceContext, Owner, this);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(8m);
+        DynamicVars.Cards.UpgradeValueBy(1m);
     }
 }

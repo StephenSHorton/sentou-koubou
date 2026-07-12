@@ -14,6 +14,9 @@ namespace Brennen.BrennenCode.Cards.Rare;
 
 public sealed class Bounty() : BrennenCard(1, CardType.Power, CardRarity.Rare, TargetType.None)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Fed, BrennenTips.Tilted];
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         if (Owner.Creature is not null)

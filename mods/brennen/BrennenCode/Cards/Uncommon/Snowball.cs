@@ -14,6 +14,9 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class Snowball() : BrennenCard(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
 {
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Fed];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("Snowball", 4)];
 

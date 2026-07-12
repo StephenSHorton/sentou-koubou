@@ -15,7 +15,9 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 public sealed class ObjectiveHerald() : BrennenCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
     public override bool GainsBlock => true;
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Fed];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(8, ValueProp.Move)];

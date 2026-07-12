@@ -12,10 +12,14 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Common;
 
+/// <summary>Self-damage trade: 10 dmg / 2 HP. Upgrade doubles both.</summary>
 public sealed class Trade() : BrennenCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(10, ValueProp.Move)];
+    [
+        new DamageVar(10, ValueProp.Move),
+        new DynamicVar("HpLoss", 2),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -25,7 +29,7 @@ public sealed class Trade() : BrennenCard(1, CardType.Attack, CardRarity.Common,
             await CreatureCmd.Damage(
                 choiceContext,
                 [Owner.Creature],
-                2,
+                DynamicVars["HpLoss"].IntValue,
                 ValueProp.Unblockable | ValueProp.Unpowered,
                 Owner.Creature,
                 this);
@@ -34,6 +38,8 @@ public sealed class Trade() : BrennenCard(1, CardType.Attack, CardRarity.Common,
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        // Double damage and self-damage: 10→20, 2→4.
+        DynamicVars.Damage.UpgradeValueBy(10m);
+        DynamicVars["HpLoss"].UpgradeValueBy(2m);
     }
 }
