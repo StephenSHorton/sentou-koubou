@@ -65,40 +65,21 @@ public static class RestSiteOptionsPatch
 }
 
 /// <summary>
-/// Our custom option's icon ships as a plain PNG beside the mod DLL rather than in the
-/// game's preload cache; load it from disk (falling back to the gold coin).
+/// Rest-site option icons are transparent cutouts. Ours ships as option_trade.png
+/// beside the DLL (built with alpha — black frame punched out).
 /// </summary>
 [HarmonyPatch(typeof(RestSiteOption), "Icon", MethodType.Getter)]
 public static class RestSiteOptionIconPatch
 {
-    private static Texture2D? _tradeIcon;
-
     public static bool Prefix(RestSiteOption __instance, ref Texture2D __result)
     {
         if (__instance is not TradeRestSiteOption)
         {
             return true;
         }
-        __result = _tradeIcon ??= LoadTradeIcon();
+        __result = TradeAssets.OptionTrade
+                   ?? TradeAssets.IconTrade
+                   ?? GD.Load<Texture2D>("res://images/packed/sprite_fonts/gold_icon.png");
         return false;
-    }
-
-    private static Texture2D LoadTradeIcon()
-    {
-        try
-        {
-            string dir = Path.GetDirectoryName(typeof(MainFile).Assembly.Location)!;
-            string png = Path.Combine(dir, "option_trade.png");
-            if (File.Exists(png))
-            {
-                Image image = Image.LoadFromFile(png);
-                return ImageTexture.CreateFromImage(image);
-            }
-        }
-        catch (Exception e)
-        {
-            MainFile.Logger.Warn($"Custom trade icon failed to load: {e.Message}");
-        }
-        return GD.Load<Texture2D>("res://images/packed/sprite_fonts/gold_icon.png");
     }
 }
