@@ -23,6 +23,13 @@ public class Whitney : PlaceholderCharacterModel
     public static readonly Color Color = new("4B3F8C");
 
     public override Color NameColor => Color;
+
+    /// <summary>Map path / pen color when drawing routes — same violet as clothing.</summary>
+    public override Color MapDrawingColor => Color;
+
+    /// <summary>Multiplayer remote-target line matches map / name color.</summary>
+    public override Color RemoteTargetingLineColor => Color;
+
     public override CharacterGender Gender => CharacterGender.Feminine;
     public override int StartingHp => 74;
 

@@ -23,6 +23,13 @@ public class Brennen : PlaceholderCharacterModel
     public static readonly Color Color = new("e85d4c");
 
     public override Color NameColor => Color;
+
+    /// <summary>Map path / pen color when drawing routes.</summary>
+    public override Color MapDrawingColor => Color;
+
+    /// <summary>Multiplayer remote-target line matches map / name color.</summary>
+    public override Color RemoteTargetingLineColor => Color;
+
     public override CharacterGender Gender => CharacterGender.Masculine;
     /// <summary>Tankier baseline — soaks so the "ADC" can cook.</summary>
     public override int StartingHp => 82;
