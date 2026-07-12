@@ -1,0 +1,73 @@
+{
+  "character": "Whitney",
+  "source_blend": "tools/char-anim-pipeline/blender/whitney_combat_rig.blend",
+  "fps": 24,
+  "resolution": [
+    512,
+    682
+  ],
+  "format": "PNG RGBA flipbook",
+  "combat_states": {
+    "idle": {
+      "folder": "frames/idle",
+      "start": 1,
+      "end": 48,
+      "loop": true,
+      "clip": "idle"
+    },
+    "attack": {
+      "folder": "frames/attack",
+      "start": 1,
+      "end": 20,
+      "loop": false,
+      "clip": "attack"
+    },
+    "hit": {
+      "folder": "frames/hit",
+      "start": 1,
+      "end": 10,
+      "loop": false,
+      "clip": "hit"
+    },
+    "dead": {
+      "folder": "frames/dead",
+      "start": 1,
+      "end": 24,
+      "loop": false,
+      "clip": "dead"
+    },
+    "cast": {
+      "folder": "frames/attack",
+      "start": 1,
+      "end": 20,
+      "loop": false,
+      "clip": "attack",
+      "note": "placeholder uses attack"
+    },
+    "relaxed": {
+      "folder": "frames/idle",
+      "start": 1,
+      "end": 48,
+      "loop": true,
+      "clip": "idle",
+      "note": "placeholder uses idle"
+    },
+    "revive": {
+      "folder": "frames/idle",
+      "start": 1,
+      "end": 24,
+      "loop": false,
+      "clip": "idle",
+      "note": "placeholder half idle"
+    }
+  },
+  "baselib_states": [
+    "idle",
+    "attack",
+    "cast",
+    "hit",
+    "dead",
+    "relaxed",
+    "revive"
+  ]
+}

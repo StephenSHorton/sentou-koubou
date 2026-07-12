@@ -3,6 +3,7 @@ using BaseLib.Utils.NodeFactories;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using Whitney.WhitneyCode.Cards.Basic;
 using Whitney.WhitneyCode.Extensions;
 using Whitney.WhitneyCode.Relics;
@@ -68,4 +69,13 @@ public class Whitney : PlaceholderCharacterModel
     /// </summary>
     public override string CustomCharacterSelectBg =>
         "res://scenes/screens/char_select/char_select_bg_whitney.tscn";
+
+    /// <summary>
+    /// Combat body: Blender flipbook (idle / attack / hit / dead) instead of Ironclad.
+    /// See tools/char-anim-pipeline/export/whitney/ and BLENDER_PIPELINE.md.
+    /// </summary>
+    public override NCreatureVisuals? CreateCustomVisuals() => WhitneyCombatVisuals.Create();
+
+    /// <summary>Dead clip is 24 frames @ 24fps = 1.0s; small headroom.</summary>
+    public override float DeathAnimTime => 1.1f;
 }
