@@ -7,10 +7,9 @@ using MegaCrit.Sts2.Core.Nodes.Multiplayer;
 namespace TradingPost;
 
 /// <summary>
-/// Game-native UI for the Trading Post. Consent prompts and notifications use the
-/// game's own NGenericPopup scene; the trade menu is a custom overlay dressed in
-/// styles (fonts, panel, buttons) stolen at runtime from that same popup, so it
-/// matches the game's look without shipping any assets.
+/// Game-native UI for the Trading Post. Consent prompts use <see cref="NGenericPopup"/>;
+/// trade menus are custom overlays with STS2 fonts plus mod PNG art (banner + row icons)
+/// so they read as painted STS2 chrome rather than stock Godot widgets.
 /// </summary>
 public static class TradeUi
 {
@@ -32,13 +31,11 @@ public static class TradeUi
 
     // ------------------------------------------------------------ native popups
 
-    /// <summary>Fire-and-forget notification using the game's own popup scene.</summary>
     public static void Notify(string text)
     {
         TaskHelper.RunSafely(ShowGamePopup(text, confirmOnly: true, null));
     }
 
-    /// <summary>Accept/decline prompt using the game's own popup scene.</summary>
     public static void Confirm(string text, Action<bool> onAnswer)
     {
         TaskHelper.RunSafely(ShowGamePopup(text, confirmOnly: false, onAnswer));
@@ -53,7 +50,6 @@ public static class TradeUi
             onAnswer?.Invoke(false);
             return;
         }
-        // The modal stack fits one screen at a time; wait politely for it to free up.
         for (int i = 0; i < 400 && container.OpenModal != null; i++)
         {
             await Task.Delay(300);
@@ -69,10 +65,6 @@ public static class TradeUi
 
     // ------------------------------------------------------------ style stealing
 
-    /// <summary>
-    /// Instantiates the game's generic popup off-screen once and lifts its resolved
-    /// theme pieces so our custom screens render with the game's exact styling.
-    /// </summary>
     private static void EnsureStyles()
     {
         if (_stylesLoaded)
@@ -84,11 +76,12 @@ public static class TradeUi
             NGenericPopup? donor = NGenericPopup.Create();
             if (donor == null || Root == null)
             {
+                BuildButtonStyles();
+                _stylesLoaded = true;
                 return;
             }
             donor.Visible = false;
             Root.AddChild(donor);
-            // _verticalPopup is only assigned lazily inside WaitForConfirmation; fetch the node directly.
             NVerticalPopup vp = donor.GetNode<NVerticalPopup>("VerticalPopup");
             var title = vp.TitleLabel;
             var body = vp.BodyLabel;
@@ -114,26 +107,25 @@ public static class TradeUi
         }
     }
 
-    /// <summary>Dark panels with gold trim, matching the game's dialog language.</summary>
     private static void BuildButtonStyles()
     {
         StyleBoxFlat Make(Color bg, Color border)
         {
-            var style = new StyleBoxFlat
+            return new StyleBoxFlat
             {
                 BgColor = bg,
                 BorderColor = border,
                 BorderWidthBottom = 2, BorderWidthTop = 2, BorderWidthLeft = 2, BorderWidthRight = 2,
-                CornerRadiusBottomLeft = 6, CornerRadiusBottomRight = 6,
-                CornerRadiusTopLeft = 6, CornerRadiusTopRight = 6,
-                ContentMarginLeft = 24, ContentMarginRight = 24,
+                CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
+                CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
+                ContentMarginLeft = 18, ContentMarginRight = 18,
                 ContentMarginTop = 10, ContentMarginBottom = 10,
             };
-            return style;
         }
-        _btnNormal = Make(new Color(0.086f, 0.078f, 0.11f, 0.92f), new Color(0.54f, 0.45f, 0.20f));
-        _btnHover = Make(new Color(0.161f, 0.14f, 0.19f, 0.95f), new Color(0.83f, 0.71f, 0.35f));
-        _btnPressed = Make(new Color(0.055f, 0.047f, 0.07f, 0.95f), new Color(0.42f, 0.35f, 0.16f));
+        // STS2-ish dark plate + gold trim
+        _btnNormal = Make(new Color(0.086f, 0.078f, 0.11f, 0.94f), new Color(0.62f, 0.50f, 0.22f));
+        _btnHover = Make(new Color(0.16f, 0.13f, 0.19f, 0.96f), new Color(0.90f, 0.76f, 0.36f));
+        _btnPressed = Make(new Color(0.05f, 0.04f, 0.07f, 0.96f), new Color(0.42f, 0.34f, 0.15f));
     }
 
     private static StyleBox? FindPanelStyle(Node node)
@@ -165,11 +157,11 @@ public static class TradeUi
         }
         return new StyleBoxFlat
         {
-            BgColor = new Color(0.09f, 0.08f, 0.11f, 0.98f),
+            BgColor = new Color(0.08f, 0.07f, 0.10f, 0.98f),
             BorderColor = new Color(0.78f, 0.66f, 0.29f),
             BorderWidthBottom = 3, BorderWidthTop = 3, BorderWidthLeft = 3, BorderWidthRight = 3,
-            CornerRadiusBottomLeft = 10, CornerRadiusBottomRight = 10,
-            CornerRadiusTopLeft = 10, CornerRadiusTopRight = 10,
+            CornerRadiusBottomLeft = 12, CornerRadiusBottomRight = 12,
+            CornerRadiusTopLeft = 12, CornerRadiusTopRight = 12,
         };
     }
 
@@ -183,19 +175,18 @@ public static class TradeUi
         {
             label.AddThemeFontOverride("font", font);
         }
-        label.AddThemeFontSizeOverride("font_size", isTitle ? _titleSize + 8 : _bodySize);
+        label.AddThemeFontSizeOverride("font_size", isTitle ? _titleSize + 6 : _bodySize);
         Color color = isTitle ? _titleColor : _bodyColor;
         if (dim)
         {
-            color.A = 0.65f;
+            color.A = 0.7f;
         }
         label.AddThemeColorOverride("font_color", color);
         return label;
     }
 
-    private static Button MakeButton(string text, Action onPressed, float minWidth = 620, float minHeight = 64)
+    private static void ApplyButtonChrome(Button button)
     {
-        var button = new Button { Text = text, CustomMinimumSize = new Vector2(minWidth, minHeight) };
         if (_buttonFont != null)
         {
             button.AddThemeFontOverride("font", _buttonFont);
@@ -213,12 +204,94 @@ public static class TradeUi
         {
             button.AddThemeStyleboxOverride("pressed", _btnPressed);
         }
+    }
+
+    private static Button MakeButton(string text, Action onPressed, float minWidth = 620, float minHeight = 64)
+    {
+        var button = new Button { Text = text, CustomMinimumSize = new Vector2(minWidth, minHeight) };
+        ApplyButtonChrome(button);
         button.Pressed += () => onPressed();
         return button;
     }
 
-    /// <summary>Dimmed full-screen overlay with a centered game-styled panel.</summary>
-    private static VBoxContainer OpenShell(string title, string? subtitle)
+    /// <summary>STS2-style row: painted icon + label on a gold-trimmed plate button.</summary>
+    private static Button MakeIconButton(string text, Texture2D? icon, Action onPressed,
+        float minWidth = 620, float minHeight = 78)
+    {
+        var button = new Button
+        {
+            CustomMinimumSize = new Vector2(minWidth, minHeight),
+            Text = "", // content is custom
+        };
+        ApplyButtonChrome(button);
+
+        var row = new HBoxContainer
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Alignment = BoxContainer.AlignmentMode.Center,
+        };
+        row.AddThemeConstantOverride("separation", 18);
+        row.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        // Keep text clear of stylebox margins
+        row.OffsetLeft = 16;
+        row.OffsetRight = -16;
+        button.AddChild(row);
+
+        if (icon != null)
+        {
+            var tex = new TextureRect
+            {
+                Texture = icon,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+                CustomMinimumSize = new Vector2(56, 56),
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            row.AddChild(tex);
+        }
+
+        var label = new Label
+        {
+            Text = text,
+            VerticalAlignment = VerticalAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        if (_buttonFont != null)
+        {
+            label.AddThemeFontOverride("font", _buttonFont);
+        }
+        label.AddThemeFontSizeOverride("font_size", _buttonSize);
+        label.AddThemeColorOverride("font_color", _bodyColor);
+        row.AddChild(label);
+
+        button.Pressed += () => onPressed();
+        return button;
+    }
+
+    private static Control? MakeBanner()
+    {
+        Texture2D? tex = TradeAssets.MenuBanner ?? TradeAssets.IconTrade ?? TradeAssets.OptionTrade;
+        if (tex == null)
+        {
+            return null;
+        }
+        var wrap = new CenterContainer();
+        var image = new TextureRect
+        {
+            Texture = tex,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            CustomMinimumSize = new Vector2(520, 280),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        wrap.AddChild(image);
+        return wrap;
+    }
+
+    /// <summary>Dimmed full-screen overlay with a centered game-styled panel + optional banner art.</summary>
+    private static VBoxContainer OpenShell(string title, string? subtitle, bool showBanner = true)
     {
         CloseMenu();
         EnsureStyles();
@@ -241,15 +314,24 @@ public static class TradeUi
         center.AddChild(panel);
 
         var margin = new MarginContainer();
-        margin.AddThemeConstantOverride("margin_left", 48);
-        margin.AddThemeConstantOverride("margin_right", 48);
-        margin.AddThemeConstantOverride("margin_top", 36);
-        margin.AddThemeConstantOverride("margin_bottom", 36);
+        margin.AddThemeConstantOverride("margin_left", 44);
+        margin.AddThemeConstantOverride("margin_right", 44);
+        margin.AddThemeConstantOverride("margin_top", 32);
+        margin.AddThemeConstantOverride("margin_bottom", 32);
         panel.AddChild(margin);
 
         var content = new VBoxContainer();
-        content.AddThemeConstantOverride("separation", 18);
+        content.AddThemeConstantOverride("separation", 16);
         margin.AddChild(content);
+
+        if (showBanner)
+        {
+            Control? banner = MakeBanner();
+            if (banner != null)
+            {
+                content.AddChild(banner);
+            }
+        }
 
         content.AddChild(MakeLabel(title, isTitle: true));
         if (subtitle != null)
@@ -273,17 +355,18 @@ public static class TradeUi
 
     // ------------------------------------------------------------ trade flow
 
-    /// <summary>Adds the Trade button to the merchant room screen.</summary>
+    /// <summary>Adds a painted Trade button to the merchant room screen.</summary>
     public static void AddTradeButton(Control shopScreen)
     {
         EnsureStyles();
-        Button button = MakeButton("Trade", OpenMenu, minWidth: 240, minHeight: 64);
+        Button button = MakeIconButton("Trade", TradeAssets.IconTrade ?? TradeAssets.OptionTrade, OpenMenu,
+            minWidth: 280, minHeight: 72);
         button.Name = "TradingPostButton";
         shopScreen.AddChild(button);
         button.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.BottomLeft);
         button.OffsetLeft = 36;
-        button.OffsetRight = 276;
-        button.OffsetTop = -132;
+        button.OffsetRight = 316;
+        button.OffsetTop = -140;
         button.OffsetBottom = -68;
     }
 
@@ -295,14 +378,13 @@ public static class TradeUi
         }
         VBoxContainer content = OpenShell("TRADING POST",
             "Gold flows freely at the shop. Cards trade at campfires.");
-        content.AddChild(MakeButton("Give Gold  —  a gift, no strings attached", () =>
-            PickTarget("Send gold to whom?", PickGoldAmount)));
+        content.AddChild(MakeIconButton("Give Gold — a gift, no strings attached",
+            TradeAssets.IconGold, () => PickTarget("Send gold to whom?", PickGoldAmount)));
         content.AddChild(MakeButton("Never Mind", CloseMenu, minWidth: 300, minHeight: 52));
     }
 
     /// <summary>
-    /// Campfire card trade, opened by <see cref="TradeRestSiteOption" />. Resolves the outcome
-    /// task with true only when a trade actually completed — that consumes the campfire action.
+    /// Campfire card trade. Resolves true only when a trade completed (consumes rest action).
     /// </summary>
     public static void OpenCampfireMenu(TaskCompletionSource<bool> outcome)
     {
@@ -314,7 +396,8 @@ public static class TradeUi
         }
         PickTarget("Give a card to whom? This spends your time at the campfire.", target =>
             TaskHelper.RunSafely(RunAndResolve(() => sync.GiftCardLocal(target), outcome)),
-            () => outcome.TrySetResult(false));
+            () => outcome.TrySetResult(false),
+            playerIcon: TradeAssets.IconCard ?? TradeAssets.IconTrade);
     }
 
     private static async Task RunAndResolve(Func<Task<bool>> flow, TaskCompletionSource<bool> outcome)
@@ -332,8 +415,8 @@ public static class TradeUi
         outcome.TrySetResult(result);
     }
 
-    /// <summary>Shows the player chooser; reports cancellation so campfire flows can refund.</summary>
-    private static void PickTarget(string prompt, Action<Player> onPicked, Action? onCancelled = null)
+    private static void PickTarget(string prompt, Action<Player> onPicked, Action? onCancelled = null,
+        Texture2D? playerIcon = null)
     {
         TradeSynchronizer? sync = TradeSynchronizer.Instance;
         if (sync == null)
@@ -349,15 +432,16 @@ public static class TradeUi
             onCancelled?.Invoke();
             return;
         }
+        Texture2D? icon = playerIcon ?? TradeAssets.IconTrade ?? TradeAssets.IconCard;
         VBoxContainer content = OpenShell("TRADING POST", prompt);
         foreach (Player other in others)
         {
             Player captured = other;
-            content.AddChild(MakeButton(TradeSynchronizer.NameOf(captured), () =>
-            {
-                CloseMenu();
-                onPicked(captured);
-            }, minWidth: 460));
+            content.AddChild(MakeIconButton(TradeSynchronizer.NameOf(captured), icon, () =>
+                {
+                    CloseMenu();
+                    onPicked(captured);
+                }, minWidth: 480));
         }
         content.AddChild(MakeButton("Never Mind", () =>
         {
@@ -382,6 +466,21 @@ public static class TradeUi
 
         VBoxContainer content = OpenShell("TRADING POST",
             $"How much gold do you send to {TradeSynchronizer.NameOf(target)}?");
+
+        // Gold icon row
+        if (TradeAssets.IconGold != null)
+        {
+            var goldIcon = new TextureRect
+            {
+                Texture = TradeAssets.IconGold,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+                CustomMinimumSize = new Vector2(72, 72),
+            };
+            var iconWrap = new CenterContainer();
+            iconWrap.AddChild(goldIcon);
+            content.AddChild(iconWrap);
+        }
 
         int start = Math.Min(50, max);
         var amountEdit = new LineEdit
@@ -429,7 +528,7 @@ public static class TradeUi
         }
         content.AddChild(presets);
 
-        content.AddChild(MakeButton("Send It", () =>
+        content.AddChild(MakeIconButton("Send It", TradeAssets.IconGold, () =>
         {
             int amount = (int)slider.Value;
             CloseMenu();

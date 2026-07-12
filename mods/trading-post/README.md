@@ -21,11 +21,13 @@ Co-op trading for **Slay the Spire 2** multiplayer.
 ## Build
 
 ```bash
-dotnet build   # copies TradingPost.dll + .json + option_trade.png into the game's mods folder
+dotnet build   # copies TradingPost.dll + .json + UI PNGs into the game's mods folder
 ```
 
 No `.pck` needed — UI is stock Godot controls styled from the game's own theme, localization
-is injected at runtime, and the campfire icon is a plain PNG loaded from the mod folder.
+is injected at runtime, and painted PNG cutouts (campfire icon, menu banner, gold/card/trade
+icons) are loaded from the mod folder. Campfire icons must be **transparent cutouts** (no
+black plate) or the rest-site tile shows a black outline.
 
 ## Implementation notes
 

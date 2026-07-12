@@ -5,10 +5,10 @@ using MegaCrit.Sts2.Core.Entities.RestSite;
 namespace TradingPost;
 
 /// <summary>
-/// The campfire "Trade" action: give a card or request a relic from another player.
+/// The campfire "Trade" action: gift a card from your deck to another player.
 /// Success consumes the campfire action via the game's own rest-site flow; backing
-/// out (or a declined relic offer) leaves the action unspent. OnSelect runs on every
-/// client — the owner drives the UI, mirrors await the broadcast outcome.
+/// out leaves the action unspent. OnSelect runs on every client — the owner drives
+/// the UI, mirrors await the broadcast outcome.
 /// </summary>
 public sealed class TradeRestSiteOption : RestSiteOption
 {
