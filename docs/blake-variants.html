@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blake — J slim + STS2 drawn pass</title>
+  <style>
+    :root {
+      --bg: #0e1218; --panel: #171c26; --text: #f0f4fa; --muted: #8b97ab;
+      --accent: #3b82f6; --accent-hot: #f6c945; --line: #2a3344; --ok: #3ecf8e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(900px 500px at 20% -5%, #1a3a6b 0%, transparent 55%),
+        radial-gradient(700px 400px at 90% 10%, #3a2810 0%, transparent 50%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 1.75rem 1.25rem 3rem;
+    }
+    header { max-width: 1280px; margin: 0 auto 1.25rem; }
+    .tag {
+      display: inline-block; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--accent);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      padding: 0.15rem 0.55rem; border-radius: 999px; margin-bottom: 0.55rem;
+    }
+    h1 { margin: 0 0 0.35rem; font-size: 1.55rem; letter-spacing: -0.02em; }
+    .sub { color: var(--muted); max-width: 56rem; line-height: 1.55; margin: 0; }
+    .sub strong { color: var(--accent-hot); }
+    .callout {
+      margin-top: 0.85rem; padding: 0.7rem 0.9rem;
+      background: rgba(62, 207, 142, 0.08);
+      border: 1px solid rgba(62, 207, 142, 0.3);
+      border-radius: 10px; color: #b7e4c7; font-size: 0.9rem; line-height: 1.5; max-width: 56rem;
+    }
+    section { max-width: 1280px; margin: 0 auto 1.6rem; }
+    section h2 {
+      margin: 0 0 0.7rem; font-size: 1.05rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    section h2 span {
+      font-size: 0.72rem; font-weight: 500; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+    .grid-side {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 900px;
+    }
+    @media (max-width: 900px) {
+      .grid-4, .grid-side { grid-template-columns: 1fr; max-width: 480px; }
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+      overflow: hidden; box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      display: flex; flex-direction: column;
+      transition: border-color 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+    .card.picked {
+      border-color: var(--ok);
+      box-shadow: 0 0 0 2px rgba(62, 207, 142, 0.35), 0 14px 40px rgba(0,0,0,0.4);
+    }
+    .card.dim { opacity: 0.4; }
+    .img-wrap {
+      background:
+        linear-gradient(45deg, #222834 25%, transparent 25%),
+        linear-gradient(-45deg, #222834 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #222834 75%),
+        linear-gradient(-45deg, transparent 75%, #222834 75%);
+      background-size: 22px 22px;
+      background-position: 0 0, 0 11px, 11px -11px, -11px 0;
+      background-color: #141820;
+      aspect-ratio: 3 / 4; min-height: 300px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: zoom-in; position: relative;
+    }
+    .img-wrap.small { min-height: 220px; }
+    .img-wrap img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .badge {
+      position: absolute; top: 0.6rem; left: 0.6rem;
+      background: rgba(12, 16, 24, 0.88); border: 1px solid var(--line);
+      color: #93c5fd; font-size: 0.8rem; font-weight: 700;
+      padding: 0.22rem 0.55rem; border-radius: 999px;
+    }
+    .body {
+      padding: 0.9rem 1rem 1.05rem;
+      display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
+    }
+    .body h3 { margin: 0; font-size: 1.05rem; }
+    .body p { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .chip {
+      font-size: 0.7rem; padding: 0.16rem 0.42rem; border-radius: 6px;
+      background: #10151e; border: 1px solid var(--line); color: #b8c3d6;
+    }
+    .chip.pro { border-color: rgba(62, 207, 142, 0.4); color: #86efac; }
+    .chip.con { border-color: rgba(232, 93, 106, 0.4); color: #fca5a5; }
+    .meta {
+      font-family: ui-monospace, Consolas, monospace; font-size: 0.72rem; color: #aab4c6;
+      background: #0f131a; border: 1px solid var(--line); border-radius: 8px;
+      padding: 0.4rem 0.55rem; word-break: break-all;
+    }
+    .actions { display: flex; gap: 0.45rem; margin-top: 0.25rem; flex-wrap: wrap; }
+    button {
+      font: inherit; cursor: pointer; border-radius: 8px;
+      border: 1px solid var(--line); background: #10151e; color: var(--text);
+      padding: 0.42rem 0.7rem; font-size: 0.86rem;
+    }
+    button:hover { border-color: var(--accent); color: #bfdbfe; }
+    button.primary {
+      background: linear-gradient(180deg, #2563eb, #1d4ed8);
+      border-color: #3b82f6; font-weight: 600;
+    }
+    button.ghost { background: transparent; }
+    .pick-bar {
+      max-width: 1280px; margin: 0 auto 1.15rem; padding: 0.8rem 1rem;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem;
+      justify-content: space-between;
+    }
+    .pick-bar .label { color: var(--muted); font-size: 0.88rem; }
+    .pick-bar .choice { font-weight: 700; font-size: 1.02rem; color: var(--ok); min-width: 10rem; }
+    .pick-bar .choice.empty { color: var(--muted); font-weight: 500; }
+    .notes { max-width: 1280px; margin: 0 auto; color: var(--muted); font-size: 0.86rem; line-height: 1.5; }
+    .notes a { color: #93c5fd; }
+    .lb {
+      display: none; position: fixed; inset: 0; z-index: 50;
+      background: rgba(5, 8, 14, 0.92); align-items: center; justify-content: center;
+      padding: 1.5rem; cursor: zoom-out;
+    }
+    .lb.open { display: flex; }
+    .lb img {
+      max-width: min(96vw, 920px); max-height: 92vh; object-fit: contain;
+      border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+    }
+    .lb .cap {
+      position: absolute; bottom: 1.25rem; left: 50%; transform: translateX(-50%);
+      color: #c5d0e0; font-size: 0.9rem; background: rgba(0,0,0,0.55);
+      padding: 0.35rem 0.75rem; border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="tag">J lineage · slimmer face · STS2 hand-drawn</div>
+    <h1>Blake J → slimmer + drawn (like Whitney)</h1>
+    <p class="sub">
+      You liked <strong>J</strong> (pose/identity). This pass: moderately leaner face, and paint closer to
+      <strong>STS2 / Whitney hand-drawn gouache</strong> (soft flat shapes, matte brush) instead of comic-book ink.
+      Direct Whitney-as-style-image was tried and bled her face/hat — so style is described from her paint language without copying her.
+    </p>
+    <div class="callout">
+      Best lock candidates are usually <strong>K</strong> or <strong>L</strong>. J kept for side-by-side.
+    </div>
+  </header>
+
+  <div class="pick-bar">
+    <div>
+      <div class="label">Your pick (local only)</div>
+      <div class="choice empty" id="pickLabel">None yet — Pick J / K / L / M</div>
+    </div>
+    <div class="actions">
+      <button type="button" class="ghost" id="clearPick">Clear</button>
+    </div>
+  </div>
+
+  <section>
+    <h2>J vs slim+drawn <span>keys J K L M</span></h2>
+    <div class="grid-4" id="variantGrid">
+
+      <article class="card" data-id="J" id="card-J">
+        <div class="img-wrap" data-src="assets/blake/variants/blake_variant_J_charge.jpg" data-cap="J — original (you liked pose)">
+          <span class="badge">J</span>
+          <img src="assets/blake/variants/blake_variant_J_charge.jpg" alt="Blake J original" />
+        </div>
+        <div class="body">
+          <h3>J · Original (baseline)</h3>
+          <p>Pose you liked. Fuller face, more comic/superhero linework.</p>
+          <div class="chips">
+            <span class="chip pro">Best pose/energy</span>
+            <span class="chip con">Face heavier</span>
+            <span class="chip con">Comic ink</span>
+          </div>
+          <div class="meta">blake_variant_J_charge.jpg</div>
+          <div class="actions"><button type="button" class="primary pick-btn" data-pick="J">Pick J</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-id="K" id="card-K">
+        <div class="img-wrap" data-src="assets/blake/variants/blake_variant_K_j_slim_gouache.jpg" data-cap="K — slim + gouache">
+          <span class="badge">K</span>
+          <img src="assets/blake/variants/blake_variant_K_j_slim_gouache.jpg" alt="Blake K" />
+        </div>
+        <div class="body">
+          <h3>K · Slim + gouache blocks</h3>
+          <p>Leaner face, soft painted shapes, abstract color-block bg closest to Whitney’s medium.</p>
+          <div class="chips">
+            <span class="chip pro">Leaner face</span>
+            <span class="chip pro">Hand-painted STS2</span>
+            <span class="chip pro">Same wind-up</span>
+          </div>
+          <div class="meta">blake_variant_K_j_slim_gouache.jpg</div>
+          <div class="actions"><button type="button" class="primary pick-btn" data-pick="K">Pick K</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-id="L" id="card-L">
+        <div class="img-wrap" data-src="assets/blake/variants/blake_variant_L_j_slim_drawn.jpg" data-cap="L — slim + drawn">
+          <span class="badge">L</span>
+          <img src="assets/blake/variants/blake_variant_L_j_slim_drawn.jpg" alt="Blake L" />
+        </div>
+        <div class="body">
+          <h3>L · Slim + matte drawn</h3>
+          <p>Athletic leaner face, matte brush, simplified planes — strong family-pack match.</p>
+          <div class="chips">
+            <span class="chip pro">Lean face</span>
+            <span class="chip pro">STS2 matte paint</span>
+            <span class="chip pro">Glasses clear</span>
+          </div>
+          <div class="meta">blake_variant_L_j_slim_drawn.jpg</div>
+          <div class="actions"><button type="button" class="primary pick-btn" data-pick="L">Pick L</button></div>
+        </div>
+      </article>
+
+      <article class="card" data-id="M" id="card-M">
+        <div class="img-wrap" data-src="assets/blake/variants/blake_variant_M_j_slim_paint.jpg" data-cap="M — slim + painterly">
+          <span class="badge">M</span>
+          <img src="assets/blake/variants/blake_variant_M_j_slim_paint.jpg" alt="Blake M" />
+        </div>
+        <div class="body">
+          <h3>M · Slim + painterly speed</h3>
+          <p>Leaner face, still has speed-line bg (halfway between comic and gouache).</p>
+          <div class="chips">
+            <span class="chip pro">Leaner</span>
+            <span class="chip pro">Dynamic bg</span>
+            <span class="chip con">Still a bit comic</span>
+          </div>
+          <div class="meta">blake_variant_M_j_slim_paint.jpg</div>
+          <div class="actions"><button type="button" class="primary pick-btn" data-pick="M">Pick M</button></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Style target <span>Whitney D3 paint language</span></h2>
+    <div class="grid-side">
+      <article class="card">
+        <div class="img-wrap small" data-src="assets/whitney/variants/whitney_locked_d3.jpg" data-cap="Whitney locked D3">
+          <img src="assets/whitney/variants/whitney_locked_d3.jpg" alt="Whitney style target" />
+        </div>
+        <div class="body">
+          <h3>Whitney D3 (style target)</h3>
+          <p>Soft gouache, flat shapes, light detail — what Blake’s paint should match.</p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="img-wrap small" data-src="assets/blake/variants/blake_ref_office.png" data-cap="Photo ref">
+          <img src="assets/blake/variants/blake_ref_office.png" alt="Photo ref" />
+        </div>
+        <div class="body">
+          <h3>Photo (identity, not weight)</h3>
+          <p>Glasses/hair/features — face weight intentionally leaner than photo for game hero read.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <p class="notes">
+    Live: <a href="http://127.0.0.1:8765/blake-variants.html">http://127.0.0.1:8765/blake-variants.html</a>
+    · hard-refresh if cached (Ctrl+F5)
+  </p>
+
+  <div class="lb" id="lb"><img id="lbImg" alt="" /><div class="cap" id="lbCap"></div></div>
+
+  <script>
+    const labels = {
+      J: "J — original (fuller / comic)",
+      K: "K — slim + gouache (recommended)",
+      L: "L — slim + matte drawn (recommended)",
+      M: "M — slim + painterly speed lines",
+    };
+    const cards = Object.fromEntries(["J","K","L","M"].map(k => [k, document.getElementById("card-"+k)]));
+    const pickLabel = document.getElementById("pickLabel");
+    function setPick(id) {
+      for (const [k, el] of Object.entries(cards)) {
+        el.classList.toggle("picked", k === id);
+        el.classList.toggle("dim", !!id && k !== id);
+      }
+      if (!id) {
+        pickLabel.textContent = "None yet — Pick J / K / L / M";
+        pickLabel.classList.add("empty");
+      } else {
+        pickLabel.textContent = labels[id];
+        pickLabel.classList.remove("empty");
+      }
+      try { localStorage.setItem("blake-variant-pick", id || ""); } catch (_) {}
+    }
+    document.querySelectorAll(".pick-btn").forEach(btn => btn.addEventListener("click", () => setPick(btn.dataset.pick)));
+    document.getElementById("clearPick").addEventListener("click", () => setPick(null));
+    const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg"), lbCap = document.getElementById("lbCap");
+    function openLb(src, cap) { lbImg.src = src; lbCap.textContent = cap || ""; lb.classList.add("open"); }
+    function closeLb() { lb.classList.remove("open"); lbImg.removeAttribute("src"); }
+    document.querySelectorAll(".img-wrap").forEach(el => el.addEventListener("click", () => openLb(el.dataset.src, el.dataset.cap)));
+    lb.addEventListener("click", closeLb);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLb();
+      const k = e.key.toUpperCase();
+      if (labels[k]) setPick(k);
+    });
+    try {
+      const s = localStorage.getItem("blake-variant-pick");
+      if (labels[s]) setPick(s); else localStorage.removeItem("blake-variant-pick");
+    } catch (_) {}
+  </script>
+</body>
+</html>

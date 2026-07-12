@@ -1,0 +1,14 @@
+{
+  "BLAKE.keywords.Charge.title": "Charge",
+  "BLAKE.keywords.Charge.description": "Stored damage on your fist meter. Starts at base each combat. [gold]Rev[/gold] doubles it. [gold]Unleash[/gold] spends it for damage, then resets to base. Taking unblocked attack damage [gold]halves[/gold] Charge (never below base).",
+  "BLAKE.keywords.Rev.title": "Rev",
+  "BLAKE.keywords.Rev.description": "Double your [gold]Charge[/gold]. All charging is multiplicative.",
+  "BLAKE.keywords.Unleash.title": "Unleash",
+  "BLAKE.keywords.Unleash.description": "Deal damage equal to your [gold]Charge[/gold], then reset [gold]Charge[/gold] to base.",
+  "BLAKE.keywords.Sweetspot.title": "Sweetspot",
+  "BLAKE.keywords.Sweetspot.description": "A bonus if the stated condition is true — usually if the enemy intends to Attack.",
+  "BLAKE.keywords.Combo.title": "Combo",
+  "BLAKE.keywords.Combo.description": "Bonus if this is at least the Nth card you've played this turn.",
+  "BLAKE.keywords.Follow-Through.title": "Follow-Through",
+  "BLAKE.keywords.Follow-Through.description": "Excess damage from this attack hits another enemy."
+}

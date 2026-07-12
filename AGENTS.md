@@ -17,6 +17,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 
 - `mods/brennen` — Full tank character kit. Regen generated cards with `python tools/generate_brennen_kit.py`.
 - `mods/whitney` — Atelier witch, Energy + Ink dual mana, full 20C/35U/25R kit + combat flipbooks.
+- `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
 
 ## Local catalog
@@ -70,6 +71,7 @@ Interactive variant pages (`docs/*-variants.html`) → user picks:
 |------|----------------|----------------------|
 | Brennen | `docs/assets/brennen/variants/brennen_locked_portrait.jpg` (+ `portrait_sts2.jpg` header) | `brennen_combat_right.png` (transparent), green plate for regen |
 | Whitney | `docs/assets/whitney/variants/whitney_locked_d3.jpg` (+ `portrait_sts2.jpg`) | `whitney_combat_right.png` ready stance, 3/4 face readable |
+| Blake | `docs/assets/blake/variants/blake_locked_portrait.jpg` (variant **M**) (+ `portrait_sts2.jpg`) | `blake_combat_right.png` ready idle faces right; chroma via `tools/chroma_blake_fullbody.py` |
 
 Visual bibles: `tools/brennen_visual_bible.json`, `tools/whitney_visual_bible.json`.
 

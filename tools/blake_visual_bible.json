@@ -1,0 +1,73 @@
+{
+  "character": "Blake",
+  "title": "The Falcon",
+  "fantasy": "Racer-brawler; exponential Charge / Rev / Unleash punch fantasy (Captain Falcon homage).",
+  "palette": {
+    "primary": "#2B6CB0",
+    "accent_gold": "#F6C945",
+    "gauntlet_red": "#C23B2A",
+    "charge_glow": "#5CE1FF",
+    "suit": "blue racing pilot suit with yellow/gold trim"
+  },
+  "identity_lock": {
+    "status": "LOCKED — variant M",
+    "locked_portrait": "docs/assets/blake/variants/blake_locked_portrait.jpg",
+    "header_portrait": "docs/assets/blake/portrait_sts2.jpg",
+    "source_variant": "docs/assets/blake/variants/blake_variant_M_j_slim_paint.jpg",
+    "photo_refs": [
+      "docs/assets/blake/variants/blake_ref_office.png",
+      "docs/assets/blake/variants/blake_ref_restaurant.png"
+    ],
+    "style_target": "docs/assets/whitney/variants/whitney_locked_d3.jpg",
+    "notes": "M = J pose lineage, slimmer face, painterly STS2. Fists only. Never Brennen face style-ref. Never sword."
+  },
+  "combat_lock": {
+    "status": "LOCKED — ready idle, faces right, 3/4 face readable; lighter plate preferred",
+    "combat_right_png": "docs/assets/blake/variants/blake_combat_right.png",
+    "combat_right_green": "docs/assets/blake/variants/blake_combat_right_green.jpg",
+    "combat_right_preview": "docs/assets/blake/variants/blake_combat_right_preview.jpg",
+    "fullbody_aliases": [
+      "docs/assets/blake/variants/blake_fullbody_m.png",
+      "docs/assets/blake/variants/blake_base_fullbody.png"
+    ],
+    "chroma_script": "tools/chroma_blake_fullbody.py",
+    "lighting": "lighter combat plate (user rejected dark/moody pass). Cyan fist glow is a signature read.",
+    "rejected": [
+      "docs/assets/blake/variants/blake_combat_alt_dark_rejected_green.jpg"
+    ],
+    "rules": [
+      "Face the fight toward the RIGHT (STS2 left-side fighter)",
+      "Three-quarter face readable — not full profile",
+      "Default base is ready/idle, not mid-punch",
+      "Paint language matches locked portrait M",
+      "Keep cyan/blue fist aura as a signature read",
+      "Green plate is for cutouts/regen only — never leave green on card art"
+    ]
+  },
+  "recurring_props": [
+    "red/gold racing gauntlets (primary weapon — fists only, NO sword)",
+    "cyan Charge energy around lead fist / gauntlets",
+    "blue pilot racing suit + yellow/gold trim",
+    "white pilot scarf",
+    "speed-line / track energy (card scenes)",
+    "checkered flag / trophy belt (relics only)"
+  ],
+  "hard_rules": [
+    "Never draw a sword, blade, or greatsword on Blake",
+    "Silhouette must not read as Brennen (dark plate + sword)",
+    "Primary combat prop is the charged fist / gauntlet",
+    "Do not use Brennen portrait as style reference for face"
+  ],
+  "style": "STS2 hand-painted gouache graphic — soft matte brush, simplified face, limited detail. Match Whitney D3 paint language; silhouette is blue racer-brawler not ink mage.",
+  "ui": {
+    "map_drawing_color": "#3B82F6",
+    "name_color": "#2B6CB0"
+  },
+  "combat_flipbook": {
+    "code": "mods/blake/BlakeCode/Character/BlakeCombatVisuals.cs",
+    "frames": "mods/blake/Blake/images/combat/{idle,attack,hit,dead}/",
+    "counts": { "idle": 24, "attack": 12, "hit": 8, "dead": 12 },
+    "notes": "MVP key-pose expansion from combat_right + attack/hit/dead plates. Replace with Blender pipeline export when ready (see tools/char-anim-pipeline/)."
+  }
+}
+

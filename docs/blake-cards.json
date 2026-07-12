@@ -1,0 +1,344 @@
+[
+  {
+    "id": "Jab",
+    "title": "Jab",
+    "rarity": "Basic",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage.",
+    "role": ""
+  },
+  {
+    "id": "Guard",
+    "title": "Guard",
+    "rarity": "Basic",
+    "cost": 1,
+    "type": "Skill",
+    "text": "Gain {Block:diff()} [gold]Block[/gold].",
+    "role": ""
+  },
+  {
+    "id": "RevUp",
+    "title": "Rev Up",
+    "rarity": "Basic",
+    "cost": 1,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "Haymaker",
+    "title": "Haymaker",
+    "rarity": "Basic",
+    "cost": 1,
+    "type": "Attack",
+    "text": "[gold]Unleash[/gold] \u2014 deal damage equal to your [gold]Charge[/gold].",
+    "role": ""
+  },
+  {
+    "id": "WarmEngine",
+    "title": "Warm Engine",
+    "rarity": "Common",
+    "cost": 1,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold]. Gain {Block:diff()} [gold]Block[/gold].",
+    "role": ""
+  },
+  {
+    "id": "WindUp",
+    "title": "Wind-Up",
+    "rarity": "Common",
+    "cost": 0,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "RaptorBoost",
+    "title": "Raptor Boost",
+    "rarity": "Common",
+    "cost": 2,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage. [gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "GuardUp",
+    "title": "Guard Up",
+    "rarity": "Common",
+    "cost": 1,
+    "type": "Skill",
+    "text": "Gain {Block:diff()} [gold]Block[/gold]. If your [gold]Charge[/gold] is above base, gain {HighBlock:diff()} instead.",
+    "role": ""
+  },
+  {
+    "id": "OneTwo",
+    "title": "One-Two",
+    "rarity": "Common",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage twice. [gold]Combo 3[/gold]: draw 1.",
+    "role": ""
+  },
+  {
+    "id": "DashAttack",
+    "title": "Dash Attack",
+    "rarity": "Common",
+    "cost": 0,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage. [gold]Combo 3[/gold]: deal {ComboDamage:diff()} instead.",
+    "role": ""
+  },
+  {
+    "id": "ShoulderCheck",
+    "title": "Shoulder Check",
+    "rarity": "Common",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage. [gold]Sweetspot[/gold] \u2014 enemy intends to Attack: apply {Weak:diff()} [gold]Weak[/gold].",
+    "role": ""
+  },
+  {
+    "id": "FalconDive",
+    "title": "Falcon Dive",
+    "rarity": "Common",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage. If Fatal, gain {Energy:energyIcons()} and [gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "Sidestep",
+    "title": "Sidestep",
+    "rarity": "Common",
+    "cost": 0,
+    "type": "Skill",
+    "text": "Gain {Block:diff()} [gold]Block[/gold].",
+    "role": ""
+  },
+  {
+    "id": "ShowMeYourMoves",
+    "title": "Show Me Your Moves",
+    "rarity": "Common",
+    "cost": 0,
+    "type": "Skill",
+    "text": "Apply {Weak:diff()} [gold]Weak[/gold]. Draw {Cards:diff()} card.",
+    "role": ""
+  },
+  {
+    "id": "FullThrottle",
+    "title": "Full Throttle",
+    "rarity": "Uncommon",
+    "cost": 2,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold] twice.",
+    "role": ""
+  },
+  {
+    "id": "Ignition",
+    "title": "Ignition",
+    "rarity": "Uncommon",
+    "cost": 0,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "Redline",
+    "title": "Redline",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold]. If your [gold]Charge[/gold] is {Threshold:diff()} or more, [gold]Rev[/gold] again.",
+    "role": ""
+  },
+  {
+    "id": "Slipstream",
+    "title": "Slipstream",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Power",
+    "text": "Whenever you play your {Threshold:diff()}th card in a turn, [gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "PerfectShield",
+    "title": "Perfect Shield",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Skill",
+    "text": "Gain {Block:diff()} [gold]Block[/gold]. If you block ALL attack damage this turn, [gold]Rev[/gold] at end of turn.",
+    "role": ""
+  },
+  {
+    "id": "Pressure",
+    "title": "Pressure",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal damage equal to half your [gold]Charge[/gold]. Doesn't reset.",
+    "role": ""
+  },
+  {
+    "id": "StoredPower",
+    "title": "Stored Power",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Skill",
+    "text": "Gain [gold]Block[/gold] equal to half your [gold]Charge[/gold].",
+    "role": ""
+  },
+  {
+    "id": "FalconKick",
+    "title": "Falcon Kick",
+    "rarity": "Uncommon",
+    "cost": 2,
+    "type": "Attack",
+    "text": "[gold]Unleash[/gold] \u2014 deal damage equal to your [gold]Charge[/gold] to ALL enemies.",
+    "role": ""
+  },
+  {
+    "id": "CleanKo",
+    "title": "Clean KO",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal damage equal to your [gold]Charge[/gold]. If this kills the enemy, don't reset.",
+    "role": ""
+  },
+  {
+    "id": "KneeOfJustice",
+    "title": "Knee of Justice",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal {Damage:diff()} damage. [gold]Sweetspot[/gold] \u2014 enemy intends to Attack: deal {SweetDamage:diff()} instead.",
+    "role": ""
+  },
+  {
+    "id": "Grab",
+    "title": "Grab",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Attack",
+    "text": "The target loses ALL [gold]Block[/gold], then deal {Damage:diff()} damage.",
+    "role": ""
+  },
+  {
+    "id": "SpotDodge",
+    "title": "Spot Dodge",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Skill",
+    "text": "The next time an enemy attacks you this turn, it misses entirely.",
+    "role": ""
+  },
+  {
+    "id": "Yes",
+    "title": "YES!",
+    "rarity": "Uncommon",
+    "cost": 0,
+    "type": "Skill",
+    "text": "If you [gold]Unleashed[/gold] this turn: gain {Energy:energyIcons()} and draw {Cards:diff()} cards.",
+    "role": ""
+  },
+  {
+    "id": "WarmUpLap",
+    "title": "Warm-Up Lap",
+    "rarity": "Uncommon",
+    "cost": 1,
+    "type": "Skill",
+    "text": "Draw {Cards:diff()} cards. [gold]Combo 4[/gold]: gain {Energy:energyIcons()}.",
+    "role": ""
+  },
+  {
+    "id": "FalconPunch",
+    "title": "FALCON PUNCH",
+    "rarity": "Rare",
+    "cost": 3,
+    "type": "Attack",
+    "text": "[gold]Unleash[/gold] \u2014 deal damage equal to DOUBLE your [gold]Charge[/gold]. [gold]Follow-Through[/gold] (excess damage hits another enemy).",
+    "role": ""
+  },
+  {
+    "id": "BlueFalcon",
+    "title": "Blue Falcon",
+    "rarity": "Rare",
+    "cost": 3,
+    "type": "Attack",
+    "text": "Deal damage equal to your [gold]Charge[/gold] to ALL enemies. This doesn't reset your [gold]Charge[/gold].",
+    "role": ""
+  },
+  {
+    "id": "GDiffuser",
+    "title": "G-Diffuser",
+    "rarity": "Rare",
+    "cost": 2,
+    "type": "Power",
+    "text": "At the start of your turn, [gold]Rev[/gold].",
+    "role": ""
+  },
+  {
+    "id": "SuperArmor",
+    "title": "Super Armor",
+    "rarity": "Rare",
+    "cost": 2,
+    "type": "Power",
+    "text": "Your [gold]Charge[/gold] can no longer be halved.",
+    "role": ""
+  },
+  {
+    "id": "ChampionsFist",
+    "title": "Champion's Fist",
+    "rarity": "Rare",
+    "cost": 1,
+    "type": "Power",
+    "text": "Increase your base [gold]Charge[/gold] by {Base:diff()}.",
+    "role": ""
+  },
+  {
+    "id": "MuscleMemory",
+    "title": "Muscle Memory",
+    "rarity": "Rare",
+    "cost": 1,
+    "type": "Skill",
+    "text": "[gold]Rev[/gold] once, plus once more for each time you've [gold]Unleashed[/gold] this combat.",
+    "role": ""
+  },
+  {
+    "id": "HighlightReel",
+    "title": "Highlight Reel",
+    "rarity": "Rare",
+    "cost": 1,
+    "type": "Power",
+    "text": "Whenever you [gold]Unleash[/gold], gain {Energy:energyIcons()} and draw {Cards:diff()} cards.",
+    "role": ""
+  },
+  {
+    "id": "HeatHaze",
+    "title": "Heat Haze",
+    "rarity": "Rare",
+    "cost": 2,
+    "type": "Power",
+    "text": "Whenever you [gold]Rev[/gold], deal {Haze:diff()} damage to ALL enemies.",
+    "role": ""
+  },
+  {
+    "id": "HardRead",
+    "title": "Hard Read",
+    "rarity": "Rare",
+    "cost": 1,
+    "type": "Skill",
+    "text": "[gold]Sweetspot[/gold] \u2014 if the enemy intends to Attack: it is [gold]Stunned[/gold]. Otherwise, draw 1 card.",
+    "role": ""
+  },
+  {
+    "id": "PhotoFinish",
+    "title": "Photo Finish",
+    "rarity": "Rare",
+    "cost": 1,
+    "type": "Attack",
+    "text": "Deal damage equal to your [gold]Charge[/gold]. [gold]Sweetspot[/gold] \u2014 this kills the last enemy: heal {Heal:diff()} HP and gain {Gold:diff()} Gold.",
+    "role": ""
+  }
+]

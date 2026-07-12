@@ -1,0 +1,21 @@
+{
+  "BLAKE-RACERS_GAUNTLET.title": "Racer's Gauntlet",
+  "BLAKE-RACERS_GAUNTLET.description": "Your [gold]Charge[/gold] starts each combat at [blue]3[/blue] and resets to [blue]3[/blue] after you [gold]Unleash[/gold].",
+  "BLAKE-RACERS_GAUNTLET.flavor": "Show me your moves.",
+
+  "BLAKE-RACING_GLOVES.title": "Racing Gloves",
+  "BLAKE-RACING_GLOVES.description": "Your base [gold]Charge[/gold] is increased by [blue]2[/blue].",
+  "BLAKE-RACING_GLOVES.flavor": "Grip tight. Rev harder.",
+
+  "BLAKE-PIT_CREW.title": "Pit Crew",
+  "BLAKE-PIT_CREW.description": "The first time you [gold]Rev[/gold] each turn, gain [blue]3[/blue] [gold]Block[/gold].",
+  "BLAKE-PIT_CREW.flavor": "Wheels on, fist out.",
+
+  "BLAKE-TROPHY_BELT.title": "Trophy Belt",
+  "BLAKE-TROPHY_BELT.description": "Your [gold]Charge[/gold] persists between combats. It still resets when you [gold]Unleash[/gold].",
+  "BLAKE-TROPHY_BELT.flavor": "Walk into the elite pre-loaded.",
+
+  "BLAKE-BOOSTER_COIL.title": "Booster Coil",
+  "BLAKE-BOOSTER_COIL.description": "At the start of each combat, [gold]Rev[/gold] twice.",
+  "BLAKE-BOOSTER_COIL.flavor": "Blue Falcon ignition."
+}
