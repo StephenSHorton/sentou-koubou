@@ -11,7 +11,8 @@ public sealed class StrikeBrennen() : BrennenCard(1, CardType.Attack, CardRarity
     protected override HashSet<CardTag> CanonicalTags => [CardTag.Strike];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(6, ValueProp.Move)];
+        // Tank autos: a little softer than pure carries.
+        [new DamageVar(5, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

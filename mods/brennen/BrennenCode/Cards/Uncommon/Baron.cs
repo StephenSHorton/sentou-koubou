@@ -17,8 +17,8 @@ public sealed class Baron() : BrennenCard(2, CardType.Attack, CardRarity.Uncommo
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(12, ValueProp.Move),
-        new BlockVar(8, ValueProp.Move),
+        new DamageVar(10, ValueProp.Move),
+        new BlockVar(12, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -30,6 +30,6 @@ public sealed class Baron() : BrennenCard(2, CardType.Attack, CardRarity.Uncommo
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars.Block.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(4m);
     }
 }

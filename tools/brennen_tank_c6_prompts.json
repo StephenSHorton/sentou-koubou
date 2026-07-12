@@ -1,0 +1,1196 @@
+{
+  "character_ref": "tools/gen_out/cohesion/variants/brennen_fullbody_c6_green.jpg",
+  "cards": {
+    "strike": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Strike",
+      "lines": [
+        "Deal 6 damage."
+      ],
+      "prompt": "Brennen mid heavy two-handed greatsword slash facing right, fat blade ember trail, bold tank swing. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "defend": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Defend",
+      "lines": [
+        "Gain 5 Block."
+      ],
+      "prompt": "Brennen bracing in heavy plate, shield-bash forearm block / raised greatsword guard, yellow impact sparks, tank wall pose. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "feed": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Feeding",
+      "lines": [
+        "Heal the enemy to full HP.",
+        "Exhaust."
+      ],
+      "prompt": "Brennen overcommitting as tank into red danger marks with greatsword, reckless tank grin, still bulky protector energy. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "gank": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "pink_ward"
+      ],
+      "name": "Gank",
+      "lines": [
+        "Deal 4 damage to a random enemy",
+        "2 times."
+      ],
+      "prompt": "Brennen flanking from purple fog facing right, fat greatsword ready, pink ward glow behind, tank engage not assassin stab. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "flash": {
+      "presence": "full",
+      "props": [
+        "plate"
+      ],
+      "name": "Flash",
+      "lines": [
+        "Gain 6 Block.",
+        "Exhaust."
+      ],
+      "prompt": "Brennen mid-blink white flash burst in plate armor, afterimage of fat pauldrons and greatsword. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "tilt": {
+      "presence": "partial",
+      "props": [
+        "headset",
+        "greatsword"
+      ],
+      "name": "Tilt",
+      "lines": [
+        "Deal 9 damage.",
+        "Take 2 damage."
+      ],
+      "prompt": "Cracked headset sparking, angry red chat aura, Brennen silhouette gripping greatsword frustrated. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "ward": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Ward",
+      "lines": [
+        "Gain 7 Block.",
+        "Draw 1 card."
+      ],
+      "prompt": "Glowing pink control-ward crystal on iron stake, fog brush, no character face \u2014 pure vision prop still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "firstblood": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "First Blood",
+      "lines": [
+        "Deal 3 damage.",
+        "If Fatal, gain 1 Energy and draw 1."
+      ],
+      "prompt": "Brennen after first kill facing right, fat greatsword dripping ember, huge gold first-blood coin floating. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "maincharacter": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Main Character",
+      "lines": [
+        "Deal 14 damage.",
+        "If you have 50% or less HP, deal 20 instead."
+      ],
+      "prompt": "Brennen center stage in fat plate, spotlight, greatsword planted, main-character tank pose facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "muteall": {
+      "presence": "none",
+      "props": [
+        "mute",
+        "headset"
+      ],
+      "name": "Mute All",
+      "lines": [
+        "Apply 2 (3) Weak to ALL enemies."
+      ],
+      "prompt": "Iron mute-X speaker disc crushing chat bubbles, cracked headset beside it, no character face. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "pentakill": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Pentakill",
+      "lines": [
+        "Deal 6 damage to ALL enemies",
+        "3 times."
+      ],
+      "prompt": "Brennen victorious tank with five skull tally marks on fat greatsword blade, gold coins, facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "afk": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "AFK",
+      "lines": [
+        "Gain 20 Block.",
+        "Exhaust."
+      ],
+      "prompt": "Brennen slumped idle in heavy armor with greatsword leaning, AFK zzz, still same bulk design. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "remake": {
+      "presence": "partial",
+      "props": [
+        "rank_badge",
+        "headset"
+      ],
+      "name": "Remake",
+      "lines": [
+        "Draw 5 cards.",
+        "Exhaust."
+      ],
+      "prompt": "Broken ranked badge and cracked headset over grey fog, Brennen silhouette walking away with greatsword. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "auto": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Auto",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Simple basic attack \u2014 fat greatsword tapping a small monster, Brennen as secondary figure. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "poke": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Poke",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Draw {Cards:diff()} card."
+      ],
+      "prompt": "Greatsword tip poke spark at range, Brennen partial figure facing right. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "camp": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Camp",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Jungle camp totems and pink ward crystal in purple-green canopy, no face. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "cs": {
+      "presence": "none",
+      "props": [
+        "gold_coin",
+        "greatsword"
+      ],
+      "name": "CS",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Gold coins raining from shattered minion silhouettes, fat greatsword tip in frame. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "spamping": {
+      "presence": "none",
+      "props": [
+        "headset",
+        "mute"
+      ],
+      "name": "Spam Ping",
+      "lines": [
+        "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times."
+      ],
+      "prompt": "Spam of glowing map pings as sharp icons, cracked headset, mute disc. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "report": {
+      "presence": "partial",
+      "props": [
+        "rank_badge"
+      ],
+      "name": "Report",
+      "lines": [
+        "Apply {Weak:diff()} [gold]Weak[/gold]."
+      ],
+      "prompt": "Glowing report totem hammer stamp, Brennen silhouette with plate armor. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "inting": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Inting",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Take [blue]4[/blue] damage."
+      ],
+      "prompt": "Brennen intentionally walking into enemy fire as meatshield tank, greatsword dragging, wild grin. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "boost": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "Boost",
+      "lines": [
+        "Gain {Vigor:diff()} [gold]Vigor[/gold]."
+      ],
+      "prompt": "Ally silhouette powered by orange aura, Brennen partial tank bodyblocking in front. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "peel": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Peel",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Apply {Weak:diff()} [gold]Weak[/gold]."
+      ],
+      "prompt": "Brennen bodyblocking skillshots to protect fragile ally, fat plate facing right, greatsword intercept. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "facecheck": {
+      "presence": "partial",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Facecheck",
+      "lines": [
+        "Deal {Damage:diff()} damage to ALL enemies."
+      ],
+      "prompt": "Brennen peeking into dark fog of war brush, pink ward faint, cautious tank face. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "tax": {
+      "presence": "partial",
+      "props": [
+        "gold_coin",
+        "greatsword"
+      ],
+      "name": "Tax",
+      "lines": [
+        "Next turn, gain {Energy:energyIcons()}."
+      ],
+      "prompt": "Gold coins siphoned by greatsword tip, Brennen partial smug tank. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "catch": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Catch",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Apply {Weak:diff()} [gold]Weak[/gold]."
+      ],
+      "prompt": "Brennen locking an enemy with taunt aura and greatsword hook, protective catch. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "smite": {
+      "presence": "partial",
+      "props": [
+        "smite",
+        "greatsword"
+      ],
+      "name": "Smite",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Huge yellow-white smite lightning bolt crushing objective, Brennen silhouette with greatsword. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "emote": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Emote",
+      "lines": [
+        "Apply {Weak:diff()} [gold]Weak[/gold] and {Frail:diff()} [gold]Frail[/gold]."
+      ],
+      "prompt": "Brennen tank dance emote in fat armor with greatsword, playful expression (different from combat grin). FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "missing": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Missing",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "If the enemy has [gold]Weak[/gold], deal {WeakDamage:diff()} instead."
+      ],
+      "prompt": "Missing ping icon over empty fog lane, pink ward dim. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "controlward": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Control Ward",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "[gold]Retain[/gold]."
+      ],
+      "prompt": "Bright pink control ward crystal on stake, purging vision fog. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "snowball": {
+      "presence": "partial",
+      "props": [
+        "gold_coin"
+      ],
+      "name": "Snowball",
+      "lines": [
+        "Whenever you kill an enemy, gain {Snowball:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Growing gold snowball of coins and power, Brennen tank silhouette riding momentum. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "macro": {
+      "presence": "none",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Macro",
+      "lines": [
+        "At the start of your turn, draw {Macro:diff()} card."
+      ],
+      "prompt": "Glowing minimap with path lines and objective markers, fat greatsword hilt in corner. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "mentalboom": {
+      "presence": "partial",
+      "props": [
+        "headset",
+        "plate"
+      ],
+      "name": "Mental Boom",
+      "lines": [
+        "Whenever you lose HP on your turn, draw {MentalBoom:diff()} card."
+      ],
+      "prompt": "Headset exploding into red shards, Brennen clutching head in plate, stressed expression. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "inter": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Inter",
+      "lines": [
+        "Whenever you lose HP on your turn, gain {Inter:diff()} [gold]Vigor[/gold]."
+      ],
+      "prompt": "Brennen sabotaging fight with wild greatsword swings, chaotic tank int energy. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "baron": {
+      "presence": "partial",
+      "props": [
+        "smite"
+      ],
+      "name": "Baron",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Dark pit objective glow and smite bolt, Brennen tank silhouette at pit edge. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "drake": {
+      "presence": "partial",
+      "props": [
+        "greatsword",
+        "smite"
+      ],
+      "name": "Drake",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Dragon-shaped ember pit glow, Brennen partial with greatsword. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "splitpush": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Split Push",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Lone tower silhouette under siege, Brennen tank pushing side with greatsword. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "tp": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "TP",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Blue teleport beacon circle, Brennen materializing in plate facing right. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "flashengage": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Flash Engage",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold]."
+      ],
+      "prompt": "Brennen flash-in engage facing right, white flash + greatsword overhead tank start. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "chatrestrict": {
+      "presence": "none",
+      "props": [
+        "mute",
+        "headset"
+      ],
+      "name": "Chat Restrict",
+      "lines": [
+        "Apply {Frail:diff()} [gold]Frail[/gold]."
+      ],
+      "prompt": "Muted chat bubbles chained, mute-X disc, cracked headset. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "outplay": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Outplay",
+      "lines": [
+        "Draw {Cards:diff()} cards.",
+        "Gain {Energy:energyIcons()}."
+      ],
+      "prompt": "Brennen tank dodging skillshot with plate, counter-greatsword flourish, cocky expression. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "kda": {
+      "presence": "partial",
+      "props": [
+        "gold_coin"
+      ],
+      "name": "KDA",
+      "lines": [
+        "Deal {Damage:diff()} damage {Repeat:diff()} times."
+      ],
+      "prompt": "KDA scoreboard glow with gold coins, Brennen tank partial portrait. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "shutdown": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Shutdown",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "If the enemy has [blue]50%[/blue] or less HP, deal {LowHpDamage:diff()} instead."
+      ],
+      "prompt": "Brennen landing shutdown blow with fat greatsword, bounty gold burst. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "bounty": {
+      "presence": "none",
+      "props": [
+        "gold_coin"
+      ],
+      "name": "Bounty",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "If Fatal, gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Huge gold bounty sack, coin pile, greatsword scratch. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "assist": {
+      "presence": "partial",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Assist",
+      "lines": [
+        "Gain {Vigor:diff()} [gold]Vigor[/gold].",
+        "Draw {Cards:diff()} card."
+      ],
+      "prompt": "Assist spark as Brennen tags kill for ally, plate tank secondary figure. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "jungleclear": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Jungle Clear",
+      "lines": [
+        "Deal {Damage:diff()} damage to ALL enemies."
+      ],
+      "prompt": "Clearing camp with greatsword sweeps, Brennen partial in canopy. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "backdoor": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Backdoor",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Sneaking to nexus crystal with greatsword, Brennen tank silhouette. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "freeze": {
+      "presence": "none",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Freeze",
+      "lines": [
+        "Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold]."
+      ],
+      "prompt": "Frozen wave of ice-locked minion shapes under cold light, greatsword tip. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "rotate": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "Rotate",
+      "lines": [
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Path lines across map, Brennen tank mid-rotate facing right. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "powerspike": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "Power Spike",
+      "lines": [
+        "Gain {Strength:diff()} [gold]Vigor[/gold]."
+      ],
+      "prompt": "Sudden power aura spike around fat plate, Brennen silhouette. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "itemspike": {
+      "presence": "none",
+      "props": [
+        "gold_coin"
+      ],
+      "name": "Item Spike",
+      "lines": [
+        "Gain {Energy:energyIcons()}.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Glowing legendary item icons as painted relics, gold and ember. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "invade": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Invade",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Apply {Weak:diff()} [gold]Weak[/gold]."
+      ],
+      "prompt": "Brennen invading enemy jungle with greatsword, aggressive tank face right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "wardhop": {
+      "presence": "partial",
+      "props": [
+        "pink_ward",
+        "plate"
+      ],
+      "name": "Ward Hop",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} card."
+      ],
+      "prompt": "Brennen hopping over pink ward crystal with plate bulk. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "allin": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "All-In",
+      "lines": [
+        "Deal {Damage:diff()} damage {Repeat:diff()} times."
+      ],
+      "prompt": "Brennen full-commit tank charge facing right, greatsword and plate aura, everything committed. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "disrespect": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Disrespect",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "If you have more than [blue]50%[/blue] HP, deal {HighHpDamage:diff()} instead."
+      ],
+      "prompt": "Brennen taunting with greatsword resting on shoulder, smug expression different from strike. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "peelbot": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Peel Bot",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."
+      ],
+      "prompt": "Brennen as bot-lane bodyguard in plate, shielding ally silhouette, greatsword ready right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "allchat": {
+      "presence": "none",
+      "props": [
+        "headset"
+      ],
+      "name": "All Chat",
+      "lines": [
+        "Apply {Frail:diff()} [gold]Frail[/gold] to ALL enemies."
+      ],
+      "prompt": "Fiery all-chat bubbles and flame keycap prop, cracked headset. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "roamtimer": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Roam Timer",
+      "lines": [
+        "Deal {Damage:diff()} damage to a random enemy.",
+        "Next turn, gain {Energy:energyIcons()}."
+      ],
+      "prompt": "Glowing clock and path line across fog map, pink ward. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "deepward": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Deep Ward",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "[gold]Retain[/gold]."
+      ],
+      "prompt": "Deep pink ward in enemy jungle darkness. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "doublebuff": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "Double Buff",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} card."
+      ],
+      "prompt": "Red and blue buff auras around Brennen tank silhouette. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "freeobj": {
+      "presence": "partial",
+      "props": [
+        "smite"
+      ],
+      "name": "Free Obj",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Open objective pit uncontested, Brennen partial with smite glow. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "campsetup": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "Camp Setup",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Next turn, gain {Energy:energyIcons()}."
+      ],
+      "prompt": "Camp setup wards and traps still-life, pink ward crystal. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "ace": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Ace",
+      "lines": [
+        "Deal {Damage:diff()} damage to ALL enemies."
+      ],
+      "prompt": "Brennen after team wipe, five enemy silhouettes down, greatsword raised facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "pentasecure": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Penta Secure",
+      "lines": [
+        "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Penta:diff()} [gold]Plating[/gold]."
+      ],
+      "prompt": "Brennen securing penta with decisive greatsword slam, gold rain. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "onevnine": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "1v9",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "If you have [blue]50%[/blue] or less HP, deal {LowHpDamage:diff()} instead."
+      ],
+      "prompt": "Brennen alone vs many foe silhouettes as tank wall, plate and greatsword, desperate clutch face. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "uninstall": {
+      "presence": "none",
+      "props": [
+        "headset",
+        "mute"
+      ],
+      "name": "Uninstall",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Broken headset and uninstalled client crack, muted X. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "ggez": {
+      "presence": "partial",
+      "props": [
+        "rank_badge"
+      ],
+      "name": "GG EZ",
+      "lines": [
+        "Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "GG EZ badge glow, Brennen tank partial wave smug. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "clutch": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Clutch",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Brennen barely surviving multi-foe fight as last tank standing, sparks, gritted teeth expression. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "perfectgame": {
+      "presence": "partial",
+      "props": [
+        "gold_coin",
+        "rank_badge"
+      ],
+      "name": "Perfect Game",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Golden perfect laurel and zero-death glow, Brennen tank silhouette. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "intingsion": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Inting Sion",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Take [blue]8[/blue] damage."
+      ],
+      "prompt": "Brennen zombie-tank unkillable vibe, greatsword and plate, manic expression. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "openmid": {
+      "presence": "none",
+      "props": [
+        "mute"
+      ],
+      "name": "Open Mid",
+      "lines": [
+        "Draw {Cards:diff()} cards.",
+        "Gain {Energy:energyIcons()}.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Open mid lane path glowing empty after ff, mute disc. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "hardstuck": {
+      "presence": "partial",
+      "props": [
+        "rank_badge",
+        "plate"
+      ],
+      "name": "Hard Stuck",
+      "lines": [
+        "At the start of your turn, gain {HardStuck:diff()} [gold]Plating[/gold]."
+      ],
+      "prompt": "Cracked rank badge stuck in mud, Brennen sitting on plate armor frustrated. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "fountaindive": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Fountain Dive",
+      "lines": [
+        "Deal {Damage:diff()} damage to ALL enemies.",
+        "Take [blue]5[/blue] damage."
+      ],
+      "prompt": "Brennen diving into glowing fountain beams with greatsword, reckless tank. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "fullclear": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Full Clear",
+      "lines": [
+        "Deal {Damage:diff()} damage to ALL enemies.",
+        "Gain {Block:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Empty cleared jungle camps, Brennen walking with greatsword. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "bait": {
+      "presence": "full",
+      "props": [
+        "plate"
+      ],
+      "name": "Bait",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Brennen low-health bait tank glowing, enemies overcommit, protective taunt. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "throw": {
+      "presence": "partial",
+      "props": [
+        "rank_badge"
+      ],
+      "name": "Throw",
+      "lines": [
+        "Take [blue]5[/blue] damage.",
+        "Gain {Energy:energyIcons()}.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Rank badge tumbling into void, Brennen silhouette dropping lead. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "topdiff": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "rank_badge"
+      ],
+      "name": "TOP Diff",
+      "lines": [
+        "Deal {Damage:diff()} damage.",
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "If there is only [blue]1[/blue] enemy, deal {SoloDamage:diff()} instead."
+      ],
+      "prompt": "Brennen towering over foe silhouette as top-lane tank diff, greatsword and plate. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "jgdiff": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "smite"
+      ],
+      "name": "JG Diff",
+      "lines": [
+        "Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.",
+        "Draw {Cards:diff()} card."
+      ],
+      "prompt": "Brennen dominating jungle path as tank jungler vibe, smite bolt and greatsword. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "adcdiff": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "ADC Diff",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Ranged ally diff aura, Brennen peeling in front as tank secondary. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "supdiff": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "SUP Diff",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies."
+      ],
+      "prompt": "Brennen as support-tank peeling, plate bodyblock, greatsword intercept. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "middiff": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "MID Diff",
+      "lines": [
+        "Draw {Cards:diff()} cards.",
+        "Gain {Energy:energyIcons()}.",
+        "[gold]Exhaust[/gold]."
+      ],
+      "prompt": "Brennen mid-lane tank presence crushing foe, greatsword slash right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "dodgethedodge": {
+      "presence": "full",
+      "props": [
+        "greatsword"
+      ],
+      "name": "Dodge the Dodge",
+      "lines": [
+        "Gain {Block:diff()} [gold]Block[/gold].",
+        "Draw {Cards:diff()} cards."
+      ],
+      "prompt": "Brennen reading a dodge, greatsword intercept timing, focused face. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "chatmod": {
+      "presence": "none",
+      "props": [
+        "mute"
+      ],
+      "name": "Chat Mod",
+      "lines": [
+        "At the start of your turn, apply {ChatMod:diff()} [gold]Weak[/gold] to ALL enemies."
+      ],
+      "prompt": "Moderator gavel and mute-X disc over chat bubbles. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "maincharactersyndrome": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "gold_coin"
+      ],
+      "name": "Main Character Syndrome",
+      "lines": [
+        "Whenever you play a Skill, gain {MCS:diff()} [gold]Block[/gold]."
+      ],
+      "prompt": "Brennen hogging spotlight and kills, exaggerated main-character tank pose. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "peelforadc": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Peel for ADC",
+      "lines": [
+        "Give another player 11 Block.",
+        "Multiplayer only."
+      ],
+      "prompt": "Brennen smacking divers away from fragile ADC silhouette, fat plate and greatsword, protective fury. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "bodyblock": {
+      "presence": "full",
+      "props": [
+        "plate"
+      ],
+      "name": "Bodyblock",
+      "lines": [
+        "Gain 9 Block.",
+        "Redirect ally hits to you this turn.",
+        "Multiplayer only."
+      ],
+      "prompt": "Brennen fully bodyblocking a red skillshot beam for ally, fat pauldrons taking hit, facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "teamfight": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "Teamfight",
+      "lines": [
+        "ALL players gain 12 Block.",
+        "Multiplayer only."
+      ],
+      "prompt": "Brennen frontlining teamfight, allies behind, greatsword and plate, facing right into enemy group. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "frontline": {
+      "presence": "full",
+      "props": [
+        "plate",
+        "greatsword"
+      ],
+      "name": "Frontline",
+      "lines": [
+        "Take double damage.",
+        "Allies take half damage.",
+        "Multiplayer only."
+      ],
+      "prompt": "Brennen as pure frontline wall, taunt aura rings, fat armor, greatsword planted, allies safe behind. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "duoqueue": {
+      "presence": "partial",
+      "props": [
+        "headset"
+      ],
+      "name": "duoqueue",
+      "lines": [],
+      "prompt": "Two linked headset charms, Brennen and ally silhouette duo. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "ult": {
+      "presence": "full",
+      "props": [
+        "greatsword",
+        "plate"
+      ],
+      "name": "ult",
+      "lines": [],
+      "prompt": "Brennen ultimate tank slam with greatsword shockwave facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "objective": {
+      "presence": "partial",
+      "props": [
+        "smite"
+      ],
+      "name": "objective",
+      "lines": [],
+      "prompt": "Objective pit glow, Brennen tank contesting. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "ping": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "ping",
+      "lines": [],
+      "prompt": "Single glowing danger ping icon in fog. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "zone": {
+      "presence": "partial",
+      "props": [
+        "greatsword"
+      ],
+      "name": "zone",
+      "lines": [],
+      "prompt": "Brennen zoning space with greatsword sweeps, area denial arcs. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "roam": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "roam",
+      "lines": [],
+      "prompt": "Brennen roaming river with plate, path lines. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "roambot": {
+      "presence": "partial",
+      "props": [
+        "plate"
+      ],
+      "name": "roambot",
+      "lines": [],
+      "prompt": "Brennen perpetual roam energy, map arrows, plate silhouette. Include SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as a recognizable secondary figure or silhouette (same hair, goatee, fat plate, greatsword), not always centered. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "visionscore": {
+      "presence": "none",
+      "props": [
+        "pink_ward"
+      ],
+      "name": "visionscore",
+      "lines": [],
+      "prompt": "Vision score glyphs and pink wards constellation. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. May show a tiny distant silhouette at most. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "diff": {
+      "presence": "full",
+      "props": [
+        "rank_badge",
+        "greatsword"
+      ],
+      "name": "diff",
+      "lines": [],
+      "prompt": "Brennen aura of skill-diff with rank badge halo and greatsword. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    },
+    "challengerdiff": {
+      "presence": "full",
+      "props": [
+        "rank_badge",
+        "greatsword"
+      ],
+      "name": "challengerdiff",
+      "lines": [],
+      "prompt": "Brennen with champion-tier glow, rank badge, greatsword facing right. FEATURE SAME character as the reference image: bulkier tank man, spiky dark hair, neat goatee, fat dark plate armor with brass buckles and oversized pauldrons, one fat ember-glow greatsword (two-handed when armed, NO dagger). Varied pose and facial expression for this card \u2014 not the same frozen grin every time. When in combat scenes, he often faces toward the RIGHT (STS2 left-side fighter). as clear readable focus. Shared Brennen tank universe props when relevant: fat ember greatsword, heavy plate armor, pink control-ward crystal on iron stake, cracked gaming headset, gold first-blood coin, yellow smite lightning bolt, ranked metal badge, mute-X speaker disc, glowing shield bash. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style, simplified shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape 1000x760 composition. No text, no UI, no card frame."
+    }
+  },
+  "relics": {
+    "duoqueue": {
+      "prompt": "Single game relic artifact cutout: two linked dark headset charms on a short chain, brass hardware, transparent-ready pure green screen background, STS2 painted graphic prop only, no person, no scene",
+      "green_screen": true
+    },
+    "rankedbadge": {
+      "prompt": "Single relic artifact cutout: polished metal ranked badge with small ember star, green screen, STS2 painted prop only, no person",
+      "green_screen": true
+    },
+    "reporttotem": {
+      "prompt": "Single relic artifact cutout: small wooden report totem stamp with red X, green screen, STS2 painted prop only",
+      "green_screen": true
+    },
+    "firstbloodcoin": {
+      "prompt": "Single relic artifact cutout: thick gold first-blood coin with greatsword scratch, green screen, STS2 painted prop only",
+      "green_screen": true
+    },
+    "mutecharm": {
+      "prompt": "Single relic artifact cutout: iron mute-X speaker disc charm on leather cord, green screen, STS2 painted prop only",
+      "green_screen": true
+    },
+    "wardtoken": {
+      "prompt": "Single relic artifact cutout: pink control ward crystal token on iron base, green screen, STS2 painted prop only",
+      "green_screen": true
+    },
+    "ggbadge": {
+      "prompt": "Single relic artifact cutout: brass GG badge pin with ember edge, green screen, STS2 painted prop only",
+      "green_screen": true
+    },
+    "flamekeycap": {
+      "prompt": "Single relic artifact cutout: mechanical keyboard keycap with flame icon, ember glow, green screen, STS2 painted prop only",
+      "green_screen": true
+    }
+  }
+}

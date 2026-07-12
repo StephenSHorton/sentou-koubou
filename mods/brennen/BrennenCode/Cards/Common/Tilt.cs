@@ -7,13 +7,18 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Common;
 
-/// <summary>Emotional damage — both ways.</summary>
+/// <summary>Tilt-tank: trade HP, get mad Block. Still a meme.</summary>
 public sealed class Tilt() : BrennenCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     private const int SelfDamage = 2;
 
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new DamageVar(9, ValueProp.Move)];
+    [
+        new DamageVar(8, ValueProp.Move),
+        new BlockVar(6, ValueProp.Move),
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
@@ -29,10 +34,13 @@ public sealed class Tilt() : BrennenCard(1, CardType.Attack, CardRarity.Common, 
                 Owner.Creature,
                 this);
         }
+
+        await CommonActions.CardBlock(this, play);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

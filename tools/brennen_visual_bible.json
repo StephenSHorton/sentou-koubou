@@ -1,0 +1,35 @@
+{
+  "character": {
+    "name": "Brennen",
+    "look": "Bulkier tank man, short spiky dark hair, neat goatee, warm confident expressions (vary by card), thick neck and shoulders",
+    "outfit": "Fat dark plate armor with oversized pauldrons, brass buckles, heavy boots, ember-orange accents",
+    "weapon": "One fat ember-glow greatsword only (two-handed). NO dagger, no second weapon.",
+    "combat_orientation": "When shown in combat, faces toward the RIGHT (STS2 left-side fighter convention)",
+    "palette": [
+      "ember orange #E85D04",
+      "deep charcoal #1A1A1E",
+      "blood red #9B2226",
+      "gold #F4A261",
+      "purple fog #5A189A"
+    ],
+    "sts2_style": "Mega Crit STS2 graphic painted: simplified shapes, limited facial detail, chunky brush, strong silhouette",
+    "base_asset": "tools/gen_out/cohesion/variants/brennen_fullbody_c6.png"
+  },
+  "shared_props": {
+    "fat_greatsword": "Wide thick ember-glow greatsword with brass guard and rune edge",
+    "fat_plate": "Heavy dark iron/brass plate pauldrons and breastplate",
+    "pink_ward": "Glowing pink control-ward crystal on a short iron stake",
+    "cracked_headset": "Dark gaming headset with one cracked earcup and ember cracks",
+    "gold_coin": "Thick gold first-blood coin with sword scratch",
+    "smite_bolt": "Jagged divine yellow-white smite lightning",
+    "rank_badge": "Polished metal ranked badge with small ember star",
+    "mute_rune": "Iron speaker disc with bold black X mute mark"
+  },
+  "art_rules": [
+    "Same universe across all cards — reuse props when related cards share motifs",
+    "Not every card needs Brennen; prop/effect cards still share palette and props",
+    "When Brennen appears: vary pose, expression, and action — not the same stance every time",
+    "Tank fantasy: peel, bodyblock, frontline, protect, taunt — keep League meme tone",
+    "Landscape card portraits ~1000x760; relics are transparent cutout artifacts only"
+  ]
+}

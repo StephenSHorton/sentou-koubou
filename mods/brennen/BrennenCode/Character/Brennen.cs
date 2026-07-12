@@ -6,23 +6,26 @@ using Brennen.BrennenCode.Relics;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 
 namespace Brennen.BrennenCode.Character;
 
 /// <summary>
-/// Brennen — older brother, League nights, Corvette energy.
+/// Brennen — older brother, League nights, tank main energy.
+/// Peels, bodyblocks, and still feeds for the meme.
 /// Family meme pack character #1 for sentou-koubou.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
 {
     public const string CharacterId = "Brennen";
 
-    /// <summary>Warm ember red — aggressive lane energy.</summary>
+    /// <summary>Warm ember red — frontline engage energy.</summary>
     public static readonly Color Color = new("e85d4c");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Masculine;
-    public override int StartingHp => 74;
+    /// <summary>Tankier baseline — soaks so the "ADC" can cook.</summary>
+    public override int StartingHp => 82;
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
@@ -30,7 +33,7 @@ public class Brennen : PlaceholderCharacterModel
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
-        ModelDb.Card<StrikeBrennen>(),
+        ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
@@ -61,4 +64,20 @@ public class Brennen : PlaceholderCharacterModel
     public override string CustomCharacterSelectIconPath => "char_select_brennen.png".CharacterUiPath();
     public override string CustomCharacterSelectLockedIconPath => "char_select_brennen_locked.png".CharacterUiPath();
     public override string CustomMapMarkerPath => "map_marker_brennen.png".CharacterUiPath();
+
+    /// <summary>
+    /// Full-screen character select backdrop (otherwise BaseLib reuses Ironclad).
+    /// Scene is injected into the .pck after pack — PckPacker cannot ship .tscn.
+    /// </summary>
+    public override string CustomCharacterSelectBg =>
+        "res://scenes/screens/char_select/char_select_bg_brennen.tscn";
+
+    /// <summary>
+    /// Combat body: Blender flipbook (idle / attack / hit / dead) instead of Ironclad.
+    /// See tools/char-anim-pipeline/BLENDER_PIPELINE.md.
+    /// </summary>
+    public override NCreatureVisuals? CreateCustomVisuals() => BrennenCombatVisuals.Create();
+
+    /// <summary>Dead clip is 20 frames @ 24fps ≈ 0.83s; give a little headroom.</summary>
+    public override float DeathAnimTime => 1.0f;
 }

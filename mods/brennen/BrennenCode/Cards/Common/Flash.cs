@@ -14,7 +14,8 @@ public sealed class Flash() : BrennenCard(0, CardType.Skill, CardRarity.Common, 
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [new BlockVar(6, ValueProp.Move)];
+        // Panic flash as a tank — more shield.
+        [new BlockVar(8, ValueProp.Move)];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

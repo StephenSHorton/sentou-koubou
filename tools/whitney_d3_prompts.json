@@ -1,0 +1,746 @@
+{
+  "character_ref": "docs/assets/whitney/variants/whitney_locked_d3.jpg",
+  "combat_ref": "docs/assets/whitney/variants/whitney_combat_right_green.jpg",
+  "cards": {
+    "spark": {
+      "presence": "full",
+      "props": [
+        "quill",
+        "fire"
+      ],
+      "name": "Spark",
+      "prompt": "Whitney casting a bright ember spark from cyan quill tip, small fire ink glyph, three-quarter face readable. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "ripple": {
+      "presence": "full",
+      "props": [
+        "quill",
+        "water"
+      ],
+      "name": "Ripple",
+      "prompt": "Whitney bracing behind a translucent water-ink ripple shield, defensive ready, face readable. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "channelink": {
+      "presence": "full",
+      "props": [
+        "inkwell",
+        "quill"
+      ],
+      "name": "Channel Ink",
+      "prompt": "Whitney channeling cyan ink streams into an open inkwell, focused calm expression, ink rising. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "noviceseal": {
+      "presence": "full",
+      "props": [
+        "seal",
+        "quill"
+      ],
+      "name": "Novice Seal",
+      "prompt": "Whitney pressing a glowing novice seal stamp with quill, soft apprentice smile. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "emberstroke": {
+      "presence": "full",
+      "props": [
+        "quill",
+        "fire"
+      ],
+      "name": "Ember Stroke",
+      "prompt": "Whitney sweeping a fiery ink stroke slash with quill, dynamic three-quarter action, varied pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "cinderpin": {
+      "presence": "partial",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Cinder Pin",
+      "prompt": "Sharp ember pin of ink piercing a foe silhouette, Whitney partial with quill. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "tideguard": {
+      "presence": "full",
+      "props": [
+        "water",
+        "quill"
+      ],
+      "name": "Tideguard",
+      "prompt": "Whitney holding a tide of blue ink as a protective barrier, calm protector face. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "rippleward": {
+      "presence": "partial",
+      "props": [
+        "water"
+      ],
+      "name": "Ripple Ward",
+      "prompt": "Rippling water-ink ward glyphs floating, Whitney silhouette behind. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "stoneglyph": {
+      "presence": "partial",
+      "props": [
+        "earth",
+        "seal"
+      ],
+      "name": "Stone Glyph",
+      "prompt": "Heavy carved stone-ink glyph slamming forward, Whitney secondary. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "dustseal": {
+      "presence": "none",
+      "props": [
+        "earth",
+        "seal"
+      ],
+      "name": "Dust Seal",
+      "prompt": "Crumbling dust-earth seal stamp still-life, brown ink glyphs, no face. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "gust": {
+      "presence": "partial",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Gust",
+      "prompt": "Wind slash arcs of white-cyan ink, Whitney partial mid-cast three-quarter. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "zephyrdraft": {
+      "presence": "partial",
+      "props": [
+        "air"
+      ],
+      "name": "Zephyr Draft",
+      "prompt": "Floating cards/pages blown by zephyr ink wind, Whitney small figure. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "drenchseal": {
+      "presence": "none",
+      "props": [
+        "water",
+        "seal"
+      ],
+      "name": "Drench Seal",
+      "prompt": "Water seal dripping, weak-blue droplets, pure prop. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "sparkler": {
+      "presence": "partial",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Sparkler",
+      "prompt": "Sparkler burst of tiny fire ink sparks, Whitney hand and quill only. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "puddle": {
+      "presence": "none",
+      "props": [
+        "water"
+      ],
+      "name": "Puddle",
+      "prompt": "Glowing ink puddle reflecting glyphs, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "pebble": {
+      "presence": "none",
+      "props": [
+        "earth"
+      ],
+      "name": "Pebble",
+      "prompt": "Ink-stone pebble with earth rune, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "draft": {
+      "presence": "none",
+      "props": [
+        "air"
+      ],
+      "name": "Draft",
+      "prompt": "Wind-ink pages and draft swirls, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "sootmark": {
+      "presence": "partial",
+      "props": [
+        "fire"
+      ],
+      "name": "Soot Mark",
+      "prompt": "Soot black fire-ink mark branding a surface, Whitney partial. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "mosscoat": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Moss Coat",
+      "prompt": "Mossy earth-ink coat of block growing over armor, Whitney partial. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "crossbreeze": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Crossbreeze",
+      "prompt": "Whitney whipping crosswind ink slashes at multiple foe silhouettes, active but not cookie-cutter ready pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "inkdrip": {
+      "presence": "none",
+      "props": [
+        "inkwell"
+      ],
+      "name": "Ink Drip",
+      "prompt": "Cyan ink drips filling a small well, pure still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "sealpress": {
+      "presence": "full",
+      "props": [
+        "seal"
+      ],
+      "name": "Seal Press",
+      "prompt": "Whitney both hands pressing a large seal into glowing paper, determined face. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "wetstone": {
+      "presence": "none",
+      "props": [
+        "water",
+        "earth"
+      ],
+      "name": "Wet Stone",
+      "prompt": "Wet stone with water-ink sheen and glyphs. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "kindling": {
+      "presence": "partial",
+      "props": [
+        "fire"
+      ],
+      "name": "Kindling",
+      "prompt": "Kindling fire-ink sparks feeding vigor glow, Whitney silhouette. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "magmaflow": {
+      "presence": "full",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Magma Flow",
+      "prompt": "Whitney guiding a river of magma-ink with quill, intense expression, three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "steamburst": {
+      "presence": "partial",
+      "props": [
+        "fire",
+        "water"
+      ],
+      "name": "Steam Burst",
+      "prompt": "Steam burst of fire+water ink explosion, Whitney partial covering face with arm. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "grandseal": {
+      "presence": "full",
+      "props": [
+        "seal",
+        "quill"
+      ],
+      "name": "Grand Seal",
+      "prompt": "Whitney raising an enormous glowing grand seal overhead, awe expression, full figure. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "focusedstroke": {
+      "presence": "full",
+      "props": [
+        "quill"
+      ],
+      "name": "Focused Stroke",
+      "prompt": "Whitney mid precise single ink stroke, eyes narrowed focus, close three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "blizzardseal": {
+      "presence": "none",
+      "props": [
+        "water",
+        "seal"
+      ],
+      "name": "Blizzard Seal",
+      "prompt": "Ice-blizzard seal radiating frost ink, pure prop. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "lightningrod": {
+      "presence": "partial",
+      "props": [
+        "air"
+      ],
+      "name": "Lightning Rod",
+      "prompt": "Lightning rod of air-ink channeling bolts, Whitney small figure grounding it. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "tidaldraw": {
+      "presence": "full",
+      "props": [
+        "water",
+        "quill"
+      ],
+      "name": "Tidal Draw",
+      "prompt": "Whitney pulling a tidal wave of ink as block, braced stance different from ready. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "quake": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Quake",
+      "prompt": "Earth quake cracks with ink glyphs, Whitney partial stomping. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "updraft": {
+      "presence": "partial",
+      "props": [
+        "air"
+      ],
+      "name": "Updraft",
+      "prompt": "Updraft wind lifting papers and ink, Whitney coat flaring. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "inkwell": {
+      "presence": "none",
+      "props": [
+        "inkwell"
+      ],
+      "name": "Ink Well",
+      "prompt": "Ornate traveling inkwell overflowing cyan ink, still-life hero prop. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "scorchline": {
+      "presence": "full",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Scorch Line",
+      "prompt": "Whitney drawing a burning scorch line on the ground with quill, lunging side-three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "icelattice": {
+      "presence": "none",
+      "props": [
+        "water"
+      ],
+      "name": "Ice Lattice",
+      "prompt": "Crystalline ice lattice of frozen ink, pure effect. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "rootbind": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Rootbind",
+      "prompt": "Ink roots binding a foe, Whitney casting from behind roots. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "galecut": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Gale Cut",
+      "prompt": "Whitney multi-slash gale cuts with quill flourishes, spinning pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "refill": {
+      "presence": "full",
+      "props": [
+        "inkwell",
+        "quill"
+      ],
+      "name": "Refill",
+      "prompt": "Whitney refilling quill from glowing inkwell, gentle smile, quieter pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "confluence": {
+      "presence": "partial",
+      "props": [
+        "seal"
+      ],
+      "name": "Confluence",
+      "prompt": "Four elemental ink streams confluencing, Whitney center silhouette. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "searingmist": {
+      "presence": "partial",
+      "props": [
+        "fire",
+        "water"
+      ],
+      "name": "Searing Mist",
+      "prompt": "Searing mist cloud of fire-water ink, Whitney partial obscured. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "mudslide": {
+      "presence": "none",
+      "props": [
+        "earth",
+        "water"
+      ],
+      "name": "Mudslide",
+      "prompt": "Mudslide of earth-water ink cascading, still-life disaster. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "tempest": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Tempest",
+      "prompt": "Whitney at center of tempest ink storm, hair and dress wind-whipped, dramatic pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "attunedeep": {
+      "presence": "full",
+      "props": [
+        "seal"
+      ],
+      "name": "Deep Attune",
+      "prompt": "Whitney meditative deep attune, eyes closed then glowing, seated or kneeling pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "inkshield": {
+      "presence": "full",
+      "props": [
+        "quill",
+        "inkwell"
+      ],
+      "name": "Ink Shield",
+      "prompt": "Whitney behind a solid ink-script shield wall, defensive crouch. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "sealstorm": {
+      "presence": "partial",
+      "props": [
+        "seal"
+      ],
+      "name": "Sealstorm",
+      "prompt": "Storm of flying seals raining damage, Whitney tiny casting figure. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "whirlpool": {
+      "presence": "none",
+      "props": [
+        "water"
+      ],
+      "name": "Whirlpool",
+      "prompt": "Ink whirlpool vortex, pure water effect. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "pyreglyph": {
+      "presence": "partial",
+      "props": [
+        "fire",
+        "seal"
+      ],
+      "name": "Pyre Glyph",
+      "prompt": "Giant fire pyre glyph, Whitney arm raised with quill. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "skywrite": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Skywrite",
+      "prompt": "Whitney writing glowing words across the sky with quill, looking up, unique pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "floodgate": {
+      "presence": "partial",
+      "props": [
+        "water"
+      ],
+      "name": "Floodgate",
+      "prompt": "Floodgate of water-ink bursting open, Whitney partial opening seals. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "emberarmor": {
+      "presence": "full",
+      "props": [
+        "fire"
+      ],
+      "name": "Ember Armor",
+      "prompt": "Whitney coated in ember-ink armor plates, confident stance different from ready. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "stonescript": {
+      "presence": "none",
+      "props": [
+        "earth",
+        "seal"
+      ],
+      "name": "Stone Script",
+      "prompt": "Floating stone script tablets with earth runes, still-life power. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "windscript": {
+      "presence": "none",
+      "props": [
+        "air"
+      ],
+      "name": "Wind Script",
+      "prompt": "Wind script ribbons of air-ink text, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "tidescript": {
+      "presence": "none",
+      "props": [
+        "water"
+      ],
+      "name": "Tide Script",
+      "prompt": "Tide script scrolls dripping water-ink, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "flamescript": {
+      "presence": "none",
+      "props": [
+        "fire"
+      ],
+      "name": "Flame Script",
+      "prompt": "Flame script burning pages, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "dualquill": {
+      "presence": "full",
+      "props": [
+        "quill"
+      ],
+      "name": "Dual Quill",
+      "prompt": "Whitney dual-wielding two cyan quills, playful grin, dynamic pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "spray": {
+      "presence": "partial",
+      "props": [
+        "quill"
+      ],
+      "name": "Spray",
+      "prompt": "Ink spray burst hitting many silhouettes, Whitney partial. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "bedrock": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Bedrock",
+      "prompt": "Bedrock pillars of earth-ink rising, Whitney standing atop one small. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "afterburn": {
+      "presence": "full",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Afterburn",
+      "prompt": "Whitney after a fiery cast, afterburn trails, looking over shoulder three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "elementalform": {
+      "presence": "full",
+      "props": [
+        "quill",
+        "seal"
+      ],
+      "name": "Elemental Form",
+      "prompt": "Whitney transformed in four-color elemental ink aura, powerful upright pose, face clear. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "cataclysmseal": {
+      "presence": "full",
+      "props": [
+        "seal"
+      ],
+      "name": "Cataclysm Seal",
+      "prompt": "Whitney both hands on world-shaking cataclysm seal, strained powerful expression. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "monsoon": {
+      "presence": "partial",
+      "props": [
+        "water"
+      ],
+      "name": "Monsoon",
+      "prompt": "Monsoon curtains of water-ink, Whitney small under umbrella-like ward. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "wildfire": {
+      "presence": "full",
+      "props": [
+        "fire",
+        "quill"
+      ],
+      "name": "Wildfire",
+      "prompt": "Whitney silhouette in wildfire ink inferno, quill raised, dramatic backlit three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "mountainheart": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Mountain Heart",
+      "prompt": "Mountain heart crystal of earth-ink, Whitney kneeling touching it. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "skyfall": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Skyfall",
+      "prompt": "Whitney calling skyfall of air-ink meteors, arms raised looking up. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "perfectseal": {
+      "presence": "full",
+      "props": [
+        "seal",
+        "quill"
+      ],
+      "name": "Perfect Seal",
+      "prompt": "Whitney completing a perfect glowing seal, serene satisfied expression, precise hands. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "inktide": {
+      "presence": "full",
+      "props": [
+        "inkwell",
+        "quill"
+      ],
+      "name": "Ink Tide",
+      "prompt": "Whitney riding a tide of pure cyan ink, exhilarated face, unique motion pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "fourwinds": {
+      "presence": "partial",
+      "props": [
+        "air"
+      ],
+      "name": "Four Winds",
+      "prompt": "Four winds directional ink gusts, Whitney center tiny. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "obsidianscript": {
+      "presence": "none",
+      "props": [
+        "seal"
+      ],
+      "name": "Obsidian Script",
+      "prompt": "Obsidian black script tablets absorbing ink, still-life rare power. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "aquascript": {
+      "presence": "none",
+      "props": [
+        "water"
+      ],
+      "name": "Aqua Script",
+      "prompt": "Aqua script water calligraphy forming block waves, still-life. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "galeform": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Gale Form",
+      "prompt": "Whitney in gale-form wind body, dress and hair extreme motion, three-quarter face. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "infernoseal": {
+      "presence": "full",
+      "props": [
+        "fire",
+        "seal"
+      ],
+      "name": "Inferno Seal",
+      "prompt": "Whitney branding a massive inferno seal into the ground, kneeling powerful pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "glacier": {
+      "presence": "partial",
+      "props": [
+        "water"
+      ],
+      "name": "Glacier",
+      "prompt": "Glacier wall of ice-ink, Whitney partial behind frost. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "tectonic": {
+      "presence": "partial",
+      "props": [
+        "earth"
+      ],
+      "name": "Tectonic",
+      "prompt": "Tectonic plates splitting with earth-ink, Whitney small on cliff. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "hurricane": {
+      "presence": "full",
+      "props": [
+        "air",
+        "quill"
+      ],
+      "name": "Hurricane",
+      "prompt": "Whitney eye-of-hurricane calm face while storm rages, arms out. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "masterwork": {
+      "presence": "full",
+      "props": [
+        "seal",
+        "quill"
+      ],
+      "name": "Masterwork",
+      "prompt": "Whitney presenting a masterwork seal masterpiece, proud soft smile, portrait-forward three-quarter. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "livingink": {
+      "presence": "full",
+      "props": [
+        "inkwell",
+        "quill"
+      ],
+      "name": "Living Ink",
+      "prompt": "Living ink creatures swirling around Whitney, wonder expression, quill as conductor. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "eclipseseal": {
+      "presence": "partial",
+      "props": [
+        "seal"
+      ],
+      "name": "Eclipse Seal",
+      "prompt": "Eclipse seal dark sun glyph, Whitney silhouette before it. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "sanctuary": {
+      "presence": "full",
+      "props": [
+        "quill"
+      ],
+      "name": "Sanctuary",
+      "prompt": "Whitney inside a sanctuary dome of protective ink, peaceful kneeling. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "prismburst": {
+      "presence": "partial",
+      "props": [
+        "seal"
+      ],
+      "name": "Prism Burst",
+      "prompt": "Prism burst of multi-color elemental ink rays, Whitney partial casting. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "eternalquill": {
+      "presence": "full",
+      "props": [
+        "quill"
+      ],
+      "name": "Eternal Quill",
+      "prompt": "Whitney with legendary eternal cyan quill radiating, heroic three-quarter, unique pose. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "cataclysmlite": {
+      "presence": "partial",
+      "props": [
+        "seal"
+      ],
+      "name": "Lesser Cataclysm",
+      "prompt": "Lesser cataclysm cracks and seals, Whitney small figure. Include SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or silhouette (same hair, blue eyes, glasses, indigo hat/dress), not always centered. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "archive": {
+      "presence": "none",
+      "props": [
+        "seal",
+        "inkwell"
+      ],
+      "name": "Archive",
+      "prompt": "Archive of floating ink tomes and seals, still-life library. NO full character portrait \u2014 object/effect still-life only, same universe props and palette. Tiny distant silhouette at most. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    },
+    "worldseal": {
+      "presence": "full",
+      "props": [
+        "seal",
+        "quill"
+      ],
+      "name": "World Seal",
+      "prompt": "Whitney sealing the world with ultimate world seal, arms wide, awe and power, face readable. FEATURE SAME young woman as the reference: blonde wavy hair, bright BLUE eyes, big round black glasses, indigo tall witch hat matching indigo dress, cyan glowing ink quill when armed. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Whitney atelier universe props when relevant: cyan ink quill, indigo hat/dress, elemental ink seals (fire ember / water cyan / earth brown / air white), inkwell, glowing glyphs, ribbons, brush strokes of colored ink. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Whitney D3 lock \u2014 chunky brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, indigo/cyan/cream/ink palette. NOT anime, NOT photoreal, NOT flat cartoon. Landscape. No text, no UI, no green screen."
+    }
+  },
+  "relics": {
+    "travelersinkpot": {
+      "prompt": "Single relic artifact cutout pure green screen: traveling bronze inkpot with cyan ink drip, strap, STS2 painted prop only, no person"
+    },
+    "apprenticeribbon": {
+      "prompt": "Single relic artifact cutout pure green screen: soft indigo apprentice ribbon bow, STS2 painted prop only, no person"
+    },
+    "sealedvial": {
+      "prompt": "Single relic artifact cutout pure green screen: sealed glass vial of swirling cyan ink, cork and wax seal, STS2 painted prop only"
+    },
+    "elementalribbon": {
+      "prompt": "Single relic artifact cutout pure green screen: four-color elemental ribbon (fire water earth air), STS2 painted prop only"
+    },
+    "mosscharm": {
+      "prompt": "Single relic artifact cutout pure green screen: mossy earth charm pendant, STS2 painted prop only"
+    },
+    "fourcolorpalette": {
+      "prompt": "Single relic artifact cutout pure green screen: small four-color ink palette with elemental blobs, STS2 painted prop only"
+    },
+    "journalquill": {
+      "prompt": "Single relic artifact cutout pure green screen: cyan glowing journal quill pen, STS2 painted prop only"
+    },
+    "brushcase": {
+      "prompt": "Single relic artifact cutout pure green screen: leather brush case with ink brushes, STS2 painted prop only"
+    }
+  }
+}

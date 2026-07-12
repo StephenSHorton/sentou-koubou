@@ -17,7 +17,7 @@ public sealed class Clutch() : BrennenCard(1, CardType.Skill, CardRarity.Rare, T
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(15, ValueProp.Move),
+        new BlockVar(18, ValueProp.Move),
         new CardsVar(2),
     ];
 

@@ -13,11 +13,6 @@ namespace Brennen.BrennenCode.Cards.Rare;
 
 public sealed class HardStuck() : BrennenCard(2, CardType.Power, CardRarity.Rare, TargetType.None)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<StrengthPower>(),
-    ];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("HardStuck", 1),

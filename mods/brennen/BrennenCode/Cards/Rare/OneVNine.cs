@@ -15,8 +15,8 @@ public sealed class OneVNine() : BrennenCard(2, CardType.Attack, CardRarity.Rare
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(16, ValueProp.Move),
-        new DamageVar("LowHpDamage", 28, ValueProp.Move),
+        new DamageVar(14, ValueProp.Move),
+        new DamageVar("LowHpDamage", 22, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -39,7 +39,7 @@ public sealed class OneVNine() : BrennenCard(2, CardType.Attack, CardRarity.Rare
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
-        DynamicVars["LowHpDamage"].UpgradeValueBy(4m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars["LowHpDamage"].UpgradeValueBy(3m);
     }
 }

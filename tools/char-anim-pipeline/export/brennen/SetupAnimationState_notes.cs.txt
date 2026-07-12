@@ -1,0 +1,8 @@
+// Generated from Brennen Blender combat rig export
+// Flipbook paths under: tools/char-anim-pipeline/export/brennen/frames/
+// TODO: copy frames into mod .pck assets and point CustomVisualPath / AnimatedSprite2D here.
+// BaseLib states: idle, attack, cast, hit, dead, relaxed, revive
+//
+// Example clip names (when using Spine or custom anim player):
+//   idle, attack, hit, dead
+// cast/relaxed/revive currently fall back in manifest.json

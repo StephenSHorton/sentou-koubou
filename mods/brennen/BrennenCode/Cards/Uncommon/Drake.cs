@@ -17,7 +17,7 @@ public sealed class Drake() : BrennenCard(1, CardType.Skill, CardRarity.Uncommon
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(8, ValueProp.Move),
+        new BlockVar(10, ValueProp.Move),
         new CardsVar(2),
     ];
 

@@ -13,14 +13,9 @@ namespace Brennen.BrennenCode.Cards.Rare;
 
 public sealed class MainCharacterSyndrome() : BrennenCard(1, CardType.Power, CardRarity.Rare, TargetType.None)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<VigorPower>(),
-    ];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("MCS", 4),
+        new DynamicVar("MCS", 3),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -38,6 +33,6 @@ public sealed class MainCharacterSyndrome() : BrennenCard(1, CardType.Power, Car
 
     protected override void OnUpgrade()
     {
-        DynamicVars["MCS"].UpgradeValueBy(2m);
+        DynamicVars["MCS"].UpgradeValueBy(1m);
     }
 }

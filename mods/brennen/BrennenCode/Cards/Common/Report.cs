@@ -20,7 +20,7 @@ public sealed class Report() : BrennenCard(0, CardType.Skill, CardRarity.Common,
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Weak", 2),
+        new DynamicVar("Weak", 3),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

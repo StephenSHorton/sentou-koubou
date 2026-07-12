@@ -14,7 +14,7 @@ public sealed class Ward() : BrennenCard(1, CardType.Skill, CardRarity.Common, T
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(7, ValueProp.Move),
+        new BlockVar(9, ValueProp.Move),
         new CardsVar(1),
     ];
 

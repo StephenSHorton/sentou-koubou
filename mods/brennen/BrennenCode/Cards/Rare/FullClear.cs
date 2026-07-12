@@ -13,21 +13,23 @@ namespace Brennen.BrennenCode.Cards.Rare;
 
 public sealed class FullClear() : BrennenCard(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5, ValueProp.Move),
-        new RepeatVar(4),
+        new DamageVar(10, ValueProp.Move),
+        new BlockVar(10, ValueProp.Move),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await CommonActions.CardAttack(this, play)
-            .WithHitCount(DynamicVars.Repeat.IntValue)
-            .Execute(choiceContext);
+        await CommonActions.CardAttack(this, play).Execute(choiceContext);
+        await CommonActions.CardBlock(this, play);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Repeat.UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

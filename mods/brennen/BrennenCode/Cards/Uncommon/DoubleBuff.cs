@@ -13,42 +13,22 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class DoubleBuff() : BrennenCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.None)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<VigorPower>(),
-        HoverTipFactory.FromPower<StrengthPower>(),
-    ];
+    public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Vigor", 4),
-        new DynamicVar("Strength", 1),
+        new BlockVar(9, ValueProp.Move),
+        new CardsVar(1),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        if (Owner.Creature is not null)
-        {
-            await PowerCmd.Apply<VigorPower>(
-                choiceContext,
-                Owner.Creature,
-                DynamicVars["Vigor"].IntValue,
-                Owner.Creature,
-                this);
-        }
-        if (Owner.Creature is not null)
-        {
-            await PowerCmd.Apply<StrengthPower>(
-                choiceContext,
-                Owner.Creature,
-                DynamicVars["Strength"].IntValue,
-                Owner.Creature,
-                this);
-        }
+        await CommonActions.CardBlock(this, play);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Vigor"].UpgradeValueBy(2m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

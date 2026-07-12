@@ -1,0 +1,656 @@
+{
+  "strike": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen mid-swing with the signature curved ember dagger, orange slash arc. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "defend": {
+    "presence": "full",
+    "props": [],
+    "prompt": "Brennen bracing behind a dark iron shield with yellow impact sparks, leather armor clear. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "feed": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen recklessly charging into red danger marks with ember dagger out, maniac grin simplified. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "flash": {
+    "presence": "full",
+    "props": [],
+    "prompt": "Brennen mid-blink teleport, white flash burst, afterimage of leather jacket. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "gank": {
+    "presence": "full",
+    "props": [
+      "ember_dagger",
+      "pink_ward"
+    ],
+    "prompt": "Brennen emerging from purple jungle fog ambushing, ember dagger, pink ward glow far back. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger, pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "dive": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen diving under glowing tower beams with ember dagger raised. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "allin": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen full-commit charge, everything on the line, ember aura. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "clutch": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen barely surviving a multi-foe fight, sparks and desperation, cocky still. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "outplay": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen dodging a skillshot with style, afterimage, ember dagger flourish. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "auto": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen simple basic attack swing with ember dagger vs small monster. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "assist": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger",
+      "gold_coin"
+    ],
+    "prompt": "Brennen tagging an ally kill with a glowing assist spark from ember dagger. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger, gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "peel": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen bodyblocking skillshots to protect a fragile ally silhouette. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "peelforadc": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen smacking divers away from a ranged ally. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "peelbot": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen as protective bot-lane bodyguard stance. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "bait": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen low-health bait with glowing shield of light, enemies overcommit. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "catch": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen hooking an enemy with a skillshot chain, stun. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "flashengage": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen blinking into engage, white flash + ember dagger. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "fountaindive": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen diving enemy fountain lasers for a chaotic kill. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "inter": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen sacrificial fountain dive grin for the team. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "inting": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen running headfirst into five enemies, maniac energy. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "intingsion": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Undead juggernaut crash with Brennen-like silhouette and ember cracks. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "onevnine": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen alone vs a horde, carry mode last stand. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "maincharacter": {
+    "presence": "full",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen under stage spotlight with glowing protagonist aura and rank badge. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "maincharactersyndrome": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen oversized on stage taking all credit, comic ego. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "disrespect": {
+    "presence": "full",
+    "props": [],
+    "prompt": "Brennen taunting in enemy fountain full HP, cocky emote. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "emote": {
+    "presence": "full",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen flashy mastery victory emote, confetti, gold. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "afk": {
+    "presence": "none",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "Empty leather-jacket chair with AFK zzz, cracked headset on desk, Brennen gone. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "duoqueue": {
+    "presence": "partial",
+    "props": [
+      "duo_headset"
+    ],
+    "prompt": "Brennen and a linked ally silhouette, two headsets linked by chain. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (duo_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "ward": {
+    "presence": "none",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Signature pink control-ward crystal planted in foggy brush, vision beams. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "controlward": {
+    "presence": "full",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Brennen planting the pink ward crystal deep in brush at night. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "deepward": {
+    "presence": "partial",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Deep tri-bush pink ward at night with vision beams, Brennen crouched far. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "visionscore": {
+    "presence": "none",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Many pink wards across a glowing map, high vision score aura. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "missing": {
+    "presence": "partial",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Fog of war with red missing pings, Brennen vanishing silhouette. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "facecheck": {
+    "presence": "partial",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Brennen peeking a dark fog bush discovering ambush, pink ward nearby. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "wardhop": {
+    "presence": "full",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Brennen hopping a wall using pink ward as step. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "camp": {
+    "presence": "partial",
+    "props": [
+      "pink_ward",
+      "ember_dagger"
+    ],
+    "prompt": "Brennen crouched in jungle brush waiting to ambush, pink ward glow. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward, ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "campsetup": {
+    "presence": "partial",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Pink wards and traps set around a camp, Brennen silhouette placing last ward. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "muteall": {
+    "presence": "none",
+    "props": [
+      "mute_rune",
+      "cracked_headset"
+    ],
+    "prompt": "Giant mute-X speaker silencing fiery chat bubbles, cracked headset nearby. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (mute_rune, cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "flame": {
+    "presence": "full",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "Brennen typing toxic mid-fight, fiery chat bubbles become real flames. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "allchat": {
+    "presence": "none",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "All-chat keyboard slam with fiery speech runes, cracked headset, Brennen hands. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "tilt": {
+    "presence": "full",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "Cracked headset meltdown with fiery chat symbols, Brennen clutching head. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "mentalboom": {
+    "presence": "partial",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "Headset exploding into tilt fire, Brennen silhouette reeling. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "chatmod": {
+    "presence": "partial",
+    "props": [
+      "mute_rune"
+    ],
+    "prompt": "Brennen as chat moderator with mute-X rune stamp. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (mute_rune). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "chatrestrict": {
+    "presence": "none",
+    "props": [
+      "mute_rune"
+    ],
+    "prompt": "Mute gag rune silencing a screaming enemy, mute-X speaker. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (mute_rune). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "report": {
+    "presence": "partial",
+    "props": [
+      "mute_rune"
+    ],
+    "prompt": "Brennen filing glowing report scroll, judge energy, mute-X stamp. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (mute_rune). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "ggez": {
+    "presence": "full",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen flexing after win, GG confetti, gold coin sparkle. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "spamping": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Map flooded with glowing ping markers, Brennen pointing. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "uninstall": {
+    "presence": "partial",
+    "props": [
+      "cracked_headset"
+    ],
+    "prompt": "Enemy console melting, Brennen smirking, cracked enemy headset. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (cracked_headset). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "hardstuck": {
+    "presence": "full",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen stuck climbing mountain of rank badges, weary but gaming. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "firstblood": {
+    "presence": "full",
+    "props": [
+      "gold_coin",
+      "ember_dagger"
+    ],
+    "prompt": "Brennen holding gold first-blood coin over fallen foe, ember dagger. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin, ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "pentakill": {
+    "presence": "full",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen victorious with five skull tally marks and gold explosion. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "ace": {
+    "presence": "full",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Team wipe victory, Brennen arms raised, gold and skull marks. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "shutdown": {
+    "presence": "full",
+    "props": [
+      "gold_coin",
+      "ember_dagger"
+    ],
+    "prompt": "Ending a fed enemy, shutdown gold explosion, Brennen with dagger. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin, ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "kda": {
+    "presence": "partial",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen stylish pose with floating KDA numbers as graphic shapes, gold. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "snowball": {
+    "presence": "full",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen growing unstoppable with rolling gold-and-ember snowball momentum. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "bounty": {
+    "presence": "partial",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen holding bounty gold bag over high-value target. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "quadra": {
+    "presence": "partial",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Four-kill wipe almost penta, four skulls, Brennen mid-fight. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "pentasecure": {
+    "presence": "partial",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Locking five-kill streak with power seal, Brennen and skulls. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "perfectgame": {
+    "presence": "partial",
+    "props": [
+      "rank_badge",
+      "gold_coin"
+    ],
+    "prompt": "Brennen flawless golden run aura, crown of light, no deaths. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge, gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "tax": {
+    "presence": "partial",
+    "props": [
+      "gold_coin"
+    ],
+    "prompt": "Brennen smug tollkeeper collecting lane tax gold from jungler. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "cs": {
+    "presence": "partial",
+    "props": [
+      "gold_coin",
+      "ember_dagger"
+    ],
+    "prompt": "Brennen last-hitting minion for gold coins, precise. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (gold_coin, ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "itemspike": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger",
+      "gold_coin"
+    ],
+    "prompt": "Brennen completing legendary glowing weapon item, power spike. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger, gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "powerspike": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen surging with level-up rings and lightning. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "smite": {
+    "presence": "full",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Brennen calling yellow smite lightning on a monster, secure. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "baron": {
+    "presence": "full",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Brennen battling massive dark pit dragon, purple-black magic. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "drake": {
+    "presence": "partial",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Brennen fighting elemental dragon over glowing pit. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "fullclear": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger",
+      "smite_bolt"
+    ],
+    "prompt": "Brennen clearing jungle camp whirlwind with ember dagger. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger, smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "jungleclear": {
+    "presence": "partial",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Efficient clear route montage, Brennen and smite bolt. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "invade": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger",
+      "pink_ward"
+    ],
+    "prompt": "Brennen invading enemy jungle at dawn, ambush. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger, pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "objective": {
+    "presence": "partial",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Brennen securing glowing map objective crystal with team. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "freeobj": {
+    "presence": "none",
+    "props": [
+      "smite_bolt",
+      "gold_coin"
+    ],
+    "prompt": "Uncontested objective claim, gold and smite residual. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (smite_bolt, gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "doublebuff": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen with dual red/blue buff auras swirling. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "jgdiff": {
+    "presence": "partial",
+    "props": [
+      "smite_bolt"
+    ],
+    "prompt": "Brennen as jungle pathing god with smite lightning path lines. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (smite_bolt). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "macro": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Glowing realm minimap with strategic markers, Brennen studying it. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "micro": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Close-up Brennen weaving attacks with perfect mechanics, ember dagger. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "rotate": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen sprinting to rotate for a fight, dust trail. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "roam": {
+    "presence": "partial",
+    "props": [
+      "pink_ward"
+    ],
+    "prompt": "Brennen leaving lane into river fog hunting other lanes. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (pink_ward). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "roambot": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Machine-like roam pathing with multiple Brennen ghost afterimages. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "roamtimer": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Minimap roam path countdown hologram, Brennen mid-run. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "splitpush": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen pushing side lane alone while map burns. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "backdoor": {
+    "presence": "full",
+    "props": [],
+    "prompt": "Brennen sneaking to enemy crystal tower at night, sly grin. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "openmid": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Team walking mid surrender energy, Brennen casual. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "tp": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen channeling teleport beacon of light across map. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "ult": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen casting massive ultimate, sky-filling spell. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "zone": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen creating glowing control zone enemies fear. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "freeze": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Enemy locked in ice CC, Brennen nearby holding freeze. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "boost": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen surrounded by rising golden buff sparks. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "poke": {
+    "presence": "partial",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen harassing from range with light poke spell. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "ping": {
+    "presence": "none",
+    "props": [],
+    "prompt": "Brennen pointing urgently at danger on magical map with ping marker. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "diff": {
+    "presence": "full",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen casually outplaying devastated enemy, skill-issue vibe. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "topdiff": {
+    "presence": "full",
+    "props": [
+      "rank_badge",
+      "ember_dagger"
+    ],
+    "prompt": "Brennen as island top-lane monster crushing rival solo. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (rank_badge, ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "middiff": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen mid-lane duel victory with skillshot outplay. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "adcdiff": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen hyper-fed marksman mode firing glowing volleys. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "supdiff": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen support god shielding and CC chaining. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "challengerdiff": {
+    "presence": "partial",
+    "props": [
+      "rank_badge"
+    ],
+    "prompt": "Brennen looking down from high rank throne of floating medals. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (rank_badge). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "throw": {
+    "presence": "full",
+    "props": [
+      "ember_dagger"
+    ],
+    "prompt": "Brennen wild reckless throw play, comedy disaster, still him. FEATURE the same Brennen character from the reference (short spiky dark hair, neat goatee, dark leather straps and brass buckles, confident expression, signature curved ember dagger when armed) as a clear readable focus, simplified STS2 face detail. Shared props to reuse when relevant (ember_dagger). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "dodgethedodge": {
+    "presence": "partial",
+    "props": [],
+    "prompt": "Brennen dodging skillshot with style, afterimages. Include Brennen from the reference as a recognizable secondary figure or silhouette (same hair, goatee, leather straps), not always centered. Shared props to reuse when relevant (ember leather kit motifs). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  },
+  "remake": {
+    "presence": "none",
+    "props": [
+      "cracked_headset",
+      "gold_coin"
+    ],
+    "prompt": "Broken match timer and surrender flag on a desk with cracked headset and gold coin. Do NOT show Brennen face or full figure; object/effect still-life in his shared universe using the kit props so it still feels like the same world. Shared props to reuse when relevant (cracked_headset, gold_coin). Shared Brennen universe: dark leather + brass buckles, ember-orange accents, same curved ember dagger, pink ward crystal, cracked dark headset, gold first-blood coin, yellow smite bolt, ranked badge, mute-X speaker as recurring props across the kit. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit style, simplified graphic shapes, chunky brush, limited facial detail, strong silhouette, dark vignette, ember/charcoal/gold/purple palette. NOT anime, NOT photoreal. Landscape. No text, no UI, no card frame."
+  }
+}

@@ -13,14 +13,9 @@ namespace Brennen.BrennenCode.Cards.Uncommon;
 
 public sealed class Snowball() : BrennenCard(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<StrengthPower>(),
-    ];
-
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DynamicVar("Snowball", 1),
+        new DynamicVar("Snowball", 6),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -38,6 +33,6 @@ public sealed class Snowball() : BrennenCard(1, CardType.Power, CardRarity.Uncom
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Snowball"].UpgradeValueBy(1m);
+        DynamicVars["Snowball"].UpgradeValueBy(2m);
     }
 }

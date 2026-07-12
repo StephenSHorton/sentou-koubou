@@ -11,23 +11,24 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Rare;
 
-public sealed class AdcDiff() : BrennenCard(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+public sealed class AdcDiff() : BrennenCard(1, CardType.Skill, CardRarity.Rare, TargetType.None)
 {
+    public override bool GainsBlock => true;
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(4, ValueProp.Move),
-        new RepeatVar(5),
+        new BlockVar(14, ValueProp.Move),
+        new CardsVar(2),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
-        await CommonActions.CardAttack(this, play)
-            .WithHitCount(DynamicVars.Repeat.IntValue)
-            .Execute(choiceContext);
+        await CommonActions.CardBlock(this, play);
+        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Repeat.UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(4m);
     }
 }

@@ -18,7 +18,10 @@ namespace Brennen.BrennenCode.Relics;
 [Pool(typeof(BrennenRelicPool))]
 public abstract class BrennenRelic : CustomRelicModel
 {
-    public override string PackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".RelicImagePath();
-    protected override string PackedIconOutlinePath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.png".RelicImagePath();
-    protected override string BigIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigRelicImagePath();
+    // Id.Entry is like BRENNEN-DUO_QUEUE; asset files are duoqueue.png (no underscores).
+    private string RelicStem => Id.Entry.RemovePrefix().Replace("_", "", StringComparison.Ordinal).ToLowerInvariant();
+
+    public override string PackedIconPath => $"{RelicStem}.png".RelicImagePath();
+    protected override string PackedIconOutlinePath => $"{RelicStem}_outline.png".RelicImagePath();
+    protected override string BigIconPath => $"{RelicStem}.png".BigRelicImagePath();
 }
