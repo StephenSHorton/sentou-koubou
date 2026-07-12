@@ -20,6 +20,12 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
 
+## Releases (per mod)
+
+- **Tag format:** `mod-id/vX.Y.Z` (e.g. `whitney/v0.2.0`, `trading-post/v0.1.0`) — one tag → one mod GitHub Release.
+- **CI:** `.github/workflows/release-mod.yml` on tags `*/v*` (needs secret `STS2_REF_DLLS`; see `docs/releasing.md`).
+- **Local:** `python tools/release_mod.py <mod> <version> [--push|--build-only|--local-upload]`.
+
 ## Local catalog
 
 ```bash

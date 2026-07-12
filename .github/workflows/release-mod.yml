@@ -1,0 +1,293 @@
+# Per-mod GitHub Release pipeline.
+#
+# Tag format (required):
+#   <mod-id>/v<semver>
+# Examples:
+#   whitney/v0.2.0
+#   brennen/v0.1.1
+#   blake/v0.1.0
+#   trading-post/v0.1.0
+#
+# Pushing a matching tag builds only that mod and publishes a Mods-ready zip:
+#   <AssemblyName>/
+#     <AssemblyName>.dll
+#     <AssemblyName>.json
+#     <AssemblyName>.pck   (when has_pck / packer produced one)
+#     extra assets for trading-post
+#
+# CI needs game reference assemblies (not redistributed in this repo).
+# One-time setup — GitHub repo secret STS2_REF_DLLS:
+#   Zip containing at least:
+#     sts2.dll
+#     0Harmony.dll
+#     GodotSharp.dll   (required by trading-post)
+#   from your local:
+#     <Steam>/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/
+#   Create secret (base64 of the zip):
+#     [Convert]::ToBase64String([IO.File]::ReadAllBytes("sts2-ref-dlls.zip"))
+#   Or use a self-hosted runner that already has STS2 installed and set
+#   env STS2_DATA_DIR to that data folder (skip secret).
+
+name: Release mod
+
+on:
+  push:
+    tags:
+      - "*/v*"
+  workflow_dispatch:
+    inputs:
+      mod:
+        description: "Mod id (whitney, brennen, blake, trading-post)"
+        required: true
+        type: choice
+        options:
+          - whitney
+          - brennen
+          - blake
+          - trading-post
+      version:
+        description: "Semver without leading v (e.g. 0.2.0)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: Parse tag / inputs
+        id: meta
+        run: |
+          $ErrorActionPreference = "Stop"
+          $known = @{
+            "whitney"       = @{ folder = "whitney";       project = "Whitney.csproj";       assembly = "Whitney" }
+            "brennen"       = @{ folder = "brennen";       project = "Brennen.csproj";       assembly = "Brennen" }
+            "blake"         = @{ folder = "blake";         project = "Blake.csproj";         assembly = "Blake" }
+            "trading-post"  = @{ folder = "trading-post";  project = "TradingPost.csproj";   assembly = "TradingPost" }
+          }
+
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $mod = "${{ inputs.mod }}".Trim().ToLowerInvariant()
+            $ver = "${{ inputs.version }}".Trim().TrimStart("v", "V")
+            $tag = "$mod/v$ver"
+          } else {
+            $tag = "${{ github.ref_name }}"
+            if ($tag -notmatch '^(?<mod>[a-z0-9-]+)/v(?<ver>.+)$') {
+              throw "Tag '$tag' must match mod-id/vSEMVER (e.g. whitney/v0.2.0)"
+            }
+            $mod = $Matches.mod.ToLowerInvariant()
+            $ver = $Matches.ver
+          }
+
+          if (-not $known.ContainsKey($mod)) {
+            throw "Unknown mod '$mod'. Known: $($known.Keys -join ', ')"
+          }
+          if ($ver -notmatch '^\d+\.\d+\.\d+') {
+            throw "Version '$ver' should start with major.minor.patch (e.g. 0.2.0)"
+          }
+
+          $info = $known[$mod]
+          "mod=$mod" >> $env:GITHUB_OUTPUT
+          "version=$ver" >> $env:GITHUB_OUTPUT
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "folder=$($info.folder)" >> $env:GITHUB_OUTPUT
+          "project=$($info.project)" >> $env:GITHUB_OUTPUT
+          "assembly=$($info.assembly)" >> $env:GITHUB_OUTPUT
+          "display=v$ver" >> $env:GITHUB_OUTPUT
+          Write-Host "Releasing $($info.assembly) as $tag"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Prepare STS2 reference assemblies
+        env:
+          STS2_REF_DLLS: ${{ secrets.STS2_REF_DLLS }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $dataDir = Join-Path $env:RUNNER_TEMP "sts2-data"
+          $modsDir = Join-Path $env:RUNNER_TEMP "sts2-mods"
+          New-Item -ItemType Directory -Force -Path $dataDir, $modsDir | Out-Null
+
+          if ($env:STS2_DATA_DIR -and (Test-Path $env:STS2_DATA_DIR)) {
+            Write-Host "Using STS2_DATA_DIR=$env:STS2_DATA_DIR"
+            $dataDir = $env:STS2_DATA_DIR
+          } elseif ($env:STS2_REF_DLLS) {
+            $zipPath = Join-Path $env:RUNNER_TEMP "sts2-ref-dlls.zip"
+            [IO.File]::WriteAllBytes($zipPath, [Convert]::FromBase64String($env:STS2_REF_DLLS))
+            Expand-Archive -Path $zipPath -DestinationPath $dataDir -Force
+            # tolerate zip root folder or flat files
+            $sts2 = Get-ChildItem $dataDir -Recurse -Filter "sts2.dll" | Select-Object -First 1
+            if (-not $sts2) { throw "sts2.dll not found inside STS2_REF_DLLS zip" }
+            $dataDir = $sts2.Directory.FullName
+            Write-Host "Unpacked reference DLLs into $dataDir"
+          } else {
+            throw @"
+Missing game reference assemblies.
+
+Set repo secret STS2_REF_DLLS to a base64-encoded zip of:
+  sts2.dll, 0Harmony.dll, GodotSharp.dll
+from: Steam/steamapps/common/Slay the Spire 2/data_sts2_windows_x86_64/
+
+PowerShell:
+  Compress-Archive sts2.dll,0Harmony.dll,GodotSharp.dll sts2-ref-dlls.zip
+  [Convert]::ToBase64String([IO.File]::ReadAllBytes('sts2-ref-dlls.zip')) | Set-Clipboard
+"@
+          }
+
+          foreach ($need in @("sts2.dll", "0Harmony.dll")) {
+            if (-not (Test-Path (Join-Path $dataDir $need))) {
+              throw "Required $need missing in $dataDir"
+            }
+          }
+
+          "STS2_DATA_DIR=$dataDir" >> $env:GITHUB_ENV
+          "STS2_MODS_DIR=$modsDir" >> $env:GITHUB_ENV
+
+      - name: Sync manifest version from tag
+        run: |
+          $ErrorActionPreference = "Stop"
+          $modDir = "mods/${{ steps.meta.outputs.folder }}"
+          $assembly = "${{ steps.meta.outputs.assembly }}"
+          $ver = "${{ steps.meta.outputs.version }}"
+          $manifest = Join-Path $modDir "$assembly.json"
+          if (-not (Test-Path $manifest)) { throw "Missing manifest $manifest" }
+
+          $json = Get-Content $manifest -Raw | ConvertFrom-Json
+          $json.version = "v$ver"
+          $json | ConvertTo-Json -Depth 10 | Set-Content $manifest -Encoding utf8
+          Write-Host "Set $manifest version to v$ver"
+          Get-Content $manifest
+
+      - name: Build mod
+        working-directory: mods/${{ steps.meta.outputs.folder }}
+        run: |
+          $ErrorActionPreference = "Stop"
+          $assembly = "${{ steps.meta.outputs.assembly }}"
+          $project = "${{ steps.meta.outputs.project }}"
+          $dataDir = $env:STS2_DATA_DIR
+          $modsDir = $env:STS2_MODS_DIR
+          # Fake install root so Sts2PathDiscovery + CopyToMods targets succeed
+          $sts2Root = Split-Path $dataDir -Parent
+          if (-not (Test-Path (Join-Path $sts2Root "data_sts2_windows_x86_64"))) {
+            # data dir is not under a standard layout — point Sts2Path at temp and
+            # pass Sts2DataDir / ModsPath explicitly
+            $sts2Root = Join-Path $env:RUNNER_TEMP "sts2-root"
+            New-Item -ItemType Directory -Force -Path $sts2Root | Out-Null
+          }
+
+          $msbuildArgs = @(
+            $project
+            "-c", "Release"
+            "-p:Sts2Path=$sts2Root"
+            "-p:Sts2DataDir=$dataDir"
+            "-p:ModsPath=$modsDir/"
+            "-p:SkipCopyToMods=false"
+          )
+
+          Write-Host "dotnet build $($msbuildArgs -join ' ')"
+          dotnet build @msbuildArgs
+          if ($LASTEXITCODE -ne 0) { throw "dotnet build failed" }
+
+          # Collect artifacts from ModsPath copy target and/or bin
+          $outDir = Join-Path $env:RUNNER_TEMP "release-staging\$assembly"
+          New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+          $candidates = @(
+            (Join-Path $modsDir $assembly),
+            (Join-Path $modsDir "/$assembly"),
+            ".godot/mono/temp/bin/Release",
+            "bin/Release/net9.0",
+            "bin/Release"
+          ) | Where-Object { $_ -and (Test-Path $_) }
+
+          foreach ($dir in $candidates) {
+            Write-Host "Scanning $dir"
+            Get-ChildItem $dir -File -ErrorAction SilentlyContinue | ForEach-Object {
+              $n = $_.Name
+              if ($n -match '\.(deps|runtimeconfig)\.json$' -or $n -like '*.pdb') { return }
+              if ($_.Extension -in ".dll", ".pck", ".png") {
+                Copy-Item $_.FullName $outDir -Force
+                Write-Host "  + $n"
+              } elseif ($_.Extension -eq ".json" -and $_.BaseName -eq $assembly) {
+                Copy-Item $_.FullName $outDir -Force
+                Write-Host "  + $n"
+              }
+            }
+            # nested folder ModsPath/Whitney/
+            $nested = Join-Path $dir $assembly
+            if (Test-Path $nested) {
+              Get-ChildItem $nested -File -ErrorAction SilentlyContinue | ForEach-Object {
+                if ($_.Name -match '\.(deps|runtimeconfig)\.json$' -or $_.Name -like '*.pdb') { return }
+                if ($_.Extension -in ".dll", ".json", ".pck", ".png") {
+                  Copy-Item $_.FullName $outDir -Force
+                  Write-Host "  + $($_.Name) (from mods copy)"
+                }
+              }
+            }
+          }
+
+          # Ensure manifest from source (version-synced)
+          Copy-Item "$assembly.json" (Join-Path $outDir "$assembly.json") -Force
+
+          # trading-post ships loose pngs from assets/
+          if ("${{ steps.meta.outputs.mod }}" -eq "trading-post" -and (Test-Path "assets")) {
+            Copy-Item "assets\*.png" $outDir -Force -ErrorAction SilentlyContinue
+          }
+
+          $dll = Join-Path $outDir "$assembly.dll"
+          if (-not (Test-Path $dll)) {
+            Write-Host "Staging contents:"
+            Get-ChildItem $outDir | Format-Table Name, Length
+            throw "Build succeeded but $assembly.dll was not found in staging"
+          }
+
+          "STAGING_DIR=$outDir" >> $env:GITHUB_ENV
+          Get-ChildItem $outDir | Format-Table Name, Length
+
+      - name: Zip Mods-ready package
+        id: zip
+        run: |
+          $ErrorActionPreference = "Stop"
+          $assembly = "${{ steps.meta.outputs.assembly }}"
+          $staging = $env:STAGING_DIR
+          $zipRoot = Join-Path $env:RUNNER_TEMP "zip-root"
+          $inner = Join-Path $zipRoot $assembly
+          New-Item -ItemType Directory -Force -Path $inner | Out-Null
+          Copy-Item (Join-Path $staging "*") $inner -Force -Recurse
+
+          $zipName = "$assembly.zip"
+          $zipPath = Join-Path $env:RUNNER_TEMP $zipName
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          Compress-Archive -Path $inner -DestinationPath $zipPath -Force
+          "zip_path=$zipPath" >> $env:GITHUB_OUTPUT
+          "zip_name=$zipName" >> $env:GITHUB_OUTPUT
+          Write-Host "Created $zipPath ($((Get-Item $zipPath).Length) bytes)"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: "${{ steps.meta.outputs.assembly }} ${{ steps.meta.outputs.display }}"
+          target_commitish: ${{ github.sha }}
+          generate_release_notes: true
+          files: ${{ steps.zip.outputs.zip_path }}
+          fail_on_unmatched_files: true
+          body: |
+            **${{ steps.meta.outputs.assembly }}** `${{ steps.meta.outputs.display }}`
+
+            ### Install
+            1. Requires [BaseLib](https://github.com/Alchyr/BaseLib-StS2/releases)
+            2. Unzip into `Slay the Spire 2/mods/` so you have:
+               `mods/${{ steps.meta.outputs.assembly }}/${{ steps.meta.outputs.assembly }}.dll` (+ `.json` / `.pck`)
+            3. Enable **BaseLib** + **${{ steps.meta.outputs.assembly }}** in-game
