@@ -19,8 +19,8 @@ public class Whitney : PlaceholderCharacterModel
 {
     public const string CharacterId = "Whitney";
 
-    /// <summary>Soft sage — Witch Hat Atelier parchment &amp; leaf.</summary>
-    public static readonly Color Color = new("7a9e8a");
+    /// <summary>Indigo ink-mage — matches D3 dress / hat clothing lock.</summary>
+    public static readonly Color Color = new("4B3F8C");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;

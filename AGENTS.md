@@ -15,9 +15,9 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 
 ## Mods
 
-- `mods/henro` — The Pilgrim vertical slice (Strike, Defend, Pilgrim Beads).
-- `mods/brennen` — Full character kit (vanilla 20/35/25 reward pool). Regen generated cards with `python tools/generate_brennen_kit.py`.
+- `mods/brennen` — Full tank character kit. Regen generated cards with `python tools/generate_brennen_kit.py`.
 - `mods/whitney` — Atelier witch, Energy + Ink dual mana, full 20C/35U/25R kit + combat flipbooks.
+- `mods/trading-post` — Co-op shop gold + campfire card trading.
 
 ## Local catalog
 

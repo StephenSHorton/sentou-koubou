@@ -11,10 +11,9 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 namespace Brennen.BrennenCode.Character;
 
 /// <summary>
-/// Brennen — older brother, League nights, tank main energy.
+/// Brennen — frontline tank.
 /// Peels, pays HP for tempo, keeps Block (Proxy Camp), slams with Tower Dive.
 /// Feed is a reward-pool meme, not a starter.
-/// Family meme pack character #1 for sentou-koubou.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
 {

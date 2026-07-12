@@ -2,7 +2,7 @@
   "id": "Brennen",
   "name": "Brennen — Family Meme Pack",
   "author": "StephenSHorton",
-  "description": "Playable character: Brennen (older brother). League-flavored meme kit featuring Feed, Gank, Flash, Tilt, and more. Character 1 of the sentou-koubou family pack.",
+  "description": "Playable tank character: Brennen. Peels, bodyblocks, Barricade walls, and meme Feed. HP→energy and Block payoffs.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": true,

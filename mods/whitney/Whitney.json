@@ -2,7 +2,7 @@
   "id": "Whitney",
   "name": "Whitney — Atelier Witch",
   "author": "StephenSHorton",
-  "description": "Playable character: Whitney, atelier witch. Energy + Ink dual mana, four-element seals with dual-purpose cards. Family pack char 2 in sentou-koubou (尖塔工房).",
+  "description": "Playable character: Whitney, atelier witch. Energy + Ink dual mana, four-element seals, Attunement scaling.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": true,

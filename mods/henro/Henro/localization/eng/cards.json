@@ -1,7 +1,0 @@
-{
-  "HENRO-STRIKE_HENRO.title": "Strike",
-  "HENRO-STRIKE_HENRO.description": "Deal {Damage:diff()} damage.",
-
-  "HENRO-DEFEND_HENRO.title": "Defend",
-  "HENRO-DEFEND_HENRO.description": "Gain {Block:diff()} [gold]Block[/gold]."
-}

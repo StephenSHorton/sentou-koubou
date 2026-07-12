@@ -16,8 +16,8 @@ public static class BrennenCombatVisuals
 {
     public const float Fps = 24f;
 
-    /// <summary>Scale so 512×682 export roughly matches vanilla combat body size.</summary>
-    public const float SpriteScale = 0.42f;
+    /// <summary>Scale so 512×682 export reads closer to vanilla combat body size (was 0.42 — too small).</summary>
+    public const float SpriteScale = 0.56f;
 
     /// <summary>
     /// Frame packs under <c>res://Brennen/images/combat/{state}/</c>.
