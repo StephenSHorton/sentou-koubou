@@ -1,6 +1,8 @@
 {
   "WHITNEY-INK_POWER.title": "Ink",
-  "WHITNEY-INK_POWER.description": "Your second mana. Bank [gold]Ink[/gold] (max 10) and spend it on seals.",
+  "WHITNEY-INK_POWER.description": "Your second mana. Bank [gold]Ink[/gold] and spend it on seals.",
+  "WHITNEY-BLEND_POWER.title": "Blend",
+  "WHITNEY-BLEND_POWER.description": "A bonus if this card's element is different from the last Whitney card you played this turn.",
   "WHITNEY-ATTUNEMENT_POWER.title": "Attunement",
   "WHITNEY-ATTUNEMENT_POWER.description": "Seals deal and block additional equal to [gold]Attunement[/gold].",
   "WHITNEY-BRUSH_TRACKER_POWER.title": "Brush",

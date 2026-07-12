@@ -9,16 +9,17 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Whitney.WhitneyCode;
 using Whitney.WhitneyCode.Powers;
 
-
 namespace Whitney.WhitneyCode.Cards.Rare;
 
 public sealed class WetPaint() : WhitneyCard(1, CardType.Skill, CardRarity.Rare, TargetType.Self)
 {
     public override WhitneyElement Element => WhitneyElement.Water;
-    public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<WetPaintPower>()];
+    [
+        HoverTipFactory.FromPower<WetPaintPower>(),
+        WhitneyTips.Ink,
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

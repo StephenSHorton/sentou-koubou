@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Whitney.WhitneyCode;
 using Whitney.WhitneyCode.Powers;
 
-
 namespace Whitney.WhitneyCode.Cards.Rare;
 
 public sealed class InfernoSeal() : WhitneyCard(1, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
@@ -19,14 +18,16 @@ public sealed class InfernoSeal() : WhitneyCard(1, CardType.Attack, CardRarity.R
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<InkPower>(),
-        HoverTipFactory.FromPower<VulnerablePower>(),
+        WhitneyTips.Ink,
+        WhitneyTips.Vulnerable,
+        WhitneyTips.Weak,
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(15, ValueProp.Move),
         new DynamicVar("Vulnerable", 2),
+        new DynamicVar("Weak", 2),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -38,6 +39,8 @@ public sealed class InfernoSeal() : WhitneyCard(1, CardType.Attack, CardRarity.R
             {
                 await PowerCmd.Apply<VulnerablePower>(
                     choiceContext, enemy, DynamicVars["Vulnerable"].IntValue, Owner.Creature, this);
+                await PowerCmd.Apply<WeakPower>(
+                    choiceContext, enemy, DynamicVars["Weak"].IntValue, Owner.Creature, this);
             }
         }
         NoteBrushPlay();

@@ -17,7 +17,11 @@ public sealed class Masterwork() : WhitneyCard(2, CardType.Power, CardRarity.Rar
     public override WhitneyElement Element => WhitneyElement.Earth;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<MasterworkPower>()];
+    [
+        HoverTipFactory.FromPower<MasterworkPower>(),
+        WhitneyTips.Ink,
+        WhitneyTips.Attunement,
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

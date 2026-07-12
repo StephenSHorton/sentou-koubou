@@ -15,6 +15,8 @@ namespace Whitney.WhitneyCode.Cards.Common;
 public sealed class Undertow() : WhitneyCard(1, CardType.Skill, CardRarity.Common, TargetType.Self)
 {
     public override WhitneyElement Element => WhitneyElement.Water;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [WhitneyTips.Blend];
     public override bool GainsBlock => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

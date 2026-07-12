@@ -15,6 +15,8 @@ namespace Whitney.WhitneyCode.Cards.Common;
 public sealed class Gust() : WhitneyCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
 {
     public override WhitneyElement Element => WhitneyElement.Wind;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [WhitneyTips.Blend];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
