@@ -564,22 +564,26 @@ public static class TradeUi
         nameLabel.AddThemeColorOverride("font_color", new Color(0.96f, 0.92f, 0.80f));
         nameCol.AddChild(nameLabel);
 
-        // Character title under the platform name when available
+        // Character display name under the platform name (resolved LocString — not raw keys
+        // like "IRONCLAD.title" from CharacterSelectTitle).
         string? charTitle = null;
         try
         {
-            charTitle = player.Character?.CharacterSelectTitle;
-            if (string.IsNullOrWhiteSpace(charTitle))
+            var titleLoc = player.Character?.Title;
+            if (titleLoc != null && !titleLoc.IsEmpty)
             {
-                charTitle = player.Character?.Id.Entry;
+                charTitle = titleLoc.GetFormattedText();
             }
         }
         catch
         {
             // ignore
         }
+        // Skip if missing, same as platform name, or still looks like an unresolved loc key.
         if (!string.IsNullOrWhiteSpace(charTitle) &&
-            !string.Equals(charTitle, name, StringComparison.OrdinalIgnoreCase))
+            !string.Equals(charTitle, name, StringComparison.OrdinalIgnoreCase) &&
+            !charTitle.Contains(".title", StringComparison.OrdinalIgnoreCase) &&
+            !charTitle.Contains('.', StringComparison.Ordinal))
         {
             var sub = new Label
             {
