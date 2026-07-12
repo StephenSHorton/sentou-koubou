@@ -10,9 +10,10 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
-namespace Brennen.BrennenCode.Cards.Rare;
+namespace Brennen.BrennenCode.Cards.Uncommon;
 
-public sealed class MainCharacter() : BrennenCard(2, CardType.Power, CardRarity.Rare, TargetType.None)
+/// <summary>Power: unblocked damage → become Tilted.</summary>
+public sealed class YoureBad() : BrennenCard(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
 {
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [BrennenTips.Tilted];
@@ -21,7 +22,7 @@ public sealed class MainCharacter() : BrennenCard(2, CardType.Power, CardRarity.
     {
         if (Owner.Creature is not null)
         {
-            await PowerCmd.Apply<MainCharacterPower>(
+            await PowerCmd.Apply<YoureBadPower>(
                 choiceContext,
                 Owner.Creature,
                 1,

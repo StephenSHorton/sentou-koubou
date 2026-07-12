@@ -12,13 +12,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Cards.Basic;
 
-/// <summary>0-cost escape — Block, Retain, Exhaust.</summary>
+/// <summary>0-cost escape — Block + Retain (no Exhaust).</summary>
 public sealed class Flash() : BrennenCard(0, CardType.Skill, CardRarity.Basic, TargetType.None)
 {
     public override bool GainsBlock => true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [CardKeyword.Retain, CardKeyword.Exhaust];
+        [CardKeyword.Retain];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new BlockVar(4, ValueProp.Move)];

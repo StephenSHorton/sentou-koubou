@@ -26,3 +26,5 @@ tools/gen_out/
 # Local STS2 balance dumps (regenerate with tools/fetch_sts2_reference.py)
 reference/
 tools/_decompile/
+
+_mods_out/

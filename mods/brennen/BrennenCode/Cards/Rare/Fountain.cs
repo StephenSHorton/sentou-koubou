@@ -16,6 +16,9 @@ public sealed class Fountain() : BrennenCard(2, CardType.Skill, CardRarity.Rare,
 {
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [BrennenTips.Fed];
+
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DynamicVar("HealPerFed", 3)];
 

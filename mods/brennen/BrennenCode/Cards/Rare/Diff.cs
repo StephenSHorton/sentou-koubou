@@ -22,7 +22,10 @@ public sealed class Diff() : BrennenCard(1, CardType.Skill, CardRarity.Rare, Tar
     public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<WeakPower>()];
+    [
+        BrennenTips.Fed,
+        HoverTipFactory.FromPower<WeakPower>(),
+    ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
