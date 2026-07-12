@@ -15,6 +15,8 @@ namespace Whitney.WhitneyCode.Cards.Uncommon;
 public sealed class AllaPrima() : WhitneyCard(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
 {
     public override WhitneyElement Element => WhitneyElement.Fire;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [WhitneyTips.Blend];
     public override IEnumerable<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

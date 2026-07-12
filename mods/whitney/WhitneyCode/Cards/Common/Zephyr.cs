@@ -17,7 +17,7 @@ public sealed class Zephyr() : WhitneyCard(0, CardType.Skill, CardRarity.Common,
     public override WhitneyElement Element => WhitneyElement.Wind;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InkPower>()];
+        [WhitneyTips.Blend, WhitneyTips.Ink];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

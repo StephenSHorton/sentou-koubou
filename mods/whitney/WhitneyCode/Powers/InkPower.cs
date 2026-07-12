@@ -17,6 +17,6 @@ public sealed class InkPower : WhitneyPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Ink",
-            "Your second mana. Bank [gold]Ink[/gold] (max 10) and spend it on seals. Shown next to Energy.",
+            "Your second mana. Bank [gold]Ink[/gold] and spend it on seals. Shown next to Energy.",
             "You have {Amount} [gold]Ink[/gold].");
 }

@@ -17,7 +17,10 @@ public sealed class ElementalForm() : WhitneyCard(3, CardType.Power, CardRarity.
     public override WhitneyElement Element => WhitneyElement.Fire;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<ElementalFormPower>()];
+    [
+        HoverTipFactory.FromPower<ElementalFormPower>(),
+        WhitneyTips.Blend,
+    ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {

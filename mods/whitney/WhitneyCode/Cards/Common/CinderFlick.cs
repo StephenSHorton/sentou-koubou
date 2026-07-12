@@ -17,7 +17,7 @@ public sealed class CinderFlick() : WhitneyCard(0, CardType.Attack, CardRarity.C
     public override WhitneyElement Element => WhitneyElement.Fire;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<InkPower>()];
+        [WhitneyTips.Blend, WhitneyTips.Ink];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

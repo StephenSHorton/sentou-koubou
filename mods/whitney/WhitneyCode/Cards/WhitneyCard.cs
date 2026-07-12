@@ -34,8 +34,11 @@ public abstract class WhitneyCard(int cost, CardType type, CardRarity rarity, Ta
     /// <summary>True when this card spends Ink as a seal.</summary>
     public bool IsSeal => SealCost > 0;
 
-    /// <summary>Maps seal Ink onto the game's star cost pipeline (auto-paid on play).</summary>
-    public override int CanonicalStarCost => SealCost;
+    /// <summary>
+    /// Maps seal Ink onto the game's star cost pipeline (auto-paid on play).
+    /// Non-seals return <c>-1</c> (vanilla "no star cost") so the UI does not show 0 Ink.
+    /// </summary>
+    public override int CanonicalStarCost => SealCost > 0 ? SealCost : -1;
 
     /// <summary>Gold glow when the seal is ready (Ink can be paid).</summary>
     protected override bool ShouldGlowGoldInternal =>

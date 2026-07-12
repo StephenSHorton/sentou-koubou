@@ -10,11 +10,15 @@ namespace Whitney.WhitneyCode;
 /// <summary>
 /// Whitney's second mana — stored as vanilla <b>Stars</b> so the star counter
 /// appears next to Energy (Regent placement). Card/loc copy still says "Ink".
-/// Hard cap: <see cref="MaxInk"/>.
+/// No hard bank cap — spend freely on seals and X-cost ink dumps.
 /// </summary>
 public static class Ink
 {
-    public const int MaxInk = 10;
+    /// <summary>
+    /// Design anchor for cards that scale on "empty palette" (e.g. Negative Space).
+    /// Not a hard gain cap.
+    /// </summary>
+    public const int PaletteReference = 10;
 
     public static int Get(Player? player) =>
         player?.PlayerCombatState?.Stars ?? 0;
@@ -30,19 +34,12 @@ public static class Ink
         if (amount <= 0 || owner is null)
             return;
 
-        var current = Get(owner);
-        var room = MaxInk - current;
-        if (room <= 0)
-            return;
-
-        var granted = Math.Min(amount, room);
-        await PlayerCmd.GainStars(granted, owner);
+        await PlayerCmd.GainStars(amount, owner);
     }
 
     /// <summary>
-    /// Manual spend for non-card effects (e.g. WorldSeal X-cost). Card seal costs
-    /// are paid by the game via <c>CanonicalStarCost</c> — do not call this from
-    /// normal seal OnPlay or you double-charge.
+    /// Manual spend for non-card effects. Card seal costs are paid by the game via
+    /// <c>CanonicalStarCost</c> / star-X; do not double-charge from OnPlay.
     /// </summary>
     public static async Task<bool> TrySpend(
         PlayerChoiceContext choiceContext,

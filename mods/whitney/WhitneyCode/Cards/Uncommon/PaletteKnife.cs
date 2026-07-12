@@ -15,6 +15,8 @@ namespace Whitney.WhitneyCode.Cards.Uncommon;
 public sealed class PaletteKnife() : WhitneyCard(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
 {
     public override WhitneyElement Element => WhitneyElement.Wind;
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [WhitneyTips.Blend];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
         [new DamageVar(9, ValueProp.Move)];
