@@ -15,7 +15,7 @@ public abstract class WhitneyCard(int cost, CardType type, CardRarity rarity, Ta
     protected virtual int InkCost => 0;
 
     protected override bool IsPlayable =>
-        Ink.CanAfford(Owner, InkCost);
+        base.IsPlayable && Ink.CanAfford(Owner, InkCost);
 
     /// <summary>Gold glow when the seal is ready (Ink paid).</summary>
     protected override bool ShouldGlowGoldInternal =>

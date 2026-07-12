@@ -19,4 +19,6 @@ public class HenroCardPool : CustomCardPoolModel
     public override Color DeckEntryCardColor => Henro.Color;
 
     public override bool IsColorless => false;
+
+    public override bool SeenByDefault => true;
 }

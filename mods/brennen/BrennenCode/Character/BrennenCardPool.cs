@@ -19,4 +19,7 @@ public class BrennenCardPool : CustomCardPoolModel
     public override Color DeckEntryCardColor => Brennen.Color;
 
     public override bool IsColorless => false;
+
+    /// <summary>Show the full kit in the compendium without requiring a run to "see" each card.</summary>
+    public override bool SeenByDefault => true;
 }

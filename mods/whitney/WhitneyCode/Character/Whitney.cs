@@ -12,6 +12,7 @@ namespace Whitney.WhitneyCode.Character;
 
 /// <summary>
 /// Whitney — atelier witch. Energy + Ink dual mana, four elements, dual-purpose seals.
+/// Starter teaches gen (Channel/Novice) and spend (Apprentice Seal). Attunement scales all attacks.
 /// Family pack character #2 for sentou-koubou.
 /// </summary>
 public class Whitney : PlaceholderCharacterModel
@@ -34,9 +35,9 @@ public class Whitney : PlaceholderCharacterModel
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
-        ModelDb.Card<Ripple>(),
         ModelDb.Card<ChannelInk>(),
         ModelDb.Card<NoviceSeal>(),
+        ModelDb.Card<ApprenticeSeal>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

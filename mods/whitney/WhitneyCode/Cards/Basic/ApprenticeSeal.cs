@@ -1,4 +1,3 @@
-// Common Ink spender — Act 1 payoff for banking ink.
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -9,23 +8,25 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Whitney.WhitneyCode.Powers;
 
-namespace Whitney.WhitneyCode.Cards.Common;
+namespace Whitney.WhitneyCode.Cards.Basic;
 
-public sealed class SealPress() : WhitneyCard(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+/// <summary>
+/// Starter Ink spender — teaches that Ink is a cost, not only a bank.
+/// </summary>
+public sealed class ApprenticeSeal() : WhitneyCard(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
 {
     protected override int InkCost => 1;
-
-    public override bool GainsBlock => true;
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromPower<InkPower>(),
+        HoverTipFactory.FromPower<WeakPower>(),
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9, ValueProp.Move),
-        new BlockVar(4, ValueProp.Move),
+        new DamageVar(8, ValueProp.Move),
+        new DynamicVar("Weak", 1),
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
@@ -34,12 +35,19 @@ public sealed class SealPress() : WhitneyCard(1, CardType.Attack, CardRarity.Com
             return;
 
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        await CommonActions.CardBlock(this, play);
+        if (play.Target is not null)
+        {
+            await PowerCmd.Apply<WeakPower>(
+                choiceContext,
+                play.Target,
+                DynamicVars["Weak"].IntValue,
+                Owner.Creature,
+                this);
+        }
     }
 
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars.Block.UpgradeValueBy(2m);
     }
 }

@@ -12,7 +12,8 @@ namespace Brennen.BrennenCode.Character;
 
 /// <summary>
 /// Brennen — older brother, League nights, tank main energy.
-/// Peels, bodyblocks, and still feeds for the meme.
+/// Peels, pays HP for tempo, keeps Block (Proxy Camp), slams with Tower Dive.
+/// Feed is a reward-pool meme, not a starter.
 /// Family meme pack character #1 for sentou-koubou.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
@@ -33,12 +34,12 @@ public class Brennen : PlaceholderCharacterModel
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
+        ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
-        ModelDb.Card<Feed>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>
