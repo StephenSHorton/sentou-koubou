@@ -4,21 +4,25 @@ namespace TradingPost;
 
 /// <summary>
 /// Loads Trading Post PNGs from beside the mod DLL (copied by the build target).
-/// Prefer transparent cutouts so rest-site / menu chrome does not show black boxes.
+/// Campfire option art should be a full-bleed plate (like Rest/Smith/Mend).
+/// Menu uses painted panel/button plates for STS2 chrome.
 /// </summary>
 public static class TradeAssets
 {
     private static readonly Dictionary<string, Texture2D> Cache = new();
 
-    public static Texture2D? OptionTrade => Load("option_trade.png");
-    public static Texture2D? MenuBanner => Load("menu_banner.png");
+    public static Texture2D? OptionTrade => Load("option_trade.png", punchBlack: false);
+    public static Texture2D? MenuBanner => Load("menu_banner.png", punchBlack: false);
+    public static Texture2D? MenuPanel => Load("menu_panel.png", punchBlack: false);
+    public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: false);
     public static Texture2D? IconGold => Load("icon_gold.png") ?? TryGame("res://images/packed/sprite_fonts/gold_icon.png");
     public static Texture2D? IconCard => Load("icon_card.png");
     public static Texture2D? IconTrade => Load("icon_trade.png") ?? OptionTrade;
 
-    public static Texture2D? Load(string fileName)
+    public static Texture2D? Load(string fileName, bool punchBlack = true)
     {
-        if (Cache.TryGetValue(fileName, out Texture2D? cached) && GodotObject.IsInstanceValid(cached))
+        string key = punchBlack ? fileName : fileName + "#nopunch";
+        if (Cache.TryGetValue(key, out Texture2D? cached) && GodotObject.IsInstanceValid(cached))
         {
             return cached;
         }
@@ -32,10 +36,12 @@ public static class TradeAssets
                 return null;
             }
             Image image = Image.LoadFromFile(path);
-            // Safety: if someone ships an opaque black-framed PNG again, punch it out.
-            PunchNearBlackToAlpha(image);
+            if (punchBlack)
+            {
+                PunchNearBlackToAlpha(image);
+            }
             Texture2D tex = ImageTexture.CreateFromImage(image);
-            Cache[fileName] = tex;
+            Cache[key] = tex;
             return tex;
         }
         catch (Exception e)
@@ -43,6 +49,27 @@ public static class TradeAssets
             MainFile.Logger.Warn($"Trading Post asset load failed ({fileName}): {e.Message}");
             return null;
         }
+    }
+
+    /// <summary>9-slice stylebox from a painted plate texture.</summary>
+    public static StyleBoxTexture? MakeNineSlice(Texture2D? tex, float margin = 28f, float content = 18f)
+    {
+        if (tex == null)
+        {
+            return null;
+        }
+        return new StyleBoxTexture
+        {
+            Texture = tex,
+            TextureMarginLeft = margin,
+            TextureMarginRight = margin,
+            TextureMarginTop = margin,
+            TextureMarginBottom = margin,
+            ContentMarginLeft = content,
+            ContentMarginRight = content,
+            ContentMarginTop = content * 0.7f,
+            ContentMarginBottom = content * 0.7f,
+        };
     }
 
     private static Texture2D? TryGame(string resPath)
@@ -62,14 +89,13 @@ public static class TradeAssets
     }
 
     /// <summary>
-    /// Convert near-black fully-opaque pixels to transparent (fixes uncut rest icons).
-    /// Leaves intentional black line art that sits on non-black neighbors alone.
+    /// Convert near-black fully-opaque pixels to transparent (legacy uncut icons only).
+    /// Skipped for full-bleed plates that intentionally use dark stone edges.
     /// </summary>
     public static void PunchNearBlackToAlpha(Image image)
     {
         int w = image.GetWidth();
         int h = image.GetHeight();
-        // Only run if the image has no useful transparency already.
         int transparent = 0;
         int samples = 0;
         for (int y = 0; y < h; y += Math.Max(1, h / 32))
@@ -85,7 +111,7 @@ public static class TradeAssets
         }
         if (samples > 0 && transparent / (float)samples > 0.05f)
         {
-            return; // already cut
+            return;
         }
 
         for (int y = 0; y < h; y++)
