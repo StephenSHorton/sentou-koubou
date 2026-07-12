@@ -2,18 +2,24 @@
 """
 Local per-mod release helper for sentou-koubou.
 
+Build on a machine with STS2 installed; upload the zip to GitHub Releases.
+No cloud CI — same model as MarisaMod and most STS2 character mods.
+
 Tag format:  <mod-id>/v<semver>   e.g. whitney/v0.2.0
-Zip layout:  <Assembly>/<Assembly>.{dll,json,pck}  (Marisa-style Mods drop-in)
+Zip layout:  <Assembly>/<Assembly>.{dll,json,pck}  (Mods drop-in)
 
 Usage:
-  # Build + zip only (no git/gh)
+  # Preferred: build, tag, create GitHub Release with zip
+  python tools/release_mod.py whitney 0.2.1 --local-upload
+
+  # Build + zip only (no git / no gh)
   python tools/release_mod.py whitney 0.2.1 --build-only
 
-  # Bump manifest, build, tag, push tag (triggers CI), optional local release upload
+  # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
-  python tools/release_mod.py whitney 0.2.1 --push --local-upload   # also gh release from this machine
 
 Known mods: whitney, brennen, blake, trading-post
+See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
 
@@ -175,11 +181,11 @@ def main() -> None:
     ap.add_argument("mod", choices=sorted(MODS.keys()), help="Mod id")
     ap.add_argument("version", help="Semver without leading v, e.g. 0.2.0")
     ap.add_argument("--build-only", action="store_true", help="Build + zip only; no git tag")
-    ap.add_argument("--push", action="store_true", help="Create and push git tag (triggers CI release workflow)")
+    ap.add_argument("--push", action="store_true", help="Create and push git tag to origin")
     ap.add_argument(
         "--local-upload",
         action="store_true",
-        help="Also create GitHub Release from this machine with the local zip (requires gh)",
+        help="Create GitHub Release from this machine with the local zip (requires gh auth)",
     )
     ap.add_argument("--skip-build", action="store_true", help="Reuse last local build; only package")
     args = ap.parse_args()
@@ -252,14 +258,14 @@ def main() -> None:
         run(["git", "tag", "-a", tag, "-m", f"{assembly} v{version}"])
         print(f"Created tag {tag}")
 
-        if args.push:
-            # Push current branch + tag
+        if args.push or args.local_upload:
+            # Push current branch + tag so the Release points at a remote commit
             branch = subprocess.check_output(
                 ["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=ROOT, text=True
             ).strip()
             run(["git", "push", "origin", branch])
             run(["git", "push", "origin", tag])
-            print(f"Pushed {tag} — CI release-mod workflow should run.")
+            print(f"Pushed tag {tag}")
 
         if args.local_upload:
             run(
@@ -274,9 +280,11 @@ def main() -> None:
                     "--generate-notes",
                     "--notes",
                     f"**{assembly}** `v{version}`\n\n"
-                    f"Unzip into `Slay the Spire 2/mods/` (needs BaseLib).",
+                    f"Unzip into `Slay the Spire 2/mods/` "
+                    f"(character mods need [BaseLib](https://github.com/Alchyr/BaseLib-StS2/releases)).",
                 ]
             )
+            print(f"GitHub Release created for {tag}")
 
 
 if __name__ == "__main__":
