@@ -48,6 +48,8 @@
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
         <Copy SourceFiles="assets\option_trade.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\option_trade.png')"/>
         <Copy SourceFiles="assets\menu_banner.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\menu_banner.png')"/>
+        <Copy SourceFiles="assets\menu_panel.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\menu_panel.png')"/>
+        <Copy SourceFiles="assets\btn_plate.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\btn_plate.png')"/>
         <Copy SourceFiles="assets\icon_gold.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\icon_gold.png')"/>
         <Copy SourceFiles="assets\icon_card.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\icon_card.png')"/>
         <Copy SourceFiles="assets\icon_trade.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\icon_trade.png')"/>

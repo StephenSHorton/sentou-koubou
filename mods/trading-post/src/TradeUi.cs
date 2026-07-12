@@ -109,6 +109,18 @@ public static class TradeUi
 
     private static void BuildButtonStyles()
     {
+        // Prefer painted STS2 button plate; fall back to flat gold-trim chrome.
+        StyleBoxTexture? painted = TradeAssets.MakeNineSlice(TradeAssets.BtnPlate, margin: 36f, content: 20f);
+        if (painted != null)
+        {
+            _btnNormal = painted;
+            // Same plate for hover/pressed — brightness is handled by the engine's
+            // button draw modes; StyleBoxTexture has no modulate in this Godot API.
+            _btnHover = painted;
+            _btnPressed = painted;
+            return;
+        }
+
         StyleBoxFlat Make(Color bg, Color border)
         {
             return new StyleBoxFlat
@@ -122,7 +134,6 @@ public static class TradeUi
                 ContentMarginTop = 10, ContentMarginBottom = 10,
             };
         }
-        // STS2-ish dark plate + gold trim
         _btnNormal = Make(new Color(0.086f, 0.078f, 0.11f, 0.94f), new Color(0.62f, 0.50f, 0.22f));
         _btnHover = Make(new Color(0.16f, 0.13f, 0.19f, 0.96f), new Color(0.90f, 0.76f, 0.36f));
         _btnPressed = Make(new Color(0.05f, 0.04f, 0.07f, 0.96f), new Color(0.42f, 0.34f, 0.15f));
@@ -151,6 +162,12 @@ public static class TradeUi
 
     private static StyleBox PanelStyleOrFallback()
     {
+        // Painted dialog panel first, then stolen game stylebox, then flat fallback.
+        StyleBoxTexture? painted = TradeAssets.MakeNineSlice(TradeAssets.MenuPanel, margin: 48f, content: 28f);
+        if (painted != null)
+        {
+            return painted;
+        }
         if (_panelStyle != null)
         {
             return _panelStyle;
@@ -214,9 +231,9 @@ public static class TradeUi
         return button;
     }
 
-    /// <summary>STS2-style row: painted icon + label on a gold-trimmed plate button.</summary>
+    /// <summary>STS2-style row: large painted icon + label on a plate button.</summary>
     private static Button MakeIconButton(string text, Texture2D? icon, Action onPressed,
-        float minWidth = 620, float minHeight = 78)
+        float minWidth = 640, float minHeight = 88)
     {
         var button = new Button
         {
@@ -228,13 +245,12 @@ public static class TradeUi
         var row = new HBoxContainer
         {
             MouseFilter = Control.MouseFilterEnum.Ignore,
-            Alignment = BoxContainer.AlignmentMode.Center,
+            Alignment = BoxContainer.AlignmentMode.Begin,
         };
-        row.AddThemeConstantOverride("separation", 18);
+        row.AddThemeConstantOverride("separation", 20);
         row.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        // Keep text clear of stylebox margins
-        row.OffsetLeft = 16;
-        row.OffsetRight = -16;
+        row.OffsetLeft = 22;
+        row.OffsetRight = -22;
         button.AddChild(row);
 
         if (icon != null)
@@ -244,7 +260,7 @@ public static class TradeUi
                 Texture = icon,
                 ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
                 StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-                CustomMinimumSize = new Vector2(56, 56),
+                CustomMinimumSize = new Vector2(72, 72),
                 MouseFilter = Control.MouseFilterEnum.Ignore,
             };
             row.AddChild(tex);
@@ -262,8 +278,9 @@ public static class TradeUi
         {
             label.AddThemeFontOverride("font", _buttonFont);
         }
-        label.AddThemeFontSizeOverride("font_size", _buttonSize);
-        label.AddThemeColorOverride("font_color", _bodyColor);
+        label.AddThemeFontSizeOverride("font_size", _buttonSize + 2);
+        // Cream text reads better on painted plates
+        label.AddThemeColorOverride("font_color", new Color(0.95f, 0.91f, 0.78f));
         row.AddChild(label);
 
         button.Pressed += () => onPressed();
@@ -272,7 +289,7 @@ public static class TradeUi
 
     private static Control? MakeBanner()
     {
-        Texture2D? tex = TradeAssets.MenuBanner ?? TradeAssets.IconTrade ?? TradeAssets.OptionTrade;
+        Texture2D? tex = TradeAssets.MenuBanner ?? TradeAssets.OptionTrade ?? TradeAssets.IconTrade;
         if (tex == null)
         {
             return null;
@@ -283,7 +300,8 @@ public static class TradeUi
             Texture = tex,
             ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-            CustomMinimumSize = new Vector2(520, 280),
+            // Full-bleed rest-option style art, large
+            CustomMinimumSize = new Vector2(560, 320),
             MouseFilter = Control.MouseFilterEnum.Ignore,
         };
         wrap.AddChild(image);
