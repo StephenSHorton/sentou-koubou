@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -18,6 +19,11 @@ public sealed class ShowMeYourMoves() : BlakeCard(0, CardType.Skill, CardRarity.
     [
         new DynamicVar("Weak", 1),
         new CardsVar(1),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Weak,
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

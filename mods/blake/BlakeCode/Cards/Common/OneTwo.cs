@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -18,6 +19,11 @@ public sealed class OneTwo() : BlakeCard(1, CardType.Attack, CardRarity.Common, 
     [
         new DamageVar(4, ValueProp.Move),
         new DynamicVar("Repeat", 2),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Combo,
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

@@ -19,12 +19,15 @@ public class Blake : PlaceholderCharacterModel
 {
     public const string CharacterId = "Blake";
 
-    /// <summary>Falcon blue — racing suit / G-Diffuser glow.</summary>
+    /// <summary>Falcon blue — racing suit / map pen / G-Diffuser glow.</summary>
     public static readonly Color Color = new("2B6CB0");
 
+    /// <summary>Slightly brighter cobalt for map path drawing (readable on dark map).</summary>
+    public static readonly Color MapColor = new("3B82F6");
+
     public override Color NameColor => Color;
-    public override Color MapDrawingColor => Color;
-    public override Color RemoteTargetingLineColor => Color;
+    public override Color MapDrawingColor => MapColor;
+    public override Color RemoteTargetingLineColor => MapColor;
 
     public override CharacterGender Gender => CharacterGender.Masculine;
 
@@ -72,8 +75,9 @@ public class Blake : PlaceholderCharacterModel
     public override string CustomCharacterSelectBg =>
         "res://scenes/screens/char_select/char_select_bg_blake.tscn";
 
-    /// <summary>Combat visuals TBD (art pipeline). Falls back to Ironclad until flipbook ships.</summary>
-    public override NCreatureVisuals? CreateCustomVisuals() => null;
+    /// <summary>Combat body: flipbook idle / attack / hit / dead (see <see cref="BlakeCombatVisuals"/>).</summary>
+    public override NCreatureVisuals? CreateCustomVisuals() => BlakeCombatVisuals.Create();
 
-    public override float DeathAnimTime => 1.0f;
+    /// <summary>Dead clip is 12 frames @ 24fps ≈ 0.5s; small headroom.</summary>
+    public override float DeathAnimTime => 0.7f;
 }

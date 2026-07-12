@@ -69,13 +69,17 @@ def install_relic(src: Path, relics_dir: Path, stem: str):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--char", choices=["brennen", "whitney"], required=True)
+    ap.add_argument("--char", choices=["brennen", "whitney", "blake"], required=True)
     ap.add_argument("--gen-out", type=Path, required=True)
     ap.add_argument("--docs-assets", type=Path, required=True)
     ap.add_argument("--mod-root", type=Path, required=True)
     ap.add_argument("--only", nargs="*", default=None)
     args = ap.parse_args()
-    scenes_name = "brennen_sts2_scenes.json" if args.char == "brennen" else "whitney_sts2_scenes.json"
+    scenes_name = {
+        "brennen": "brennen_sts2_scenes.json",
+        "whitney": "whitney_sts2_scenes.json",
+        "blake": "blake_m_prompts.json",
+    }[args.char]
     # find scenes near gen-out
     scenes_path = args.gen_out.parent / scenes_name
     stems = set(json.loads(scenes_path.read_text(encoding="utf-8")).keys()) if scenes_path.exists() else set()

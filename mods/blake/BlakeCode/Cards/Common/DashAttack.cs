@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -18,6 +19,11 @@ public sealed class DashAttack() : BlakeCard(0, CardType.Attack, CardRarity.Comm
     [
         new DamageVar(3, ValueProp.Move),
         new DamageVar("ComboDamage", 7, ValueProp.Move),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Combo,
     ];
 
     protected override bool ShouldGlowGoldInternal => Charge.IsCombo(this, 3);

@@ -19,6 +19,5 @@ public partial class MainFile : Node
 
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
-        CookieCursorBridge.TryRegister();
     }
 }

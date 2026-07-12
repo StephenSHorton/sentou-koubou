@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -18,6 +19,11 @@ public sealed class WarmUpLap() : BlakeCard(1, CardType.Skill, CardRarity.Uncomm
     [
         new CardsVar(2),
         new EnergyVar(1),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Combo,
     ];
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)

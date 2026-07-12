@@ -21,8 +21,8 @@ public sealed class ChargePower : BlakePower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Charge",
-            "Your fist is winding up. [gold]Unleash[/gold] spends this for damage, then resets to base. Taking unblocked attack damage [gold]halves[/gold] Charge.",
-            "You have {Amount} [gold]Charge[/gold]. Unblocked attack damage halves it.");
+            "Stored damage on your fist meter. Starts at base each combat. [gold]Rev[/gold] doubles it. [gold]Unleash[/gold] spends it for damage, then resets to base. Taking unblocked attack damage [gold]halves[/gold] Charge (never below base).",
+            "You have {Amount} [gold]Charge[/gold]. Unblocked attack damage halves it (never below base).");
 
     public override async Task AfterDamageReceived(
         PlayerChoiceContext choiceContext,

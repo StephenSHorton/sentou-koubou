@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -19,6 +20,11 @@ public sealed class GuardUp() : BlakeCard(1, CardType.Skill, CardRarity.Common, 
     [
         new BlockVar(6, ValueProp.Move),
         new BlockVar("HighBlock", 9, ValueProp.Move),
+    ];
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Charge,
     ];
 
     protected override bool ShouldGlowGoldInternal => Charge.Get(Owner) > Charge.GetBase(Owner);

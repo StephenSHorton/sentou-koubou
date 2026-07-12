@@ -5,6 +5,7 @@ using Blake.BlakeCode;
 using Blake.BlakeCode.Powers;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -14,6 +15,13 @@ namespace Blake.BlakeCode.Cards.Rare;
 
 public sealed class FalconPunch() : BlakeCard(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        BlakeTips.Unleash,
+        BlakeTips.Charge,
+        BlakeTips.FollowThrough,
+    ];
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         var dmg = await Charge.Unleash(choiceContext, Owner, this, reset: true, multiplier: 2m);

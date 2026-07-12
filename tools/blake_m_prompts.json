@@ -1,0 +1,375 @@
+{
+  "character_ref": "docs/assets/blake/variants/blake_locked_portrait.jpg",
+  "combat_ref": "docs/assets/blake/variants/blake_combat_right_green.jpg",
+  "style_notes": "Blake M lock + lighter combat plate; fists only; cyan Charge signature",
+  "cards": {
+    "jab": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Jab",
+      "rarity": "Basic",
+      "prompt": "Blake snapping a sharp boxing jab with red gauntlets, quick punch trail, face readable three-quarter. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "guard": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "block"
+      ],
+      "name": "Guard",
+      "rarity": "Basic",
+      "prompt": "Blake raising both gauntlets in a tight guard, white scarf, defensive crouch different from ready. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "revup": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Rev Up",
+      "rarity": "Basic",
+      "prompt": "Blake winding the fist as cyan Charge doubles, energy swirling around gauntlet, intense focus. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "haymaker": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Haymaker",
+      "rarity": "Basic",
+      "prompt": "Blake mid Unleash haymaker, cyan Charge releasing as a heavy punch, dynamic three-quarter. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "warmengine": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "block",
+        "charge"
+      ],
+      "name": "Warm Engine",
+      "rarity": "Common",
+      "prompt": "Blake revving safely behind a soft block aura, one fist glowing cyan, calm build-up pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "windup": {
+      "presence": "partial",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Wind-Up",
+      "rarity": "Common",
+      "prompt": "Close on a cocked gauntlet with rising cyan Charge, Blake torso partial. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "raptorboost": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Raptor Boost",
+      "rarity": "Common",
+      "prompt": "Blake shoulder-rush boost attack then revving fist, speed lines, aggressive lean. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "guardup": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "block",
+        "charge"
+      ],
+      "name": "Guard Up",
+      "rarity": "Common",
+      "prompt": "Blake bracing harder guard while Charge glows above base, determined protector face. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "onetwo": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "One-Two",
+      "rarity": "Common",
+      "prompt": "Blake double jab one-two combo blur, two punch trails, energetic grin. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "dashattack": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Dash Attack",
+      "rarity": "Common",
+      "prompt": "Blake dashing low into a quick punch, motion blur speed, combo timing pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "shouldercheck": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Shoulder Check",
+      "rarity": "Common",
+      "prompt": "Blake shoulder check slam into foe silhouette, reading their attack intent, stern eyes. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "falcondive": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Falcon Dive",
+      "rarity": "Common",
+      "prompt": "Blake diving knee/fist aerial engage, YES! energy, kill-confirm spark. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "sidestep": {
+      "presence": "partial",
+      "props": [
+        "scarf"
+      ],
+      "name": "Sidestep",
+      "rarity": "Common",
+      "prompt": "Blake silhouette slipping aside of a red attack telegraph, pocketed dodge. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "showmeyourmoves": {
+      "presence": "full",
+      "props": [
+        "scarf"
+      ],
+      "name": "Show Me Your Moves",
+      "rarity": "Common",
+      "prompt": "Blake cocky taunt hands-beckoning 'show me your moves', scarf flaring, playful smirk. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "fullthrottle": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Full Throttle",
+      "rarity": "Uncommon",
+      "prompt": "Blake both fists blazing with double-Rev cyan Charge, pure commitment wind-up, fierce face. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "ignition": {
+      "presence": "partial",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Ignition",
+      "rarity": "Uncommon",
+      "prompt": "Spark of ignition cyan on a gauntlet, Blake hand partial, free Rev flash. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "redline": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Redline",
+      "rarity": "Uncommon",
+      "prompt": "Blake past the redline, Charge runaway engine glow, speed dial breaking, intense three-quarter. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "slipstream": {
+      "presence": "partial",
+      "props": [
+        "charge",
+        "speed"
+      ],
+      "name": "Slipstream",
+      "rarity": "Uncommon",
+      "prompt": "Speed cards streaming past Blake in a slipstream, partial figure, free Rev on the fourth beat. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "perfectshield": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "block"
+      ],
+      "name": "Perfect Shield",
+      "rarity": "Uncommon",
+      "prompt": "Blake powershield parry pose, perfect block flash then fist revs, fighting-game read. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "pressure": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Pressure",
+      "rarity": "Uncommon",
+      "prompt": "Blake pressure jab poking without releasing full Charge, half-power cyan fist, measured pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "storedpower": {
+      "presence": "partial",
+      "props": [
+        "gauntlet",
+        "block",
+        "charge"
+      ],
+      "name": "Stored Power",
+      "rarity": "Uncommon",
+      "prompt": "Charge converted into a glowing block shell around a gauntlet, fist-as-shield still-life partial. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "falconkick": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Falcon Kick",
+      "rarity": "Uncommon",
+      "prompt": "Blake spinning falcon kick Unleash to all foes, multi-enemy shockwave, dynamic full body. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "cleanko": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Clean KO",
+      "rarity": "Uncommon",
+      "prompt": "Blake precise KO punch sized exactly lethal, Charge preserved after kill spark, clinical finish. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "kneeofjustice": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Knee of Justice",
+      "rarity": "Uncommon",
+      "prompt": "Blake rising knee of justice on an attacking foe, electric sweetspot spark, punish pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "grab": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Grab",
+      "rarity": "Uncommon",
+      "prompt": "Blake command grab crushing enemy shield/block, anti-armor clinch, fierce close-up. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "spotdodge": {
+      "presence": "partial",
+      "props": [
+        "scarf"
+      ],
+      "name": "Spot Dodge",
+      "rarity": "Uncommon",
+      "prompt": "Blake vanishing frame dodge, afterimage, invulnerable slip, partial figure. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "yes": {
+      "presence": "full",
+      "props": [
+        "scarf"
+      ],
+      "name": "YES!",
+      "rarity": "Uncommon",
+      "prompt": "Blake victory-lap YES! taunt after Unleash, arms wide, hype expression, confetti speed lines. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "warmuplap": {
+      "presence": "partial",
+      "props": [
+        "speed"
+      ],
+      "name": "Warm-Up Lap",
+      "rarity": "Uncommon",
+      "prompt": "Track warm-up lap speed lines and card draw sparks, Blake small running figure. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "falconpunch": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "FALCON PUNCH",
+      "rarity": "Rare",
+      "prompt": "THE signature Falcon Punch wind-up then release, double Charge explosion, Follow-Through arc, epic three-quarter. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "bluefalcon": {
+      "presence": "full",
+      "props": [
+        "charge",
+        "speed"
+      ],
+      "name": "Blue Falcon",
+      "rarity": "Rare",
+      "prompt": "Blake as blue falcon final smash ramming all enemies, Charge kept loaded, vehicle-speed energy. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "gdiffuser": {
+      "presence": "full",
+      "props": [
+        "charge"
+      ],
+      "name": "G-Diffuser",
+      "rarity": "Rare",
+      "prompt": "Blake passive G-Diffuser aura auto-revving each turn, cyan engine rings around him, ominous build pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "superarmor": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Super Armor",
+      "rarity": "Rare",
+      "prompt": "Blake uninterruptible super armor glow, Charge immune to halving, tank-through stance fists up. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "championsfist": {
+      "presence": "partial",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Champion's Fist",
+      "rarity": "Rare",
+      "prompt": "Champion's fist raising base Charge permanently, trophy-gauntlet close-up with rising meter. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "musclememory": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Muscle Memory",
+      "rarity": "Rare",
+      "prompt": "Blake muscle-memory multi-Rev after many Unleashes, ghost afterimages of prior punches, accelerated charge. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "highlightreel": {
+      "presence": "partial",
+      "props": [
+        "charge"
+      ],
+      "name": "Highlight Reel",
+      "rarity": "Rare",
+      "prompt": "Highlight reel frames of past Unleashes refunding energy, film-strip speed, Blake small. Include SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as recognizable secondary figure or partial (same glasses, blue racing suit, gauntlets), not always centered. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "heathaze": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "charge"
+      ],
+      "name": "Heat Haze",
+      "rarity": "Rare",
+      "prompt": "Blake so hot while Revving that heat haze damages all, charging is the attack, shimmer AOE. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "hardread": {
+      "presence": "full",
+      "props": [
+        "gauntlet"
+      ],
+      "name": "Hard Read",
+      "rarity": "Rare",
+      "prompt": "Blake hard-reading an Attack intent, stunning the foe mid-button, psychic read pose finger point. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    },
+    "photofinish": {
+      "presence": "full",
+      "props": [
+        "gauntlet",
+        "flag"
+      ],
+      "name": "Photo Finish",
+      "rarity": "Rare",
+      "prompt": "Blake photo finish checkered-flag Unleash KO on last enemy, gold and heal sparkle, victory line pose. FEATURE SAME man as the reference: rectangular glasses, dark hair, short stubble, athletic face, cobalt blue racing pilot suit with gold pauldrons and trim, white pilot scarf, red-and-gold fighting gauntlets, cyan Charge energy on fists when charging/unleashing. Fists only \u2014 NEVER a sword or blade. Varied pose and expression \u2014 not the same ready stance every time. When in combat, body often orients right but face stays readable (three-quarter). as clear readable focus. Shared Blake racer-brawler universe props when relevant: red gauntlets, cyan Charge glow, white pilot scarf, gold racing trim, speed lines, checkered flag accents, trophy belt, booster coils, racing gloves, pit-crew tools. No greatsword, no dark plate tank armor. Official Slay the Spire 2 card portrait: bold hand-painted Mega Crit graphic style matching Blake M lock \u2014 soft matte gouache brush, simplified shapes, limited facial detail, strong silhouette, dark vignette, cobalt blue / gold / red gauntlet / cyan Charge palette. NOT anime, NOT photoreal, NOT Western comic ink. Landscape. No text, no UI, no green screen."
+    }
+  }
+}
