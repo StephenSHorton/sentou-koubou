@@ -4,7 +4,7 @@
   "BRENNEN-DEFEND_BRENNEN.title": "Defend",
   "BRENNEN-DEFEND_BRENNEN.description": "Gain {Block:diff()} [gold]Block[/gold].",
   "BRENNEN-LAST_HIT.title": "Last Hit",
-  "BRENNEN-LAST_HIT.description": "Deal {Damage:diff()} damage.\nIf Fatal, gain [blue]1[/blue] [gold]Fed[/gold] and draw [blue]1[/blue] card.",
+  "BRENNEN-LAST_HIT.description": "Deal {Damage:diff()} damage.\nIf Fatal, gain [blue]1[/blue] [gold]Fed[/gold] and draw [blue]1[/blue] card.\n(Duo Queue also grants [gold]Fed[/gold] whenever an enemy dies.)",
   "BRENNEN-FLASH.title": "Flash",
   "BRENNEN-FLASH.description": "Gain {Block:diff()} [gold]Block[/gold].",
   "BRENNEN-TRADE.title": "Trade",

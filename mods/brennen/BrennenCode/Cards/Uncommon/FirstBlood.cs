@@ -24,7 +24,7 @@ public sealed class FirstBlood() : BrennenCard(0, CardType.Attack, CardRarity.Un
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        if (play.Target is null || !play.Target.IsDead)
+        if (!Fed.IsFatal(play.Target))
             return;
 
         // First combat turn only (PlayerCombatState.TurnNumber starts at 1).

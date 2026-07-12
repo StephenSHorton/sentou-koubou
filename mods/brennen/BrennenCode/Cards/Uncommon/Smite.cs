@@ -25,7 +25,7 @@ public sealed class Smite() : BrennenCard(1, CardType.Attack, CardRarity.Uncommo
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
         await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-        if (IsUpgraded && play.Target is not null && play.Target.IsDead)
+        if (IsUpgraded && Fed.IsFatal(play.Target))
             await Fed.Gain(choiceContext, Owner, 1, this);
     }
 

@@ -13,6 +13,6 @@ public sealed class FedPower : BrennenPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Fed",
-            "Your snowball. Never decreases during combat.",
+            "Your snowball counter — stacks of \"getting fed.\" Never decreases during combat. Scales Farmed Up, Fountain, and other Fed payoffs.",
             "You have {Amount} [gold]Fed[/gold].");
 }

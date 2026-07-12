@@ -41,7 +41,7 @@ public sealed class Shutdown() : BrennenCard(1, CardType.Attack, CardRarity.Unco
             DynamicVars.Damage.BaseValue = stored;
         }
 
-        if (Tilted.IsTilted(Owner) && play.Target is not null && play.Target.IsDead)
+        if (Tilted.IsTilted(Owner) && Fed.IsFatal(play.Target))
             await Fed.Gain(choiceContext, Owner, 2, this);
     }
 
