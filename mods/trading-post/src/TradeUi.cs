@@ -308,8 +308,12 @@ public static class TradeUi
         return wrap;
     }
 
-    /// <summary>Dimmed full-screen overlay with a centered game-styled panel + optional banner art.</summary>
-    private static VBoxContainer OpenShell(string title, string? subtitle, bool showBanner = true)
+    /// <summary>
+    /// Dimmed full-screen overlay with a centered game-styled panel + optional banner art.
+    /// <paramref name="minPanelSize"/> raises the panel so player lists have room to scroll.
+    /// </summary>
+    private static VBoxContainer OpenShell(string title, string? subtitle, bool showBanner = true,
+        Vector2? minPanelSize = null)
     {
         CloseMenu();
         EnsureStyles();
@@ -329,6 +333,10 @@ public static class TradeUi
 
         var panel = new PanelContainer();
         panel.AddThemeStyleboxOverride("panel", PanelStyleOrFallback());
+        if (minPanelSize is { } size)
+        {
+            panel.CustomMinimumSize = size;
+        }
         center.AddChild(panel);
 
         var margin = new MarginContainer();
@@ -340,6 +348,7 @@ public static class TradeUi
 
         var content = new VBoxContainer();
         content.AddThemeConstantOverride("separation", 16);
+        content.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
         margin.AddChild(content);
 
         if (showBanner)
@@ -415,7 +424,7 @@ public static class TradeUi
         PickTarget("Give a card to whom? This spends your time at the campfire.", target =>
             TaskHelper.RunSafely(RunAndResolve(() => sync.GiftCardLocal(target), outcome)),
             () => outcome.TrySetResult(false),
-            playerIcon: TradeAssets.IconCard ?? TradeAssets.IconTrade);
+            playerIconFallback: TradeAssets.IconCard ?? TradeAssets.IconTrade);
     }
 
     private static async Task RunAndResolve(Func<Task<bool>> flow, TaskCompletionSource<bool> outcome)
@@ -434,7 +443,7 @@ public static class TradeUi
     }
 
     private static void PickTarget(string prompt, Action<Player> onPicked, Action? onCancelled = null,
-        Texture2D? playerIcon = null)
+        Texture2D? playerIconFallback = null)
     {
         TradeSynchronizer? sync = TradeSynchronizer.Instance;
         if (sync == null)
@@ -450,22 +459,177 @@ public static class TradeUi
             onCancelled?.Invoke();
             return;
         }
-        Texture2D? icon = playerIcon ?? TradeAssets.IconTrade ?? TradeAssets.IconCard;
-        VBoxContainer content = OpenShell("TRADING POST", prompt);
+
+        // Taller panel so multi-player lists fit; rows scroll inside.
+        VBoxContainer content = OpenShell("TRADING POST", prompt, showBanner: true,
+            minPanelSize: new Vector2(640, 780));
+
+        // Visible viewport grows a bit with player count, then scrolls.
+        float listHeight = Math.Clamp(96f * others.Count + 24f, 220f, 420f);
+        var scroll = new ScrollContainer
+        {
+            CustomMinimumSize = new Vector2(560, listHeight),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+            VerticalScrollMode = ScrollContainer.ScrollMode.Auto,
+        };
+        content.AddChild(scroll);
+
+        var list = new VBoxContainer
+        {
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+        };
+        list.AddThemeConstantOverride("separation", 12);
+        scroll.AddChild(list);
+
         foreach (Player other in others)
         {
             Player captured = other;
-            content.AddChild(MakeIconButton(TradeSynchronizer.NameOf(captured), icon, () =>
-                {
-                    CloseMenu();
-                    onPicked(captured);
-                }, minWidth: 480));
+            list.AddChild(MakePlayerRow(captured, playerIconFallback, () =>
+            {
+                CloseMenu();
+                onPicked(captured);
+            }));
         }
+
         content.AddChild(MakeButton("Never Mind", () =>
         {
             CloseMenu();
             onCancelled?.Invoke();
         }, minWidth: 300, minHeight: 52));
+    }
+
+    /// <summary>Player row: character portrait (pfp) + platform name.</summary>
+    private static Button MakePlayerRow(Player player, Texture2D? fallbackIcon, Action onPressed)
+    {
+        string name = TradeSynchronizer.NameOf(player);
+        Texture2D? portrait = GetPlayerPortrait(player) ?? fallbackIcon
+            ?? TradeAssets.IconTrade ?? TradeAssets.IconCard;
+
+        var button = new Button
+        {
+            CustomMinimumSize = new Vector2(540, 92),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Text = "",
+        };
+        ApplyButtonChrome(button);
+
+        var row = new HBoxContainer
+        {
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Alignment = BoxContainer.AlignmentMode.Begin,
+        };
+        row.AddThemeConstantOverride("separation", 18);
+        row.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        row.OffsetLeft = 18;
+        row.OffsetRight = -18;
+        button.AddChild(row);
+
+        // Circular-ish pfp frame via fixed square TextureRect
+        if (portrait != null)
+        {
+            var pfp = new TextureRect
+            {
+                Texture = portrait,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCovered,
+                CustomMinimumSize = new Vector2(68, 68),
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            row.AddChild(pfp);
+        }
+
+        var nameCol = new VBoxContainer
+        {
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkCenter,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Alignment = BoxContainer.AlignmentMode.Center,
+        };
+        nameCol.AddThemeConstantOverride("separation", 2);
+
+        var nameLabel = new Label
+        {
+            Text = name,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        if (_buttonFont != null)
+        {
+            nameLabel.AddThemeFontOverride("font", _buttonFont);
+        }
+        nameLabel.AddThemeFontSizeOverride("font_size", _buttonSize + 4);
+        nameLabel.AddThemeColorOverride("font_color", new Color(0.96f, 0.92f, 0.80f));
+        nameCol.AddChild(nameLabel);
+
+        // Character title under the platform name when available
+        string? charTitle = null;
+        try
+        {
+            charTitle = player.Character?.CharacterSelectTitle;
+            if (string.IsNullOrWhiteSpace(charTitle))
+            {
+                charTitle = player.Character?.Id.Entry;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+        if (!string.IsNullOrWhiteSpace(charTitle) &&
+            !string.Equals(charTitle, name, StringComparison.OrdinalIgnoreCase))
+        {
+            var sub = new Label
+            {
+                Text = charTitle,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            if (_bodyFont != null)
+            {
+                sub.AddThemeFontOverride("font", _bodyFont);
+            }
+            sub.AddThemeFontSizeOverride("font_size", Math.Max(16, _bodySize - 2));
+            sub.AddThemeColorOverride("font_color", new Color(0.75f, 0.72f, 0.62f, 0.9f));
+            nameCol.AddChild(sub);
+        }
+
+        row.AddChild(nameCol);
+        button.Pressed += () => onPressed();
+        return button;
+    }
+
+    /// <summary>
+    /// Character select / icon texture for a co-op player — the in-run "pfp".
+    /// Uses public CharacterModel textures only (paths are internal).
+    /// </summary>
+    private static Texture2D? GetPlayerPortrait(Player player)
+    {
+        try
+        {
+            var character = player.Character;
+            if (character == null)
+            {
+                return null;
+            }
+
+            // Prefer the big select portrait; fall back to the small icon.
+            if (character.CharacterSelectIcon != null)
+            {
+                return character.CharacterSelectIcon;
+            }
+            if (character.IconTexture != null)
+            {
+                return character.IconTexture;
+            }
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Player portrait lookup failed: {e.Message}");
+        }
+        return null;
     }
 
     private static void PickGoldAmount(Player target)
