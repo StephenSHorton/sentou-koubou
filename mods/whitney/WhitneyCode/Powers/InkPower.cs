@@ -5,8 +5,9 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 namespace Whitney.WhitneyCode.Powers;
 
 /// <summary>
-/// Whitney's second mana. Banked during combat; spent on bigger seals.
-/// Shown as a buff counter (Ink pot) — not Stars.
+/// Localization / hover-tip template for Ink only.
+/// Runtime Ink is stored as player Stars (see <see cref="Ink"/>) so it appears
+/// next to Energy — this power is not applied as a creature buff.
 /// </summary>
 public sealed class InkPower : WhitneyPower
 {
@@ -16,6 +17,6 @@ public sealed class InkPower : WhitneyPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Ink",
-            "Your ink pot. Spend [gold]Ink[/gold] to cast greater seals.",
+            "Your second mana. Bank [gold]Ink[/gold] (max 10) and spend it on seals. Shown next to Energy.",
             "You have {Amount} [gold]Ink[/gold].");
 }

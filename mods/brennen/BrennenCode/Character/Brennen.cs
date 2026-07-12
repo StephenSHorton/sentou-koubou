@@ -11,9 +11,9 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 namespace Brennen.BrennenCode.Character;
 
 /// <summary>
-/// Brennen — frontline tank.
-/// Peels, pays HP for tempo, keeps Block (Proxy Camp), slams with Tower Dive.
-/// Feed is a reward-pool meme, not a starter.
+/// Brennen — Solo-Queue Carry.
+/// Fed snowball, Tilted comebacks, self-damage engines. Duo Queue on-kill Fed.
+/// Starter: 4 Strike / 4 Defend / Last Hit / Flash.
 /// </summary>
 public class Brennen : PlaceholderCharacterModel
 {
@@ -40,12 +40,12 @@ public class Brennen : PlaceholderCharacterModel
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<StrikeBrennen>(),
-        ModelDb.Card<StrikeBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
         ModelDb.Card<DefendBrennen>(),
-        ModelDb.Card<DefendBrennen>(),
+        ModelDb.Card<LastHit>(),
+        ModelDb.Card<Flash>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

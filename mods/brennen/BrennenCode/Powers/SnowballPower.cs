@@ -1,17 +1,10 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Powers;
 
-/// <summary>Tank snowball: on kill → Block. Don't throw the lead.</summary>
+/// <summary>Whenever you gain Fed, gain Amount Block and draw 1 (wired via Fed.Gain).</summary>
 public sealed class SnowballPower : BrennenPower
 {
     public override PowerType Type => PowerType.Buff;
@@ -20,27 +13,6 @@ public sealed class SnowballPower : BrennenPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Snowball",
-            "Whenever you kill an enemy, gain {Amount} [gold]Block[/gold].",
-            "Whenever you kill an enemy, gain {Amount} [gold]Block[/gold].");
-
-    public override async Task AfterDamageGiven(
-        PlayerChoiceContext choiceContext,
-        Creature? target,
-        DamageResult result,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource)
-    {
-        if (dealer != Owner)
-            return;
-        if (target is null)
-            return;
-        if (!result.WasTargetKilled)
-            return;
-        if (target.Side == Owner.Side)
-            return;
-
-        Flash();
-        await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);
-    }
+            "Whenever you gain [gold]Fed[/gold], gain {Amount} [gold]Block[/gold] and draw 1 card.",
+            "Whenever you gain [gold]Fed[/gold], gain {Amount} [gold]Block[/gold] and draw 1 card.");
 }

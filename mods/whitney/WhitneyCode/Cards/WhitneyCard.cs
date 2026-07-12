@@ -7,19 +7,48 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 
 namespace Whitney.WhitneyCode.Cards;
 
+public enum WhitneyElement
+{
+    Fire,
+    Water,
+    Earth,
+    Wind,
+}
+
 [Pool(typeof(WhitneyCardPool))]
 public abstract class WhitneyCard(int cost, CardType type, CardRarity rarity, TargetType target) :
     CustomCardModel(cost, type, rarity, target)
 {
-    /// <summary>Ink required to play. 0 = free. Checked via <see cref="IsPlayable"/>.</summary>
-    protected virtual int InkCost => 0;
+    /// <summary>Elemental affinity for Blend / scripts / Masterwork.</summary>
+    public virtual WhitneyElement Element => WhitneyElement.Fire;
 
-    protected override bool IsPlayable =>
-        base.IsPlayable && Ink.CanAfford(Owner, InkCost);
+    /// <summary>Ink (star) cost. Seals use SealCost &gt; 0.</summary>
+    protected virtual int SealCost => 0;
 
-    /// <summary>Gold glow when the seal is ready (Ink paid).</summary>
+    /// <summary>Alias of SealCost for older card code.</summary>
+    protected virtual int InkCost => SealCost;
+
+    /// <summary>Public seal cost for powers (Attunement, Eternal Quill, etc.).</summary>
+    public int ResolvedSealCost => SealCost;
+
+    /// <summary>True when this card spends Ink as a seal.</summary>
+    public bool IsSeal => SealCost > 0;
+
+    /// <summary>Maps seal Ink onto the game's star cost pipeline (auto-paid on play).</summary>
+    public override int CanonicalStarCost => SealCost;
+
+    /// <summary>Gold glow when the seal is ready (Ink can be paid).</summary>
     protected override bool ShouldGlowGoldInternal =>
-        InkCost > 0 && Ink.CanAfford(Owner, InkCost);
+        SealCost > 0 && Ink.CanAfford(Owner, SealCost);
+
+    /// <summary>
+    /// Whether playing this card would Blend given current brush state.
+    /// Sample before side effects; call <see cref="NoteBrushPlay"/> at end of OnPlay.
+    /// </summary>
+    protected bool IsBlendActive => WhitneyBrush.IsBlend(Owner, Element);
+
+    /// <summary>Register this play with the brush (end of OnPlay).</summary>
+    protected void NoteBrushPlay() => WhitneyBrush.NotePlay(Owner, this);
 
     // Id.Entry e.g. WHITNEY-NOVICE_SEAL → noviceseal.png (files have no underscores).
     private string PortraitStem =>

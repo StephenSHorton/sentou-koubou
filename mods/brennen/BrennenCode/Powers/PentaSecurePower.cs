@@ -1,22 +1,21 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models;
 
 namespace Brennen.BrennenCode.Powers;
 
-/// <summary>Secure the frontline: 5 Attacks in a turn → Plating.</summary>
+/// <summary>
+/// 5th Attack each turn plays twice via ModifyCardPlayCount.
+/// Amount >= 2: also gain 1 Fed when the double triggers.
+/// </summary>
 public sealed class PentaSecurePower : BrennenPower
 {
-    private sealed class Data
-    {
-        public int AttacksThisTurn;
-    }
+    private bool _pendingFedOnDouble;
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
@@ -24,38 +23,34 @@ public sealed class PentaSecurePower : BrennenPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Penta Secure",
-            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Plating[/gold].",
-            "Every time you play [blue]5[/blue] Attacks in a single turn, gain {Amount} [gold]Plating[/gold].");
+            "Whenever you play your 5th Attack in a single turn, that Attack triggers twice.",
+            "Whenever you play your 5th Attack in a single turn, that Attack triggers twice.");
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [HoverTipFactory.FromPower<PlatingPower>()];
-
-    protected override object InitInternalData() => new Data();
-
-    public override Task AfterSideTurnStart(
-        MegaCrit.Sts2.Core.Combat.CombatSide side,
-        IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants,
-        MegaCrit.Sts2.Core.Combat.ICombatState combatState)
+    public override int ModifyCardPlayCount(CardModel card, Creature? target, int playCount)
     {
-        if (participants.Contains(Owner))
-            GetInternalData<Data>().AttacksThisTurn = 0;
-        return Task.CompletedTask;
+        if (card.Owner?.Creature != Owner)
+            return playCount;
+        if (card.Type != CardType.Attack)
+            return playCount;
+        // AttacksPlayedThisTurn counts completed plays; 4 means this is the 5th.
+        if (BrennenTurnState.AttacksPlayedThisTurn != 4)
+            return playCount;
+        Flash();
+        if (Amount >= 2)
+            _pendingFedOnDouble = true;
+        return playCount + 1;
     }
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner.Creature != Owner)
+        if (!_pendingFedOnDouble)
+            return;
+        if (cardPlay.Card.Owner?.Creature != Owner)
             return;
         if (cardPlay.Card.Type != CardType.Attack)
             return;
-
-        var data = GetInternalData<Data>();
-        data.AttacksThisTurn++;
-        if (data.AttacksThisTurn < 5)
-            return;
-
-        data.AttacksThisTurn = 0;
-        Flash();
-        await PowerCmd.Apply<PlatingPower>(choiceContext, Owner, Amount, Owner, null);
+        _pendingFedOnDouble = false;
+        if (Owner.Player is not null)
+            await Fed.Gain(choiceContext, Owner.Player, 1, cardPlay.Card);
     }
 }
