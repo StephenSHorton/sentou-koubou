@@ -1,6 +1,6 @@
 {
   "BRENNEN-FED_POWER.title": "Fed",
-  "BRENNEN-FED_POWER.description": "Your snowball. Never decreases during combat. You have {Amount} [gold]Fed[/gold].",
+  "BRENNEN-FED_POWER.description": "Your snowball counter (League \"getting fed\"). Never decreases during combat. Scales cards like Farmed Up and Fountain. You have {Amount} [gold]Fed[/gold].",
   "BRENNEN-TILTED_POWER.title": "Tilted",
   "BRENNEN-TILTED_POWER.description": "You're tilted. Some cards are stronger while [gold]Tilted[/gold]. You are also [gold]Tilted[/gold] while at or below [blue]50%[/blue] max HP.",
   "BRENNEN-YOURE_BAD_POWER.title": "You're Bad",

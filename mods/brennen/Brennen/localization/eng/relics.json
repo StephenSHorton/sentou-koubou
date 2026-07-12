@@ -1,6 +1,6 @@
 {
   "BRENNEN-DUO_QUEUE.title": "Duo Queue",
-  "BRENNEN-DUO_QUEUE.description": "Whenever you kill an enemy, gain [blue]1[/blue] [gold]Fed[/gold].",
+  "BRENNEN-DUO_QUEUE.description": "Whenever an enemy dies, gain [blue]1[/blue] [gold]Fed[/gold].",
   "BRENNEN-DUO_QUEUE.flavor": "I've got you. Don't feed.",
   "BRENNEN-RANKED_BADGE.title": "Ranked Badge",
   "BRENNEN-RANKED_BADGE.description": "At the start of each combat, gain [blue]6[/blue] [gold]Block[/gold].",

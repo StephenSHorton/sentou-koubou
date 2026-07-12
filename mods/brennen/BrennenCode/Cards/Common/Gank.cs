@@ -26,7 +26,7 @@ public sealed class Gank() : BrennenCard(1, CardType.Attack, CardRarity.Common, 
         await CommonActions.CardAttack(this, play)
             .WithHitCount(DynamicVars.Repeat.IntValue)
             .Execute(choiceContext);
-        if (play.Target is not null && play.Target.IsDead)
+        if (Fed.IsFatal(play.Target))
             await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
     }
 

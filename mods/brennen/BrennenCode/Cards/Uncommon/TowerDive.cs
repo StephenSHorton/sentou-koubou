@@ -20,7 +20,7 @@ public sealed class TowerDive() : BrennenCard(2, CardType.Attack, CardRarity.Unc
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay play)
     {
         await CommonActions.CardAttack(this, play).Execute(choiceContext);
-        var killed = play.Target is not null && play.Target.IsDead;
+        var killed = Fed.IsFatal(play.Target);
         if (!killed && Owner.Creature is not null)
         {
             await CreatureCmd.Damage(

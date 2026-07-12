@@ -12,7 +12,10 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Brennen.BrennenCode.Relics;
 
-/// <summary>Starter: whenever you kill an enemy, gain 1 Fed. Tracks turn play counts.</summary>
+/// <summary>
+/// Starter: whenever an enemy dies, gain 1 Fed. Also tracks turn play counts
+/// for cards that care about attacks-this-turn.
+/// </summary>
 public sealed class DuoQueue : BrennenRelic
 {
     public override RelicRarity Rarity => RelicRarity.Starter;
@@ -36,20 +39,24 @@ public sealed class DuoQueue : BrennenRelic
         await Task.CompletedTask;
     }
 
-    public override async Task AfterDamageGiven(
+    /// <summary>
+    /// Primary kill path — mirrors vanilla Gremlin Horn (AfterDeath), not AfterDamageGiven.
+    /// AfterDamageGiven's dealer can be null for some card attacks, so kills were silently dropped.
+    /// </summary>
+    public override async Task AfterDeath(
         PlayerChoiceContext choiceContext,
-        Creature? target,
-        DamageResult result,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource)
+        Creature creature,
+        bool wasRemovalPrevented,
+        float deathAnimLength)
     {
-        if (Owner is null || dealer != Owner.Creature)
+        if (wasRemovalPrevented)
             return;
-        if (target is null || !result.WasTargetKilled)
+        if (Owner?.Creature is null)
             return;
-        if (Owner.Creature is null || target.Side == Owner.Creature.Side)
+        // Only enemy deaths (not Brennen / allies).
+        if (creature.Side == Owner.Creature.Side)
             return;
+
         Flash();
         await Fed.Gain(choiceContext, Owner, 1);
     }
