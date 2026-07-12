@@ -1,3 +1,8 @@
 {
-  
+    "WHITNEY-SPARK.description": "This card is a Spark card.",
+    "WHITNEY-SPARK.title": "Spark",
+    "WHITNEY-AMPLIFY.description": "When you have enough energy, spend additional energy to activate its effect.",
+    "WHITNEY-AMPLIFY.title": "Amplify",
+    "WHITNEY-STEAL.description": "Steal a card from the [gold]draw pile[/gold] all other players.\nToken will never be stolen. Prioritize cards without [blue]enchantments[/blue]. The priority of each rarity level is as follows: first steal the [blue] uncommon [/blue] card, followed by the [gold] rare[/gold]/common/[green]event [/green] card, then the basic/[pure]task[/purple] card, and finally the card that is either[gold] ancient[/gold] or with [blue]enchantment[/blue]. When none of them are satisfied, a random card will be selected from all non-token cards in the [gold]draw pile[/gold].",
+    "WHITNEY-STEAL.title": "steal card"
 }

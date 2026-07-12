@@ -1,0 +1,53 @@
+using Whitney.WhitneyCode.Cards.Colorless;
+using Whitney.WhitneyCode.Powers;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+
+namespace Whitney.WhitneyCode.Cards
+{
+    public class MaximisePower : AbstractWhitneyCard
+    {
+        public MaximisePower() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        {
+        }
+
+        protected override void OnUpgrade()
+        {
+            EnergyCost.UpgradeBy(-1);
+        }
+
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new EnergyVar(1),
+            new DynamicVar("Pow", 1)
+        ];
+
+        public override IEnumerable<CardKeyword> CanonicalKeywords => base.CanonicalKeywords.Concat([
+            CardKeyword.Exhaust
+        ]);
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            //HoverTipFactory.FromCard<Exhaustion>(),
+            HoverTipFactory.FromPower<ChargeUpPower>()
+        ];
+
+        protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        {
+            var pow = Owner.Creature.GetPower<ChargeUpPower>();
+            if (pow != null)
+            {
+                var gain = pow.Amount;
+                await PowerCmd.Remove(pow);
+                await PlayerCmd.GainEnergy(gain, Owner);
+            }
+
+            await PowerCmd.Apply<MaximisePowerPower>(choiceContext, Owner.Creature, DynamicVars["Pow"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<BuffBlockerPower>(choiceContext, Owner.Creature, DynamicVars["Pow"].BaseValue, Owner.Creature, this);
+            //await CardPileCmd.AddGeneratedCardToCombat(CombatState!.CreateCard<Exhaustion>(Owner), PileType.Hand, Owner);
+        }
+    }
+}

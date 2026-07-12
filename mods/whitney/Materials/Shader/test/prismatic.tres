@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://plgmyewm685k"]
+
+[ext_resource type="Shader" uid="uid://bws3x0mij8o1i" path="res://Materials/Shader/Spark/VfxFinalSparkStar.gdshader" id="1_7wops"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yiiou"]
+noise_type = 3
+seed = 140
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kl131"]
+noise = SubResource("FastNoiseLite_yiiou")
+seamless = true
+
+[resource]
+shader = ExtResource("1_7wops")
+shader_parameter/glow_factor = 4.5
+shader_parameter/progress = 1.0
+shader_parameter/size = 1.0
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_kl131")

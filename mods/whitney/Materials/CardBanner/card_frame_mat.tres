@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dwn7is2qbxe2p"]
+
+[ext_resource type="Shader" uid="uid://cbxmpw7ual5bh" path="res://Materials/CardBanner/card_frame.gdshader" id="1_g4a35"]
+
+[resource]
+shader = ExtResource("1_g4a35")
+shader_parameter/h = 0.70000003325
+shader_parameter/s = 1.0
+shader_parameter/v = 1.0

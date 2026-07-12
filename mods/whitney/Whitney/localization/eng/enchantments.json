@@ -1,0 +1,5 @@
+{
+  "INKBOUND_ENCHANTMENT.description": "Gain [blue]1[/blue] [gold]Inkbound[/gold]; gain double the amount for each {energyPrefix:energyIcons(1)} spent when this card is played.",
+  "INKBOUND_ENCHANTMENT.extraCardText": "Inkbound.",
+  "INKBOUND_ENCHANTMENT.title": "Inkbound"
+}

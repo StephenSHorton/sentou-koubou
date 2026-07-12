@@ -1,0 +1,109 @@
+[gd_scene load_steps=15 format=3 uid="uid://bx810krt0rr1h"]
+
+[ext_resource type="Script" uid="uid://b2doktxh68o4o" path="res://Scenes/Vfx/HitVfx/SparkHitVfx.cs" id="1_qw6vr"]
+[ext_resource type="Shader" uid="uid://js2ii34t7oqt" path="res://Materials/Shader/Spark/SparkParticle.gdshader" id="1_qx57d"]
+[ext_resource type="Shader" uid="uid://1gfvd7ma8ts7" path="res://Materials/ParticleProcess/DampingParticle.gdshader" id="3_t4b0d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qw6vr"]
+resource_local_to_scene = true
+shader = ExtResource("1_qx57d")
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 4.0
+shader_parameter/spark_color = Color(0.4, 0.8, 0.8, 1)
+shader_parameter/rainbow_ratio = 0.2
+shader_parameter/Saturation = 0.2
+shader_parameter/size = 4500.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qx57d"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ntfy"]
+resource_local_to_scene = true
+shader = ExtResource("3_t4b0d")
+shader_parameter/INIT_SPEED = 1600.0
+shader_parameter/MIN_SPEED = 25.0
+shader_parameter/SIZE = 1.0
+shader_parameter/DRAG = 7.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qx57d"]
+shader = ExtResource("1_qx57d")
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 4.0
+shader_parameter/spark_color = Color(0.4, 0.8, 0.8, 1)
+shader_parameter/rainbow_ratio = 0.2
+shader_parameter/Saturation = 0.5
+shader_parameter/size = 1500.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_qw6vr"]
+
+[sub_resource type="Curve" id="Curve_qw6vr"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.12627986, 1), 0.0, 0.0, 0, 0, Vector2(0.39590445, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_t4b0d"]
+curve = SubResource("Curve_qw6vr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_t4b0d"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 250.0
+initial_velocity_max = 550.0
+gravity = Vector3(0, 980, 0)
+damping_min = 200.00002
+damping_max = 200.00002
+scale_curve = SubResource("CurveTexture_t4b0d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t4b0d"]
+resource_local_to_scene = true
+shader = ExtResource("1_qx57d")
+shader_parameter/arm_factor = 1.0
+shader_parameter/arm_factor2 = 0.4
+shader_parameter/glow_factor = 4.0
+shader_parameter/spark_color = Color(0.4, 0.8, 0.8, 1)
+shader_parameter/rainbow_ratio = 0.2
+shader_parameter/Saturation = 0.2
+shader_parameter/size = 2000.0
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_4ntfy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f33jt"]
+shader = ExtResource("3_t4b0d")
+shader_parameter/INIT_SPEED = 1600.0
+shader_parameter/MIN_SPEED = 50.0
+shader_parameter/SIZE = 1.0
+shader_parameter/DRAG = 7.5
+
+[node name="BurstSpark" type="Node2D"]
+script = ExtResource("1_qw6vr")
+
+[node name="big" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_qw6vr")
+emitting = true
+amount = 6
+texture = SubResource("CanvasTexture_qx57d")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ShaderMaterial_4ntfy")
+
+[node name="lasting" type="GPUParticles2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_qx57d")
+emitting = false
+amount = 16
+texture = SubResource("CanvasTexture_qw6vr")
+preprocess = 0.02
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_t4b0d")
+
+[node name="fade" type="GPUParticles2D" parent="."]
+material = SubResource("ShaderMaterial_t4b0d")
+emitting = true
+amount = 20
+texture = SubResource("CanvasTexture_4ntfy")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+process_material = SubResource("ShaderMaterial_f33jt")

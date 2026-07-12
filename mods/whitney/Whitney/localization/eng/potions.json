@@ -1,0 +1,11 @@
+{
+  "WHITNEY-BOTTLED_SPARK.description": "Add [blue]3[/blue] [gold]Sparks[/gold] to your [gold]Hand[/gold].",
+  "WHITNEY-BOTTLED_SPARK.selectionScreenPrompt": "Choose any number of cards to [gold]Exhaust[/gold].",
+  "WHITNEY-BOTTLED_SPARK.title": "Bottled Spark",
+  "WHITNEY-LOVE_COLOURED_POTION.description": "Gain [blue]8[/blue] [gold]Saturate[/gold].",
+  "WHITNEY-LOVE_COLOURED_POTION.selectionScreenPrompt": "Choose any number of cards to [gold]Exhaust[/gold].",
+  "WHITNEY-LOVE_COLOURED_POTION.title": "Love Coloured Potion",
+  "WHITNEY-SHROOM_BREW.description": "[gold]Exhaust[/gold] a card in your [gold]Hand[/gold].\nEffect of this potion depends on the type of card [gold]Exhaust[/gold]:\n[gold]Attack[/gold]: Gain [blue]3[/blue] [gold]Strength[/gold];\n[gold]Skill[/gold]: Gain [blue]3[/blue] [gold]Dexterity[/gold];\n[gold]Power[/gold]: Draw [blue]2[/blue] cards and gain {Energy:energyIcons()};\n[gold]Status[/gold]: Gain [blue]5[/blue] [gold]Regen[/gold];\n[gold]Curse[/gold]: Gain [blue]1[/blue] [gold]Buffer[/gold];\n[gold]Quest[/gold]: Gain [blue]70[/blue] [gold]Gold[/gold];",
+  "WHITNEY-SHROOM_BREW.selectionScreenPrompt": "Choose a card to [gold]Exhaust[/gold].",
+  "WHITNEY-SHROOM_BREW.title": "Shroom Brew"
+}

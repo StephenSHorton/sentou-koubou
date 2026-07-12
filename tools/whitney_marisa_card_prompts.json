@@ -1,0 +1,952 @@
+[
+  {
+    "stem": "whitney-absolute_magnitude",
+    "loc_id": "WHITNEY-ABSOLUTE_MAGNITUDE",
+    "title": "Absolute Magnitude",
+    "desc": "Deal  damage for each Saturate you have. damage)|}",
+    "presence": "full",
+    "beat": "Whitney channels a huge glowing saturate glyph that multiplies like stacked ink rings, power erupting outward",
+    "prompt_full": "Whitney channels a huge glowing saturate glyph that multiplies like stacked ink rings, power erupting outward. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney channels a huge glowing saturate glyph that multiplies like stacked ink rings, power erupting outward. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-acceleration",
+    "loc_id": "WHITNEY-ACCELERATION",
+    "title": "Acceleration",
+    "desc": "Draw top  cards of your Draw Pile.\nAmplify : Draw  more.",
+    "presence": "partial",
+    "beat": "Whitney's cyan quill streaks motion lines as cards blur past her hand in a speed rush",
+    "prompt_full": "Whitney's cyan quill streaks motion lines as cards blur past her hand in a speed rush. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney's cyan quill streaks motion lines as cards blur past her hand in a speed rush. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-alices_gift",
+    "loc_id": "WHITNEY-ALICES_GIFT",
+    "title": "Alice's Gift",
+    "desc": "Deal  damage.\nAmplify : Hit three times.",
+    "presence": "full",
+    "beat": "Whitney presents a wrapped gift that opens into three ink spark projectiles",
+    "prompt_full": "Whitney presents a wrapped gift that opens into three ink spark projectiles. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney presents a wrapped gift that opens into three ink spark projectiles. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-asteroid_belt",
+    "loc_id": "WHITNEY-ASTEROID_BELT",
+    "title": "Asteroid Belt",
+    "desc": "Gain  Block.\nAmplify : At the start of your next turn, gain  Block.",
+    "presence": "none",
+    "beat": "Ring of floating ink-stone asteroids orbit a glowing seal, protective barrier motif",
+    "prompt_full": "Ring of floating ink-stone asteroids orbit a glowing seal, protective barrier motif. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Ring of floating ink-stone asteroids orbit a glowing seal, protective barrier motif. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-big_crunch",
+    "loc_id": "WHITNEY-BIG_CRUNCH",
+    "title": "Big Crunch",
+    "desc": "Exhaust half of your Draw Pile and Discard Pile. For every  cards exhausted, gain  and draw 1 card. gain and draw:  )|}",
+    "presence": "full",
+    "beat": "Whitney compresses a whirl of discarded paper cards into a collapsing ink singularity",
+    "prompt_full": "Whitney compresses a whirl of discarded paper cards into a collapsing ink singularity. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney compresses a whirl of discarded paper cards into a collapsing ink singularity. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-binary_stars",
+    "loc_id": "WHITNEY-BINARY_STARS",
+    "title": "Binary Stars",
+    "desc": "Choose one from Black Flare Star and White Dwarf to add to your Hand.\nAmplify : Add both cards to your Hand.",
+    "presence": "none",
+    "beat": "Twin ink orbs black and white circling each other above an open grimoire",
+    "prompt_full": "Twin ink orbs black and white circling each other above an open grimoire. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Twin ink orbs black and white circling each other above an open grimoire. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-black_flare_star",
+    "loc_id": "WHITNEY-BLACK_FLARE_STAR",
+    "title": "Black Flare Star",
+    "desc": "Can only be played if there are 4 or more cards in your Hand.Discard any number of cards, gaining  Block for each.",
+    "presence": "partial",
+    "beat": "Whitney discards cards that become black ink flares forming a dark star shield",
+    "prompt_full": "Whitney discards cards that become black ink flares forming a dark star shield. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney discards cards that become black ink flares forming a dark star shield. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-blaze_away",
+    "loc_id": "WHITNEY-BLAZE_AWAY",
+    "title": "Blaze Away",
+    "desc": "Choose an Attack card. Add a copy of that card into your Hand. Gain  equals to the cost of that card (including its Ampl",
+    "presence": "full",
+    "beat": "Whitney duplicates a glowing attack card mid-air with her quill, energy trailing",
+    "prompt_full": "Whitney duplicates a glowing attack card mid-air with her quill, energy trailing. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney duplicates a glowing attack card mid-air with her quill, energy trailing. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-blazing_star",
+    "loc_id": "WHITNEY-BLAZING_STAR",
+    "title": "Blazing Star",
+    "desc": "Deal  damage. Add  Burns into your Hand.\nAmplify : Stun the enemy and Exhaust this card.",
+    "presence": "full",
+    "beat": "Whitney hurls a blazing ink star that leaves burn-mark seals in its wake",
+    "prompt_full": "Whitney hurls a blazing ink star that leaves burn-mark seals in its wake. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney hurls a blazing ink star that leaves burn-mark seals in its wake. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-bound_of_protagonists",
+    "loc_id": "WHITNEY-BOUND_OF_PROTAGONISTS",
+    "title": "Bond of Protagonists",
+    "desc": "Once each turn, gain 1 Flight when a Curse or Status is Exhausted.",
+    "presence": "full",
+    "beat": "Whitney and a shadowy ally linked by flying ribbon ink, curse papers burning away",
+    "prompt_full": "Whitney and a shadowy ally linked by flying ribbon ink, curse papers burning away. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney and a shadowy ally linked by flying ribbon ink, curse papers burning away. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-butt_smash",
+    "loc_id": "WHITNEY-BUTT_SMASH",
+    "title": "Butt Smash",
+    "desc": "Deal  damage.\nGain Block equal to unblocked damage dealt.",
+    "presence": "full",
+    "beat": "Whitney mid-air hip-check slam, impact shockwave of violet ink splash",
+    "prompt_full": "Whitney mid-air hip-check slam, impact shockwave of violet ink splash. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney mid-air hip-check slam, impact shockwave of violet ink splash. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-card_swiper",
+    "loc_id": "WHITNEY-CARD_SWIPER",
+    "title": "Brazen Borrower",
+    "desc": "Steal cards from other players. Return after combat.",
+    "presence": "partial",
+    "beat": "Whitney slyly pilfers a card from another player's deck with a mischievous smile",
+    "prompt_full": "Whitney slyly pilfers a card from another player's deck with a mischievous smile. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney slyly pilfers a card from another player's deck with a mischievous smile. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-casket_of_star",
+    "loc_id": "WHITNEY-CASKET_OF_STAR",
+    "title": "Casket of Star",
+    "desc": "Whenever you gain 3 or more Block, add  Spark into your Hand.",
+    "presence": "none",
+    "beat": "Ornate ink casket cracked open releasing spark-shaped cyan seals",
+    "prompt_full": "Ornate ink casket cracked open releasing spark-shaped cyan seals. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Ornate ink casket cracked open releasing spark-shaped cyan seals. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-charge_up_spray",
+    "loc_id": "WHITNEY-CHARGE_UP_SPRAY",
+    "title": "Saturate Spray",
+    "desc": "Deal  damage.\nIf this card consumes Saturate, gain  and draw 2 cards.",
+    "presence": "full",
+    "beat": "Whitney sprays a fan of saturate ink from her quill, spray mist and energy",
+    "prompt_full": "Whitney sprays a fan of saturate ink from her quill, spray mist and energy. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney sprays a fan of saturate ink from her quill, spray mist and energy. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-charging_up",
+    "loc_id": "WHITNEY-CHARGING_UP",
+    "title": "Charging Up",
+    "desc": "Gain  Saturate.",
+    "presence": "full",
+    "beat": "Whitney gathering violet energy into a growing saturate aura around the quill",
+    "prompt_full": "Whitney gathering violet energy into a growing saturate aura around the quill. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney gathering violet energy into a growing saturate aura around the quill. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-collecting_quirk",
+    "loc_id": "WHITNEY-COLLECTING_QUIRK",
+    "title": "Collecting Quirk",
+    "desc": "For every  relics you have, deal  damage to a random enemy. )|}",
+    "presence": "partial",
+    "beat": "Whitney surrounded by floating relic trinkets that fire tiny ink bolts",
+    "prompt_full": "Whitney surrounded by floating relic trinkets that fire tiny ink bolts. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney surrounded by floating relic trinkets that fire tiny ink bolts. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-d_c",
+    "loc_id": "WHITNEY-D_C",
+    "title": "Direct Hit",
+    "desc": "Deal  damage.\nEnchant up to  random cards in your Hand with Inkbound.",
+    "presence": "full",
+    "beat": "Whitney stamps direct-hit ink seals onto enemy cards, starlit enchantment marks",
+    "prompt_full": "Whitney stamps direct-hit ink seals onto enemy cards, starlit enchantment marks. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney stamps direct-hit ink seals onto enemy cards, starlit enchantment marks. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-dark_matter",
+    "loc_id": "WHITNEY-DARK_MATTER",
+    "title": "Dark Matter",
+    "desc": "You can only play one Dark Matter each turn.\nAdd two copies of this card into your Draw Pile. Draw  .\nGain  Block when t",
+    "presence": "none",
+    "beat": "Swirling dark ink matter copies of the same card multiplying in a void",
+    "prompt_full": "Swirling dark ink matter copies of the same card multiplying in a void. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Swirling dark ink matter copies of the same card multiplying in a void. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-dark_spark",
+    "loc_id": "WHITNEY-DARK_SPARK",
+    "title": "Dark Spark",
+    "desc": "Deal  damage to ALL enemies.\nDeals  additional damage for each card in your Exhaust Pile.",
+    "presence": "full",
+    "beat": "Whitney fires a wide dark-ink spark beam sweeping all enemies",
+    "prompt_full": "Whitney fires a wide dark-ink spark beam sweeping all enemies. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney fires a wide dark-ink spark beam sweeping all enemies. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-deep_ecological_bomb",
+    "loc_id": "WHITNEY-DEEP_ECOLOGICAL_BOMB",
+    "title": "Deep Ecological Bomb",
+    "desc": "Deal  damage. Enemy loses  Strength this turn.\nAmplify : Repeat this effect.",
+    "presence": "full",
+    "beat": "Whitney plants a mossy ink bomb that saps strength, fungal ink spores",
+    "prompt_full": "Whitney plants a mossy ink bomb that saps strength, fungal ink spores. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney plants a mossy ink bomb that saps strength, fungal ink spores. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-defend_whitney",
+    "loc_id": "WHITNEY-DEFEND_WHITNEY",
+    "title": "Defend",
+    "desc": "Gain  Block.",
+    "presence": "full",
+    "beat": "Whitney raises a circular ink-ward shield, defensive ready stance",
+    "prompt_full": "Whitney raises a circular ink-ward shield, defensive ready stance. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney raises a circular ink-ward shield, defensive ready stance. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-double_spark",
+    "loc_id": "WHITNEY-DOUBLE_SPARK",
+    "title": "Double Spark",
+    "desc": "Deal  damage and add  Spark into your Hand.",
+    "presence": "full",
+    "beat": "Whitney casts twin cyan spark bolts from her quill in a V shape",
+    "prompt_full": "Whitney casts twin cyan spark bolts from her quill in a V shape. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney casts twin cyan spark bolts from her quill in a V shape. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-dragon_meteor",
+    "loc_id": "WHITNEY-DRAGON_METEOR",
+    "title": "Dragon Meteor",
+    "desc": "Deal  damage.\nIf there is an Enchanted card in your Hand, gain .",
+    "presence": "full",
+    "beat": "Whitney calls a dragon-shaped ink meteor streaking down from the sky",
+    "prompt_full": "Whitney calls a dragon-shaped ink meteor streaking down from the sky. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney calls a dragon-shaped ink meteor streaking down from the sky. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-earth_light_ray",
+    "loc_id": "WHITNEY-EARTH_LIGHT_RAY",
+    "title": "Earthlight Ray",
+    "desc": "Heal  HP.\nAmplify : Put a card from your Discard Pile into your Hand.",
+    "presence": "full",
+    "beat": "Whitney bathed in soft earthlight rays healing glow, hand on heart",
+    "prompt_full": "Whitney bathed in soft earthlight rays healing glow, hand on heart. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney bathed in soft earthlight rays healing glow, hand on heart. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-eccentric_asteroid",
+    "loc_id": "WHITNEY-ECCENTRIC_ASTEROID",
+    "title": "Eccentric Asteroid",
+    "desc": "Gain  Block.\nThis card has Replay 1 if you have played a Spark card this turn.",
+    "presence": "none",
+    "beat": "Wobbly eccentric ink asteroid with replay seal glyphs orbiting",
+    "prompt_full": "Wobbly eccentric ink asteroid with replay seal glyphs orbiting. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Wobbly eccentric ink asteroid with replay seal glyphs orbiting. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-energy_flow",
+    "loc_id": "WHITNEY-ENERGY_FLOW",
+    "title": "Energy Flow",
+    "desc": "At the end of your turn, gain  Saturate.",
+    "presence": "none",
+    "beat": "River of violet energy flowing into a saturate reservoir inkwell",
+    "prompt_full": "River of violet energy flowing into a saturate reservoir inkwell. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "River of violet energy flowing into a saturate reservoir inkwell. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-energy_recoil",
+    "loc_id": "WHITNEY-ENERGY_RECOIL",
+    "title": "Energy Recoil",
+    "desc": "Gain Block equal to your Saturate. Block)|}",
+    "presence": "partial",
+    "beat": "Whitney bracing behind a shield made of recycled saturate energy",
+    "prompt_full": "Whitney bracing behind a shield made of recycled saturate energy. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney bracing behind a shield made of recycled saturate energy. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-escape_velocity",
+    "loc_id": "WHITNEY-ESCAPE_VELOCITY",
+    "title": "Escape Velocity",
+    "desc": "If you end your turn with cards in your Hand, draw that many cards (up to ) next turn.",
+    "presence": "full",
+    "beat": "Whitney rocketing upward trailing cards in her wake like escape velocity",
+    "prompt_full": "Whitney rocketing upward trailing cards in her wake like escape velocity. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney rocketing upward trailing cards in her wake like escape velocity. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-event_horizon",
+    "loc_id": "WHITNEY-EVENT_HORIZON",
+    "title": "Event Horizon",
+    "desc": "Whenever you active an Amplify effect, you may put an Attack from your Discard Pile into your Hand, up to   each turn.",
+    "presence": "none",
+    "beat": "Black ink event horizon disk pulling attack cards from a discard pile",
+    "prompt_full": "Black ink event horizon disk pulling attack cards from a discard pile. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Black ink event horizon disk pulling attack cards from a discard pile. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-exhaustion",
+    "loc_id": "WHITNEY-EXHAUSTION",
+    "title": "Exhaustion",
+    "desc": "You cannot gain Saturate while this in your Hand.",
+    "presence": "none",
+    "beat": "Drained inkwell tipped over, no saturate can form",
+    "prompt_full": "Drained inkwell tipped over, no saturate can form. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Drained inkwell tipped over, no saturate can form. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-fairy_destruction_ray",
+    "loc_id": "WHITNEY-FAIRY_DESTRUCTION_RAY",
+    "title": "Fairy Destruction Ray",
+    "desc": "Deal  damage to ALL enemies.\nAmplify : Kill enemies with  or less HP.",
+    "presence": "full",
+    "beat": "Whitney firing a fairy-pink destruction ray beam of condensed ink",
+    "prompt_full": "Whitney firing a fairy-pink destruction ray beam of condensed ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney firing a fairy-pink destruction ray beam of condensed ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-final_master_spark",
+    "loc_id": "WHITNEY-FINAL_MASTER_SPARK",
+    "title": "Final Master Spark",
+    "desc": "Deal  damage to ALL enemies.\nAmplify : Deal  damage instead.",
+    "presence": "full",
+    "beat": "Whitney unleashing a massive master spark laser, full body combat pose",
+    "prompt_full": "Whitney unleashing a massive master spark laser, full body combat pose. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney unleashing a massive master spark laser, full body combat pose. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-final_spark",
+    "loc_id": "WHITNEY-FINAL_SPARK",
+    "title": "Final Spark",
+    "desc": "Costs  less when you play a Spark card.\nDeal  damage to ALL enemies.",
+    "presence": "full",
+    "beat": "Whitney charging final spark with spark cards orbiting as ammo",
+    "prompt_full": "Whitney charging final spark with spark cards orbiting as ammo. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney charging final spark with spark cards orbiting as ammo. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-firepower_hyoui",
+    "loc_id": "WHITNEY-FIREPOWER_HYOUI",
+    "title": "Firepower Hyoui",
+    "desc": "gain  Saturate.",
+    "presence": "full",
+    "beat": "Whitney possessed by firepower aura, quill blazing like a rifle",
+    "prompt_full": "Whitney possessed by firepower aura, quill blazing like a rifle. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney possessed by firepower aura, quill blazing like a rifle. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-galactic_halo",
+    "loc_id": "WHITNEY-GALACTIC_HALO",
+    "title": "Galactic Halo",
+    "desc": "Gain  Block. Gain  Saturate",
+    "presence": "none",
+    "beat": "Ink galaxy halo ring spinning with constellation seal marks",
+    "prompt_full": "Ink galaxy halo ring spinning with constellation seal marks. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Ink galaxy halo ring spinning with constellation seal marks. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-gas_giant",
+    "loc_id": "WHITNEY-GAS_GIANT",
+    "title": "Gas Giant",
+    "desc": "Gain  Block.\nAdd a Burn into your Hand.",
+    "presence": "none",
+    "beat": "Huge gas-giant planet of swirling violet ink atmosphere",
+    "prompt_full": "Huge gas-giant planet of swirling violet ink atmosphere. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Huge gas-giant planet of swirling violet ink atmosphere. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-grand_cross",
+    "loc_id": "WHITNEY-GRAND_CROSS",
+    "title": "Grand Cross",
+    "desc": "Deal  damage.\nCosts 0  if you have activated an Amplify effect this turn.",
+    "presence": "full",
+    "beat": "Whitney forming a grand cross of four elemental ink beams",
+    "prompt_full": "Whitney forming a grand cross of four elemental ink beams. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney forming a grand cross of four elemental ink beams. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-gravity_beat",
+    "loc_id": "WHITNEY-GRAVITY_BEAT",
+    "title": "Gravity Beat",
+    "desc": "Deal  damage and draw 1 card for every  cards in your deck.)|}",
+    "presence": "full",
+    "beat": "Whitney stomping a gravity beat pulse that crushes with ink waves",
+    "prompt_full": "Whitney stomping a gravity beat pulse that crushes with ink waves. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney stomping a gravity beat pulse that crushes with ink waves. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-illusion_star",
+    "loc_id": "WHITNEY-ILLUSION_STAR",
+    "title": "Illusion Star",
+    "desc": "Add  random cards into your Hand.\nPut   from your Hand on top of your Draw Pile.",
+    "presence": "partial",
+    "beat": "Whitney creating illusory star clones of herself from ink mist",
+    "prompt_full": "Whitney creating illusory star clones of herself from ink mist. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney creating illusory star clones of herself from ink mist. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-initiator",
+    "loc_id": "WHITNEY-INITIATOR",
+    "title": "Initiator",
+    "desc": "Deal  damage.Add up to  random Attacks from your Draw Pile to your Hand,increase their damage by unblocked damage dealt ",
+    "presence": "full",
+    "beat": "Whitney leading the charge forward, quill pointed like a spear",
+    "prompt_full": "Whitney leading the charge forward, quill pointed like a spear. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney leading the charge forward, quill pointed like a spear. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-inkbound_potion",
+    "loc_id": "WHITNEY-INKBOUND_POTION",
+    "title": "Inkbound Potion",
+    "desc": "Choose up to  cards in your Hand,Enchant them with Inkbound.",
+    "presence": "none",
+    "beat": "Crystal potion bottle filled with swirling inkbound starlit fluid",
+    "prompt_full": "Crystal potion bottle filled with swirling inkbound starlit fluid. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Crystal potion bottle filled with swirling inkbound starlit fluid. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-lumines_strike",
+    "loc_id": "WHITNEY-LUMINES_STRIKE",
+    "title": "Luminous Strike",
+    "desc": "Add a Burn into your Hand.\n Deal  to All Enemies.Deal  additional damage for each Burn you created.",
+    "presence": "full",
+    "beat": "Whitney striking with luminous ink slash leaving light trails",
+    "prompt_full": "Whitney striking with luminous ink slash leaving light trails. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney striking with luminous ink slash leaving light trails. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-machine_gun_spark",
+    "loc_id": "WHITNEY-MACHINE_GUN_SPARK",
+    "title": "Machine Gun Spark",
+    "desc": "Deal  damage  times.",
+    "presence": "full",
+    "beat": "Whitney rapid-firing a barrage of small spark ink pellets",
+    "prompt_full": "Whitney rapid-firing a barrage of small spark ink pellets. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney rapid-firing a barrage of small spark ink pellets. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-magic_absorber",
+    "loc_id": "WHITNEY-MAGIC_ABSORBER",
+    "title": "Magic Absorber",
+    "desc": "Gain  Block. \nRemove a random debuff from yourself.",
+    "presence": "full",
+    "beat": "Whitney absorbing enemy magic into her quill like a siphon",
+    "prompt_full": "Whitney absorbing enemy magic into her quill like a siphon. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney absorbing enemy magic into her quill like a siphon. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-magic_and_red_dream",
+    "loc_id": "WHITNEY-MAGIC_AND_RED_DREAM",
+    "title": "Magic and Red Dream",
+    "desc": "The first time you create a card each turn, draw  cards.",
+    "presence": "full",
+    "beat": "Whitney dreaming a red-tinted magic vision, cards materializing from dream",
+    "prompt_full": "Whitney dreaming a red-tinted magic vision, cards materializing from dream. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney dreaming a red-tinted magic vision, cards materializing from dream. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-magic_chant",
+    "loc_id": "WHITNEY-MAGIC_CHANT",
+    "title": "Magic Chant",
+    "desc": "Put a card from your Draw Pile into your Hand. Upgrade it if able.",
+    "presence": "full",
+    "beat": "Whitney chanting with open grimoire, magic circles of ink around her",
+    "prompt_full": "Whitney chanting with open grimoire, magic circles of ink around her. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney chanting with open grimoire, magic circles of ink around her. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-magical_r360",
+    "loc_id": "WHITNEY-MAGICAL_R360",
+    "title": "Magical R360",
+    "desc": "Gain  Block.\nEnchant a card in your Hand with Inkbound.",
+    "presence": "full",
+    "beat": "Whitney spinning 360 mid-air firing ink spark in a full circle",
+    "prompt_full": "Whitney spinning 360 mid-air firing ink spark in a full circle. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney spinning 360 mid-air firing ink spark in a full circle. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-mana_convection",
+    "loc_id": "WHITNEY-MANA_CONVECTION",
+    "title": "Mana Convection",
+    "desc": "Exhaust up to  cards in your Hand. Gain  for each card Exhausted and draw  card for each Burn Exhausted.",
+    "presence": "none",
+    "beat": "Convection currents of violet mana rising like heat haze ink",
+    "prompt_full": "Convection currents of violet mana rising like heat haze ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Convection currents of violet mana rising like heat haze ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-mana_rampage",
+    "loc_id": "WHITNEY-MANA_RAMPAGE",
+    "title": "Mana Rampage",
+    "desc": "Play X random Attacks.",
+    "presence": "full",
+    "beat": "Whitney in a mana rampage, wild energy hair and explosive ink",
+    "prompt_full": "Whitney in a mana rampage, wild energy hair and explosive ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney in a mana rampage, wild energy hair and explosive ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-master_spark",
+    "loc_id": "WHITNEY-MASTER_SPARK",
+    "title": "Master Spark",
+    "desc": "Deal  damage.\nAmplify : Deal  damage instead.",
+    "presence": "full",
+    "beat": "Whitney firing signature master spark beam, iconic combat pose",
+    "prompt_full": "Whitney firing signature master spark beam, iconic combat pose. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney firing signature master spark beam, iconic combat pose. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-maximise_power",
+    "loc_id": "WHITNEY-MAXIMISE_POWER",
+    "title": "Maximum Power",
+    "desc": "Convert your Saturate into .\nYour Attacks deal double damage this turn.\nYou cannot gain any more Buff this turn.",
+    "presence": "full",
+    "beat": "Whitney powering up, saturate rings stacking around her silhouette",
+    "prompt_full": "Whitney powering up, saturate rings stacking around her silhouette. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney powering up, saturate rings stacking around her silhouette. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-meteoric_shower",
+    "loc_id": "WHITNEY-METEORIC_SHOWER",
+    "title": "Meteoric Shower",
+    "desc": "Exhaust up to X cards in your Hand.\nDeal  damage to a random enemy for each card Exhausted. Each Burn Exhausted deals da",
+    "presence": "partial",
+    "beat": "Whitney under a shower of ink meteors raining on the battlefield",
+    "prompt_full": "Whitney under a shower of ink meteors raining on the battlefield. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney under a shower of ink meteors raining on the battlefield. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-milky_way",
+    "loc_id": "WHITNEY-MILKY_WAY",
+    "title": "Milky Way",
+    "desc": "Gain  Block.\nDraw 1 card.\nIncrease the damage of Attacks in your Hand by .",
+    "presence": "none",
+    "beat": "Milky way band painted as flowing cyan-violet ink river of stars",
+    "prompt_full": "Milky way band painted as flowing cyan-violet ink river of stars. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Milky way band painted as flowing cyan-violet ink river of stars. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-millisecond_pulsars",
+    "loc_id": "WHITNEY-MILLISECOND_PULSARS",
+    "title": "Millisecond Pulsars",
+    "desc": "Amplify effects do not require extra Energy to activate.",
+    "presence": "none",
+    "beat": "Pulsar star spinning with free amplify energy waves",
+    "prompt_full": "Pulsar star spinning with free amplify energy waves. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Pulsar star spinning with free amplify energy waves. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-mysterious_beam",
+    "loc_id": "WHITNEY-MYSTERIOUS_BEAM",
+    "title": "Mysterious Beam",
+    "desc": "Deal  damage. Add a random Attack into your Hand. This card's damage become same of the card added.",
+    "presence": "full",
+    "beat": "Whitney firing a mysterious crooked ink beam that zigzags",
+    "prompt_full": "Whitney firing a mysterious crooked ink beam that zigzags. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney firing a mysterious crooked ink beam that zigzags. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-non_directional_laser",
+    "loc_id": "WHITNEY-NON_DIRECTIONAL_LASER",
+    "title": "Non-Directional Laser",
+    "desc": "Deal  damage to ALL enemies.If you created any card this turn, repeat this effect.",
+    "presence": "full",
+    "beat": "Whitney with a laser that aims everywhere, omnidirectional ink beams",
+    "prompt_full": "Whitney with a laser that aims everywhere, omnidirectional ink beams. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney with a laser that aims everywhere, omnidirectional ink beams. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-occultation",
+    "loc_id": "WHITNEY-OCCULTATION",
+    "title": "Occultation",
+    "desc": "Gain Block equal to the number of cards in your Draw Pile, then discard your Draw Pile. block)|}",
+    "presence": "full",
+    "beat": "Whitney eclipsed by a dark ink moon, occultation silhouette",
+    "prompt_full": "Whitney eclipsed by a dark ink moon, occultation silhouette. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney eclipsed by a dark ink moon, occultation silhouette. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-one_time_off",
+    "loc_id": "WHITNEY-ONE_TIME_OFF",
+    "title": "One Time Off",
+    "desc": "Gain  Block.\nYou will not activate Saturate or Amplify this turn.\nNext turn, draw  .",
+    "presence": "partial",
+    "beat": "Whitney cancelling amplify with a red X seal stamped by quill",
+    "prompt_full": "Whitney cancelling amplify with a red X seal stamped by quill. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney cancelling amplify with a red X seal stamped by quill. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-oort_cloud",
+    "loc_id": "WHITNEY-OORT_CLOUD",
+    "title": "Oort Cloud",
+    "desc": "Gain  Plating.\nAmplify : Gain  more Plating.",
+    "presence": "none",
+    "beat": "Distant oort cloud of icy ink debris and comet seals",
+    "prompt_full": "Distant oort cloud of icy ink debris and comet seals. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Distant oort cloud of icy ink debris and comet seals. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-open_universe",
+    "loc_id": "WHITNEY-OPEN_UNIVERSE",
+    "title": "Open Universe",
+    "desc": "Add  random cards into your Draw Pile.\nDraw  cards and Upgrade them.",
+    "presence": "full",
+    "beat": "Whitney opening a portal to a painted open universe of ink stars",
+    "prompt_full": "Whitney opening a portal to a painted open universe of ink stars. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney opening a portal to a painted open universe of ink stars. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-orbital",
+    "loc_id": "WHITNEY-ORBITAL",
+    "title": "Orbital",
+    "desc": "Draw 1 card when drawn.\nIf this card is Exhausted, put up to   from your Exhaust Pile into your hand.",
+    "presence": "none",
+    "beat": "Satellites of ink orbs orbiting a central seal planet",
+    "prompt_full": "Satellites of ink orbs orbiting a central seal planet. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Satellites of ink orbs orbiting a central seal planet. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-orrerys_sun",
+    "loc_id": "WHITNEY-ORRERYS_SUN",
+    "title": "Orrery's Sun",
+    "desc": "Whenever your Saturate is consumed, gain  Block.",
+    "presence": "none",
+    "beat": "Mechanical orrery sun glowing gold-violet ink gearwork",
+    "prompt_full": "Mechanical orrery sun glowing gold-violet ink gearwork. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Mechanical orrery sun glowing gold-violet ink gearwork. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-orrerys_universe",
+    "loc_id": "WHITNEY-ORRERYS_UNIVERSE",
+    "title": "Orrery's Universe",
+    "desc": "Whenever you gain Inkbound, increase the damage of Attacks in your Hand have by .",
+    "presence": "none",
+    "beat": "Grand orrery of planets made of ink seals and brass",
+    "prompt_full": "Grand orrery of planets made of ink seals and brass. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Grand orrery of planets made of ink seals and brass. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-perseids",
+    "loc_id": "WHITNEY-PERSEIDS",
+    "title": "Perseids",
+    "desc": "Gain  when drawn.\nIf this card is Exhausted, add  Super Perseids to your Hand.",
+    "presence": "partial",
+    "beat": "Whitney watching perseid meteor shower of ink sparks",
+    "prompt_full": "Whitney watching perseid meteor shower of ink sparks. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney watching perseid meteor shower of ink sparks. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-polaris_unique",
+    "loc_id": "WHITNEY-POLARIS_UNIQUE",
+    "title": "Polaris Unique",
+    "desc": "You can only play one Polaris Unique each turn.\nChoose a card in your Hand,increase its cost by 1.\nGain  and draw  .",
+    "presence": "full",
+    "beat": "Whitney pointing to Polaris, a unique north-star ink beacon",
+    "prompt_full": "Whitney pointing to Polaris, a unique north-star ink beacon. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney pointing to Polaris, a unique north-star ink beacon. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-power_up",
+    "loc_id": "WHITNEY-POWER_UP",
+    "title": "Upgrade!",
+    "desc": "Increase the damage of Attacks in your Hand have by .",
+    "presence": "full",
+    "beat": "Whitney power-up pose with saturating aura and rising ink",
+    "prompt_full": "Whitney power-up pose with saturating aura and rising ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney power-up pose with saturating aura and rising ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-prop_bag",
+    "loc_id": "WHITNEY-PROP_BAG",
+    "title": "Prop Bag",
+    "desc": "Obtain 3 random relics. Remove it at the end of combat.",
+    "presence": "none",
+    "beat": "Overflowing prop bag spilling mushrooms, wands, ink bottles",
+    "prompt_full": "Overflowing prop bag spilling mushrooms, wands, ink bottles. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Overflowing prop bag spilling mushrooms, wands, ink bottles. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-pulse_magic",
+    "loc_id": "WHITNEY-PULSE_MAGIC",
+    "title": "Pulse Magic",
+    "desc": "Next turn, gain .\nAmplify : Amplify effects do not require extra Energy to activate this turn.",
+    "presence": "full",
+    "beat": "Whitney releasing a pulse wave of free amplify magic rings",
+    "prompt_full": "Whitney releasing a pulse wave of free amplify magic rings. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney releasing a pulse wave of free amplify magic rings. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-refraction_spark",
+    "loc_id": "WHITNEY-REFRACTION_SPARK",
+    "title": "Refraction Spark",
+    "desc": "Deal  damage. Increase the damage of ALL Spark cards in your hand by the unblocked damage dealt.\nAmplify : Deal  damage ",
+    "presence": "full",
+    "beat": "Whitney refracting a spark through a crystal prism into rainbow ink",
+    "prompt_full": "Whitney refracting a spark through a crystal prism into rainbow ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney refracting a spark through a crystal prism into rainbow ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-rob",
+    "loc_id": "WHITNEY-ROB",
+    "title": "Robbery",
+    "desc": "Deal  damage. Gain Gold equal to unblocked damage dealt.\nAmplify : Double the Gold gain.",
+    "presence": "full",
+    "beat": "Whitney playfully robbing a golden coin sack with ink rope",
+    "prompt_full": "Whitney playfully robbing a golden coin sack with ink rope. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney playfully robbing a golden coin sack with ink rope. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-satellite_illusion",
+    "loc_id": "WHITNEY-SATELLITE_ILLUSION",
+    "title": "Satellite Illusion",
+    "desc": "Gain  when you shuffle your Draw pile or when the number of cards in your Draw Pile increases after you play a card.",
+    "presence": "partial",
+    "beat": "Whitney projecting satellite illusion drones of paper and ink",
+    "prompt_full": "Whitney projecting satellite illusion drones of paper and ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney projecting satellite illusion drones of paper and ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-shoot_the_danmaku_barrier",
+    "loc_id": "WHITNEY-SHOOT_THE_DANMAKU_BARRIER",
+    "title": "Shoot the Danmaku Barrier!",
+    "desc": "Deal  damage.\nThis card has Replay 1 if Enchanted.",
+    "presence": "full",
+    "beat": "Whitney shooting through a bullet-hell barrier of ink pellets",
+    "prompt_full": "Whitney shooting through a bullet-hell barrier of ink pellets. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney shooting through a bullet-hell barrier of ink pellets. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-shoot_the_moon",
+    "loc_id": "WHITNEY-SHOOT_THE_MOON",
+    "title": "Shoot the Moon",
+    "desc": "Deal  damage.\nAmplify : Remove  from the target if it is not a boss.",
+    "presence": "full",
+    "beat": "Whitney aiming a powerful shot at a painted moon target",
+    "prompt_full": "Whitney aiming a powerful shot at a painted moon target. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney aiming a powerful shot at a painted moon target. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-shooting_echo",
+    "loc_id": "WHITNEY-SHOOTING_ECHO",
+    "title": "Shooting Echo",
+    "desc": "Deal  damage.\nExhaust a card. If the Exhausted card is a Burn, return this card to your Hand.",
+    "presence": "full",
+    "beat": "Whitney's spark shot echoing as ghostly afterimage bolts",
+    "prompt_full": "Whitney's spark shot echoing as ghostly afterimage bolts. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney's spark shot echoing as ghostly afterimage bolts. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-singularity",
+    "loc_id": "WHITNEY-SINGULARITY",
+    "title": "Singularity",
+    "desc": "Whenever you play a card that cost 0 , increase the damage of a random Attack in your Hand by .",
+    "presence": "full",
+    "beat": "Whitney creating a black-hole singularity of condensed ink",
+    "prompt_full": "Whitney creating a black-hole singularity of condensed ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney creating a black-hole singularity of condensed ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-spark",
+    "loc_id": "WHITNEY-SPARK",
+    "title": "Spark",
+    "desc": "Deal  damage.",
+    "presence": "none",
+    "beat": "Single cyan ink spark projectile seal glyph on dark parchment",
+    "prompt_full": "Single cyan ink spark projectile seal glyph on dark parchment. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI.",
+    "prompt_none": "Single cyan ink spark projectile seal glyph on dark parchment. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-spark_strike",
+    "loc_id": "WHITNEY-SPARK_STRIKE",
+    "title": "Spark Strike",
+    "desc": "Deal  damage.",
+    "presence": "full",
+    "beat": "Whitney basic spark strike pose, quill thrusting a cyan spark",
+    "prompt_full": "Whitney basic spark strike pose, quill thrusting a cyan spark. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney basic spark strike pose, quill thrusting a cyan spark. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-spore_bomb",
+    "loc_id": "WHITNEY-SPORE_BOMB",
+    "title": "Spore Crump",
+    "desc": "Apply  Vulnerable.\nAmplify : Apply to ALL enemies.",
+    "presence": "none",
+    "beat": "Mushroom spore bomb with ink cloud burst",
+    "prompt_full": "Mushroom spore bomb with ink cloud burst. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Mushroom spore bomb with ink cloud burst. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-sprinkle_star_n_heart",
+    "loc_id": "WHITNEY-SPRINKLE_STAR_N_HEART",
+    "title": "Sprinkle Star & Heart",
+    "desc": "Your Inkbound will not be removed upon trigger this turn.\nAmplify : Gain  Inkbound.",
+    "presence": "full",
+    "beat": "Whitney sprinkling star and heart ink confetti joyfully",
+    "prompt_full": "Whitney sprinkling star and heart ink confetti joyfully. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney sprinkling star and heart ink confetti joyfully. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-sprinkle_star_seal",
+    "loc_id": "WHITNEY-SPRINKLE_STAR_SEAL",
+    "title": "Sprinkle Star Seal",
+    "desc": "Apply  Weak.",
+    "presence": "partial",
+    "beat": "Whitney stamping a sprinkle-star seal onto a card",
+    "prompt_full": "Whitney stamping a sprinkle-star seal onto a card. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney stamping a sprinkle-star seal onto a card. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-star_barrage",
+    "loc_id": "WHITNEY-STAR_BARRAGE",
+    "title": "Star Barrage",
+    "desc": "Deal  damage  .\nIncrease the hit count of this card by 1.",
+    "presence": "full",
+    "beat": "Whitney unleashing a barrage of star-shaped ink projectiles",
+    "prompt_full": "Whitney unleashing a barrage of star-shaped ink projectiles. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney unleashing a barrage of star-shaped ink projectiles. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-star_dust_reverie",
+    "loc_id": "WHITNEY-STAR_DUST_REVERIE",
+    "title": "Stardust Reverie",
+    "desc": "Put your Hand back into your Draw Pile, then add that many plus one random cards into your Hand.",
+    "presence": "full",
+    "beat": "Whitney in a dreamy star-dust reverie, floating weightless",
+    "prompt_full": "Whitney in a dreamy star-dust reverie, floating weightless. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney in a dreamy star-dust reverie, floating weightless. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-starlight_typhoon",
+    "loc_id": "WHITNEY-STARLIGHT_TYPHOON",
+    "title": "Starlight Typhoon",
+    "desc": "Exhaust ALL non-Attack cards in your Hand. Add  Spark into your Hand for each card Exhausted.",
+    "presence": "full",
+    "beat": "Whitney spinning a typhoon of starlight ink wind",
+    "prompt_full": "Whitney spinning a typhoon of starlight ink wind. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney spinning a typhoon of starlight ink wind. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-super_nova",
+    "loc_id": "WHITNEY-SUPER_NOVA",
+    "title": "Supernova",
+    "desc": "Burn your Hand at end of your turn.\nBurn no longer burn you.\nGain  Strength whenever a Burn is Burnt.",
+    "presence": "full",
+    "beat": "Whitney at the center of a super-nova ink explosion",
+    "prompt_full": "Whitney at the center of a super-nova ink explosion. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney at the center of a super-nova ink explosion. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-super_perseids",
+    "loc_id": "WHITNEY-SUPER_PERSEIDS",
+    "title": "Super Perseids",
+    "desc": "Deal  damage to a random enemy  times.",
+    "presence": "full",
+    "beat": "Whitney under an intensified super perseid meteor storm",
+    "prompt_full": "Whitney under an intensified super perseid meteor storm. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney under an intensified super perseid meteor storm. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-test_whitney_card",
+    "loc_id": "WHITNEY-TEST_WHITNEY_CARD",
+    "title": "whitney-test_whitney_card",
+    "desc": "",
+    "presence": "none",
+    "beat": "Simple test seal glyph on parchment still life",
+    "prompt_full": "Simple test seal glyph on parchment still life. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Simple test seal glyph on parchment still life. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-treasure_hunter",
+    "loc_id": "WHITNEY-TREASURE_HUNTER",
+    "title": "Treasure Hunter",
+    "desc": "Deal  damage.\nIf Fatal against a Boss or Elite, gain an additional Relic reward.",
+    "presence": "full",
+    "beat": "Whitney hunting treasure with a glowing map and ink compass",
+    "prompt_full": "Whitney hunting treasure with a glowing map and ink compass. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney hunting treasure with a glowing map and ink compass. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-ultra_short_wave",
+    "loc_id": "WHITNEY-ULTRA_SHORT_WAVE",
+    "title": "Ultimate Shortwave",
+    "desc": "Gain  and  Saturate.\nIncrease this card's  gain by 1 and Saturate gain by .",
+    "presence": "full",
+    "beat": "Whitney blasting an ultra short-wave radio ink pulse",
+    "prompt_full": "Whitney blasting an ultra short-wave radio ink pulse. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney blasting an ultra short-wave radio ink pulse. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-unstable_bomb",
+    "loc_id": "WHITNEY-UNSTABLE_BOMB",
+    "title": "Unstable Bomb",
+    "desc": "Deal  to  damage to a random enemy  times.\nAmplify : hit  more .",
+    "presence": "none",
+    "beat": "Unstable bomb of volatile ink about to detonate",
+    "prompt_full": "Unstable bomb of volatile ink about to detonate. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Unstable bomb of volatile ink about to detonate. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-up_sweep",
+    "loc_id": "WHITNEY-UP_SWEEP",
+    "title": "Up Sweep",
+    "desc": "Deal  damage. Gain  Saturate.",
+    "presence": "full",
+    "beat": "Whitney upward sweeping slash that charges saturate on hit",
+    "prompt_full": "Whitney upward sweeping slash that charges saturate on hit. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney upward sweeping slash that charges saturate on hit. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-violent_tricholoma",
+    "loc_id": "WHITNEY-VIOLENT_TRICHOLOMA",
+    "title": "Violent Tricholoma",
+    "desc": "Draw  cards.\nGain  Saturate.",
+    "presence": "none",
+    "beat": "Violent tricholoma mushroom monster made of ink and spores",
+    "prompt_full": "Violent tricholoma mushroom monster made of ink and spores. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Violent tricholoma mushroom monster made of ink and spores. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-walpurgisnacht",
+    "loc_id": "WHITNEY-WALPURGISNACHT",
+    "title": "Walpurgisnacht",
+    "desc": "Whenever you play an Enchanted card, gain  next turn.\nAmplify : At the start of your turn, Enchant  random  in your hand",
+    "presence": "full",
+    "beat": "Whitney in Walpurgisnacht night festival of flying witches and fire ink",
+    "prompt_full": "Whitney in Walpurgisnacht night festival of flying witches and fire ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney in Walpurgisnacht night festival of flying witches and fire ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-white_dwarf",
+    "loc_id": "WHITNEY-WHITE_DWARF",
+    "title": "White Dwarf",
+    "desc": "Can only be played if there are 4 or fewer cards in your Hand.Deal  times the damage of your Discard Pile and add 2 Burn",
+    "presence": "none",
+    "beat": "White dwarf star of compressed pale ink light, dense and small",
+    "prompt_full": "White dwarf star of compressed pale ink light, dense and small. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "White dwarf star of compressed pale ink light, dense and small. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-witch_leyline",
+    "loc_id": "WHITNEY-WITCH_LEYLINE",
+    "title": "Witch Leyline",
+    "desc": "Deal  damage.\nAdd a Burn into your Hand.",
+    "presence": "full",
+    "beat": "Whitney standing on a glowing witch leyline of cyan ground ink",
+    "prompt_full": "Whitney standing on a glowing witch leyline of cyan ground ink. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney standing on a glowing witch leyline of cyan ground ink. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  },
+  {
+    "stem": "whitney-witch_of_greed",
+    "loc_id": "WHITNEY-WITCH_OF_GREED",
+    "title": "Witch of Greed",
+    "desc": "At the end of combat, gain  Gold.\nAmplify :Also obtain a Potion.",
+    "presence": "full",
+    "beat": "Whitney as witch of greed clutching potions and gold greedily but cute",
+    "prompt_full": "Whitney as witch of greed clutching potions and gold greedily but cute. SAME character as reference. STS2 bold painted graphic card portrait, chunky brush, simplified shapes, limited facial detail, strong silhouette. Indigo/violet ink-mage palette, cyan glowing quill accents. Same character as reference: young woman blonde wavy hair, bright blue eyes, round black glasses, tall indigo witch hat matching dress. No text, no UI, no watermark, no green screen.",
+    "prompt_none": "Whitney as witch of greed clutching potions and gold greedily but cute. STS2 bold painted graphic still life, indigo violet cyan ink palette, no person, no text, no UI."
+  }
+]

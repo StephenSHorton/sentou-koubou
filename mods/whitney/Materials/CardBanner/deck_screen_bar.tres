@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cfhntefaapr07"]
+
+[ext_resource type="Shader" uid="uid://dwsynkopd77wm" path="res://Materials/CardBanner/deck_screen_bar.gdshader" id="1_87hex"]
+
+[resource]
+shader = ExtResource("1_87hex")

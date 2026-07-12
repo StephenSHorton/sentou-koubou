@@ -1,51 +1,53 @@
 # Whitney — Atelier Witch (char 2)
 
-Playable character for **sentou-koubou**: elemental seals, dual mana, Witch Hat Atelier vibes.
+Playable character for **sentou-koubou**. Kit architecture adapted from **MarisaMod**
+(Amplify / Inkbound / Saturate), rethemed to atelier ink + violet chrome.
 
-## Kit
+> Mechanics source: local `STS2_MarisaMod` (Flynn, Hell, Hohner_257, Kishin, Samsara).
+> Art is temporary placeholders until Whitney-generated portraits ship.
+
+## Kit (v0.2 rearch)
 
 | Piece | Detail |
 |-------|--------|
-| HP | 74 |
-| Starter relic | **Traveler's Inkpot** — +3 Ink at combat start |
-| Starting deck | 4× Spark, 3× Ripple, **Channel Ink**, **Novice Seal**, **Apprentice Seal** |
-| Dual mana | **Energy** (turn) + **Ink** (banked power counter) |
-| Compendium | Pool `SeenByDefault` — full kit visible without a run |
-| Pillars | Fire / Water / Earth / Air + confluence spends |
+| HP | 75 |
+| Starter relic | **Mini Hakkero** (Marisa starter — rename/reart later) |
+| Starting deck | 4× Spark Strike, 4× Defend, Master Spark, Up Sweep |
+| Pillars | **Amplify** (energy kicker), **Inkbound** (was Starlit), **Saturate** (was Charge-Up) |
+| Compendium | Pool `SeenByDefault` |
+| Combat body | Whitney Blender flipbook (`WhitneyCombatVisuals`) |
+| Color | Indigo / violet `#4B3F8C` (D3 clothing lock) |
 
-### Dual purpose
+### Theme mapping
 
-Most cards do two jobs — e.g. damage **and** gain Ink, Block **and** Ink, Weak **and** Ink, damage **and** Attunement.
-
-**Attunement** is real: attacks deal +Attunement damage while stacked.
-
-### Ink loop (taught in starter)
-
-```
-Inkpot / Channel / Novice → bank Ink → Apprentice Seal / Seal Press / Grand Seal…
-```
-
-| Card | Role |
-|------|------|
-| Channel Ink | Gain 2 Ink |
-| Novice Seal | 0-cost: dmg + Weak + gain Ink |
-| **Apprentice Seal** | Spend 1 Ink → 8 dmg + Weak (starter spender) |
-| **Seal Press** (C) | Spend 1 Ink → dmg + Block |
-| Grand Seal / Focused Stroke / Cataclysm… | Bigger spenders |
-
-Playability: cards require **Energy and Ink** (`base.IsPlayable && CanAfford`).
+| Marisa | Whitney |
+|--------|---------|
+| Starlit | **Inkbound** |
+| Charge-Up | **Saturate** (loc; class still `ChargeUpPower`) |
+| Amplify | Amplify (kept) |
+| Spark cards | Spark (ink sparks) |
+| Blue frames | Violet energy orbs + WTN frames (recolor pass pending) |
 
 ## Build
 
 ```bash
-cp Directory.Build.props.example Directory.Build.props
-# set GodotPath if publishing .pck
-dotnet restore && dotnet build
+# From mods/whitney (worktree: sentou-koubou-whitney-marisa)
+dotnet build -c Release
 ```
 
-Requires BaseLib + STS2 + MegaDot/Godot 4.5.1. Quit STS2 before build (DLL lock).
+Requires BaseLib + STS2. Quit STS2 before build (DLL lock).
 
-## Art
+PckPacker packs image assets under `Whitney/`. Godot `.tscn` scenes from Marisa live in
+`_marisa_scenes_unused/` until a MegaDot export is wired; combat uses flipbook, not spine.
 
-Character select / portraits: Whitney D3 lock (indigo hat matches dress, blue eyes, cyan quill).
-Card regen via locked portrait + `tools/install_sts2_art.py`.
+## Art TODO
+
+- Full card portrait pass (STS2 graphic, D3 Whitney lock) — replace `Whitney/images/cards/whitney-*.png`
+- Violet recolor of `images/ui/bg_*_WTN.png` frames
+- Power/relic cutouts in ink palette
+- Starter relic rename + art (Inkpot / quill fantasy)
+- Catalog: regenerate `docs/whitney-cards.json` from new kit
+
+## Design note
+
+See `docs/whitney-marisa-rearch.md`.

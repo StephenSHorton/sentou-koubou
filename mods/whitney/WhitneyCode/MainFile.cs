@@ -1,9 +1,13 @@
 using Godot;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
 
 namespace Whitney.WhitneyCode;
 
+/// <summary>
+/// Whitney mod entry — kit architecture adapted from MarisaMod (Amplify / Inkbound / Saturate).
+/// Mechanics: Amplify kicker costs, Inkbound enchantment (was Starlit), Saturate (was Charge-Up).
+/// Theme: atelier ink witch, violet frames, Energy + brush fantasy.
+/// </summary>
 [ModInitializer(nameof(Initialize))]
 public partial class MainFile : Node
 {
@@ -15,9 +19,8 @@ public partial class MainFile : Node
 
     public static void Initialize()
     {
-        Logger.Info("Whitney loaded — atelier witch, Energy + Ink. Draw carefully.");
-
-        var harmony = new Harmony(ModId);
-        harmony.PatchAll();
+        // Marisa-style Entry.Init: script lookup + Harmony patches (Amplify cost UI, etc.)
+        Entry.Init();
+        Logger.Info("Whitney loaded — Marisa architecture, ink theme (Inkbound / Amplify / Saturate).");
     }
 }

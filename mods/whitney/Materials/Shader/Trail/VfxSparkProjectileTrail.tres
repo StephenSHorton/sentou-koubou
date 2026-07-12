@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://croem2yk678ru"]
+
+[ext_resource type="Shader" uid="uid://buomftddd2wvg" path="res://Materials/Shader/Trail/GlowTrail.gdshader" id="1_hh1fr"]
+
+[resource]
+resource_local_to_scene = true
+shader = ExtResource("1_hh1fr")
+shader_parameter/spark_color = Color(0.4, 0.8352941, 0.84705883, 1)
+shader_parameter/visible = 1.0

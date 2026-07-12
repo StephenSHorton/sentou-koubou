@@ -1,0 +1,15 @@
+{
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.loss": "{character} was too [gold]{event}[/gold] and ate something {pronounSubject} shouldn't have.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.BIG_MUSHROOM.description": "You bite into the [orange]Big Mushroom[/orange]. Its flesh is firm, starchy, and satisfying. The more you eat, the hungrier you become, as if the mushroom is feeding on your hunger.\n\n[sine]So yummy... you enter a [red]food coma[/red].[/sine]\nThis gluttony will cost you.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.FRAGRANT_MUSHROOM.description": "You sample the [green]Fragrant One[/green], a small woody mushroom with a delicate scent of shellfish...\n\nA burst of energy spurs you to run, jump, and [gold]rigorously train[/gold]!\nThen, a sudden [red][jitter]stabbing pain[/jitter][/red] hits you as the living fungi struggles within you during its brief final moments.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.INITIAL.description": "[sine]How long has it been since you ate?\n...wait, what's that fantastic smell?[/sine]\n\nFollowing the scent, you reach a cozy campground with all manner of [green]tasty mushrooms[/green] being cooked! You don't consider the safety of eating these mushrooms because you are so hungry.\n(So hungry that you don't notice the dead adventurer)",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.INITIAL.options.BIG_MUSHROOM.title": "Big Mushroom",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.INITIAL.options.FRAGRANT_MUSHROOM.title": "Fragrant Mushroom",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.MEDLEY.description": "The [green]medley of mushrooms[/green] looks the most appetizing so you go for that.\n\n[red][jitter]“MY MUSHROOMS!!”[/jitter][/red]\n\nThe adventurer, presumably dead, attacks you! You knock them out, and with a seasoning of guilt, finish the rest of the fine meal.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.title": "Hungry for Mushrooms",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.pages.PACK_THEM_ALL.description": "You packed them all and left.\nAs you hit the road, the mysterious [sine]HUNGER[/sine] gone without a trace.\nYou're pretty sure that you can do much more fantastic things with the mushrooms than merely putting them into your mouth.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.options.PACK_THEM_ALL.description": "Why choose only one when you can take them all?",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.options.PACK_THEM_ALL.title": "Pack them all",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.options.LOCKED.description": "You are not that greedy.",
+  "WHITNEY-HUNGRY_FOR_MUSHROOMS_WHITNEY.options.LOCKED.title": "Locked"
+}
