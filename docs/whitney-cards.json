@@ -192,6 +192,27 @@
     ]
   },
   {
+    "id": "apprenticeseal",
+    "name": "Apprentice Seal",
+    "rarity": "Basic",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/apprenticeseal.jpg",
+    "lines": [
+      "Costs 1 Ink.",
+      "Deal 8 (11) damage.",
+      "Apply 1 Weak."
+    ],
+    "keywords": [
+      "Ink"
+    ],
+    "stats": {
+      "damage": 8,
+      "weak": 1
+    },
+    "flavor": "First seal that spends the pot."
+  },
+  {
     "id": "emberstroke",
     "name": "Ember Stroke",
     "rarity": "common",
@@ -436,10 +457,13 @@
     "cost": 1,
     "art": "assets/whitney/sealpress.jpg",
     "lines": [
-      "Deal N damage.",
-      "Gain N [gold]Block[/gold]."
+      "Costs 1 Ink.",
+      "Deal 9 (12) damage.",
+      "Gain 4 (6) Block."
     ],
-    "keywords": []
+    "keywords": [
+      "Ink"
+    ]
   },
   {
     "id": "wetstone",

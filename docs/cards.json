@@ -147,18 +147,19 @@
   {
     "id": "feed",
     "name": "Feeding",
-    "rarity": "basic",
+    "rarity": "Uncommon",
     "type": "Skill",
     "cost": 1,
     "lines": [
       "Heal the enemy to full HP.",
-      "Exhaust."
+      "Heal yourself to full HP."
     ],
     "keywords": [
       "Exhaust"
     ],
-    "flavor": "Don't.",
-    "art": "assets/brennen/feed.jpg"
+    "flavor": "You both ate.",
+    "art": "assets/brennen/feed.jpg",
+    "stats": {}
   },
   {
     "id": "gank",
@@ -1332,5 +1333,122 @@
     ],
     "keywords": [],
     "stats": "Multiplayer"
+  },
+  {
+    "id": "proxycamp",
+    "name": "Proxy Camp",
+    "rarity": "Uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/proxycamp.jpg",
+    "lines": [
+      "Block is not removed at the start of your turn."
+    ],
+    "keywords": [
+      "Barricade"
+    ],
+    "stats": {},
+    "flavor": "Pink ward. Stay planted."
+  },
+  {
+    "id": "towerdive",
+    "name": "Tower Dive",
+    "rarity": "Uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/brennen/towerdive.jpg",
+    "lines": [
+      "Deal damage equal to your Block.",
+      "Upgrade: twice your Block."
+    ],
+    "keywords": [],
+    "stats": {},
+    "flavor": "All-in on the wall."
+  },
+  {
+    "id": "maintank",
+    "name": "Main Tank",
+    "rarity": "Uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/brennen/maintank.jpg",
+    "lines": [
+      "You take double damage from attacks.",
+      "Start of turn: gain 6 (9) Block."
+    ],
+    "keywords": [],
+    "stats": {
+      "block_sot": 6
+    },
+    "flavor": "Solo frontline."
+  },
+  {
+    "id": "secondwind",
+    "name": "Second Wind",
+    "rarity": "Common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/secondwind.jpg",
+    "lines": [
+      "Heal 7 (10) HP."
+    ],
+    "keywords": [
+      "Exhaust"
+    ],
+    "stats": {
+      "heal": 7
+    },
+    "flavor": "Patch after the int."
+  },
+  {
+    "id": "recall",
+    "name": "Recall",
+    "rarity": "Uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/brennen/recall.jpg",
+    "lines": [
+      "Heal 12 (16) HP."
+    ],
+    "keywords": [
+      "Exhaust"
+    ],
+    "stats": {
+      "heal": 12
+    },
+    "flavor": "Back to lane."
+  },
+  {
+    "id": "buyback",
+    "name": "Buyback",
+    "rarity": "Common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/brennen/buyback.jpg",
+    "lines": [
+      "Take 3 damage.",
+      "Gain 1 (2) Energy."
+    ],
+    "keywords": [],
+    "stats": {},
+    "flavor": "Pay life for blue."
+  },
+  {
+    "id": "bloodforblue",
+    "name": "Blood for Blue",
+    "rarity": "Uncommon",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/brennen/bloodforblue.jpg",
+    "lines": [
+      "Take 6 damage.",
+      "Gain 2 (3) Energy.",
+      "Draw 1 card."
+    ],
+    "keywords": [
+      "Exhaust"
+    ],
+    "stats": {},
+    "flavor": "Throw for tempo."
   }
 ]
