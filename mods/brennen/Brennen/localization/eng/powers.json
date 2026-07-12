@@ -1,3 +1,18 @@
 {
-  
+  "BRENNEN-FED_POWER.title": "Fed",
+  "BRENNEN-FED_POWER.description": "Your snowball. Never decreases during combat. You have {Amount} [gold]Fed[/gold].",
+  "BRENNEN-SNOWBALL_POWER.title": "Snowball",
+  "BRENNEN-SNOWBALL_POWER.description": "Whenever you gain [gold]Fed[/gold], gain {Amount} [gold]Block[/gold] and draw 1 card.",
+  "BRENNEN-BOUNTY_POWER.title": "Bounty",
+  "BRENNEN-BOUNTY_POWER.description": "[gold]Fed[/gold] you gain is doubled while [gold]Tilted[/gold].",
+  "BRENNEN-MAIN_CHARACTER_POWER.title": "Main Character",
+  "BRENNEN-MAIN_CHARACTER_POWER.description": "While [gold]Tilted[/gold], gain 1 Energy at the start of your turn.",
+  "BRENNEN-GUARDIAN_ANGEL_POWER.title": "Guardian Angel",
+  "BRENNEN-GUARDIAN_ANGEL_POWER.description": "The first time you would die, heal to [blue]25%[/blue] of your max HP instead.",
+  "BRENNEN-MENTAL_BOOM_POWER.title": "Mental Boom",
+  "BRENNEN-MENTAL_BOOM_POWER.description": "Whenever you lose HP during your turn, draw {Amount} card(s).",
+  "BRENNEN-FOR_THE_TEAM_POWER.title": "For the Team",
+  "BRENNEN-FOR_THE_TEAM_POWER.description": "Whenever you lose HP during your turn, gain {Amount} [gold]Vigor[/gold].",
+  "BRENNEN-PENTA_SECURE_POWER.title": "Penta Secure",
+  "BRENNEN-PENTA_SECURE_POWER.description": "Whenever you play your 5th Attack in a single turn, that Attack triggers twice."
 }

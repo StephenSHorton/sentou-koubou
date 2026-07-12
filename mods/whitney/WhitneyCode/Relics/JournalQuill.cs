@@ -3,7 +3,6 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using Whitney.WhitneyCode.Powers;
 
 namespace Whitney.WhitneyCode.Relics;
 
@@ -23,9 +22,9 @@ public sealed class JournalQuill : WhitneyRelic
         IReadOnlyList<MegaCrit.Sts2.Core.Entities.Creatures.Creature> participants,
         MegaCrit.Sts2.Core.Combat.ICombatState combatState)
     {
-        if (Owner?.Creature is null) return;
-        if (!participants.Contains(Owner.Creature)) return;
-        _lastInk = Owner.Creature.GetPower<InkPower>()?.Amount ?? 0;
+        if (Owner is null) return;
+        if (Owner.Creature is null || !participants.Contains(Owner.Creature)) return;
+        _lastInk = Ink.Get(Owner);
         _drewThisTurn = false;
         await Task.CompletedTask;
     }
@@ -34,8 +33,8 @@ public sealed class JournalQuill : WhitneyRelic
     {
         if (_drewThisTurn) return;
         if (cardPlay.Card.Owner != Owner) return;
-        if (Owner?.Creature is null) return;
-        var ink = Owner.Creature.GetPower<InkPower>()?.Amount ?? 0;
+        if (Owner is null) return;
+        var ink = Ink.Get(Owner);
         if (ink > _lastInk)
         {
             _drewThisTurn = true;

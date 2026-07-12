@@ -11,8 +11,8 @@ using Whitney.WhitneyCode.Relics;
 namespace Whitney.WhitneyCode.Character;
 
 /// <summary>
-/// Whitney — atelier witch. Energy + Ink dual mana, four elements, dual-purpose seals.
-/// Starter teaches gen (Channel/Novice) and spend (Apprentice Seal). Attunement scales all attacks.
+/// Whitney — atelier witch. Energy + Ink (Stars UI) dual mana, four elements, dual-purpose seals.
+/// Starter teaches gen (Channel Ink) and spend (Apprentice Seal). Attunement scales seals.
 /// Family pack character #2 for sentou-koubou.
 /// </summary>
 public class Whitney : PlaceholderCharacterModel
@@ -33,6 +33,12 @@ public class Whitney : PlaceholderCharacterModel
     public override CharacterGender Gender => CharacterGender.Feminine;
     public override int StartingHp => 74;
 
+    /// <summary>
+    /// Show the star counter next to Energy (Regent placement). Whitney uses
+    /// stars as <b>Ink</b> via <see cref="Ink"/> helpers / card star costs.
+    /// </summary>
+    public override bool ShouldAlwaysShowStarCounter => true;
+
     public override IEnumerable<CardModel> StartingDeck =>
     [
         ModelDb.Card<Spark>(),
@@ -42,8 +48,8 @@ public class Whitney : PlaceholderCharacterModel
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
         ModelDb.Card<Ripple>(),
+        ModelDb.Card<Ripple>(),
         ModelDb.Card<ChannelInk>(),
-        ModelDb.Card<NoviceSeal>(),
         ModelDb.Card<ApprenticeSeal>(),
     ];
 

@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using Whitney.WhitneyCode.Cards;
 
 namespace Whitney.WhitneyCode.Powers;
 
 /// <summary>
-/// Elemental focus. Dual-purpose Earth/setup cards stack this;
-/// all of Whitney's attacks deal +Amount damage while it is up.
+/// Elemental focus. Only buffs <b>Seals</b> (Whitney cards with SealCost &gt; 0):
+/// +Amount damage and +Amount block from seal cards.
 /// </summary>
 public sealed class AttunementPower : WhitneyPower
 {
@@ -19,8 +21,11 @@ public sealed class AttunementPower : WhitneyPower
     public override List<(string, string)>? Localization =>
         new PowerLoc(
             "Attunement",
-            "Your seals are charged. Attacks deal additional damage equal to [gold]Attunement[/gold].",
-            "Attacks deal {Amount} additional damage.");
+            "Your seals are charged. Seal cards deal and block additional equal to [gold]Attunement[/gold].",
+            "Seals deal and block {Amount} additional.");
+
+    private static bool IsSealSource(CardModel? cardSource) =>
+        cardSource is WhitneyCard { IsSeal: true };
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -31,10 +36,30 @@ public sealed class AttunementPower : WhitneyPower
     {
         if (dealer != Owner)
             return amount;
-        // Only powered attack/move damage (matches Strength-style scaling).
         if ((props & ValueProp.Move) == 0)
             return amount;
         if ((props & ValueProp.Unpowered) != 0)
+            return amount;
+        if (!IsSealSource(cardSource))
+            return amount;
+
+        return amount + Amount;
+    }
+
+    public override decimal ModifyBlockAdditive(
+        Creature? target,
+        decimal amount,
+        ValueProp props,
+        CardModel? cardSource,
+        CardPlay? cardPlay)
+    {
+        if (target != Owner)
+            return amount;
+        if ((props & ValueProp.Move) == 0)
+            return amount;
+        if ((props & ValueProp.Unpowered) != 0)
+            return amount;
+        if (!IsSealSource(cardSource))
             return amount;
 
         return amount + Amount;

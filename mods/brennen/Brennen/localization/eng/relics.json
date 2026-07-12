@@ -1,32 +1,25 @@
 {
   "BRENNEN-DUO_QUEUE.title": "Duo Queue",
-  "BRENNEN-DUO_QUEUE.description": "At the start of combat turn 1, gain [blue]1[/blue] Energy.",
+  "BRENNEN-DUO_QUEUE.description": "Whenever you kill an enemy, gain [blue]1[/blue] [gold]Fed[/gold].",
   "BRENNEN-DUO_QUEUE.flavor": "I've got you. Don't feed.",
-
   "BRENNEN-RANKED_BADGE.title": "Ranked Badge",
   "BRENNEN-RANKED_BADGE.description": "At the start of each combat, gain [blue]6[/blue] [gold]Block[/gold].",
   "BRENNEN-RANKED_BADGE.flavor": "Promo season.",
-
   "BRENNEN-REPORT_TOTEM.title": "Report Totem",
   "BRENNEN-REPORT_TOTEM.description": "At the start of each combat, apply [blue]1[/blue] [gold]Weak[/gold] to ALL enemies.",
   "BRENNEN-REPORT_TOTEM.flavor": "After the game.",
-
   "BRENNEN-FIRST_BLOOD_COIN.title": "First Blood Coin",
   "BRENNEN-FIRST_BLOOD_COIN.description": "The first time you kill an enemy each combat, gain [blue]1[/blue] Energy.",
   "BRENNEN-FIRST_BLOOD_COIN.flavor": "First blood gold.",
-
   "BRENNEN-MUTE_CHARM.title": "Mute Charm",
   "BRENNEN-MUTE_CHARM.description": "At the start of each combat, apply [blue]1[/blue] [gold]Frail[/gold] to ALL enemies.",
   "BRENNEN-MUTE_CHARM.flavor": "/mute all",
-
   "BRENNEN-WARD_TOKEN.title": "Ward Token",
   "BRENNEN-WARD_TOKEN.description": "At the start of each combat, draw [blue]1[/blue] card.",
   "BRENNEN-WARD_TOKEN.flavor": "Pink ward up.",
-
   "BRENNEN-GG_BADGE.title": "GG Badge",
   "BRENNEN-GG_BADGE.description": "Whenever you kill an enemy, gain [blue]4[/blue] [gold]Block[/gold].",
   "BRENNEN-GG_BADGE.flavor": "gg ez",
-
   "BRENNEN-FLAME_KEYCAP.title": "Flame Keycap",
   "BRENNEN-FLAME_KEYCAP.description": "The first [gold]Attack[/gold] you play each turn grants [blue]3[/blue] [gold]Vigor[/gold].",
   "BRENNEN-FLAME_KEYCAP.flavor": "All-chat flamer."
