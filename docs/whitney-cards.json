@@ -1,0 +1,1302 @@
+[
+  {
+    "id": "travelersinkpot",
+    "name": "Traveler's Inkpot",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/travelersinkpot.png",
+    "lines": [
+      "At the start of each combat,",
+      "gain 3 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
+    "stats": "Starter",
+    "flavor": "Never travel without a full pot."
+  },
+  {
+    "id": "apprenticeribbon",
+    "name": "Apprentice Ribbon",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/apprenticeribbon.png",
+    "lines": [
+      "At the start of combat turn 1,",
+      "draw 1 card."
+    ],
+    "keywords": [],
+    "stats": "Common",
+    "flavor": "Tied by the master."
+  },
+  {
+    "id": "sealedvial",
+    "name": "Sealed Vial",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/sealedvial.png",
+    "lines": [
+      "At the start of each combat,",
+      "gain 2 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
+    "stats": "Common",
+    "flavor": "Emergency reserve."
+  },
+  {
+    "id": "elementalribbon",
+    "name": "Elemental Ribbon",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/elementalribbon.png",
+    "lines": [
+      "Whenever you play a Power,",
+      "gain 1 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ],
+    "stats": "Uncommon",
+    "flavor": "Four colors, one bow."
+  },
+  {
+    "id": "mosscharm",
+    "name": "Moss Charm",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/mosscharm.png",
+    "lines": [
+      "Whenever you spend Ink,",
+      "gain 3 Block."
+    ],
+    "keywords": [
+      "Ink",
+      "Block"
+    ],
+    "stats": "Uncommon",
+    "flavor": "Earth remembers."
+  },
+  {
+    "id": "fourcolorpalette",
+    "name": "Four-Color Palette",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/fourcolorpalette.png",
+    "lines": [
+      "At the start of each combat,",
+      "gain 2 Attunement."
+    ],
+    "keywords": [
+      "Attunement"
+    ],
+    "stats": "Uncommon",
+    "flavor": "Coral, teal, moss, lilac."
+  },
+  {
+    "id": "journalquill",
+    "name": "Journal Quill",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/journalquill.png",
+    "lines": [
+      "The first time you gain Ink each turn,",
+      "draw 1 card."
+    ],
+    "keywords": [
+      "Ink"
+    ],
+    "stats": "Rare",
+    "flavor": "Notes become spells."
+  },
+  {
+    "id": "brushcase",
+    "name": "Brush Case",
+    "rarity": "relic",
+    "type": "Relic",
+    "cost": null,
+    "art": "assets/whitney/brushcase.png",
+    "lines": [
+      "At the start of combat turn 1,",
+      "gain 1 Energy."
+    ],
+    "keywords": [
+      "Energy"
+    ],
+    "stats": "Common",
+    "flavor": "Pack the brushes."
+  },
+  {
+    "id": "spark",
+    "name": "Spark",
+    "rarity": "basic",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/spark.jpg",
+    "lines": [
+      "Deal 6 damage."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "ripple",
+    "name": "Ripple",
+    "rarity": "basic",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/ripple.jpg",
+    "lines": [
+      "Gain 5 Block."
+    ],
+    "keywords": [
+      "Block"
+    ]
+  },
+  {
+    "id": "channelink",
+    "name": "Channel Ink",
+    "rarity": "basic",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/channelink.jpg",
+    "lines": [
+      "Gain 2 Ink."
+    ],
+    "keywords": [
+      "Ink"
+    ]
+  },
+  {
+    "id": "noviceseal",
+    "name": "Novice Seal",
+    "rarity": "basic",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/noviceseal.jpg",
+    "lines": [
+      "Deal 5 damage.",
+      "Apply 1 Weak.",
+      "Gain 1 Ink."
+    ],
+    "keywords": [
+      "Weak",
+      "Ink"
+    ]
+  },
+  {
+    "id": "emberstroke",
+    "name": "Ember Stroke",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/emberstroke.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "cinderpin",
+    "name": "Cinder Pin",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/cinderpin.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "tideguard",
+    "name": "Tideguard",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/tideguard.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "rippleward",
+    "name": "Ripple Ward",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/rippleward.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "stoneglyph",
+    "name": "Stone Glyph",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/stoneglyph.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "dustseal",
+    "name": "Dust Seal",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/dustseal.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "gust",
+    "name": "Gust",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/gust.jpg",
+    "lines": [
+      "Deal N damage N times.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "zephyrdraft",
+    "name": "Zephyr Draft",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/zephyrdraft.jpg",
+    "lines": [
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "drenchseal",
+    "name": "Drench Seal",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/drenchseal.jpg",
+    "lines": [
+      "Apply N [gold]Weak[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "sparkler",
+    "name": "Sparkler",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/sparkler.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "puddle",
+    "name": "Puddle",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/puddle.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "pebble",
+    "name": "Pebble",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/pebble.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "draft",
+    "name": "Draft",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/draft.jpg",
+    "lines": [
+      "Draw N card.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "sootmark",
+    "name": "Soot Mark",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/sootmark.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Apply N [gold]Vulnerable[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "mosscoat",
+    "name": "Moss Coat",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/mosscoat.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Draw N card."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "crossbreeze",
+    "name": "Crossbreeze",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/crossbreeze.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "inkdrip",
+    "name": "Ink Drip",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/inkdrip.jpg",
+    "lines": [
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "sealpress",
+    "name": "Seal Press",
+    "rarity": "common",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/sealpress.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Block[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "wetstone",
+    "name": "Wet Stone",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/wetstone.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Apply N [gold]Weak[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water+Earth"
+  },
+  {
+    "id": "kindling",
+    "name": "Kindling",
+    "rarity": "common",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/kindling.jpg",
+    "lines": [
+      "Gain N [gold]Vigor[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "magmaflow",
+    "name": "Magma Flow",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/magmaflow.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire+Earth"
+  },
+  {
+    "id": "steamburst",
+    "name": "Steam Burst",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/steamburst.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire+Water"
+  },
+  {
+    "id": "grandseal",
+    "name": "Grand Seal",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/grandseal.jpg",
+    "lines": [
+      "Costs [blue]3[/blue] [gold]Ink[/gold].",
+      "Deal N damage."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "focusedstroke",
+    "name": "Focused Stroke",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/focusedstroke.jpg",
+    "lines": [
+      "Costs [blue]2[/blue] [gold]Ink[/gold].",
+      "Deal N damage.",
+      "Deals additional damage equal to your [gold]Attunement[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "blizzardseal",
+    "name": "Blizzard Seal",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/blizzardseal.jpg",
+    "lines": [
+      "Apply N [gold]Weak[/gold] to ALL enemies.",
+      "Draw N card."
+    ],
+    "keywords": [],
+    "element": "Water+Air"
+  },
+  {
+    "id": "lightningrod",
+    "name": "Lightning Rod",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/lightningrod.jpg",
+    "lines": [
+      "Costs [blue]2[/blue] [gold]Ink[/gold].",
+      "Deal N damage."
+    ],
+    "keywords": [],
+    "element": "Air+Fire"
+  },
+  {
+    "id": "tidaldraw",
+    "name": "Tidal Draw",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/tidaldraw.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "quake",
+    "name": "Quake",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/whitney/quake.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "updraft",
+    "name": "Updraft",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/updraft.jpg",
+    "lines": [
+      "Draw N card.",
+      "Gain Energy.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "inkwell",
+    "name": "Ink Well",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/inkwell.jpg",
+    "lines": [
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "scorchline",
+    "name": "Scorch Line",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/scorchline.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Apply N [gold]Vulnerable[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "icelattice",
+    "name": "Ice Lattice",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/icelattice.jpg",
+    "lines": [
+      "Apply N [gold]Weak[/gold] and N [gold]Vulnerable[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "rootbind",
+    "name": "Rootbind",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/rootbind.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Apply N [gold]Frail[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "galecut",
+    "name": "Gale Cut",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/galecut.jpg",
+    "lines": [
+      "Deal N damage N times.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "refill",
+    "name": "Refill",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/refill.jpg",
+    "lines": [
+      "Gain N [gold]Ink[/gold].",
+      "[gold]Exhaust[/gold]."
+    ],
+    "keywords": [
+      "Exhaust"
+    ]
+  },
+  {
+    "id": "confluence",
+    "name": "Confluence",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/confluence.jpg",
+    "lines": [
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "searingmist",
+    "name": "Searing Mist",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/searingmist.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire+Water"
+  },
+  {
+    "id": "mudslide",
+    "name": "Mudslide",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/mudslide.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth+Water"
+  },
+  {
+    "id": "tempest",
+    "name": "Tempest",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/whitney/tempest.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies N times.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "attunedeep",
+    "name": "Deep Attune",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/attunedeep.jpg",
+    "lines": [
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "inkshield",
+    "name": "Ink Shield",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/inkshield.jpg",
+    "lines": [
+      "Costs [blue]2[/blue] [gold]Ink[/gold].",
+      "Gain N [gold]Block[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "sealstorm",
+    "name": "Sealstorm",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/sealstorm.jpg",
+    "lines": [
+      "Deal N damage to a random enemy N times.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "whirlpool",
+    "name": "Whirlpool",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/whirlpool.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Draw N cards."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "pyreglyph",
+    "name": "Pyre Glyph",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/pyreglyph.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Attunement[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire+Earth"
+  },
+  {
+    "id": "skywrite",
+    "name": "Skywrite",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/skywrite.jpg",
+    "lines": [
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold].",
+      "[gold]Exhaust[/gold]."
+    ],
+    "keywords": [
+      "Exhaust"
+    ],
+    "element": "Air"
+  },
+  {
+    "id": "floodgate",
+    "name": "Floodgate",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 2,
+    "art": "assets/whitney/floodgate.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "emberarmor",
+    "name": "Ember Armor",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/emberarmor.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Vigor[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "stonescript",
+    "name": "Stone Script",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/stonescript.jpg",
+    "lines": [
+      "At the start of your turn, gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "windscript",
+    "name": "Wind Script",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/windscript.jpg",
+    "lines": [
+      "At the start of your turn, draw N card."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "tidescript",
+    "name": "Tide Script",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/tidescript.jpg",
+    "lines": [
+      "At the start of your turn, gain N [gold]Block[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "flamescript",
+    "name": "Flame Script",
+    "rarity": "uncommon",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/flamescript.jpg",
+    "lines": [
+      "At the start of your turn, gain N [gold]Vigor[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "dualquill",
+    "name": "Dual Quill",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/dualquill.jpg",
+    "lines": [
+      "Gain N [gold]Ink[/gold].",
+      "Gain Energy."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "spray",
+    "name": "Spray",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/spray.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "bedrock",
+    "name": "Bedrock",
+    "rarity": "uncommon",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/bedrock.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "afterburn",
+    "name": "Afterburn",
+    "rarity": "uncommon",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/afterburn.jpg",
+    "lines": [
+      "Deal N damage.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "elementalform",
+    "name": "Elemental Form",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 2,
+    "art": "assets/whitney/elementalform.jpg",
+    "lines": [
+      "At the start of your turn, gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "cataclysmseal",
+    "name": "Cataclysm Seal",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/cataclysmseal.jpg",
+    "lines": [
+      "Costs [blue]5[/blue] [gold]Ink[/gold].",
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] and N [gold]Vulnerable[/gold] to ALL enemies."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "monsoon",
+    "name": "Monsoon",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/monsoon.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "wildfire",
+    "name": "Wildfire",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/whitney/wildfire.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "mountainheart",
+    "name": "Mountain Heart",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 2,
+    "art": "assets/whitney/mountainheart.jpg",
+    "lines": [
+      "Gain N [gold]Block[/gold].",
+      "Gain N [gold]Attunement[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "skyfall",
+    "name": "Skyfall",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/skyfall.jpg",
+    "lines": [
+      "Costs [blue]4[/blue] [gold]Ink[/gold].",
+      "Deal N damage."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "perfectseal",
+    "name": "Perfect Seal",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/perfectseal.jpg",
+    "lines": [
+      "Costs [blue]3[/blue] [gold]Ink[/gold].",
+      "Deal N damage.",
+      "Deals additional damage equal to your [gold]Attunement[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "inktide",
+    "name": "Ink Tide",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/inktide.jpg",
+    "lines": [
+      "Gain N [gold]Ink[/gold].",
+      "[gold]Exhaust[/gold]."
+    ],
+    "keywords": [
+      "Exhaust"
+    ]
+  },
+  {
+    "id": "fourwinds",
+    "name": "Four Winds",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/fourwinds.jpg",
+    "lines": [
+      "Draw N cards.",
+      "Gain Energy.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "obsidianscript",
+    "name": "Obsidian Script",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 2,
+    "art": "assets/whitney/obsidianscript.jpg",
+    "lines": [
+      "Whenever you play an Attack, gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "aquascript",
+    "name": "Aqua Script",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/aquascript.jpg",
+    "lines": [
+      "Whenever you gain [gold]Block[/gold] from a card, gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "galeform",
+    "name": "Gale Form",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 3,
+    "art": "assets/whitney/galeform.jpg",
+    "lines": [
+      "At the start of your turn, draw N cards."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "infernoseal",
+    "name": "Inferno Seal",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/infernoseal.jpg",
+    "lines": [
+      "Costs [blue]4[/blue] [gold]Ink[/gold].",
+      "Deal N damage to ALL enemies."
+    ],
+    "keywords": [],
+    "element": "Fire"
+  },
+  {
+    "id": "glacier",
+    "name": "Glacier",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 2,
+    "art": "assets/whitney/glacier.jpg",
+    "lines": [
+      "Apply N [gold]Weak[/gold] and N [gold]Vulnerable[/gold] to ALL enemies."
+    ],
+    "keywords": [],
+    "element": "Water"
+  },
+  {
+    "id": "tectonic",
+    "name": "Tectonic",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/whitney/tectonic.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Gain N [gold]Block[/gold]."
+    ],
+    "keywords": [],
+    "element": "Earth"
+  },
+  {
+    "id": "hurricane",
+    "name": "Hurricane",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 2,
+    "art": "assets/whitney/hurricane.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies N times.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": [],
+    "element": "Air"
+  },
+  {
+    "id": "masterwork",
+    "name": "Masterwork",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/masterwork.jpg",
+    "lines": [
+      "Costs [blue]3[/blue] [gold]Ink[/gold].",
+      "Draw N cards.",
+      "Gain Energy."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "livingink",
+    "name": "Living Ink",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 1,
+    "art": "assets/whitney/livingink.jpg",
+    "lines": [
+      "At the start of your turn, gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "eclipseseal",
+    "name": "Eclipse Seal",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/eclipseseal.jpg",
+    "lines": [
+      "Costs [blue]3[/blue] [gold]Ink[/gold].",
+      "Deal N damage.",
+      "Apply N [gold]Weak[/gold] and N [gold]Vulnerable[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "sanctuary",
+    "name": "Sanctuary",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 1,
+    "art": "assets/whitney/sanctuary.jpg",
+    "lines": [
+      "Costs [blue]3[/blue] [gold]Ink[/gold].",
+      "Gain N [gold]Block[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "prismburst",
+    "name": "Prism Burst",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/prismburst.jpg",
+    "lines": [
+      "Costs [blue]2[/blue] [gold]Ink[/gold].",
+      "Deal N damage to ALL enemies."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "eternalquill",
+    "name": "Eternal Quill",
+    "rarity": "rare",
+    "type": "Power",
+    "cost": 2,
+    "art": "assets/whitney/eternalquill.jpg",
+    "lines": [
+      "Whenever you play a Skill, gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "cataclysmlite",
+    "name": "Lesser Cataclysm",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 1,
+    "art": "assets/whitney/cataclysmlite.jpg",
+    "lines": [
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] to ALL enemies.",
+      "Gain N [gold]Ink[/gold]."
+    ],
+    "keywords": []
+  },
+  {
+    "id": "archive",
+    "name": "Archive",
+    "rarity": "rare",
+    "type": "Skill",
+    "cost": 0,
+    "art": "assets/whitney/archive.jpg",
+    "lines": [
+      "Draw N cards.",
+      "Gain N [gold]Ink[/gold].",
+      "[gold]Exhaust[/gold]."
+    ],
+    "keywords": [
+      "Exhaust"
+    ]
+  },
+  {
+    "id": "worldseal",
+    "name": "World Seal",
+    "rarity": "rare",
+    "type": "Attack",
+    "cost": 0,
+    "art": "assets/whitney/worldseal.jpg",
+    "lines": [
+      "Costs [blue]6[/blue] [gold]Ink[/gold].",
+      "Deal N damage to ALL enemies.",
+      "Apply N [gold]Weak[/gold] and N [gold]Vulnerable[/gold] to ALL enemies."
+    ],
+    "keywords": []
+  }
+]

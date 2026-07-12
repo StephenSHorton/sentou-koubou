@@ -25,6 +25,7 @@ Short alternatives considered: `yagura` (櫓), `tounobori` (塔登り), `toukura
 | Folder | Status | What it is |
 |--------|--------|------------|
 | [`mods/brennen`](mods/brennen) | Full character kit | **Brennen** — League-flavored; 20/35/25 reward pool + starter basics |
+- `mods/whitney` — Whitney, atelier witch (Energy + Ink dual mana)
 | [`mods/henro`](mods/henro) | Vertical slice | **The Pilgrim (遍路)** — starter character template slice |
 
 ### Card catalog
@@ -82,3 +83,4 @@ Official tool: [megacrit/sts2-mod-uploader](https://github.com/megacrit/sts2-mod
 ## License
 
 Each mod may declare its own license. Unless noted otherwise, new code here is MIT.
+

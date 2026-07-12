@@ -1,0 +1,16 @@
+{
+  "WHITNEY-WHITNEY.title": "Whitney",
+  "WHITNEY-WHITNEY.titleObject": "Whitney",
+  "WHITNEY-WHITNEY.description": "An atelier witch who paints the four elements in living ink.\nDual mana: [gold]Energy[/gold] and [gold]Ink[/gold]. Dual-purpose seals.",
+  "WHITNEY-WHITNEY.pronounObject": "her",
+  "WHITNEY-WHITNEY.possessiveAdjective": "her",
+  "WHITNEY-WHITNEY.pronounPossessive": "hers",
+  "WHITNEY-WHITNEY.pronounSubject": "she",
+  "WHITNEY-WHITNEY.goldMonologue": "[sine]Ink and coin — both for the craft.[/sine]",
+  "WHITNEY-WHITNEY.eventDeathPrevention": "The seal is not finished.",
+  "WHITNEY-WHITNEY.aromaPrinciple": "[sine][purple]Draw true. Waste nothing.[/purple][/sine]",
+  "WHITNEY-WHITNEY.cardsModifierTitle": "Whitney Cards",
+  "WHITNEY-WHITNEY.cardsModifierDescription": "Whitney cards will now appear in rewards and shops.",
+  "WHITNEY-WHITNEY.banter.alive.endTurnPing": "[sine]The ink still flows...[/sine]",
+  "WHITNEY-WHITNEY.banter.dead.endTurnPing": "..."
+}

@@ -1,0 +1,314 @@
+#!/usr/bin/env python3
+"""Generate Whitney's full vanilla-sized card pool (Ink dual mana, 4 elements).
+
+Basics (hand): Spark, Ripple, ChannelInk, NoviceSeal
+Rewards: 20 Common / 35 Uncommon / 25 Rare
+"""
+
+from __future__ import annotations
+
+import json
+import shutil
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+MOD = ROOT / "mods" / "whitney"
+CODE = MOD / "WhitneyCode" / "Cards"
+LOC = MOD / "Whitney" / "localization" / "eng" / "cards.json"
+DOCS = ROOT / "docs" / "whitney-cards.json"
+PORTRAITS = MOD / "Whitney" / "images" / "card_portraits"
+PORTRAITS_BIG = PORTRAITS / "big"
+
+HAND = {
+    "Spark", "Ripple", "ChannelInk", "NoviceSeal", "WhitneyCard",
+}
+
+# Generated reward cards only (basics stay hand-authored)
+KIT: list[dict] = [
+    # ===== COMMON 16 gen + 0 hand = wait, all 20 generated? Hand has 0 commons.
+    # All 20 commons generated:
+    dict(name="EmberStroke", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_ink", dmg=8, ink=1, up_dmg=3, title="Ember Stroke", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="CinderPin", rarity="Common", cost=0, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_ink", dmg=4, ink=1, up_dmg=2, title="Cinder Pin", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Tideguard", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="block_ink", block=8, ink=1, up_block=3, title="Tideguard", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="RippleWard", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="block_ink", block=5, ink=1, up_block=2, title="Ripple Ward", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="StoneGlyph", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_attune", dmg=6, attune=2, up_dmg=2, up_attune=1, title="Stone Glyph", element="Earth",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="DustSeal", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="block_attune", block=6, attune=1, up_block=2, title="Dust Seal", element="Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="Gust", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_hits_ink", dmg=3, hits=2, ink=1, up_hits=1, title="Gust", element="Air",
+         lines=["Deal {Damage:diff()} damage {Repeat:diff()} times.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="ZephyrDraft", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="draw_ink", cards=2, ink=1, up_cards=1, title="Zephyr Draft", element="Air",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="DrenchSeal", rarity="Common", cost=0, card_type="Skill", target="AnyEnemy",
+         tmpl="weak_ink", weak=2, ink=1, up_weak=1, title="Drench Seal", element="Water",
+         lines=["Apply {Weak:diff()} [gold]Weak[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Sparkler", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_ink", dmg=7, ink=1, up_dmg=3, title="Sparkler", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Puddle", rarity="Common", cost=0, card_type="Skill", target="Self",
+         tmpl="block_ink", block=4, ink=1, up_block=2, title="Puddle", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Pebble", rarity="Common", cost=0, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_attune", dmg=3, attune=1, up_dmg=2, title="Pebble", element="Earth",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="Draft", rarity="Common", cost=0, card_type="Skill", target="Self",
+         tmpl="draw_ink", cards=1, ink=1, up_cards=1, title="Draft", element="Air",
+         lines=["Draw {Cards:diff()} card.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="SootMark", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_vuln_ink", dmg=6, vuln=1, ink=1, up_dmg=2, title="Soot Mark", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="MossCoat", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="block_draw", block=7, cards=1, up_block=3, title="Moss Coat", element="Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} card."]),
+    dict(name="Crossbreeze", rarity="Common", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_ink", dmg=4, ink=1, up_dmg=2, title="Crossbreeze", element="Air",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="InkDrip", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="ink_only", ink=2, up_ink=1, title="Ink Drip",
+         lines=["Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="SealPress", rarity="Common", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_block", dmg=5, block=3, up_dmg=2, up_block=2, title="Seal Press",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold]."]),
+    dict(name="WetStone", rarity="Common", cost=1, card_type="Skill", target="AnyEnemy",
+         tmpl="weak_block", weak=1, block=5, up_block=2, title="Wet Stone", element="Water+Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Apply {Weak:diff()} [gold]Weak[/gold]."]),
+    dict(name="Kindling", rarity="Common", cost=1, card_type="Skill", target="Self",
+         tmpl="vigor_ink", vigor=3, ink=1, up_vigor=2, title="Kindling", element="Fire",
+         lines=["Gain {Vigor:diff()} [gold]Vigor[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+
+    # ===== UNCOMMON 32 gen + 3 hand keepers? GrandSeal, SteamBurst, FocusedStroke already exist as hand = 3
+    # Generated uncommon = 32 so total 35 with 3 hand
+]
+
+# Hand uncommon/rare keepers counted separately in assert
+HAND_U = {"GrandSeal", "SteamBurst", "FocusedStroke"}
+HAND_R = {"ElementalForm", "CataclysmSeal"}
+
+# Continue uncommon list (32)
+KIT += [
+    dict(name="MagmaFlow", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_block_ink", dmg=8, block=4, ink=1, up_dmg=3, title="Magma Flow", element="Fire+Earth",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="SteamBurst", rarity="Uncommon", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_weak_all_ink", dmg=7, weak=1, ink=1, up_dmg=3, title="Steam Burst", element="Fire+Water",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="GrandSeal", rarity="Uncommon", cost=0, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_attack", dmg=18, ink_cost=3, up_dmg=6, title="Grand Seal",
+         lines=["Costs [blue]3[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage."]),
+    dict(name="FocusedStroke", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_attune_attack", dmg=12, ink_cost=2, up_dmg=4, title="Focused Stroke",
+         lines=["Costs [blue]2[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage.", "Deals additional damage equal to your [gold]Attunement[/gold]."]),
+    dict(name="BlizzardSeal", rarity="Uncommon", cost=1, card_type="Skill", target="AllEnemies",
+         tmpl="weak_all_draw", weak=1, cards=1, up_weak=1, title="Blizzard Seal", element="Water+Air",
+         lines=["Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.", "Draw {Cards:diff()} card."]),
+    dict(name="LightningRod", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_attack", dmg=16, ink_cost=2, up_dmg=4, title="Lightning Rod", element="Air+Fire",
+         lines=["Costs [blue]2[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage."]),
+    dict(name="TidalDraw", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="block_draw_ink", block=6, cards=2, ink=1, up_block=2, title="Tidal Draw", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Quake", rarity="Uncommon", cost=2, card_type="Attack", target="AllEnemies",
+         tmpl="attack_attune", dmg=9, attune=2, up_dmg=3, title="Quake", element="Earth",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="Updraft", rarity="Uncommon", cost=0, card_type="Skill", target="Self",
+         tmpl="draw_energy_ink", cards=1, energy=1, ink=1, up_cards=1, title="Updraft", element="Air",
+         lines=["Draw {Cards:diff()} card.", "Gain {Energy:energyIcons()}.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="InkWell", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="ink_only", ink=3, up_ink=1, title="Ink Well",
+         lines=["Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="ScorchLine", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_vuln_ink", dmg=9, vuln=2, ink=1, up_dmg=3, title="Scorch Line", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Apply {Vulnerable:diff()} [gold]Vulnerable[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="IceLattice", rarity="Uncommon", cost=1, card_type="Skill", target="AnyEnemy",
+         tmpl="weak_vuln", weak=1, vuln=1, up_weak=1, title="Ice Lattice", element="Water",
+         lines=["Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold]."]),
+    dict(name="Rootbind", rarity="Uncommon", cost=1, card_type="Skill", target="AnyEnemy",
+         tmpl="frail_block", frail=2, block=6, up_block=3, title="Rootbind", element="Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Apply {Frail:diff()} [gold]Frail[/gold]."]),
+    dict(name="GaleCut", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_hits_ink", dmg=4, hits=3, ink=1, up_dmg=1, title="Gale Cut", element="Air",
+         lines=["Deal {Damage:diff()} damage {Repeat:diff()} times.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Refill", rarity="Uncommon", cost=0, card_type="Skill", target="Self",
+         tmpl="ink_only", ink=2, up_ink=1, keywords=["Exhaust"], title="Refill",
+         lines=["Gain {Ink:diff()} [gold]Ink[/gold].", "[gold]Exhaust[/gold]."]),
+    dict(name="Confluence", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="draw_ink", cards=2, ink=2, up_ink=1, title="Confluence",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="SearingMist", rarity="Uncommon", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_weak_all_ink", dmg=5, weak=1, ink=1, up_dmg=2, title="Searing Mist", element="Fire+Water",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Mudslide", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="block_ink", block=12, ink=1, up_block=4, title="Mudslide", element="Earth+Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Tempest", rarity="Uncommon", cost=2, card_type="Attack", target="AllEnemies",
+         tmpl="attack_hits_ink", dmg=3, hits=3, ink=1, up_hits=1, title="Tempest", element="Air",
+         lines=["Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="AttuneDeep", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="attune_only", attune=3, up_attune=1, title="Deep Attune", element="Earth",
+         lines=["Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="InkShield", rarity="Uncommon", cost=0, card_type="Skill", target="Self",
+         tmpl="ink_spend_block", block=14, ink_cost=2, up_block=4, title="Ink Shield",
+         lines=["Costs [blue]2[/blue] [gold]Ink[/gold].", "Gain {Block:diff()} [gold]Block[/gold]."]),
+    dict(name="Sealstorm", rarity="Uncommon", cost=1, card_type="Attack", target="RandomEnemy",
+         tmpl="attack_hits_ink", dmg=3, hits=4, ink=1, up_dmg=1, title="Sealstorm",
+         lines=["Deal {Damage:diff()} damage to a random enemy {Repeat:diff()} times.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Whirlpool", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="block_draw", block=5, cards=3, up_cards=1, title="Whirlpool", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} cards."]),
+    dict(name="PyreGlyph", rarity="Uncommon", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_attune_ink", dmg=7, attune=1, ink=1, up_dmg=3, title="Pyre Glyph", element="Fire+Earth",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Attune:diff()} [gold]Attunement[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Skywrite", rarity="Uncommon", cost=0, card_type="Skill", target="Self",
+         tmpl="draw_ink", cards=2, ink=1, up_cards=1, keywords=["Exhaust"], title="Skywrite", element="Air",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold].", "[gold]Exhaust[/gold]."]),
+    dict(name="Floodgate", rarity="Uncommon", cost=2, card_type="Skill", target="Self",
+         tmpl="block_ink", block=16, ink=2, up_block=4, title="Floodgate", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="EmberArmor", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="block_vigor", block=8, vigor=3, up_block=3, title="Ember Armor", element="Fire",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Vigor:diff()} [gold]Vigor[/gold]."]),
+    dict(name="StoneScript", rarity="Uncommon", cost=1, card_type="Power", target="Self",
+         tmpl="power_attune_tick", attune=1, up_attune=1, title="Stone Script", element="Earth",
+         lines=["At the start of your turn, gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="WindScript", rarity="Uncommon", cost=1, card_type="Power", target="Self",
+         tmpl="power_draw_tick", cards=1, up_cards=0, title="Wind Script", element="Air",
+         lines=["At the start of your turn, draw {Cards:diff()} card."]),
+    dict(name="TideScript", rarity="Uncommon", cost=1, card_type="Power", target="Self",
+         tmpl="power_block_tick", block=3, up_block=1, title="Tide Script", element="Water",
+         lines=["At the start of your turn, gain {Block:diff()} [gold]Block[/gold]."]),
+    dict(name="FlameScript", rarity="Uncommon", cost=1, card_type="Power", target="Self",
+         tmpl="power_vigor_tick", vigor=2, up_vigor=1, title="Flame Script", element="Fire",
+         lines=["At the start of your turn, gain {Vigor:diff()} [gold]Vigor[/gold]."]),
+    dict(name="DualQuill", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="ink_energy", ink=1, energy=1, up_ink=1, title="Dual Quill",
+         lines=["Gain {Ink:diff()} [gold]Ink[/gold].", "Gain {Energy:energyIcons()}."]),
+    dict(name="Spray", rarity="Uncommon", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_ink", dmg=6, ink=1, up_dmg=2, title="Spray", element="Water",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Bedrock", rarity="Uncommon", cost=1, card_type="Skill", target="Self",
+         tmpl="block_attune", block=10, attune=2, up_block=3, title="Bedrock", element="Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="Afterburn", rarity="Uncommon", cost=0, card_type="Attack", target="AnyEnemy",
+         tmpl="attack_ink", dmg=5, ink=1, up_dmg=3, title="Afterburn", element="Fire",
+         lines=["Deal {Damage:diff()} damage.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+]
+
+# HAND_U already in KIT - don't double count. Assert uses KIT only for gen files.
+# Remove hand keepers from being "extra" - they're in KIT and will be overwritten by generator which is fine.
+
+KIT_R = [
+    dict(name="ElementalForm", rarity="Rare", cost=2, card_type="Power", target="Self",
+         tmpl="brennen_power_ink_form", ink=1, up_ink=1, title="Elemental Form",
+         lines=["At the start of your turn, gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="CataclysmSeal", rarity="Rare", cost=0, card_type="Attack", target="AllEnemies",
+         tmpl="ink_spend_aoe_debuff", dmg=14, weak=2, vuln=2, ink_cost=5, up_dmg=4, title="Cataclysm Seal",
+         lines=["Costs [blue]5[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage to ALL enemies.",
+                "Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies."]),
+    dict(name="Monsoon", rarity="Rare", cost=1, card_type="Skill", target="Self",
+         tmpl="block_draw_ink", block=10, cards=3, ink=2, up_block=4, title="Monsoon", element="Water",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Wildfire", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
+         tmpl="attack_weak_all_ink", dmg=12, weak=2, ink=2, up_dmg=4, title="Wildfire", element="Fire",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="MountainHeart", rarity="Rare", cost=2, card_type="Skill", target="Self",
+         tmpl="block_attune", block=18, attune=3, up_block=6, title="Mountain Heart", element="Earth",
+         lines=["Gain {Block:diff()} [gold]Block[/gold].", "Gain {Attune:diff()} [gold]Attunement[/gold]."]),
+    dict(name="Skyfall", rarity="Rare", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_attack", dmg=28, ink_cost=4, up_dmg=8, title="Skyfall", element="Air",
+         lines=["Costs [blue]4[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage."]),
+    dict(name="PerfectSeal", rarity="Rare", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_attune_attack", dmg=16, ink_cost=3, up_dmg=5, title="Perfect Seal",
+         lines=["Costs [blue]3[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage.", "Deals additional damage equal to your [gold]Attunement[/gold]."]),
+    dict(name="InkTide", rarity="Rare", cost=0, card_type="Skill", target="Self",
+         tmpl="ink_only", ink=5, up_ink=2, keywords=["Exhaust"], title="Ink Tide",
+         lines=["Gain {Ink:diff()} [gold]Ink[/gold].", "[gold]Exhaust[/gold]."]),
+    dict(name="FourWinds", rarity="Rare", cost=1, card_type="Skill", target="Self",
+         tmpl="draw_energy_ink", cards=2, energy=2, ink=2, up_cards=1, title="Four Winds", element="Air",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="ObsidianScript", rarity="Rare", cost=2, card_type="Power", target="Self",
+         tmpl="power_ink_on_attack", ink=1, up_ink=1, title="Obsidian Script",
+         lines=["Whenever you play an Attack, gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="AquaScript", rarity="Rare", cost=1, card_type="Power", target="Self",
+         tmpl="power_ink_on_block", ink=1, up_ink=0, title="Aqua Script",
+         lines=["Whenever you gain [gold]Block[/gold] from a card, gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="GaleForm", rarity="Rare", cost=3, card_type="Power", target="Self",
+         tmpl="power_draw_tick", cards=2, up_cards=0, title="Gale Form", element="Air",
+         lines=["At the start of your turn, draw {Cards:diff()} cards."]),
+    dict(name="InfernoSeal", rarity="Rare", cost=0, card_type="Attack", target="AllEnemies",
+         tmpl="ink_spend_attack", dmg=20, ink_cost=4, up_dmg=6, title="Inferno Seal", element="Fire",
+         lines=["Costs [blue]4[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage to ALL enemies."]),
+    dict(name="Glacier", rarity="Rare", cost=2, card_type="Skill", target="AllEnemies",
+         tmpl="weak_vuln_all", weak=2, vuln=2, up_weak=1, title="Glacier", element="Water",
+         lines=["Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies."]),
+    dict(name="Tectonic", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
+         tmpl="attack_block", dmg=10, block=10, up_dmg=3, up_block=3, title="Tectonic", element="Earth",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Gain {Block:diff()} [gold]Block[/gold]."]),
+    dict(name="Hurricane", rarity="Rare", cost=2, card_type="Attack", target="AllEnemies",
+         tmpl="attack_hits_ink", dmg=4, hits=4, ink=2, up_dmg=1, title="Hurricane", element="Air",
+         lines=["Deal {Damage:diff()} damage to ALL enemies {Repeat:diff()} times.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Masterwork", rarity="Rare", cost=1, card_type="Skill", target="Self",
+         tmpl="ink_spend_draw_energy", cards=3, energy=2, ink_cost=3, up_cards=1, title="Masterwork",
+         lines=["Costs [blue]3[/blue] [gold]Ink[/gold].", "Draw {Cards:diff()} cards.", "Gain {Energy:energyIcons()}."]),
+    dict(name="LivingInk", rarity="Rare", cost=1, card_type="Power", target="Self",
+         tmpl="brennen_power_ink_form", ink=2, up_ink=1, title="Living Ink",
+         lines=["At the start of your turn, gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="EclipseSeal", rarity="Rare", cost=1, card_type="Attack", target="AnyEnemy",
+         tmpl="ink_spend_aoe_debuff_single", dmg=15, weak=2, vuln=2, ink_cost=3, up_dmg=5, title="Eclipse Seal",
+         lines=["Costs [blue]3[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage.",
+                "Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold]."]),
+    dict(name="Sanctuary", rarity="Rare", cost=1, card_type="Skill", target="Self",
+         tmpl="ink_spend_block", block=25, ink_cost=3, up_block=8, title="Sanctuary",
+         lines=["Costs [blue]3[/blue] [gold]Ink[/gold].", "Gain {Block:diff()} [gold]Block[/gold]."]),
+    dict(name="PrismBurst", rarity="Rare", cost=0, card_type="Attack", target="AllEnemies",
+         tmpl="ink_spend_attack", dmg=8, ink_cost=2, up_dmg=3, title="Prism Burst",
+         lines=["Costs [blue]2[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage to ALL enemies."]),
+    dict(name="EternalQuill", rarity="Rare", cost=2, card_type="Power", target="Self",
+         tmpl="power_ink_on_skill", ink=1, up_ink=1, title="Eternal Quill",
+         lines=["Whenever you play a Skill, gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="CataclysmLite", rarity="Rare", cost=1, card_type="Attack", target="AllEnemies",
+         tmpl="attack_weak_all_ink", dmg=9, weak=1, ink=2, up_dmg=3, title="Lesser Cataclysm",
+         lines=["Deal {Damage:diff()} damage to ALL enemies.", "Apply {Weak:diff()} [gold]Weak[/gold] to ALL enemies.", "Gain {Ink:diff()} [gold]Ink[/gold]."]),
+    dict(name="Archive", rarity="Rare", cost=0, card_type="Skill", target="Self",
+         tmpl="draw_ink", cards=4, ink=1, up_cards=1, keywords=["Exhaust"], title="Archive",
+         lines=["Draw {Cards:diff()} cards.", "Gain {Ink:diff()} [gold]Ink[/gold].", "[gold]Exhaust[/gold]."]),
+    dict(name="WorldSeal", rarity="Rare", cost=0, card_type="Attack", target="AllEnemies",
+         tmpl="ink_spend_aoe_debuff", dmg=18, weak=2, vuln=2, ink_cost=6, up_dmg=5, title="World Seal",
+         lines=["Costs [blue]6[/blue] [gold]Ink[/gold].", "Deal {Damage:diff()} damage to ALL enemies.",
+                "Apply {Weak:diff()} [gold]Weak[/gold] and {Vulnerable:diff()} [gold]Vulnerable[/gold] to ALL enemies."]),
+]
+
+# KIT currently has commons + uncommons that include GrandSeal etc.
+# Fix uncommon count: remove duplicates of hand cards from double-generation
+# Current KIT has GrandSeal, SteamBurst, FocusedStroke in uncommon section - good, generator overwrites them.
+
+KIT = [c for c in KIT if c["rarity"] == "Common"] + [c for c in KIT if c["rarity"] == "Uncommon"] + KIT_R
+
+def main():
+    by = {"Common": [], "Uncommon": [], "Rare": []}
+    for c in KIT:
+        by[c["rarity"]].append(c)
+    print(f"C={len(by['Common'])} U={len(by['Uncommon'])} R={len(by['Rare'])}")
+    assert len(by["Common"]) == 20, len(by["Common"])
+    assert len(by["Uncommon"]) == 35, len(by["Uncommon"])
+    assert len(by["Rare"]) == 25, len(by["Rare"])
+    print("counts OK — writing card sources via templates would be large.")
+    print("This script validates kit definition; use expand_whitney_cards.py for C# gen.")
+    # write kit json for art pipeline
+    out = ROOT / "tools" / "whitney_kit_def.json"
+    out.write_text(json.dumps(KIT, indent=2) + "\n", encoding="utf-8")
+    print("wrote", out, "entries", len(KIT))
+
+if __name__ == "__main__":
+    main()
