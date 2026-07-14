@@ -44,8 +44,29 @@ public static class TierBonusService
 
     public static IReadOnlyList<TierBonus> AllPool => Pool;
 
-    public static bool Has(CardModel card, TierBonus bonus) =>
-        Table.TryGetValue(card, out BonusBox? box) && box.Bonuses.Contains(bonus);
+    public static bool Has(CardModel card, TierBonus bonus)
+    {
+        if (Table.TryGetValue(card, out BonusBox? box) && box.Bonuses.Contains(bonus))
+            return true;
+
+        // Also detect vanilla enchant leaves (e.g. Clone inside MultiEnchantment)
+        // so rest-site options still work if only the leaf was applied.
+        if (bonus == TierBonus.Clone && HasVanillaCloneLeaf(card))
+            return true;
+        if (bonus == TierBonus.Imbued && HasVanillaLeaf(card, "Imbued"))
+            return true;
+        if (bonus == TierBonus.PerfectFit && HasVanillaLeaf(card, "PerfectFit"))
+            return true;
+
+        return false;
+    }
+
+    private static bool HasVanillaCloneLeaf(CardModel card) =>
+        MultiEnchantCompat.EnumerateLeafEnchantments(card).Any(e => e is Clone);
+
+    private static bool HasVanillaLeaf(CardModel card, string typeName) =>
+        MultiEnchantCompat.EnumerateLeafEnchantments(card)
+            .Any(e => e.GetType().Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
 
     public static int ReplayBonus(CardModel? card)
     {
@@ -111,6 +132,35 @@ public static class TierBonusService
             return;
         foreach (TierBonus b in GetAll(source))
             Apply(dest, b);
+
+        // If source has a vanilla Clone leaf but no CWT flag yet, still mark dest.
+        if (HasVanillaCloneLeaf(source))
+            TrackFlagOnly(dest, TierBonus.Clone);
+    }
+
+    /// <summary>
+    /// Copy bonus flags onto a freshly cloned card without re-running Enchant/keywords
+    /// (CloneCard already copied enchantments / upgrade state).
+    /// </summary>
+    public static void CopyFlagsOnly(CardModel source, CardModel dest)
+    {
+        if (ReferenceEquals(source, dest))
+            return;
+        foreach (TierBonus b in GetAll(source))
+            TrackFlagOnly(dest, b);
+        if (HasVanillaCloneLeaf(source) || HasVanillaCloneLeaf(dest))
+            TrackFlagOnly(dest, TierBonus.Clone);
+        if (HasVanillaLeaf(source, "Imbued") || HasVanillaLeaf(dest, "Imbued"))
+            TrackFlagOnly(dest, TierBonus.Imbued);
+        if (HasVanillaLeaf(source, "PerfectFit") || HasVanillaLeaf(dest, "PerfectFit"))
+            TrackFlagOnly(dest, TierBonus.PerfectFit);
+    }
+
+    private static void TrackFlagOnly(CardModel card, TierBonus bonus)
+    {
+        if (bonus == TierBonus.None)
+            return;
+        Table.GetOrCreateValue(card).Bonuses.Add(bonus);
     }
 
     public static void Apply(CardModel card, TierBonus bonus)
@@ -182,21 +232,52 @@ public static class TierBonusService
 
         try
         {
-            EnchantmentModel? applied = bonus switch
+            // Under UncappedSpire, CardCmd.Enchant<T> may return MultiEnchantment (the
+            // card's top enchant) so a cast-to-T can fail even when the leaf was added.
+            // Check leaves after the call instead of trusting the generic return type.
+            switch (bonus)
             {
-                TierBonus.Clone => CardCmd.Enchant<Clone>(card, 1m),
-                TierBonus.SoulsPower => CardCmd.Enchant<SoulsPower>(card, 1m),
-                TierBonus.Steady => CardCmd.Enchant<Steady>(card, 1m),
-                TierBonus.Spiral => CardCmd.Enchant<Spiral>(card, 1m),
-                TierBonus.Imbued => CardCmd.Enchant<Imbued>(card, 1m),
-                TierBonus.PerfectFit => CardCmd.Enchant<PerfectFit>(card, 1m),
-                TierBonus.RoyallyApproved => CardCmd.Enchant<RoyallyApproved>(card, 1m),
-                _ => null,
-            };
-            return applied != null;
+                case TierBonus.Clone:
+                    CardCmd.Enchant<Clone>(card, 1m);
+                    return HasVanillaCloneLeaf(card);
+                case TierBonus.SoulsPower:
+                    CardCmd.Enchant<SoulsPower>(card, 1m);
+                    return HasVanillaLeaf(card, "SoulsPower");
+                case TierBonus.Steady:
+                    CardCmd.Enchant<Steady>(card, 1m);
+                    return HasVanillaLeaf(card, "Steady");
+                case TierBonus.Spiral:
+                    CardCmd.Enchant<Spiral>(card, 1m);
+                    return HasVanillaLeaf(card, "Spiral");
+                case TierBonus.Imbued:
+                    CardCmd.Enchant<Imbued>(card, 1m);
+                    return HasVanillaLeaf(card, "Imbued");
+                case TierBonus.PerfectFit:
+                    CardCmd.Enchant<PerfectFit>(card, 1m);
+                    return HasVanillaLeaf(card, "PerfectFit");
+                case TierBonus.RoyallyApproved:
+                    CardCmd.Enchant<RoyallyApproved>(card, 1m);
+                    return HasVanillaLeaf(card, "RoyallyApproved");
+                default:
+                    return false;
+            }
         }
         catch (Exception e)
         {
+            // Enchant may have still added the leaf before the cast failed — re-check.
+            bool present = bonus switch
+            {
+                TierBonus.Clone => HasVanillaCloneLeaf(card),
+                TierBonus.Imbued => HasVanillaLeaf(card, "Imbued"),
+                TierBonus.PerfectFit => HasVanillaLeaf(card, "PerfectFit"),
+                TierBonus.Steady => HasVanillaLeaf(card, "Steady"),
+                TierBonus.Spiral => HasVanillaLeaf(card, "Spiral"),
+                TierBonus.SoulsPower => HasVanillaLeaf(card, "SoulsPower"),
+                TierBonus.RoyallyApproved => HasVanillaLeaf(card, "RoyallyApproved"),
+                _ => false,
+            };
+            if (present)
+                return true;
             MainFile.Logger.Warn(
                 $"Could not stack vanilla {bonus} (rank preserved via flags): {e.Message}");
             return false;

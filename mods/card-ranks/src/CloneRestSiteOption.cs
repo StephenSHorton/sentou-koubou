@@ -13,6 +13,8 @@ namespace CardRanks;
 /// <summary>
 /// Campfire action for cards that rolled the Clone bonus: copy one such card into the deck.
 /// Free action (does not spend rest) when enabled.
+/// Uses <see cref="MegaCrit.Sts2.Core.Runs.ICardScope.CloneCard"/> like vanilla Clone rest option
+/// — never <c>pick.ToMutable()</c> on a deck card (throws MutableModelException).
 /// </summary>
 public sealed class CloneRestSiteOption : RestSiteOption
 {
@@ -62,16 +64,18 @@ public sealed class CloneRestSiteOption : RestSiteOption
 
         try
         {
-            CardModel copy = pick.ToMutable();
-            // Fresh copy keeps rank enchantment type via ToMutable; re-track tier bonuses.
-            foreach (TierBonus b in TierBonusService.GetAll(pick))
-                TierBonusService.Apply(copy, b);
+            // Same path as vanilla CloneRestSiteOption:
+            // RunState.CloneCard copies upgrades/enchantments into a fresh run-owned instance.
+            CardModel copy = Owner.RunState.CloneCard(pick);
+
+            // ConditionalWeakTable flags don't travel with CloneCard — re-attach them.
+            TierBonusService.CopyFlagsOnly(pick, copy);
             CombineService.Track(copy, CombineService.GetRank(pick));
 
-            Owner.RunState.AddCard(copy, Owner);
-            var added = await CardPileCmd.Add(copy, Owner.Deck, skipVisuals: false);
+            var added = await CardPileCmd.Add(copy, PileType.Deck, skipVisuals: false);
             CardCmd.PreviewCardPileAdd(added, 1.5f);
-            MainFile.Logger.Info($"Cloned {pick.Id} at rest site.");
+            MainFile.Logger.Info(
+                $"Cloned {pick.Id} at rest site → {CombineService.Describe(copy)}");
         }
         catch (Exception e)
         {
