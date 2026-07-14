@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Runs;
 
 namespace CardRanks;
 
-/// <summary>Inject settings loc before the player opens BaseLib's mod config menu.</summary>
 [HarmonyPatch(typeof(NMainMenu), "_Ready")]
 public static class MainMenuReadyPatch
 {
@@ -58,8 +57,6 @@ public static class RestSiteOptionsPatch
         if (__result.All(o => o.OptionId != CombineRestSiteOption.Id))
             __result.Add(new CombineRestSiteOption(player));
 
-        // Only inject Clone when the deck actually has a Clone-bonus card.
-        // (IsEnabled alone still leaves a greyed tile that looks "available".)
         if (__result.All(o => o.OptionId != CloneRestSiteOption.Id)
             && CloneRestSiteOption.DeckHasCloneCard(player))
             __result.Add(new CloneRestSiteOption(player));
@@ -94,30 +91,14 @@ internal static class CombineSelectGate
                    && key.Contains("COMBINE", StringComparison.OrdinalIgnoreCase));
     }
 
-    public static bool TryGetSelectedPair(NDeckCardSelectScreen screen, out CardModel a, out CardModel b)
+    public static bool SelectedGroupIsLegal(NDeckCardSelectScreen screen)
     {
-        a = null!;
-        b = null!;
-        if (screen._selectedCards.Count < 2)
-            return false;
-        CardModel[] picked = screen._selectedCards.Take(2).ToArray();
-        a = picked[0];
-        b = picked[1];
-        return true;
-    }
-
-    public static bool SelectedPairIsLegal(NDeckCardSelectScreen screen)
-    {
-        if (!TryGetSelectedPair(screen, out CardModel a, out CardModel b))
-            return true; // not enough cards yet — let vanilla handle min-count
-        return CombineService.CanPair(a, b);
+        if (screen._selectedCards.Count < RankMath.CardsPerCombine)
+            return true; // not enough yet — vanilla min-count handles it
+        return CombineService.CanGroup(screen._selectedCards.Take(RankMath.CardsPerCombine).ToList());
     }
 }
 
-/// <summary>
-/// Gate each click: first pick must be a candidate; second pick must CanPair with the first.
-/// Vanilla auto-opens PreviewSelection when MaxSelect is reached — illegal seconds never add.
-/// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "OnCardClicked")]
 public static class CardSelectClickPatch
 {
@@ -143,9 +124,6 @@ public static class CardSelectClickPatch
     }
 }
 
-/// <summary>
-/// After the grid appears, dim non-candidates so Rank 3 / blocked basics aren't tempting.
-/// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "AfterOverlayShown")]
 public static class CardSelectShownPatch
 {
@@ -157,9 +135,6 @@ public static class CardSelectShownPatch
     }
 }
 
-/// <summary>
-/// Block finishing the combine select unless the two cards share identity + rank.
-/// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "CheckIfSelectionComplete")]
 public static class CardSelectCompletePatch
 {
@@ -167,21 +142,18 @@ public static class CardSelectCompletePatch
     {
         if (!CombineSelectGate.IsCombinePrompt(__instance._prefs))
             return true;
-        if (__instance._selectedCards.Count < 2)
+        if (__instance._selectedCards.Count < RankMath.CardsPerCombine)
             return true;
 
-        if (!CombineSelectGate.SelectedPairIsLegal(__instance))
+        if (!CombineSelectGate.SelectedGroupIsLegal(__instance))
         {
-            MainFile.Logger.Info("Combine confirm blocked: mixed rank/id pair.");
+            MainFile.Logger.Info("Combine confirm blocked: illegal triple.");
             return false;
         }
         return true;
     }
 }
 
-/// <summary>
-/// Auto-preview on 2nd click / Confirm must not open for illegal pairs.
-/// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "PreviewSelection", new Type[] { })]
 public static class CardSelectPreviewPatch
 {
@@ -189,16 +161,15 @@ public static class CardSelectPreviewPatch
     {
         if (!CombineSelectGate.IsCombinePrompt(__instance._prefs))
             return true;
-        if (__instance._selectedCards.Count < 2)
+        if (__instance._selectedCards.Count < RankMath.CardsPerCombine)
             return true;
-        if (CombineSelectGate.SelectedPairIsLegal(__instance))
+        if (CombineSelectGate.SelectedGroupIsLegal(__instance))
             return true;
 
-        MainFile.Logger.Info("Combine preview blocked: mixed rank/id pair.");
-        // Drop the illegal second selection if it somehow got in.
+        MainFile.Logger.Info("Combine preview blocked: illegal triple.");
         try
         {
-            if (__instance._selectedCards.Count >= 2)
+            if (__instance._selectedCards.Count >= RankMath.CardsPerCombine)
             {
                 CardModel? last = __instance._selectedCards.LastOrDefault();
                 if (last != null)
@@ -211,7 +182,7 @@ public static class CardSelectPreviewPatch
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"Failed to unselect illegal pair: {e.Message}");
+            MainFile.Logger.Warn($"Failed to unselect illegal pick: {e.Message}");
         }
         return false;
     }

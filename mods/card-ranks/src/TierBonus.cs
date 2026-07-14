@@ -1,14 +1,14 @@
-using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Enchantments;
 
 namespace CardRanks;
 
 /// <summary>
-/// Optional rewards offered when a card reaches a new tier. Applied without clearing rank:
-/// keywords / Replay on the card, plus flags for hooks that live on <see cref="RankEnchantment"/>.
+/// Bonuses granted each tier-up. Applied as real vanilla enchantments when possible
+/// (UncappedSpire MultiEnchantment stacks them with rank). Keywords/flags remain as fallback.
 /// </summary>
 public enum TierBonus
 {
@@ -104,6 +104,15 @@ public static class TierBonusService
         return available[rng.Next(available.Count)];
     }
 
+    /// <summary>Copy all tracked bonuses from source onto dest (flags + side effects).</summary>
+    public static void MergeFrom(CardModel source, CardModel dest)
+    {
+        if (ReferenceEquals(source, dest))
+            return;
+        foreach (TierBonus b in GetAll(source))
+            Apply(dest, b);
+    }
+
     public static void Apply(CardModel card, TierBonus bonus)
     {
         if (bonus == TierBonus.None)
@@ -113,8 +122,23 @@ public static class TierBonusService
         if (!box.Bonuses.Add(bonus))
             return; // already had it
 
+        bool realEnchantOk = false;
         try
         {
+            // Prefer a real vanilla enchantment so the player sees a ribbon/tab.
+            // With UncappedSpire, CardCmd.Enchant stacks into MultiEnchantment.
+            // Without it, Enchant fails if rank already occupies the slot — fall back.
+            realEnchantOk = TryApplyVanillaEnchantment(card, bonus);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Vanilla enchant for {bonus} failed: {e.Message}");
+        }
+
+        try
+        {
+            // Always apply keyword / replay side-effects so combat works even without
+            // the vanilla enchantment instance (or if Multi only shows the icon).
             switch (bonus)
             {
                 case TierBonus.Steady:
@@ -132,20 +156,50 @@ public static class TierBonusService
                 case TierBonus.Clone:
                 case TierBonus.Imbued:
                 case TierBonus.PerfectFit:
-                    // Flags only — RankEnchantment hooks / Clone rest option read Has(...).
-                    // (Real Imbued/etc. enchantments would fight for the single enchant slot
-                    // without UncappedSpire; hooks keep rank intact.)
+                    // Flags for Clone rest option / RankEnchantment hooks.
                     break;
             }
 
             MainFile.Logger.Info(
                 $"Tier bonus APPLIED: {DisplayName(bonus)} on {card.Id} " +
-                $"(replay={card.BaseReplayCount}, bonuses=[{string.Join(",", GetAll(card))}])");
+                $"(realEnchant={realEnchantOk}, replay={card.BaseReplayCount}, " +
+                $"bonuses=[{string.Join(",", GetAll(card))}])");
         }
         catch (Exception e)
         {
             MainFile.Logger.Error($"Tier bonus apply {bonus} failed: {e}");
-            // Keep the flag so hooks can still fire even if keyword apply threw.
+        }
+    }
+
+    private static bool TryApplyVanillaEnchantment(CardModel card, TierBonus bonus)
+    {
+        // Only stack extra enchants when MultiEnchantment is available (or slot empty).
+        // Otherwise rank occupies the only slot and Enchant would throw / replace rank.
+        bool canStack = card.Enchantment == null
+                        || MultiEnchantCompat.IsMultiEnchantment(card.Enchantment);
+        if (!canStack)
+            return false;
+
+        try
+        {
+            EnchantmentModel? applied = bonus switch
+            {
+                TierBonus.Clone => CardCmd.Enchant<Clone>(card, 1m),
+                TierBonus.SoulsPower => CardCmd.Enchant<SoulsPower>(card, 1m),
+                TierBonus.Steady => CardCmd.Enchant<Steady>(card, 1m),
+                TierBonus.Spiral => CardCmd.Enchant<Spiral>(card, 1m),
+                TierBonus.Imbued => CardCmd.Enchant<Imbued>(card, 1m),
+                TierBonus.PerfectFit => CardCmd.Enchant<PerfectFit>(card, 1m),
+                TierBonus.RoyallyApproved => CardCmd.Enchant<RoyallyApproved>(card, 1m),
+                _ => null,
+            };
+            return applied != null;
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn(
+                $"Could not stack vanilla {bonus} (rank preserved via flags): {e.Message}");
+            return false;
         }
     }
 

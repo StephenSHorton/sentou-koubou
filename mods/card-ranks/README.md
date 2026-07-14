@@ -7,26 +7,22 @@ RankUpCards idea (not a fork).
 
 | Tier | Badge | Multiplier | From |
 |------|-------|------------|------|
-| **I** (blue) | `rank1.png` | ×**1.5** damage/block | Two plain copies |
-| **II** | `rank2.png` | ×**2** | Two Tier I |
-| **III** | `rank3.png` | ×**3** | Two Tier II (max) |
+| **I** (blue) | `rank1.png` | ×**1.5** damage/block | **3** plain copies |
+| **II** | `rank2.png` | ×**2** | **3** Tier I |
+| **III** | `rank3.png` | ×**3** | **3** Tier II (max) |
 
 - Same **card identity** and **same tier** only (picker dims illegal partners).
-- Upgrade levels on the two cards are **summed** onto the survivor.
-- Rank lives in the enchantment slot (icon + mult). It is **never cleared** for bonuses.
+- Select **3** cards: keep the highest-upgrade copy, sacrifice the other two.
+- Upgrade levels on all three are **summed** onto the survivor.
+- Rank lives as an enchantment (icon + mult). Bonuses stack beside it when multi-enchant is available (e.g. UncappedSpire).
 
 ## Auto bonus (each new tier)
 
-When a combine **reaches** Tier I, II, or III:
+When a combine **reaches** Tier I, II, or III, a random bonus is granted automatically:
 
-1. A random bonus is granted automatically (no dialog).
-2. The card flashes in a reward-style preview, then settles.
+**Clone**, **Soul's Power**, **Steady**, **Spiral**, **Imbued**, **Perfect Fit**, **Royally Approved**.
 
-Pool: **Clone**, **Soul's Power**, **Steady**, **Spiral**, **Imbued**, **Perfect Fit**, **Royally Approved**.
-
-Bonuses use keywords / Replay / rank hooks so they **stack with rank** (one Enchantment object = the tier; bonuses layer beside it).
-
-If every pool bonus is already on that card, no new bonus is granted (still shows the showcase).
+These are applied as **real vanilla enchantments** when the card can stack them (UncappedSpire MultiEnchantment), plus keyword/Replay side-effects so combat still works. Bonuses from sacrificed copies are **merged** onto the survivor.
 
 Setting: **Auto-grant a random bonus when a card reaches a new tier**.
 

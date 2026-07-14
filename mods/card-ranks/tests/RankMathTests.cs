@@ -28,32 +28,45 @@ public class RankMathTests
     }
 
     [Fact]
-    public void TwoPlain_PlansTier1()
+    public void ThreePlain_PlansTier1()
     {
         Assert.True(RankMath.TryPlanCombine(
-            Plain("STRIKE"), Plain("STRIKE"), allowBasics: true, maxUpgradeLevel: 5,
+            [Plain("STRIKE"), Plain("STRIKE"), Plain("STRIKE")],
+            allowBasics: true, maxUpgradeLevel: 5,
             out CardRankLevel rank, out int up));
         Assert.Equal(CardRankLevel.Tier1, rank);
         Assert.Equal(0, up);
     }
 
     [Fact]
-    public void TwoTier1_PlansTier2()
+    public void ThreeTier1_PlansTier2()
     {
         Assert.True(RankMath.TryPlanCombine(
-            T1("STRIKE"), T1("STRIKE"), allowBasics: true, maxUpgradeLevel: 5,
+            [T1("STRIKE"), T1("STRIKE"), T1("STRIKE")],
+            allowBasics: true, maxUpgradeLevel: 5,
             out CardRankLevel rank, out _));
         Assert.Equal(CardRankLevel.Tier2, rank);
     }
 
     [Fact]
-    public void TwoTier2_PlansTier3()
+    public void ThreeTier2_PlansTier3_SumsUpgrades()
     {
         Assert.True(RankMath.TryPlanCombine(
-            T2("DEFEND", up: 1), T2("DEFEND", up: 1), allowBasics: true, maxUpgradeLevel: 5,
+            [T2("DEFEND", up: 1), T2("DEFEND", up: 1), T2("DEFEND", up: 1)],
+            allowBasics: true, maxUpgradeLevel: 5,
             out CardRankLevel rank, out int up));
         Assert.Equal(CardRankLevel.Tier3, rank);
-        Assert.Equal(2, up);
+        Assert.Equal(3, up);
+    }
+
+    [Fact]
+    public void TwoCards_CannotPlan()
+    {
+        Assert.False(RankMath.CanGroup([Plain("STRIKE"), Plain("STRIKE")], allowBasics: true));
+        Assert.False(RankMath.TryPlanCombine(
+            [Plain("STRIKE"), Plain("STRIKE")],
+            allowBasics: true, maxUpgradeLevel: 5,
+            out _, out _));
     }
 
     [Fact]
@@ -67,8 +80,8 @@ public class RankMathTests
     public void MixedTiers_Rejected()
     {
         Assert.False(RankMath.CanPair(Plain("STRIKE"), T1("STRIKE"), allowBasics: true));
-        Assert.False(RankMath.CanPair(T1("STRIKE"), T2("STRIKE"), allowBasics: true));
-        Assert.False(RankMath.CanPair(T2("STRIKE"), T3("STRIKE"), allowBasics: true));
+        Assert.False(RankMath.CanGroup(
+            [T1("STRIKE"), T1("STRIKE"), T2("STRIKE")], allowBasics: true));
     }
 
     [Fact]
@@ -80,25 +93,40 @@ public class RankMathTests
     [Fact]
     public void UpgradeLevels_SumAndClamp()
     {
-        Assert.Equal(2, RankMath.SumUpgradeLevels(1, 1, 5));
-        Assert.Equal(5, RankMath.SumUpgradeLevels(3, 3, 5));
+        Assert.Equal(3, RankMath.SumUpgradeLevels([1, 1, 1], 5));
+        Assert.Equal(5, RankMath.SumUpgradeLevels([3, 3, 3], 5));
+    }
+
+    [Fact]
+    public void DeckHasCombinableGroup_NeedsThree()
+    {
+        Assert.False(RankMath.DeckHasCombinableGroup(
+            [Plain("S"), Plain("S")], allowBasics: true));
+        Assert.True(RankMath.DeckHasCombinableGroup(
+            [Plain("S"), Plain("S"), Plain("S")], allowBasics: true));
     }
 
     [Fact]
     public void BasicsBlockedWhenSettingOff()
     {
-        Assert.False(RankMath.CanPair(
-            Plain("MOD-STRIKE", basic: true),
-            Plain("MOD-STRIKE", basic: true),
+        Assert.False(RankMath.CanGroup(
+            [
+                Plain("MOD-STRIKE", basic: true),
+                Plain("MOD-STRIKE", basic: true),
+                Plain("MOD-STRIKE", basic: true),
+            ],
             allowBasics: false));
     }
 
     [Fact]
     public void ModdedBasicAllowedWhenSettingOn()
     {
-        Assert.True(RankMath.CanPair(
-            Plain("BRENNEN-STRIKE", basic: true),
-            Plain("BRENNEN-STRIKE", basic: true),
+        Assert.True(RankMath.CanGroup(
+            [
+                Plain("BRENNEN-STRIKE", basic: true),
+                Plain("BRENNEN-STRIKE", basic: true),
+                Plain("BRENNEN-STRIKE", basic: true),
+            ],
             allowBasics: true));
     }
 
@@ -108,5 +136,11 @@ public class RankMathTests
         Assert.Equal("I", RankMath.TierRoman(CardRankLevel.Tier1));
         Assert.Equal("II", RankMath.TierRoman(CardRankLevel.Tier2));
         Assert.Equal("III", RankMath.TierRoman(CardRankLevel.Tier3));
+    }
+
+    [Fact]
+    public void CardsPerCombine_IsThree()
+    {
+        Assert.Equal(3, RankMath.CardsPerCombine);
     }
 }

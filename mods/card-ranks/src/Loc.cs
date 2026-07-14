@@ -8,19 +8,19 @@ public static class Loc
 
     private static readonly Dictionary<string, string> Entries = new()
     {
-        ["TO_COMBINE"] = "Choose matching{Amount:choose(1):| [blue]{}[/blue] cards} to combine and raise their [gold]Tier[/gold]",
+        ["TO_COMBINE"] =
+            "Choose [blue]3[/blue] matching cards to combine (keep 1, sacrifice 2) and raise [gold]tier[/gold]",
         ["CARDRANKS.mod_title"] = "Card Ranks",
         ["CARDRANKS-ALLOW_COMBINE_STRIKE_DEFEND.title"] =
             "Allow combining Strike and Defend (including modded Basic Strike/Defend)",
         ["CARDRANKS-SPEND_CAMPFIRE_ACTION.title"] =
             "Spend campfire action when combining (off = free action)",
         ["CARDRANKS-OFFER_TIER_BONUS_ROLLS.title"] =
-            "Auto-grant a random bonus when a card reaches a new tier (I / II / III)",
+            "Auto-grant a random bonus enchantment when a card reaches a new tier (I / II / III)",
     };
 
     private static readonly Dictionary<string, string> EnchantmentEntries = new()
     {
-        // BaseLib ids: CARDRANKS-FIRST_RANK / SECOND_RANK / THIRD_RANK
         ["CARDRANKS-FIRST_RANK.title"] = "Tier I",
         ["CARDRANKS-FIRST_RANK.description"] =
             "[blue]Tier I[/blue]. Effect ×[blue]1.5[/blue] damage and block.",
@@ -51,7 +51,6 @@ public static class Loc
         return new LocString(Table, key);
     }
 
-    /// <summary>Free-form runtime text for popups (SmartFormat-safe).</summary>
     public static LocString Dynamic(string text)
     {
         LocTable table = EnsureTable();
@@ -68,17 +67,16 @@ public static class Loc
         LocManager mgr = LocManager.Instance;
         if (!mgr._tables.TryGetValue("rest_site_ui", out LocTable? table))
             return;
-        var inject = new Dictionary<string, string>();
-        if (!table.HasEntry("OPTION_COMBINE_RANK.name"))
+        var inject = new Dictionary<string, string>
         {
-            inject["OPTION_COMBINE_RANK.name"] = "Combine";
-            inject["OPTION_COMBINE_RANK.description"] =
-                "Combine two identical cards: [blue]Tier I[/blue] → II → III (×1.5 / ×2 / ×3). Auto bonus each tier.";
-            inject["OPTION_COMBINE_RANK.descriptionDisabled"] =
-                "[red]No matching cards available to combine.[/red]";
-            inject["OPTION_COMBINE_RANK.descriptionBasicsBlocked"] =
-                "[red]Strike/Defend are blocked by mod settings.[/red] Enable [gold]Allow combining Strike and Defend[/gold] in Card Ranks options.";
-        }
+            ["OPTION_COMBINE_RANK.name"] = "Combine",
+            ["OPTION_COMBINE_RANK.description"] =
+                "Combine [blue]3[/blue] identical same-tier cards (keep 1): [blue]Tier I[/blue] → II → III (×1.5 / ×2 / ×3). Auto bonus enchantment each tier.",
+            ["OPTION_COMBINE_RANK.descriptionDisabled"] =
+                "[red]Need 3 matching cards of the same tier to combine.[/red]",
+            ["OPTION_COMBINE_RANK.descriptionBasicsBlocked"] =
+                "[red]Strike/Defend are blocked by mod settings.[/red] Enable [gold]Allow combining Strike and Defend[/gold] in Card Ranks options.",
+        };
         if (!table.HasEntry("OPTION_CLONE_RANK.name"))
         {
             inject["OPTION_CLONE_RANK.name"] = "Clone";
@@ -87,8 +85,7 @@ public static class Loc
             inject["OPTION_CLONE_RANK.descriptionDisabled"] =
                 "[red]No Clone-bonus cards in your deck.[/red]";
         }
-        if (inject.Count > 0)
-            table.MergeWith(inject);
+        table.MergeWith(inject);
     }
 
     public static void EnsureSettingsEntries()
@@ -107,7 +104,6 @@ public static class Loc
             if (isSettingsKey && !table.HasEntry(key))
                 inject[key] = value;
         }
-        // Also cover common prefix variants BaseLib may derive from type/namespace.
         if (!table.HasEntry("CARDRANKS.mod_title"))
             inject["CARDRANKS.mod_title"] = "Card Ranks";
         if (inject.Count > 0)
@@ -119,8 +115,7 @@ public static class Loc
         LocManager mgr = LocManager.Instance;
         if (!mgr._tables.TryGetValue("card_selection", out LocTable? table))
             return;
-        if (!table.HasEntry("TO_COMBINE"))
-            table.MergeWith(new Dictionary<string, string> { ["TO_COMBINE"] = Entries["TO_COMBINE"] });
+        table.MergeWith(new Dictionary<string, string> { ["TO_COMBINE"] = Entries["TO_COMBINE"] });
     }
 
     public static void EnsureEnchantmentEntries()

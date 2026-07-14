@@ -7,33 +7,26 @@ using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
 namespace CardRanks;
 
 /// <summary>
-/// After the first card is chosen for combine, only legal partners stay clickable.
-/// Prevents mixed-rank attempts that used to reach apply and delete a card.
+/// After the first card is chosen, only matching same-tier partners stay clickable.
+/// Need <see cref="RankMath.CardsPerCombine"/> (3) for a legal combine.
 /// </summary>
 public static class CombineSelectUi
 {
     private static readonly Color Dim = new(0.45f, 0.45f, 0.45f, 0.55f);
     private static readonly Color Full = Colors.White;
 
-    /// <summary>
-    /// Whether <paramref name="card"/> may be toggled given the current selection.
-    /// Deselect always allowed; first pick must be a candidate; later picks must CanPair with anchor.
-    /// </summary>
     public static bool MayToggle(NDeckCardSelectScreen screen, CardModel card)
     {
-        // Already selected → allow deselect (vanilla Add fails then Remove).
         if (screen._selectedCards.Contains(card))
             return true;
 
         if (screen._selectedCards.Count == 0)
             return CombineService.IsCandidate(card);
 
-        // At max already — only deselect path should run; don't add a third.
         if (screen._selectedCards.Count >= screen._prefs.MaxSelect)
             return false;
 
-        // Second (or further) pick: must pair with every already-selected card
-        // (with MaxSelect=2 this is just the single anchor).
+        // Must pair with every already-selected card (same id + same tier).
         foreach (CardModel selected in screen._selectedCards)
         {
             if (!CombineService.CanPair(selected, card))
@@ -48,14 +41,15 @@ public static class CombineSelectUi
         if (grid == null)
             return;
 
-        CardModel? anchor = screen._selectedCards.Count == 1
+        CardModel? anchor = screen._selectedCards.Count >= 1
             ? screen._selectedCards.First()
             : null;
 
         if (anchor != null)
         {
             MainFile.Logger.Info(
-                $"Combine filter anchor: {CombineService.Describe(anchor)}");
+                $"Combine filter anchor: {CombineService.Describe(anchor)} " +
+                $"(selected={screen._selectedCards.Count}/{RankMath.CardsPerCombine})");
         }
 
         int allowedCount = 0;
@@ -70,22 +64,22 @@ public static class CombineSelectUi
             bool allowed;
             if (screen._selectedCards.Count == 0)
             {
-                // Nothing selected: only legal combine starters (not Rank 3).
                 allowed = CombineService.IsCandidate(model);
             }
             else if (screen._selectedCards.Contains(model))
             {
-                // Keep selected cards interactive so they can be deselected.
                 allowed = true;
+            }
+            else if (screen._selectedCards.Count >= screen._prefs.MaxSelect)
+            {
+                allowed = false;
             }
             else if (anchor != null)
             {
-                // Same identity AND same rank tier only.
                 allowed = CombineService.CanPair(anchor, model);
             }
             else
             {
-                // Two already selected (preview path): lock further adds.
                 allowed = false;
             }
 

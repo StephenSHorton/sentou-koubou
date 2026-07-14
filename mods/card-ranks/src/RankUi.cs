@@ -7,17 +7,17 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 namespace CardRanks;
 
 /// <summary>
-/// Post-combine feedback. Matches RankUpCards2: silent sacrifice remove + single
-/// NCardEnchantVfx on the survivor. No CardCmd.Preview — Preview + VFX on an
-/// already-ranked card draws two copies (one with ribbon, one "gaining" it).
+/// Post-combine: auto bonus (visible vanilla enchant when possible) + ribbon VFX.
+/// Silent remove of both sacrifices; single NCardEnchantVfx on the survivor.
 /// </summary>
 public static class RankUi
 {
     public static async Task<TierBonus> AutoGrantBonusAndShowcaseAsync(
-        CardModel sacrifice,
+        CardModel sacrifice1,
+        CardModel sacrifice2,
         CardModel survivor,
         CardRankLevel newTier,
-        Func<Task>? removeSacrificeAsync)
+        Func<Task>? removeSacrificesAsync)
     {
         TierBonus granted = TierBonus.None;
 
@@ -48,31 +48,24 @@ public static class RankUi
             }
         }
 
-        await PlayCombineRevealAsync(sacrifice, survivor, removeSacrificeAsync);
+        await PlayCombineRevealAsync(sacrifice1, sacrifice2, survivor, removeSacrificesAsync);
         return granted;
     }
 
-    /// <summary>
-    /// Silent remove sacrifice, then one enchant-ribbon VFX on the survivor.
-    /// </summary>
     public static async Task PlayCombineRevealAsync(
-        CardModel sacrifice,
+        CardModel sacrifice1,
+        CardModel sacrifice2,
         CardModel survivor,
-        Func<Task>? removeSacrificeAsync)
+        Func<Task>? removeSacrificesAsync)
     {
         try
         {
-            if (removeSacrificeAsync != null)
-                await removeSacrificeAsync();
+            if (removeSacrificesAsync != null)
+                await removeSacrificesAsync();
             else
-                await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
+                await CombineService.RemoveSacrificesAsync(sacrifice1, sacrifice2);
 
-            // Only the ribbon VFX — do NOT also CardCmd.Preview(survivor).
-            // Rank is already applied; Preview would show a second static copy
-            // that already has the ribbon while VFX animates another.
             SpawnEnchantVfx(survivor);
-
-            // Just long enough for the VFX to be readable before rest-site UI resumes.
             await Task.Delay(750);
         }
         catch (Exception e)
@@ -80,8 +73,8 @@ public static class RankUi
             MainFile.Logger.Warn($"Combine reveal failed: {e.Message}");
             try
             {
-                if (removeSacrificeAsync != null)
-                    await removeSacrificeAsync();
+                if (removeSacrificesAsync != null)
+                    await removeSacrificesAsync();
             }
             catch
             {

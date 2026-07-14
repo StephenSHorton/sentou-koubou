@@ -4,17 +4,18 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
-// ModelDb used for rank prototypes under MultiEnchantment path.
 
 namespace CardRanks;
 
 /// <summary>
-/// Single mutation path for combine: local rest-site success and multiplayer mirrors.
+/// Combine path: three matching same-tier cards → keep one, sacrifice two, raise tier.
 /// Ladder: plain → Tier I (blue) → Tier II → Tier III.
 /// </summary>
 public static class CombineService
 {
     public static bool AllowBasics => CardRanksConfig.AllowCombineStrikeDefend;
+
+    public static int CardsPerCombine => RankMath.CardsPerCombine;
 
     private static readonly ConditionalWeakTable<CardModel, RankBox> TrackedRanks = new();
 
@@ -25,8 +26,6 @@ public static class CombineService
 
     public static CardRankLevel GetRank(CardModel card)
     {
-        // Prefer live leaf enchantments (unwrap UncappedSpire MultiEnchantment).
-        // Stale tracker alone caused false mismatches after rank-up.
         CardRankLevel detected = MultiEnchantCompat.DetectRank(card);
         if (detected != CardRankLevel.None)
         {
@@ -49,11 +48,8 @@ public static class CombineService
     {
         if (enchantment == null)
             return CardRankLevel.None;
-
-        // MultiEnchantment: never use product multipliers (1.5×2=3 false Tier III).
         if (MultiEnchantCompat.IsMultiEnchantment(enchantment))
             return CardRankLevel.None;
-
         return MultiEnchantCompat.RankFromLeaf(enchantment);
     }
 
@@ -108,6 +104,21 @@ public static class CombineService
         return true;
     }
 
+    public static bool CanGroup(IReadOnlyList<CardModel> cards)
+    {
+        if (cards.Count != CardsPerCombine)
+            return false;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            for (int j = i + 1; j < cards.Count; j++)
+            {
+                if (!CanPair(cards[i], cards[j]))
+                    return false;
+            }
+        }
+        return true;
+    }
+
     public static string Describe(CardModel card)
     {
         var e = card.Enchantment;
@@ -120,7 +131,7 @@ public static class CombineService
     }
 
     public static bool DeckHasCombinablePair(Player player) =>
-        RankMath.DeckHasCombinablePair(GetDeckCards(player).Select(ToView), AllowBasics);
+        RankMath.DeckHasCombinableGroup(GetDeckCards(player).Select(ToView), AllowBasics);
 
     public static bool OnlyBlockedByBasicsPolicy(Player player) =>
         RankMath.OnlyBlockedByBasicsPolicy(GetDeckCards(player).Select(ToView), AllowBasics);
@@ -128,51 +139,71 @@ public static class CombineService
     public static IReadOnlyList<CardModel> GetDeckCards(Player player) =>
         PileType.Deck.GetPile(player).Cards;
 
-    public static Task ApplyLocalAsync(CardModel sacrifice, CardModel survivor)
+    /// <summary>
+    /// Pick survivor (highest upgrade) and the two sacrifices from a 3-card selection.
+    /// </summary>
+    public static void SplitSurvivorAndSacrifices(
+        IReadOnlyList<CardModel> picked,
+        out CardModel survivor,
+        out CardModel sacrifice1,
+        out CardModel sacrifice2)
     {
-        CardRankLevel sacRank = GetRank(sacrifice);
-        CardRankLevel survRank = GetRank(survivor);
+        if (picked.Count != CardsPerCombine)
+            throw new ArgumentException($"Need {CardsPerCombine} cards, got {picked.Count}");
 
-        if (sacRank != survRank)
-            throw new InvalidOperationException(
-                $"Mixed ranks cannot combine: {Describe(sacrifice)} vs {Describe(survivor)}");
+        List<CardModel> ordered = picked
+            .OrderByDescending(c => c.CurrentUpgradeLevel)
+            .ToList();
+        survivor = ordered[0];
+        sacrifice1 = ordered[1];
+        sacrifice2 = ordered[2];
+    }
 
-        if (!CanPair(sacrifice, survivor))
+    /// <summary>
+    /// Apply tier + upgrades on survivor. Does not remove sacrifices (reveal path does).
+    /// Merges tier bonuses from both sacrifices onto the survivor first.
+    /// </summary>
+    public static Task ApplyLocalAsync(
+        CardModel sacrifice1, CardModel sacrifice2, CardModel survivor)
+    {
+        List<CardModel> group = [sacrifice1, sacrifice2, survivor];
+        if (!CanGroup(group))
             throw new InvalidOperationException(
-                $"Illegal pair: {Describe(sacrifice)} vs {Describe(survivor)}");
+                $"Illegal triple: {Describe(sacrifice1)} | {Describe(sacrifice2)} | {Describe(survivor)}");
+
+        // Carry bonuses from sacrificed copies onto the survivor.
+        TierBonusService.MergeFrom(sacrifice1, survivor);
+        TierBonusService.MergeFrom(sacrifice2, survivor);
 
         int maxUp = Math.Max(
-            Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
-            sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
+            Math.Max(survivor.MaxUpgradeLevel, sacrifice1.MaxUpgradeLevel),
+            Math.Max(sacrifice2.MaxUpgradeLevel,
+                sacrifice1.CurrentUpgradeLevel + sacrifice2.CurrentUpgradeLevel
+                + survivor.CurrentUpgradeLevel));
 
-        if (!RankMath.TryPlanCombine(
-                ToView(sacrifice), ToView(survivor), AllowBasics, maxUp,
+        List<RankCardView> views = group.Select(ToView).ToList();
+        if (!RankMath.TryPlanCombine(views, AllowBasics, maxUp,
                 out CardRankLevel resultRank, out int resultUpgrade))
             throw new InvalidOperationException("TryPlanCombine failed.");
 
-        int sacUp = sacrifice.CurrentUpgradeLevel;
-        int survUp = survivor.CurrentUpgradeLevel;
+        int up1 = sacrifice1.CurrentUpgradeLevel;
+        int up2 = sacrifice2.CurrentUpgradeLevel;
+        int upS = survivor.CurrentUpgradeLevel;
 
-        // Rank + upgrades first (survivor stays in deck). Sacrifice removal is done
-        // by the reveal sequence so it can play the exhaust-style preview alone.
         ApplyRankEnchantment(survivor, resultRank);
         ApplyUpgradeLevel(survivor, resultUpgrade);
 
         if (GetRank(survivor) != resultRank)
             throw new InvalidOperationException(
                 $"Rank apply failed (wanted {resultRank}, got {GetRank(survivor)}); " +
-                $"sacrifice kept. {Describe(survivor)}");
+                $"sacrifices kept. {Describe(survivor)}");
 
         MainFile.Logger.Info(
             $"Combined OK → Tier {RankMath.TierRoman(resultRank)} " +
-            $"up {sacUp}+{survUp}→{resultUpgrade} | {Describe(survivor)}");
+            $"up {up1}+{up2}+{upS}→{resultUpgrade} | {Describe(survivor)}");
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// Remove sacrifice after the reveal sequence. Default silent (no deck-remove
-    /// preview) so it does not stack with the survivor ribbon showcase.
-    /// </summary>
     public static async Task RemoveSacrificeAsync(CardModel sacrifice, bool showPreview = false)
     {
         try
@@ -195,62 +226,50 @@ public static class CombineService
         TrackedRanks.GetOrCreateValue(sacrifice).Rank = CardRankLevel.None;
     }
 
+    public static async Task RemoveSacrificesAsync(
+        CardModel sacrifice1, CardModel sacrifice2, bool showPreview = false)
+    {
+        await RemoveSacrificeAsync(sacrifice1, showPreview);
+        await RemoveSacrificeAsync(sacrifice2, showPreview: false);
+    }
+
     public static async Task ApplyRemoteAsync(Player player, CombineCardsMessage msg)
     {
-        CardModel? sacrifice = FindCard(player, msg.category, msg.entry, (CardRankLevel)msg.sacrificeRank,
-            msg.sacrificeUpgrade);
+        CardModel? sac1 = FindCard(player, msg.category, msg.entry, (CardRankLevel)msg.sacrifice1Rank,
+            msg.sacrifice1Upgrade);
+        CardModel? sac2 = FindCard(player, msg.category, msg.entry, (CardRankLevel)msg.sacrifice2Rank,
+            msg.sacrifice2Upgrade, exclude: sac1);
         CardModel? survivor = FindCard(player, msg.category, msg.entry, (CardRankLevel)msg.survivorRank,
-            msg.survivorUpgrade, exclude: sacrifice);
+            msg.survivorUpgrade, exclude: sac1, exclude2: sac2);
 
-        if (sacrifice == null || survivor == null)
+        if (sac1 == null || sac2 == null || survivor == null)
         {
             MainFile.Logger.Warn("Remote combine could not resolve cards.");
             return;
         }
 
-        if (GetRank(sacrifice) != GetRank(survivor) || !CanPair(sacrifice, survivor))
+        if (!CanGroup([sac1, sac2, survivor]))
         {
-            MainFile.Logger.Warn($"Remote combine rejected: {Describe(sacrifice)} vs {Describe(survivor)}");
+            MainFile.Logger.Warn(
+                $"Remote combine rejected: {Describe(sac1)} | {Describe(sac2)} | {Describe(survivor)}");
             return;
         }
+
+        TierBonusService.MergeFrom(sac1, survivor);
+        TierBonusService.MergeFrom(sac2, survivor);
 
         ApplyRankEnchantment(survivor, (CardRankLevel)msg.resultRank);
         ApplyUpgradeLevel(survivor, msg.resultUpgradeLevel);
         if (GetRank(survivor) != (CardRankLevel)msg.resultRank)
         {
-            MainFile.Logger.Error("Remote rank apply failed; not removing sacrifice.");
+            MainFile.Logger.Error("Remote rank apply failed; not removing sacrifices.");
             return;
         }
 
         if (msg.bonusRolled != 0)
             TierBonusService.Apply(survivor, (TierBonus)msg.bonusRolled);
 
-        await RemoveSacrificeAsync(sacrifice);
-    }
-
-    public static CombineCardsMessage BuildMessage(
-        CardModel sacrifice, CardModel survivor, Player owner, TierBonus bonusRolled = TierBonus.None)
-    {
-        int maxUp = Math.Max(
-            Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
-            sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
-        RankMath.TryPlanCombine(
-            ToView(sacrifice), ToView(survivor), AllowBasics, maxUp,
-            out CardRankLevel resultRank, out int resultUpgrade);
-
-        return new CombineCardsMessage
-        {
-            ownerNetId = owner.NetId,
-            category = sacrifice.Id.Category,
-            entry = sacrifice.Id.Entry,
-            sacrificeRank = (int)GetRank(sacrifice),
-            sacrificeUpgrade = sacrifice.CurrentUpgradeLevel,
-            survivorRank = (int)GetRank(survivor),
-            survivorUpgrade = survivor.CurrentUpgradeLevel,
-            resultRank = (int)resultRank,
-            resultUpgradeLevel = resultUpgrade,
-            bonusRolled = (int)bonusRolled,
-        };
+        await RemoveSacrificesAsync(sac1, sac2);
     }
 
     private static void ApplyRankEnchantment(CardModel card, CardRankLevel rank)
@@ -258,9 +277,6 @@ public static class CombineService
         if (rank is not (CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3))
             return;
 
-        // Under UncappedSpire, CardCmd.Enchant ADDS into MultiEnchantment.
-        // Strip previous First/Second/Third leaves first so we never stack ranks
-        // (blue+purple dual tabs) or multiply multipliers into a false Tier III.
         MultiEnchantCompat.StripRankLeaves(card);
 
         EnchantmentModel? prototype = CreateRankPrototype(rank);
@@ -272,7 +288,6 @@ public static class CombineService
         bool appliedIntoMulti = false;
         if (MultiEnchantCompat.IsMultiEnchantment(card.Enchantment))
         {
-            // Keep non-rank leaves (Spiral, etc.); only add the new tier.
             appliedIntoMulti = MultiEnchantCompat.TryAddIntoMulti(card, prototype);
             if (appliedIntoMulti)
             {
@@ -289,7 +304,6 @@ public static class CombineService
 
         if (!appliedIntoMulti)
         {
-            // Lone rank slot, or multi strip emptied the wrapper.
             if (card.Enchantment != null && MultiEnchantCompat.IsRankLeaf(card.Enchantment))
                 MultiEnchantCompat.HardClearTop(card);
 
@@ -320,7 +334,6 @@ public static class CombineService
             }
         }
 
-        // Clamp Amount=1 on every rank leaf (never stack ribbon counters).
         foreach (EnchantmentModel leaf in MultiEnchantCompat.EnumerateLeafEnchantments(card))
         {
             if (MultiEnchantCompat.IsRankLeaf(leaf) && leaf.Amount != 1)
@@ -396,10 +409,12 @@ public static class CombineService
         string entry,
         CardRankLevel rank,
         int upgradeLevel,
-        CardModel? exclude = null)
+        CardModel? exclude = null,
+        CardModel? exclude2 = null)
     {
         var matches = GetDeckCards(player)
             .Where(c => c != exclude
+                        && c != exclude2
                         && c.Id.Category == category
                         && c.Id.Entry == entry
                         && GetRank(c) == rank)

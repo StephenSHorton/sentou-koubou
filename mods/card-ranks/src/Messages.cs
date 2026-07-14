@@ -23,13 +23,18 @@ public abstract class CombineMessageBase : INetMessage, IPacketSerializable, IRu
     public abstract void Deserialize(PacketReader reader);
 }
 
+/// <summary>
+/// Combine three matching cards: keep survivor, remove two sacrifices.
+/// </summary>
 public sealed class CombineCardsMessage : CombineMessageBase
 {
     public ulong ownerNetId;
     public string category = "";
     public string entry = "";
-    public int sacrificeRank;
-    public int sacrificeUpgrade;
+    public int sacrifice1Rank;
+    public int sacrifice1Upgrade;
+    public int sacrifice2Rank;
+    public int sacrifice2Upgrade;
     public int survivorRank;
     public int survivorUpgrade;
     public int resultRank;
@@ -41,8 +46,10 @@ public sealed class CombineCardsMessage : CombineMessageBase
         writer.WriteULong(ownerNetId);
         writer.WriteString(category);
         writer.WriteString(entry);
-        writer.WriteInt(sacrificeRank);
-        writer.WriteInt(sacrificeUpgrade);
+        writer.WriteInt(sacrifice1Rank);
+        writer.WriteInt(sacrifice1Upgrade);
+        writer.WriteInt(sacrifice2Rank);
+        writer.WriteInt(sacrifice2Upgrade);
         writer.WriteInt(survivorRank);
         writer.WriteInt(survivorUpgrade);
         writer.WriteInt(resultRank);
@@ -56,8 +63,10 @@ public sealed class CombineCardsMessage : CombineMessageBase
         ownerNetId = reader.ReadULong();
         category = reader.ReadString();
         entry = reader.ReadString();
-        sacrificeRank = reader.ReadInt();
-        sacrificeUpgrade = reader.ReadInt();
+        sacrifice1Rank = reader.ReadInt();
+        sacrifice1Upgrade = reader.ReadInt();
+        sacrifice2Rank = reader.ReadInt();
+        sacrifice2Upgrade = reader.ReadInt();
         survivorRank = reader.ReadInt();
         survivorUpgrade = reader.ReadInt();
         resultRank = reader.ReadInt();

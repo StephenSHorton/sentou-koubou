@@ -3,6 +3,7 @@ namespace CardRanks;
 /// <summary>
 /// Pure tier ladder. Plain → Tier I (blue) → Tier II → Tier III (max).
 /// Multipliers: I ×1.5, II ×2, III ×3 on damage/block.
+/// Combine needs <see cref="CardsPerCombine"/> matching copies (keep 1, sacrifice the rest).
 /// </summary>
 public enum CardRankLevel
 {
@@ -20,11 +21,13 @@ public readonly record struct RankCardView(
 
 public static class RankMath
 {
+    /// <summary>Number of matching same-tier cards required for one tier-up.</summary>
+    public const int CardsPerCombine = 3;
+
     public const decimal Tier1Multiplier = 1.5m;
     public const decimal Tier2Multiplier = 2.0m;
     public const decimal Tier3Multiplier = 3.0m;
 
-    // Amount is always 1 on rank enchantments (UI draws one icon per Amount).
     public const decimal Rank2Multiplier = Tier1Multiplier;
     public const decimal Rank3Multiplier = Tier3Multiplier;
 
@@ -78,6 +81,7 @@ public static class RankMath
     public static bool IsCandidate(RankCardView card, bool allowBasics) =>
         IsCandidate(card.Rank, card.IsBasicLike, allowBasics);
 
+    /// <summary>Two cards share identity + tier and can participate in a combine group.</summary>
     public static bool CanPair(RankCardView a, RankCardView b, bool allowBasics)
     {
         if (!string.Equals(a.Id, b.Id, StringComparison.Ordinal))
@@ -89,6 +93,22 @@ public static class RankMath
         return true;
     }
 
+    /// <summary>All cards in the group match identity + tier and are candidates.</summary>
+    public static bool CanGroup(IReadOnlyList<RankCardView> cards, bool allowBasics)
+    {
+        if (cards.Count != CardsPerCombine)
+            return false;
+        RankCardView anchor = cards[0];
+        if (!IsCandidate(anchor, allowBasics))
+            return false;
+        for (int i = 1; i < cards.Count; i++)
+        {
+            if (!CanPair(anchor, cards[i], allowBasics))
+                return false;
+        }
+        return true;
+    }
+
     public static CardRankLevel NextRank(CardRankLevel current) => current switch
     {
         CardRankLevel.None => CardRankLevel.Tier1,
@@ -97,37 +117,64 @@ public static class RankMath
         _ => CardRankLevel.Tier3,
     };
 
-    public static int SumUpgradeLevels(int sacrificeLevel, int survivorLevel, int maxUpgradeLevel)
+    public static int SumUpgradeLevels(IEnumerable<int> levels, int maxUpgradeLevel)
     {
         if (maxUpgradeLevel < 0)
             maxUpgradeLevel = 0;
-        long sum = (long)Math.Max(0, sacrificeLevel) + Math.Max(0, survivorLevel);
+        long sum = 0;
+        foreach (int level in levels)
+            sum += Math.Max(0, level);
         if (sum > maxUpgradeLevel)
             return maxUpgradeLevel;
         return (int)sum;
     }
 
-    public static bool DeckHasCombinablePair(IEnumerable<RankCardView> cards, bool allowBasics)
+    public static int SumUpgradeLevels(int sacrificeLevel, int survivorLevel, int maxUpgradeLevel) =>
+        SumUpgradeLevels([sacrificeLevel, survivorLevel], maxUpgradeLevel);
+
+    public static bool DeckHasCombinableGroup(IEnumerable<RankCardView> cards, bool allowBasics)
     {
         List<RankCardView> list = cards.Where(c => IsCandidate(c, allowBasics)).ToList();
-        for (int i = 0; i < list.Count; i++)
+        // Group by id+rank; need at least CardsPerCombine in any bucket.
+        var buckets = new Dictionary<(string Id, CardRankLevel Rank), int>();
+        foreach (RankCardView c in list)
         {
-            for (int j = i + 1; j < list.Count; j++)
-            {
-                if (CanPair(list[i], list[j], allowBasics))
-                    return true;
-            }
+            var key = (c.Id, c.Rank);
+            buckets.TryGetValue(key, out int n);
+            buckets[key] = n + 1;
+            if (n + 1 >= CardsPerCombine)
+                return true;
         }
         return false;
     }
+
+    /// <summary>Legacy name — true when a full combine group exists in the deck.</summary>
+    public static bool DeckHasCombinablePair(IEnumerable<RankCardView> cards, bool allowBasics) =>
+        DeckHasCombinableGroup(cards, allowBasics);
 
     public static bool OnlyBlockedByBasicsPolicy(IEnumerable<RankCardView> cards, bool allowBasics)
     {
         if (allowBasics)
             return false;
-        if (DeckHasCombinablePair(cards, allowBasics: true))
-            return !DeckHasCombinablePair(cards, allowBasics: false);
+        if (DeckHasCombinableGroup(cards, allowBasics: true))
+            return !DeckHasCombinableGroup(cards, allowBasics: false);
         return false;
+    }
+
+    public static bool TryPlanCombine(
+        IReadOnlyList<RankCardView> group,
+        bool allowBasics,
+        int maxUpgradeLevel,
+        out CardRankLevel resultRank,
+        out int resultUpgradeLevel)
+    {
+        resultRank = CardRankLevel.None;
+        resultUpgradeLevel = 0;
+        if (!CanGroup(group, allowBasics))
+            return false;
+        resultRank = NextRank(group[0].Rank);
+        resultUpgradeLevel = SumUpgradeLevels(group.Select(c => c.UpgradeLevel), maxUpgradeLevel);
+        return true;
     }
 
     public static bool TryPlanCombine(
@@ -138,14 +185,13 @@ public static class RankMath
         out CardRankLevel resultRank,
         out int resultUpgradeLevel)
     {
+        // Back-compat 2-card API — not used for live combine (needs 3).
         resultRank = CardRankLevel.None;
         resultUpgradeLevel = 0;
         if (!CanPair(sacrifice, survivor, allowBasics))
             return false;
-        resultRank = NextRank(survivor.Rank);
-        resultUpgradeLevel = SumUpgradeLevels(
-            sacrifice.UpgradeLevel, survivor.UpgradeLevel, maxUpgradeLevel);
-        return true;
+        // Incomplete group of 2 cannot plan a real combine.
+        return false;
     }
 
     public static bool TryPlanCombine(
@@ -156,9 +202,8 @@ public static class RankMath
         out CardRankLevel resultRank,
         out bool resultUpgraded)
     {
-        bool ok = TryPlanCombine(sacrifice, survivor, allowBasics, 99,
-            out resultRank, out int level);
-        resultUpgraded = level > 0 || eitherUpgraded;
-        return ok;
+        resultRank = CardRankLevel.None;
+        resultUpgraded = false;
+        return false;
     }
 }
