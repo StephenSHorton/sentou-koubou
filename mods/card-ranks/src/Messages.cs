@@ -34,7 +34,7 @@ public sealed class CombineCardsMessage : CombineMessageBase
     public int survivorRank;
     public int survivorUpgrade;
     public int resultRank;
-    public bool resultUpgraded;
+    public int resultUpgradeLevel;
 
     public override void Serialize(PacketWriter writer)
     {
@@ -46,7 +46,7 @@ public sealed class CombineCardsMessage : CombineMessageBase
         writer.WriteInt(survivorRank);
         writer.WriteInt(survivorUpgrade);
         writer.WriteInt(resultRank);
-        writer.WriteBool(resultUpgraded);
+        writer.WriteInt(resultUpgradeLevel);
         writer.Write(Location);
     }
 
@@ -60,7 +60,7 @@ public sealed class CombineCardsMessage : CombineMessageBase
         survivorRank = reader.ReadInt();
         survivorUpgrade = reader.ReadInt();
         resultRank = reader.ReadInt();
-        resultUpgraded = reader.ReadBool();
+        resultUpgradeLevel = reader.ReadInt();
         Location = reader.Read<RunLocation>();
     }
 }

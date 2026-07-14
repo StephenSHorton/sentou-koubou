@@ -4,23 +4,23 @@ namespace CardRanks.Tests;
 
 public class RankMathTests
 {
-    private static RankCardView Plain(string id, bool basic = false) =>
-        new(id, CardRankLevel.None, basic);
+    private static RankCardView Plain(string id, bool basic = false, int up = 0) =>
+        new(id, CardRankLevel.None, basic, up);
 
-    private static RankCardView R2(string id, bool basic = false) =>
-        new(id, CardRankLevel.Rank2, basic);
+    private static RankCardView R2(string id, bool basic = false, int up = 0) =>
+        new(id, CardRankLevel.Rank2, basic, up);
 
-    private static RankCardView R3(string id, bool basic = false) =>
-        new(id, CardRankLevel.Rank3, basic);
+    private static RankCardView R3(string id, bool basic = false, int up = 0) =>
+        new(id, CardRankLevel.Rank3, basic, up);
 
     [Fact]
     public void TwoPlainSameId_PlansRank2()
     {
         Assert.True(RankMath.TryPlanCombine(
-            Plain("STRIKE"), Plain("STRIKE"), allowBasics: true, eitherUpgraded: false,
-            out CardRankLevel rank, out bool upgraded));
+            Plain("STRIKE"), Plain("STRIKE"), allowBasics: true, maxUpgradeLevel: 5,
+            out CardRankLevel rank, out int up));
         Assert.Equal(CardRankLevel.Rank2, rank);
-        Assert.False(upgraded);
+        Assert.Equal(0, up);
         Assert.Equal(1.5m, RankMath.Multiplier(rank));
     }
 
@@ -28,11 +28,22 @@ public class RankMathTests
     public void TwoRank2SameId_PlansRank3()
     {
         Assert.True(RankMath.TryPlanCombine(
-            R2("DEFEND"), R2("DEFEND"), allowBasics: true, eitherUpgraded: true,
-            out CardRankLevel rank, out bool upgraded));
+            R2("DEFEND", up: 1), R2("DEFEND", up: 1), allowBasics: true, maxUpgradeLevel: 5,
+            out CardRankLevel rank, out int up));
         Assert.Equal(CardRankLevel.Rank3, rank);
-        Assert.True(upgraded);
+        Assert.Equal(2, up);
         Assert.Equal(3m, RankMath.Multiplier(rank));
+    }
+
+    [Fact]
+    public void UpgradeLevels_SumAndClamp()
+    {
+        Assert.Equal(0, RankMath.SumUpgradeLevels(0, 0, 5));
+        Assert.Equal(1, RankMath.SumUpgradeLevels(1, 0, 5));
+        Assert.Equal(2, RankMath.SumUpgradeLevels(1, 1, 5));
+        Assert.Equal(3, RankMath.SumUpgradeLevels(1, 2, 5));
+        Assert.Equal(5, RankMath.SumUpgradeLevels(3, 3, 5)); // clamp
+        Assert.Equal(4, RankMath.SumUpgradeLevels(1, 3, 99));
     }
 
     [Fact]
@@ -52,6 +63,8 @@ public class RankMathTests
     public void MixedRanks_Rejected()
     {
         Assert.False(RankMath.CanPair(Plain("STRIKE"), R2("STRIKE"), allowBasics: true));
+        Assert.False(RankMath.CanPair(R2("STRIKE"), R3("STRIKE"), allowBasics: true));
+        Assert.False(RankMath.CanPair(Plain("STRIKE"), R3("STRIKE"), allowBasics: true));
     }
 
     [Fact]
@@ -109,51 +122,35 @@ public class RankMathTests
         Assert.Equal(CardRankLevel.Rank3, RankMath.NextRank(CardRankLevel.Rank2));
     }
 
-    /// <summary>
-    /// Apply-plan is pure and deterministic for multiplayer mirrors:
-    /// same inputs always yield the same result rank (and upgrade flag).
-    /// </summary>
     [Fact]
     public void TryPlanCombine_IsDeterministicForPeerMirror()
     {
-        var sac = R2("BRENNEN-STRIKE", basic: true);
-        var surv = R2("BRENNEN-STRIKE", basic: true);
-        Assert.True(RankMath.TryPlanCombine(sac, surv, allowBasics: true, eitherUpgraded: true,
-            out CardRankLevel r1, out bool u1));
-        Assert.True(RankMath.TryPlanCombine(sac, surv, allowBasics: true, eitherUpgraded: true,
-            out CardRankLevel r2, out bool u2));
+        var sac = R2("BRENNEN-STRIKE", basic: true, up: 1);
+        var surv = R2("BRENNEN-STRIKE", basic: true, up: 0);
+        Assert.True(RankMath.TryPlanCombine(sac, surv, allowBasics: true, maxUpgradeLevel: 10,
+            out CardRankLevel r1, out int u1));
+        Assert.True(RankMath.TryPlanCombine(sac, surv, allowBasics: true, maxUpgradeLevel: 10,
+            out CardRankLevel r2, out int u2));
         Assert.Equal(r1, r2);
         Assert.Equal(u1, u2);
         Assert.Equal(CardRankLevel.Rank3, r1);
-        Assert.True(u1);
-    }
-
-    [Fact]
-    public void MixedTiers_CannotPair()
-    {
-        Assert.False(RankMath.CanPair(Plain("STRIKE"), R2("STRIKE"), allowBasics: true));
-        Assert.False(RankMath.CanPair(R2("STRIKE"), R3("STRIKE"), allowBasics: true));
-        Assert.False(RankMath.CanPair(Plain("STRIKE"), R3("STRIKE"), allowBasics: true));
+        Assert.Equal(1, u1);
     }
 
     [Fact]
     public void SameTier_PlanNextTierOnly()
     {
         Assert.True(RankMath.TryPlanCombine(
-            Plain("X"), Plain("X"), allowBasics: true, eitherUpgraded: false,
+            Plain("X"), Plain("X"), allowBasics: true, maxUpgradeLevel: 5,
             out CardRankLevel toR2, out _));
         Assert.Equal(CardRankLevel.Rank2, toR2);
 
         Assert.True(RankMath.TryPlanCombine(
-            R2("X"), R2("X"), allowBasics: true, eitherUpgraded: false,
+            R2("X"), R2("X"), allowBasics: true, maxUpgradeLevel: 5,
             out CardRankLevel toR3, out _));
         Assert.Equal(CardRankLevel.Rank3, toR3);
     }
 
-    /// <summary>
-    /// v1 is manual-only: RankMath has no pile-change auto-merge API —
-    /// only candidate/pair/plan helpers used by the rest-site path.
-    /// </summary>
     [Fact]
     public void ManualOnly_PublicSurfaceIsRestSiteHelpers()
     {
@@ -167,5 +164,16 @@ public class RankMathTests
         Assert.Contains("CanPair", names);
         Assert.Contains("TryPlanCombine", names);
         Assert.Contains("IsCandidate", names);
+        Assert.Contains("SumUpgradeLevels", names);
+    }
+
+    [Fact]
+    public void LooksLikeRank_IdBlobs()
+    {
+        Assert.True(RankMath.LooksLikeSecondRank("CARDRANKS-SECOND_RANK"));
+        Assert.True(RankMath.LooksLikeSecondRank("Foo.SECOND_RANK"));
+        Assert.True(RankMath.LooksLikeThirdRank("CARDRANKS-THIRD_RANK"));
+        Assert.False(RankMath.LooksLikeSecondRank("CARDRANKS-THIRD_RANK"));
+        Assert.False(RankMath.LooksLikeThirdRank("CARDRANKS-SECOND_RANK"));
     }
 }

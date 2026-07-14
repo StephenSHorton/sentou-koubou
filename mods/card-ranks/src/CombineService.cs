@@ -13,14 +13,12 @@ public static class CombineService
 {
     public static bool AllowBasics => CardRanksConfig.AllowCombineStrikeDefend;
 
-    // BaseLib model ids look like CARDRANKS-SECOND_RANK (see RankUpCards2's Id.Entry checks).
     public const string SecondRankEntry = "CARDRANKS-SECOND_RANK";
     public const string ThirdRankEntry = "CARDRANKS-THIRD_RANK";
 
     /// <summary>
-    /// Resolve rank from the live enchantment. Prefer type checks, fall back to ModelId.Entry
-    /// (RankUpCards2 style) so we never treat ranked cards as plain — that allowed mixed-tier
-    /// pairs and re-applied Rank 2 (which stacks Amount instead of upgrading).
+    /// Resolve rank from the live enchantment. Uses type hierarchy, ModelId, full id string,
+    /// and Amount (stacked SecondRank amount≥2 is treated as Rank3 — the old double-badge bug).
     /// </summary>
     public static CardRankLevel GetRank(CardModel card) => RankFromEnchantment(card.Enchantment);
 
@@ -29,41 +27,54 @@ public static class CombineService
         if (enchantment == null)
             return CardRankLevel.None;
 
-        switch (enchantment)
+        // Explicit types first.
+        if (enchantment is ThirdRank)
+            return CardRankLevel.Rank3;
+        if (enchantment is SecondRank second)
         {
-            case ThirdRank:
+            // Old bug stacked Amount on SecondRank instead of promoting to ThirdRank.
+            if (second.Amount >= 2)
                 return CardRankLevel.Rank3;
-            case SecondRank:
+            return CardRankLevel.Rank2;
+        }
+        if (enchantment is RankEnchantment ranked)
+            return ranked.Rank;
+
+        // Walk runtime type names (handles unexpected wrappers / name variants).
+        for (Type? t = enchantment.GetType(); t != null && t != typeof(object); t = t.BaseType)
+        {
+            string n = t.Name;
+            if (n.Contains("ThirdRank", StringComparison.OrdinalIgnoreCase)
+                || n.Contains("OriginalThird", StringComparison.OrdinalIgnoreCase))
+                return CardRankLevel.Rank3;
+            if (n.Contains("SecondRank", StringComparison.OrdinalIgnoreCase)
+                || n.Contains("OriginalSecond", StringComparison.OrdinalIgnoreCase))
+            {
+                if (enchantment.Amount >= 2)
+                    return CardRankLevel.Rank3;
                 return CardRankLevel.Rank2;
-            case RankEnchantment ranked:
-                return ranked.Rank;
+            }
         }
 
         string entry = enchantment.Id.Entry ?? "";
-        if (IsThirdRankEntry(entry))
-            return CardRankLevel.Rank3;
-        if (IsSecondRankEntry(entry))
-            return CardRankLevel.Rank2;
+        string category = enchantment.Id.Category ?? "";
+        string idBlob = $"{category}.{entry}|{enchantment.Id}|{enchantment.GetType().FullName}";
 
-        // Last resort: type name (handles unexpected id prefixes).
-        string typeName = enchantment.GetType().Name;
-        if (typeName.Contains("ThirdRank", StringComparison.OrdinalIgnoreCase))
+        if (RankMath.LooksLikeThirdRank(idBlob))
             return CardRankLevel.Rank3;
-        if (typeName.Contains("SecondRank", StringComparison.OrdinalIgnoreCase))
+        if (RankMath.LooksLikeSecondRank(idBlob))
+        {
+            if (enchantment.Amount >= 2)
+                return CardRankLevel.Rank3;
             return CardRankLevel.Rank2;
+        }
 
         return CardRankLevel.None;
     }
 
-    public static bool IsSecondRankEntry(string entry) =>
-        entry.Equals(SecondRankEntry, StringComparison.OrdinalIgnoreCase)
-        || entry.EndsWith("-SECOND_RANK", StringComparison.OrdinalIgnoreCase)
-        || entry.EndsWith("SECOND_RANK", StringComparison.OrdinalIgnoreCase);
+    public static bool IsSecondRankEntry(string entry) => RankMath.LooksLikeSecondRank(entry);
 
-    public static bool IsThirdRankEntry(string entry) =>
-        entry.Equals(ThirdRankEntry, StringComparison.OrdinalIgnoreCase)
-        || entry.EndsWith("-THIRD_RANK", StringComparison.OrdinalIgnoreCase)
-        || entry.EndsWith("THIRD_RANK", StringComparison.OrdinalIgnoreCase);
+    public static bool IsThirdRankEntry(string entry) => RankMath.LooksLikeThirdRank(entry);
 
     /// <summary>
     /// Vanilla basics plus modded starter basics: Rarity Basic with Strike/Defend tag,
@@ -84,13 +95,34 @@ public static class CombineService
     }
 
     public static RankCardView ToView(CardModel card) =>
-        new($"{card.Id.Category}/{card.Id.Entry}", GetRank(card), IsBasicLike(card));
+        new(
+            $"{card.Id.Category}/{card.Id.Entry}",
+            GetRank(card),
+            IsBasicLike(card),
+            card.CurrentUpgradeLevel);
 
     public static bool IsCandidate(CardModel card) =>
         RankMath.IsCandidate(ToView(card), AllowBasics);
 
-    public static bool CanPair(CardModel a, CardModel b) =>
-        RankMath.CanPair(ToView(a), ToView(b), AllowBasics);
+    public static bool CanPair(CardModel a, CardModel b)
+    {
+        bool ok = RankMath.CanPair(ToView(a), ToView(b), AllowBasics);
+        if (!ok)
+        {
+            MainFile.Logger.Info(
+                $"CanPair reject: {Describe(a)} vs {Describe(b)}");
+        }
+        return ok;
+    }
+
+    public static string Describe(CardModel card)
+    {
+        var e = card.Enchantment;
+        return $"{card.Id} rank={GetRank(card)} up={card.CurrentUpgradeLevel} " +
+               $"enchType={e?.GetType().Name ?? "null"} " +
+               $"enchId={e?.Id.ToString() ?? "null"} " +
+               $"entry={e?.Id.Entry ?? "null"} amount={e?.Amount.ToString() ?? "-"}";
+    }
 
     public static bool DeckHasCombinablePair(Player player)
     {
@@ -105,35 +137,39 @@ public static class CombineService
     }
 
     /// <summary>Master deck pile (rest-site master list), not draw/discard combat piles.</summary>
-    public static IReadOnlyList<CardModel> GetDeckCards(Player player)
-    {
-        // Prefer PileType.Deck — same source RankUpCards2 used; player.Deck is usually
-        // the same reference but GetPile is the stable rest-site master list.
-        return PileType.Deck.GetPile(player).Cards;
-    }
+    public static IReadOnlyList<CardModel> GetDeckCards(Player player) =>
+        PileType.Deck.GetPile(player).Cards;
 
     public static async Task ApplyLocalAsync(CardModel sacrifice, CardModel survivor)
     {
         CardRankLevel sacRank = GetRank(sacrifice);
         CardRankLevel survRank = GetRank(survivor);
+
+        if (sacRank != survRank)
+            throw new InvalidOperationException(
+                $"Mixed ranks cannot combine: {Describe(sacrifice)} vs {Describe(survivor)}");
+
         if (!CanPair(sacrifice, survivor))
             throw new InvalidOperationException(
-                $"Cards are not a legal combine pair (sac={sacRank}, surv={survRank}, " +
-                $"enchS={sacrifice.Enchantment?.Id.Entry}, enchV={survivor.Enchantment?.Id.Entry}).");
+                $"Cards are not a legal combine pair: {Describe(sacrifice)} vs {Describe(survivor)}");
 
-        bool eitherUpgraded = sacrifice.IsUpgraded || survivor.IsUpgraded;
-        // Same-tier only (enforced by CanPair); ladder is plain→R2, R2→R3.
-        CardRankLevel resultRank = RankMath.NextRank(survRank);
+        int maxUp = Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel);
+        // Uncapped / high caps: allow at least the sum.
+        maxUp = Math.Max(maxUp, sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
+
+        if (!RankMath.TryPlanCombine(
+                ToView(sacrifice), ToView(survivor), AllowBasics, maxUp,
+                out CardRankLevel resultRank, out int resultUpgrade))
+            throw new InvalidOperationException("TryPlanCombine failed after CanPair succeeded.");
 
         await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
         ApplyRankEnchantment(survivor, resultRank);
-        if (eitherUpgraded && !survivor.IsUpgraded)
-            CardCmd.Upgrade(survivor, CardPreviewStyle.None);
+        ApplyUpgradeLevel(survivor, resultUpgrade);
 
         MainFile.Logger.Info(
-            $"Combined {sacrifice.Id} {sacRank}+{survRank} → {resultRank} " +
-            $"(upgraded={eitherUpgraded}, now={GetRank(survivor)}, " +
-            $"entry={survivor.Enchantment?.Id.Entry}, amount={survivor.Enchantment?.Amount}).");
+            $"Combined OK: {sacrifice.Id} {sacRank}+{survRank} → rank {resultRank} " +
+            $"upgrade {sacrifice.CurrentUpgradeLevel}+{survivor.CurrentUpgradeLevel}→{resultUpgrade} | " +
+            $"now {Describe(survivor)}");
     }
 
     /// <summary>
@@ -155,16 +191,28 @@ public static class CombineService
             return;
         }
 
+        // Re-validate on peer so desync cannot create mixed-rank stacks.
+        if (GetRank(sacrifice) != GetRank(survivor) || !CanPair(sacrifice, survivor))
+        {
+            MainFile.Logger.Warn(
+                $"Remote combine rejected pair: {Describe(sacrifice)} vs {Describe(survivor)}");
+            return;
+        }
+
         await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
         ApplyRankEnchantment(survivor, (CardRankLevel)msg.resultRank);
-        if (msg.resultUpgraded && !survivor.IsUpgraded)
-            CardCmd.Upgrade(survivor, CardPreviewStyle.None);
+        ApplyUpgradeLevel(survivor, msg.resultUpgradeLevel);
     }
 
     public static CombineCardsMessage BuildMessage(CardModel sacrifice, CardModel survivor, Player owner)
     {
-        bool eitherUpgraded = sacrifice.IsUpgraded || survivor.IsUpgraded;
-        CardRankLevel resultRank = RankMath.NextRank(GetRank(survivor));
+        int maxUp = Math.Max(
+            Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
+            sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
+        RankMath.TryPlanCombine(
+            ToView(sacrifice), ToView(survivor), AllowBasics, maxUp,
+            out CardRankLevel resultRank, out int resultUpgrade);
+
         return new CombineCardsMessage
         {
             ownerNetId = owner.NetId,
@@ -175,31 +223,19 @@ public static class CombineService
             survivorRank = (int)GetRank(survivor),
             survivorUpgrade = survivor.CurrentUpgradeLevel,
             resultRank = (int)resultRank,
-            resultUpgraded = eitherUpgraded || survivor.IsUpgraded,
+            resultUpgradeLevel = resultUpgrade,
         };
     }
 
     /// <summary>
-    /// Replace any existing enchant with exactly one Rank 2/3 instance.
-    /// CardCmd.Enchant stacks Amount when the same type is already present — that is
-    /// what made "Rank 2" appear twice when we failed to clear / re-applied Rank 2.
+    /// Replace any existing enchant with exactly one Rank 2/3 instance (never stack Amount).
     /// </summary>
     private static void ApplyRankEnchantment(CardModel card, CardRankLevel rank)
     {
         if (rank is not (CardRankLevel.Rank2 or CardRankLevel.Rank3))
             return;
 
-        // Always clear first so we never hit the same-type amount-stack branch.
-        if (card.Enchantment != null)
-            CardCmd.ClearEnchantment(card);
-
-        // Belt-and-suspenders: publicized setter if Clear left anything (shouldn't).
-        if (card.Enchantment != null)
-        {
-            MainFile.Logger.Warn(
-                $"ClearEnchantment left {card.Enchantment.Id.Entry}; forcing null before re-rank.");
-            card.Enchantment = null;
-        }
+        ForceClearEnchantment(card);
 
         EnchantmentModel? applied = rank switch
         {
@@ -207,9 +243,86 @@ public static class CombineService
             _ => CardCmd.Enchant<SecondRank>(card, 1m),
         };
 
-        // Never display stacked amounts as a fake "double rank".
         if (applied != null && applied.Amount != 1)
             applied.Amount = 1;
+
+        // Normalize legacy double-SecondRank stacks if something re-stacked.
+        if (rank == CardRankLevel.Rank3
+            && card.Enchantment is SecondRank { Amount: >= 2 })
+        {
+            ForceClearEnchantment(card);
+            applied = CardCmd.Enchant<ThirdRank>(card, 1m);
+            if (applied != null)
+                applied.Amount = 1;
+        }
+
+        CardRankLevel now = GetRank(card);
+        if (now != rank)
+        {
+            MainFile.Logger.Error(
+                $"ApplyRankEnchantment expected {rank} but got {now} on {Describe(card)}");
+        }
+    }
+
+    private static void ForceClearEnchantment(CardModel card)
+    {
+        if (card.Enchantment == null)
+            return;
+
+        try
+        {
+            CardCmd.ClearEnchantment(card);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"ClearEnchantment threw: {e.Message}");
+        }
+
+        if (card.Enchantment != null)
+        {
+            MainFile.Logger.Warn(
+                $"ClearEnchantment left {card.Enchantment.Id}; forcing null.");
+            card.Enchantment = null;
+        }
+    }
+
+    /// <summary>Raise (or leave) survivor upgrade level to the planned sum.</summary>
+    private static void ApplyUpgradeLevel(CardModel survivor, int targetLevel)
+    {
+        if (targetLevel < 0)
+            targetLevel = 0;
+
+        // Prefer CardCmd.Upgrade so upgrade hooks/stats apply.
+        int guard = 0;
+        while (survivor.CurrentUpgradeLevel < targetLevel && guard++ < 32)
+        {
+            int before = survivor.CurrentUpgradeLevel;
+            try
+            {
+                CardCmd.Upgrade(survivor, CardPreviewStyle.None);
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Warn($"Upgrade step failed at {before}→{targetLevel}: {e.Message}");
+                break;
+            }
+            if (survivor.CurrentUpgradeLevel <= before)
+            {
+                // Hit a hard cap; try publicized setter as last resort.
+                if (survivor.CurrentUpgradeLevel < targetLevel)
+                {
+                    try
+                    {
+                        survivor.CurrentUpgradeLevel = targetLevel;
+                    }
+                    catch
+                    {
+                        // ignore
+                    }
+                }
+                break;
+            }
+        }
     }
 
     private static CardModel? FindCard(

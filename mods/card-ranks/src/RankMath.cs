@@ -11,7 +11,11 @@ public enum CardRankLevel
     Rank3 = 2,
 }
 
-public readonly record struct RankCardView(string Id, CardRankLevel Rank, bool IsBasicLike);
+public readonly record struct RankCardView(
+    string Id,
+    CardRankLevel Rank,
+    bool IsBasicLike,
+    int UpgradeLevel = 0);
 
 public static class RankMath
 {
@@ -24,6 +28,21 @@ public static class RankMath
         CardRankLevel.Rank3 => Rank3Multiplier,
         _ => 1m,
     };
+
+    /// <summary>True if an id/type blob names Rank 2 (not Rank 3).</summary>
+    public static bool LooksLikeSecondRank(string blob) =>
+        blob.Contains("SECOND_RANK", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("SECONDRANK", StringComparison.OrdinalIgnoreCase)
+        || (blob.Contains("SECOND", StringComparison.OrdinalIgnoreCase)
+            && blob.Contains("RANK", StringComparison.OrdinalIgnoreCase)
+            && !blob.Contains("THIRD", StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>True if an id/type blob names Rank 3.</summary>
+    public static bool LooksLikeThirdRank(string blob) =>
+        blob.Contains("THIRD_RANK", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("THIRDRANK", StringComparison.OrdinalIgnoreCase)
+        || (blob.Contains("THIRD", StringComparison.OrdinalIgnoreCase)
+            && blob.Contains("RANK", StringComparison.OrdinalIgnoreCase));
 
     /// <summary>A card can be offered as a combine candidate.</summary>
     public static bool IsCandidate(CardRankLevel rank, bool isBasicLike, bool allowBasics)
@@ -41,6 +60,7 @@ public static class RankMath
     /// <summary>
     /// Two cards may be combined only if they share identity, share rank
     /// (both plain → Rank2, both Rank2 → Rank3), and both pass candidate rules.
+    /// Mixed ranks (e.g. plain + Rank2, Rank2 + Rank3) are never legal.
     /// </summary>
     public static bool CanPair(RankCardView a, RankCardView b, bool allowBasics)
     {
@@ -59,6 +79,20 @@ public static class RankMath
         CardRankLevel.Rank2 => CardRankLevel.Rank3,
         _ => CardRankLevel.Rank3,
     };
+
+    /// <summary>
+    /// Combined upgrade level is the sum of both cards' upgrade levels, clamped to
+    /// <paramref name="maxUpgradeLevel"/> (use a large max for uncapped upgrade modes).
+    /// </summary>
+    public static int SumUpgradeLevels(int sacrificeLevel, int survivorLevel, int maxUpgradeLevel)
+    {
+        if (maxUpgradeLevel < 0)
+            maxUpgradeLevel = 0;
+        long sum = (long)Math.Max(0, sacrificeLevel) + Math.Max(0, survivorLevel);
+        if (sum > maxUpgradeLevel)
+            return maxUpgradeLevel;
+        return (int)sum;
+    }
 
     /// <summary>Whether the deck snapshot has at least one legal combine pair.</summary>
     public static bool DeckHasCombinablePair(IEnumerable<RankCardView> cards, bool allowBasics)
@@ -89,9 +123,27 @@ public static class RankMath
     }
 
     /// <summary>
-    /// Deterministic apply plan: which rank the survivor ends at, and whether
-    /// an upgrade should be forced if either input was upgraded.
+    /// Deterministic apply plan: next rank + summed upgrade level.
     /// </summary>
+    public static bool TryPlanCombine(
+        RankCardView sacrifice,
+        RankCardView survivor,
+        bool allowBasics,
+        int maxUpgradeLevel,
+        out CardRankLevel resultRank,
+        out int resultUpgradeLevel)
+    {
+        resultRank = CardRankLevel.None;
+        resultUpgradeLevel = 0;
+        if (!CanPair(sacrifice, survivor, allowBasics))
+            return false;
+        resultRank = NextRank(survivor.Rank);
+        resultUpgradeLevel = SumUpgradeLevels(
+            sacrifice.UpgradeLevel, survivor.UpgradeLevel, maxUpgradeLevel);
+        return true;
+    }
+
+    /// <summary>Back-compat helper used by older tests (upgrade = either card upgraded).</summary>
     public static bool TryPlanCombine(
         RankCardView sacrifice,
         RankCardView survivor,
@@ -100,12 +152,13 @@ public static class RankMath
         out CardRankLevel resultRank,
         out bool resultUpgraded)
     {
-        resultRank = CardRankLevel.None;
-        resultUpgraded = false;
-        if (!CanPair(sacrifice, survivor, allowBasics))
-            return false;
-        resultRank = NextRank(survivor.Rank);
-        resultUpgraded = eitherUpgraded;
-        return true;
+        int max = eitherUpgraded ? 99 : 99;
+        bool ok = TryPlanCombine(sacrifice, survivor, allowBasics, max,
+            out resultRank, out int level);
+        resultUpgraded = level > 0;
+        // Preserve old eitherUpgraded semantics for the bool when both are 0 but flag true:
+        if (ok && eitherUpgraded && level == 0)
+            resultUpgraded = true;
+        return ok;
     }
 }

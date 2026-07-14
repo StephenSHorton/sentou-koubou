@@ -64,15 +64,25 @@ public sealed class CombineSynchronizer : IDisposable
 
         CardModel a = picked[0];
         CardModel b = picked[1];
-        if (!CombineService.CanPair(a, b))
+
+        // Hard gate (ranks must match). Logs describe both cards if rejected.
+        if (CombineService.GetRank(a) != CombineService.GetRank(b)
+            || !CombineService.CanPair(a, b))
         {
-            MainFile.Logger.Info("Selection rejected: not a legal combine pair.");
+            MainFile.Logger.Info(
+                $"Selection rejected after picker: {CombineService.Describe(a)} | {CombineService.Describe(b)}");
             return false;
         }
 
-        // Sacrifice first pick, keep second as survivor (matches RankUpCards2 feel).
+        // Prefer the higher-upgrade card as survivor so we build on the stronger copy,
+        // then sum upgrade levels onto it.
         CardModel sacrifice = a;
         CardModel survivor = b;
+        if (a.CurrentUpgradeLevel > b.CurrentUpgradeLevel)
+        {
+            sacrifice = b;
+            survivor = a;
+        }
 
         try
         {
@@ -81,8 +91,7 @@ public sealed class CombineSynchronizer : IDisposable
             msg.Location = _messageBuffer.CurrentLocation;
             _gameService.SendMessage(msg);
 
-            // Let overlay teardown + rest-site layout finish before OnSelect returns
-            // (second open was sometimes laying out off-screen against mid-tween UI).
+            // Let overlay teardown + rest-site layout finish before OnSelect returns.
             await Task.Yield();
             return true;
         }
