@@ -100,8 +100,8 @@ public sealed class CombineSynchronizer : IDisposable
 
             await CombineService.ApplyLocalAsync(sacrifice, survivor);
 
-            // Optional bonus roll at every new tier (I / II / III). Never clears rank.
-            TierBonus bonus = await RankUi.MaybeOfferBonusRollAsync(survivor, resultTier);
+            // Auto bonus (no dialog) + brief card showcase like a reward pick.
+            TierBonus bonus = await RankUi.AutoGrantBonusAndShowcaseAsync(survivor, resultTier);
 
             _gameService.SendMessage(new CombineCardsMessage
             {
@@ -118,7 +118,6 @@ public sealed class CombineSynchronizer : IDisposable
                 Location = _messageBuffer.CurrentLocation,
             });
 
-            await Task.Yield();
             return true;
         }
         catch (Exception e)

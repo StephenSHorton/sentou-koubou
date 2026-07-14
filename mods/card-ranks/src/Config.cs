@@ -23,8 +23,8 @@ public sealed class CardRanksConfig : SimpleModConfig
     public static bool SpendCampfireAction { get; set; } = false;
 
     /// <summary>
-    /// When true, reaching a new tier offers an optional bonus roll (skippable).
-    /// Bonuses never clear the card's rank.
+    /// When true, reaching a new tier auto-grants a random bonus (no dialog)
+    /// and flashes the card. Bonuses never clear the card's rank.
     /// </summary>
     public static bool OfferTierBonusRolls { get; set; } = true;
 }

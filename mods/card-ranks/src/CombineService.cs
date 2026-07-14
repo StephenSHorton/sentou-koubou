@@ -24,13 +24,21 @@ public static class CombineService
 
     public static CardRankLevel GetRank(CardModel card)
     {
-        if (TrackedRanks.TryGetValue(card, out RankBox? box) && box.Rank != CardRankLevel.None)
-            return box.Rank;
-
+        // Always prefer the live enchantment — a stale tracker caused false tier
+        // mismatches and made same-tier combines fail after the first rank-up.
         CardRankLevel detected = RankFromEnchantment(card.Enchantment);
         if (detected != CardRankLevel.None)
+        {
             Track(card, detected);
-        return detected;
+            return detected;
+        }
+
+        if (card.Enchantment == null
+            && TrackedRanks.TryGetValue(card, out RankBox? box)
+            && box.Rank != CardRankLevel.None)
+            return box.Rank;
+
+        return CardRankLevel.None;
     }
 
     public static void Track(CardModel card, CardRankLevel rank) =>
@@ -299,12 +307,16 @@ public static class CombineService
 
     private static void ForceClearEnchantment(CardModel card)
     {
-        // Only clear *our* rank enchantments — never wipe a vanilla/game enchantment.
         if (card.Enchantment == null)
+        {
+            TrackedRanks.GetOrCreateValue(card).Rank = CardRankLevel.None;
             return;
+        }
 
-        if (RankFromEnchantment(card.Enchantment) == CardRankLevel.None
-            && card.Enchantment is not RankEnchantment)
+        // Never wipe a real vanilla/game enchantment (Sharp, Spiral, etc.).
+        bool isOurs = card.Enchantment is RankEnchantment
+                      || RankFromEnchantment(card.Enchantment) != CardRankLevel.None;
+        if (!isOurs)
         {
             MainFile.Logger.Warn(
                 $"Card already has non-rank enchantment {card.Enchantment.Id}; not clearing for rank.");
@@ -320,7 +332,9 @@ public static class CombineService
             MainFile.Logger.Warn($"ClearEnchantment threw: {e.Message}");
         }
 
-        if (card.Enchantment != null && card.Enchantment is RankEnchantment)
+        // Always force-null our rank so a subsequent Enchant never hits the
+        // "already has enchantment" / amount-stack paths (dual ribbons).
+        if (card.Enchantment != null)
             card.Enchantment = null;
 
         TrackedRanks.GetOrCreateValue(card).Rank = CardRankLevel.None;

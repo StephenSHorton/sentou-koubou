@@ -15,18 +15,20 @@ RankUpCards idea (not a fork).
 - Upgrade levels on the two cards are **summed** onto the survivor.
 - Rank lives in the enchantment slot (icon + mult). It is **never cleared** for bonuses.
 
-## Optional bonus roll (each new tier)
+## Auto bonus (each new tier)
 
-When a combine **reaches** Tier I, II, or III, a popup offers:
+When a combine **reaches** Tier I, II, or III:
 
-- **Roll** — random bonus from a positive-only pool  
-- **Skip** — keep the tier only  
+1. A random bonus is granted automatically (no dialog).
+2. The card flashes in a reward-style preview, then settles.
 
 Pool: **Clone**, **Soul's Power**, **Steady**, **Spiral**, **Imbued**, **Perfect Fit**, **Royally Approved**.
 
-Bonuses use keywords / Replay / rank-enchantment hooks so they **stack with rank** (game still allows only one *Enchantment* object — rank stays that object; bonuses are layered).
+Bonuses use keywords / Replay / rank hooks so they **stack with rank** (one Enchantment object = the tier; bonuses layer beside it).
 
-Setting: **Offer optional bonus roll when a card reaches a new tier**.
+If every pool bonus is already on that card, no new bonus is granted (still shows the showcase).
+
+Setting: **Auto-grant a random bonus when a card reaches a new tier**.
 
 ## Multiplayer
 

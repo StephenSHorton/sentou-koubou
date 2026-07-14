@@ -15,7 +15,7 @@ public static class Loc
         ["CARDRANKS-SPEND_CAMPFIRE_ACTION.title"] =
             "Spend campfire action when combining (off = free action)",
         ["CARDRANKS-OFFER_TIER_BONUS_ROLLS.title"] =
-            "Offer optional bonus roll when a card reaches a new tier (I / II / III)",
+            "Auto-grant a random bonus when a card reaches a new tier (I / II / III)",
     };
 
     private static readonly Dictionary<string, string> EnchantmentEntries = new()
@@ -72,7 +72,7 @@ public static class Loc
         {
             inject["OPTION_COMBINE_RANK.name"] = "Combine";
             inject["OPTION_COMBINE_RANK.description"] =
-                "Combine two identical cards: [blue]Tier I[/blue] → II → III (×1.5 / ×2 / ×3). Optional bonus roll each tier.";
+                "Combine two identical cards: [blue]Tier I[/blue] → II → III (×1.5 / ×2 / ×3). Auto bonus each tier.";
             inject["OPTION_COMBINE_RANK.descriptionDisabled"] =
                 "[red]No matching cards available to combine.[/red]";
             inject["OPTION_COMBINE_RANK.descriptionBasicsBlocked"] =
