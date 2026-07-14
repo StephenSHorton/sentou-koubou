@@ -10,6 +10,9 @@ public abstract class RankEnchantment : CustomEnchantmentModel
 
     public abstract decimal Multiplier { get; }
 
+    /// <summary>Ranks are exclusive tiers, never numeric stacks on the card face.</summary>
+    public override bool ShowAmount => false;
+
     public override decimal EnchantDamageMultiplicative(decimal originalDamage, ValueProp props)
     {
         return !props.IsPoweredAttack() ? 1m : Multiplier;

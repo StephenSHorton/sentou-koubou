@@ -128,6 +128,28 @@ public class RankMathTests
         Assert.True(u1);
     }
 
+    [Fact]
+    public void MixedTiers_CannotPair()
+    {
+        Assert.False(RankMath.CanPair(Plain("STRIKE"), R2("STRIKE"), allowBasics: true));
+        Assert.False(RankMath.CanPair(R2("STRIKE"), R3("STRIKE"), allowBasics: true));
+        Assert.False(RankMath.CanPair(Plain("STRIKE"), R3("STRIKE"), allowBasics: true));
+    }
+
+    [Fact]
+    public void SameTier_PlanNextTierOnly()
+    {
+        Assert.True(RankMath.TryPlanCombine(
+            Plain("X"), Plain("X"), allowBasics: true, eitherUpgraded: false,
+            out CardRankLevel toR2, out _));
+        Assert.Equal(CardRankLevel.Rank2, toR2);
+
+        Assert.True(RankMath.TryPlanCombine(
+            R2("X"), R2("X"), allowBasics: true, eitherUpgraded: false,
+            out CardRankLevel toR3, out _));
+        Assert.Equal(CardRankLevel.Rank3, toR3);
+    }
+
     /// <summary>
     /// v1 is manual-only: RankMath has no pile-change auto-merge API —
     /// only candidate/pair/plan helpers used by the rest-site path.
