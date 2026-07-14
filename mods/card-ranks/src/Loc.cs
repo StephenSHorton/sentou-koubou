@@ -54,6 +54,8 @@ public static class Loc
                 "Combine two identical cards to raise their [gold]Rank[/gold] (×1.5 then ×3 damage and block).",
             ["OPTION_COMBINE_RANK.descriptionDisabled"] =
                 "[red]No matching cards available to combine.[/red]",
+            ["OPTION_COMBINE_RANK.descriptionBasicsBlocked"] =
+                "[red]Strike/Defend are blocked by mod settings.[/red] Enable [gold]Allow combining Strike and Defend[/gold] in Card Ranks options.",
         });
     }
 

@@ -76,6 +76,19 @@ public static class RankMath
     }
 
     /// <summary>
+    /// True when the only reason there is no legal pair is that Strike/Defend basics
+    /// are blocked by settings (would combine if allowBasics were true).
+    /// </summary>
+    public static bool OnlyBlockedByBasicsPolicy(IEnumerable<RankCardView> cards, bool allowBasics)
+    {
+        if (allowBasics)
+            return false;
+        if (DeckHasCombinablePair(cards, allowBasics: true))
+            return !DeckHasCombinablePair(cards, allowBasics: false);
+        return false;
+    }
+
+    /// <summary>
     /// Deterministic apply plan: which rank the survivor ends at, and whether
     /// an upgrade should be forced if either input was upgraded.
     /// </summary>

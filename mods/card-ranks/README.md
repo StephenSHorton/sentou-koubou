@@ -11,7 +11,7 @@ Manual campfire card combining for **Slay the Spire 2** — a ground-up rebuild 
 | Rank 2 | ×**1.5** damage (powered attacks) and block |
 | Rank 3 | ×**3** damage and block |
 | Free action | Default **on** (toggle *Spend campfire action* to consume rest) |
-| Strike/Defend | Off by default; when on, includes vanilla *and* modded Basic Strike/Defend |
+| Strike/Defend | **On** by default; includes vanilla *and* modded Basic Strike/Defend |
 | Multiplayer | Owner selects; deck mutation broadcasts; peers mirror via net messages |
 | Auto-combine | **Not in v1** (no pile-change auto-merge) |
 
@@ -19,7 +19,7 @@ Every player in a co-op lobby should run the same mod version so messages decode
 
 ## Settings
 
-- **Allow combining Strike and Defend** — instance config (loads with the run; not sticky-false statics).
+- **Allow combining Strike and Defend** — default **on** (starter decks can combine immediately).
 - **Spend campfire action when combining** — off = free Combine tile.
 
 ## Build

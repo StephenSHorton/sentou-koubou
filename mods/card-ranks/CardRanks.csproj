@@ -48,12 +48,20 @@
 
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying CardRanks dll/json/assets to mods folder." Importance="high"/>
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
-        <Copy SourceFiles="CardRanks.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
-        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
-        <Copy SourceFiles="assets\rank2.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\rank2.png')"/>
-        <Copy SourceFiles="assets\rank3.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\rank3.png')"/>
-        <Copy SourceFiles="assets\combine_rest_site.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\combine_rest_site.png')"/>
-        <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\mod_image.png')"/>
+        <!-- Retry so a running STS2 lock doesn't fail the whole build; still warn. -->
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="CardRanks.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('$(TargetDir)$(TargetName).pdb')" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\rank2.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\rank2.png')" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\rank3.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\rank3.png')" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\combine_rest_site.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\combine_rest_site.png')" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\mod_image.png')" ContinueOnError="WarnAndContinue"/>
     </Target>
 </Project>

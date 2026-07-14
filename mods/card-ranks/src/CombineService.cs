@@ -50,8 +50,22 @@ public static class CombineService
 
     public static bool DeckHasCombinablePair(Player player)
     {
-        IEnumerable<RankCardView> views = player.Deck.Cards.Select(ToView);
+        IEnumerable<RankCardView> views = GetDeckCards(player).Select(ToView);
         return RankMath.DeckHasCombinablePair(views, AllowBasics);
+    }
+
+    public static bool OnlyBlockedByBasicsPolicy(Player player)
+    {
+        IEnumerable<RankCardView> views = GetDeckCards(player).Select(ToView);
+        return RankMath.OnlyBlockedByBasicsPolicy(views, AllowBasics);
+    }
+
+    /// <summary>Master deck pile (rest-site master list), not draw/discard combat piles.</summary>
+    public static IReadOnlyList<CardModel> GetDeckCards(Player player)
+    {
+        // Prefer PileType.Deck — same source RankUpCards2 used; player.Deck is usually
+        // the same reference but GetPile is the stable rest-site master list.
+        return PileType.Deck.GetPile(player).Cards;
     }
 
     public static async Task ApplyLocalAsync(CardModel sacrifice, CardModel survivor)
@@ -136,7 +150,7 @@ public static class CombineService
         int upgradeLevel,
         CardModel? exclude = null)
     {
-        var matches = player.Deck.Cards
+        var matches = GetDeckCards(player)
             .Where(c => c != exclude
                         && c.Id.Category == category
                         && c.Id.Entry == entry

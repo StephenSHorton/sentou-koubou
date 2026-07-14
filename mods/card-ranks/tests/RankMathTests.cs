@@ -98,6 +98,8 @@ public class RankMathTests
         ];
         Assert.False(RankMath.DeckHasCombinablePair(deck, allowBasics: false));
         Assert.True(RankMath.DeckHasCombinablePair(deck, allowBasics: true));
+        Assert.True(RankMath.OnlyBlockedByBasicsPolicy(deck, allowBasics: false));
+        Assert.False(RankMath.OnlyBlockedByBasicsPolicy(deck, allowBasics: true));
     }
 
     [Fact]

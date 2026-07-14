@@ -24,10 +24,11 @@ public sealed class CombineRestSiteOption : RestSiteOption
         get
         {
             Loc.EnsureRestSiteEntries();
-            string key = IsEnabled
-                ? $"OPTION_{OptionId}.description"
-                : $"OPTION_{OptionId}.descriptionDisabled";
-            return new LocString("rest_site_ui", key);
+            if (IsEnabled)
+                return new LocString("rest_site_ui", $"OPTION_{OptionId}.description");
+            if (CombineService.OnlyBlockedByBasicsPolicy(Owner))
+                return new LocString("rest_site_ui", $"OPTION_{OptionId}.descriptionBasicsBlocked");
+            return new LocString("rest_site_ui", $"OPTION_{OptionId}.descriptionDisabled");
         }
     }
 
