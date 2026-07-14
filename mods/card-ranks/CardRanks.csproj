@@ -10,6 +10,9 @@
         <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
         <PathMap>$(AppOutputBase)=.\</PathMap>
         <NoWarn>$(NoWarn);MSB3270</NoWarn>
+        <!-- Pack rank icons as res://card_ranks/*.png for BaseLib enchantment CustomIconPath -->
+        <PckPackerSourceDir>$(MSBuildProjectDirectory)/card_ranks/</PckPackerSourceDir>
+        <PckPackerResPrefix>card_ranks</PckPackerResPrefix>
     </PropertyGroup>
 
     <ItemGroup Condition="Exists('$(Sts2DataDir)')">
@@ -30,12 +33,15 @@
     <ItemGroup>
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.5" PrivateAssets="All"/>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
+        <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All"/>
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
     <ItemGroup>
         <None Include="CardRanks.json"/>
+        <None Include="project.godot"/>
         <None Include="assets/**"/>
+        <None Include="card_ranks/**"/>
         <Compile Remove="tests/**"/>
         <None Include="tests/**" />
     </ItemGroup>
@@ -63,5 +69,12 @@
               Condition="Exists('assets\combine_rest_site.png')" ContinueOnError="WarnAndContinue"/>
         <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Condition="Exists('assets\mod_image.png')" ContinueOnError="WarnAndContinue"/>
+    </Target>
+
+    <Target Name="CopyQuickPck" AfterTargets="PackPck"
+            Condition="Exists('$(PckPackerOutputPath)') And '$(PckPackerSkipped)' != 'true'">
+        <Message Text="Copying CardRanks.pck (rank icons) to mods folder." Importance="high"/>
+        <Copy SourceFiles="$(PckPackerOutputPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              ContinueOnError="WarnAndContinue"/>
     </Target>
 </Project>

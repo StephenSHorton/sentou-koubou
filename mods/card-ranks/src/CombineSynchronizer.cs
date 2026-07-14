@@ -51,9 +51,12 @@ public sealed class CombineSynchronizer : IDisposable
             RequireManualConfirmation = true,
         };
 
+        // No pre-filter (RankUpCards2 style): show the full deck. Filtering candidates
+        // before layout can leave the grid in a weird size/position after deck mutations.
+        // Pair rules still enforced in CheckIfSelectionComplete + CanPair below.
         IEnumerable<CardModel> selection =
             await MegaCrit.Sts2.Core.Commands.CardSelectCmd.FromDeckGeneric(
-                owner, prefs, CombineService.IsCandidate, null);
+                owner, prefs, filter: null, sortingOrder: null);
 
         List<CardModel> picked = selection.ToList();
         if (picked.Count < 2)
@@ -77,6 +80,10 @@ public sealed class CombineSynchronizer : IDisposable
             await CombineService.ApplyLocalAsync(sacrifice, survivor);
             msg.Location = _messageBuffer.CurrentLocation;
             _gameService.SendMessage(msg);
+
+            // Let overlay teardown + rest-site layout finish before OnSelect returns
+            // (second open was sometimes laying out off-screen against mid-tween UI).
+            await Task.Yield();
             return true;
         }
         catch (Exception e)

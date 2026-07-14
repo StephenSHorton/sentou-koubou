@@ -53,6 +53,12 @@ public sealed class CombineRestSiteOption : RestSiteOption
 
         bool combined = await sync.RunLocalCampfireCombine(Owner);
         sync.BroadcastCampfireResult(combined);
+
+        // Free combine (default) leaves the rest-site open for another pick — refresh
+        // chrome so the next deck-select grid isn't laid out against a half-animated room.
+        if (!CardRanksConfig.SpendCampfireAction)
+            RestSiteUi.RefreshAfterCombine(this);
+
         return combined && CardRanksConfig.SpendCampfireAction;
     }
 }

@@ -23,6 +23,8 @@ public abstract class RankEnchantment : CustomEnchantmentModel
 
 public sealed class SecondRank : RankEnchantment
 {
+    // Packaged via PckPacker (card_ranks/*.png). Avoid broken res:// paths — missing
+    // enchantment textures have been observed to scramble deck-select layout after rank-up.
     protected override string CustomIconPath => "res://card_ranks/rank2.png";
 
     public override CardRankLevel Rank => CardRankLevel.Rank2;

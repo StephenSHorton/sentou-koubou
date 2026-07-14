@@ -79,6 +79,7 @@ public static class RestSiteOptionIconPatch
 /// <summary>
 /// While choosing cards for combine, only complete selection when the pair is legal
 /// (same id, same rank, candidates under current config).
+/// Full deck is shown; invalid pairs simply cannot confirm.
 /// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "CheckIfSelectionComplete")]
 public static class CardSelectPatch
@@ -92,6 +93,7 @@ public static class CardSelectPatch
             return true;
 
         CardModel[] picked = __instance._selectedCards.Take(2).ToArray();
+        // false = skip original → selection does not complete (invalid pair).
         return CombineService.CanPair(picked[0], picked[1]);
     }
 }
