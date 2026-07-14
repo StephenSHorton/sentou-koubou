@@ -23,7 +23,6 @@ public abstract class CombineMessageBase : INetMessage, IPacketSerializable, IRu
     public abstract void Deserialize(PacketReader reader);
 }
 
-/// <summary>Owner combined two deck cards; peers mirror via CombineService.ApplyRemoteAsync.</summary>
 public sealed class CombineCardsMessage : CombineMessageBase
 {
     public ulong ownerNetId;
@@ -35,6 +34,7 @@ public sealed class CombineCardsMessage : CombineMessageBase
     public int survivorUpgrade;
     public int resultRank;
     public int resultUpgradeLevel;
+    public int bonusRolled;
 
     public override void Serialize(PacketWriter writer)
     {
@@ -47,6 +47,7 @@ public sealed class CombineCardsMessage : CombineMessageBase
         writer.WriteInt(survivorUpgrade);
         writer.WriteInt(resultRank);
         writer.WriteInt(resultUpgradeLevel);
+        writer.WriteInt(bonusRolled);
         writer.Write(Location);
     }
 
@@ -61,11 +62,11 @@ public sealed class CombineCardsMessage : CombineMessageBase
         survivorUpgrade = reader.ReadInt();
         resultRank = reader.ReadInt();
         resultUpgradeLevel = reader.ReadInt();
+        bonusRolled = reader.ReadInt();
         Location = reader.Read<RunLocation>();
     }
 }
 
-/// <summary>Campfire OnSelect outcome so peers finish the rest-site flow in lockstep.</summary>
 public sealed class CampfireCombineResultMessage : CombineMessageBase
 {
     public bool success;

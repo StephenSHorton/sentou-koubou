@@ -85,12 +85,39 @@ public sealed class CombineSynchronizer : IDisposable
 
         try
         {
-            CombineCardsMessage msg = CombineService.BuildMessage(sacrifice, survivor, owner);
-            await CombineService.ApplyLocalAsync(sacrifice, survivor);
-            msg.Location = _messageBuffer.CurrentLocation;
-            _gameService.SendMessage(msg);
+            // Snapshot for net message before sacrifice is removed.
+            int sacRank = (int)CombineService.GetRank(sacrifice);
+            int survRank = (int)CombineService.GetRank(survivor);
+            int sacUp = sacrifice.CurrentUpgradeLevel;
+            int survUp = survivor.CurrentUpgradeLevel;
+            string category = sacrifice.Id.Category;
+            string entry = sacrifice.Id.Entry;
+            CardRankLevel resultTier = RankMath.NextRank(CombineService.GetRank(survivor));
+            int maxUp = Math.Max(
+                Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
+                sacUp + survUp);
+            int resultUp = RankMath.SumUpgradeLevels(sacUp, survUp, maxUp);
 
-            // Let overlay teardown + rest-site layout finish before OnSelect returns.
+            await CombineService.ApplyLocalAsync(sacrifice, survivor);
+
+            // Optional bonus roll at every new tier (I / II / III). Never clears rank.
+            TierBonus bonus = await RankUi.MaybeOfferBonusRollAsync(survivor, resultTier);
+
+            _gameService.SendMessage(new CombineCardsMessage
+            {
+                ownerNetId = owner.NetId,
+                category = category,
+                entry = entry,
+                sacrificeRank = sacRank,
+                sacrificeUpgrade = sacUp,
+                survivorRank = survRank,
+                survivorUpgrade = survUp,
+                resultRank = (int)resultTier,
+                resultUpgradeLevel = resultUp,
+                bonusRolled = (int)bonus,
+                Location = _messageBuffer.CurrentLocation,
+            });
+
             await Task.Yield();
             return true;
         }

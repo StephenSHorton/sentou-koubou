@@ -9,17 +9,16 @@ namespace CardRanks;
 
 /// <summary>
 /// Single mutation path for combine: local rest-site success and multiplayer mirrors.
+/// Ladder: plain → Tier I (blue) → Tier II → Tier III.
 /// </summary>
 public static class CombineService
 {
     public static bool AllowBasics => CardRanksConfig.AllowCombineStrikeDefend;
 
-    /// <inheritdoc cref="RankMath.Rank2AmountTag"/>
-    public const int Rank2AmountTag = RankMath.Rank2AmountTag;
-    /// <inheritdoc cref="RankMath.Rank3AmountTag"/>
-    public const int Rank3AmountTag = RankMath.Rank3AmountTag;
+    public const int Tier1AmountTag = RankMath.Tier1AmountTag;
+    public const int Tier2AmountTag = RankMath.Tier2AmountTag;
+    public const int Tier3AmountTag = RankMath.Tier3AmountTag;
 
-    /// <summary>Weak map so we still know rank if detection fails mid-session.</summary>
     private static readonly ConditionalWeakTable<CardModel, RankBox> TrackedRanks = new();
 
     private sealed class RankBox
@@ -38,50 +37,49 @@ public static class CombineService
         return detected;
     }
 
-    public static void Track(CardModel card, CardRankLevel rank)
-    {
+    public static void Track(CardModel card, CardRankLevel rank) =>
         TrackedRanks.GetOrCreateValue(card).Rank = rank;
-    }
 
     public static CardRankLevel RankFromEnchantment(EnchantmentModel? enchantment)
     {
         if (enchantment == null)
             return CardRankLevel.None;
 
-        // 1) Amount tags we stamp on apply (most reliable across type-identity quirks).
-        if (enchantment.Amount == Rank3AmountTag)
-            return CardRankLevel.Rank3;
-        if (enchantment.Amount == Rank2AmountTag)
-            return CardRankLevel.Rank2;
+        // Amount tags we stamp on apply.
+        if (enchantment.Amount == Tier3AmountTag)
+            return CardRankLevel.Tier3;
+        if (enchantment.Amount == Tier2AmountTag)
+            return CardRankLevel.Tier2;
+        if (enchantment.Amount == Tier1AmountTag)
+            return CardRankLevel.Tier1;
 
-        // 2) Explicit types.
-        if (enchantment is ThirdRank)
-            return CardRankLevel.Rank3;
-        if (enchantment is SecondRank)
+        switch (enchantment)
         {
-            // Legacy: stacked SecondRank amount meant "double badge" / should be Rank3.
-            if (enchantment.Amount >= 2)
-                return CardRankLevel.Rank3;
-            return CardRankLevel.Rank2;
+            case ThirdRank:
+                return CardRankLevel.Tier3;
+            case SecondRank:
+                return CardRankLevel.Tier2;
+            case FirstRank:
+                return CardRankLevel.Tier1;
+            case RankEnchantment ranked:
+                return ranked.Rank;
         }
-        if (enchantment is RankEnchantment ranked)
-            return ranked.Rank;
 
-        // 3) Multiplier probe (virtual dispatch on our enchantments).
         try
         {
             decimal mult = enchantment.EnchantBlockMultiplicative(1m);
-            if (mult >= 2.9m) // 3x Rank3 (or 4x original)
-                return CardRankLevel.Rank3;
-            if (mult > 1.2m && mult < 2.5m) // 1.5x Rank2 (or 2x original)
-                return CardRankLevel.Rank2;
+            if (mult >= 2.9m)
+                return CardRankLevel.Tier3;
+            if (mult >= 1.9m)
+                return CardRankLevel.Tier2;
+            if (mult > 1.2m)
+                return CardRankLevel.Tier1;
         }
         catch
         {
             // ignore
         }
 
-        // 4) Icon path (res://card_ranks/rank2.png).
         string icon = "";
         try
         {
@@ -92,46 +90,42 @@ public static class CombineService
             // ignore
         }
         if (icon.Contains("rank3", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Rank3;
+            return CardRankLevel.Tier3;
         if (icon.Contains("rank2", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Rank2;
+            return CardRankLevel.Tier2;
+        if (icon.Contains("rank1", StringComparison.OrdinalIgnoreCase))
+            return CardRankLevel.Tier1;
 
-        // 5) Type name walk.
         for (Type? t = enchantment.GetType(); t != null && t != typeof(object); t = t.BaseType)
         {
             string n = t.Name;
             if (n.Contains("ThirdRank", StringComparison.OrdinalIgnoreCase))
-                return CardRankLevel.Rank3;
+                return CardRankLevel.Tier3;
             if (n.Contains("SecondRank", StringComparison.OrdinalIgnoreCase))
-                return enchantment.Amount >= 2 ? CardRankLevel.Rank3 : CardRankLevel.Rank2;
+                return CardRankLevel.Tier2;
+            if (n.Contains("FirstRank", StringComparison.OrdinalIgnoreCase))
+                return CardRankLevel.Tier1;
         }
 
-        // 6) Id / title blob.
         string entry = enchantment.Id.Entry ?? "";
         string category = enchantment.Id.Category ?? "";
-        string title = "";
-        try
-        {
-            title = enchantment.Title?.ToString() ?? "";
-        }
-        catch
-        {
-            // ignore
-        }
-        string idBlob = $"{category}.{entry}|{enchantment.Id}|{title}|{enchantment.GetType().FullName}";
+        string idBlob = $"{category}.{entry}|{enchantment.Id}|{enchantment.GetType().FullName}";
+        if (RankMath.LooksLikeThirdRank(idBlob))
+            return CardRankLevel.Tier3;
+        if (RankMath.LooksLikeSecondRank(idBlob))
+            return CardRankLevel.Tier2;
+        if (RankMath.LooksLikeTier1(idBlob))
+            return CardRankLevel.Tier1;
 
-        if (RankMath.LooksLikeThirdRank(idBlob) || title.Contains("Rank 3", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Rank3;
-        if (RankMath.LooksLikeSecondRank(idBlob) || title.Contains("Rank 2", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Rank2;
+        // Legacy amount-tag era (only 2 and 3 for old Rank2/Rank3).
+        if (enchantment.Amount == 3)
+            return CardRankLevel.Tier3;
+        if (enchantment.Amount == 2)
+            return CardRankLevel.Tier2;
 
         return CardRankLevel.None;
     }
 
-    /// <summary>
-    /// Vanilla basics plus modded starter basics: Rarity Basic with Strike/Defend tag,
-    /// or the game's IsBasicStrikeOrDefend flag.
-    /// </summary>
     public static bool IsBasicLike(CardModel card)
     {
         if (card.IsBasicStrikeOrDefend)
@@ -146,15 +140,10 @@ public static class CombineService
         return false;
     }
 
-    public static RankCardView ToView(CardModel card) =>
-        new(
-            CardKey(card),
-            GetRank(card),
-            IsBasicLike(card),
-            card.CurrentUpgradeLevel);
+    public static string CardKey(CardModel card) => $"{card.Id.Category}/{card.Id.Entry}";
 
-    public static string CardKey(CardModel card) =>
-        $"{card.Id.Category}/{card.Id.Entry}";
+    public static RankCardView ToView(CardModel card) =>
+        new(CardKey(card), GetRank(card), IsBasicLike(card), card.CurrentUpgradeLevel);
 
     public static bool SameCardIdentity(CardModel a, CardModel b) =>
         a.Id.Equals(b.Id) || string.Equals(CardKey(a), CardKey(b), StringComparison.Ordinal);
@@ -162,14 +151,10 @@ public static class CombineService
     public static bool IsCandidate(CardModel card) =>
         RankMath.IsCandidate(ToView(card), AllowBasics);
 
-    /// <summary>
-    /// Same card identity + same rank tier. Logs mismatches at Info for debugging.
-    /// </summary>
     public static bool CanPair(CardModel a, CardModel b)
     {
         if (ReferenceEquals(a, b))
             return false;
-
         if (!SameCardIdentity(a, b))
             return false;
 
@@ -185,8 +170,7 @@ public static class CombineService
         if (!RankMath.IsCandidate(ra, IsBasicLike(a), AllowBasics)
             || !RankMath.IsCandidate(rb, IsBasicLike(b), AllowBasics))
         {
-            MainFile.Logger.Info(
-                $"CanPair: not a candidate {ra} | {Describe(a)} || {Describe(b)}");
+            MainFile.Logger.Info($"CanPair: not a candidate {ra}");
             return false;
         }
 
@@ -196,37 +180,16 @@ public static class CombineService
     public static string Describe(CardModel card)
     {
         var e = card.Enchantment;
-        string icon = "";
-        decimal mult = 0;
-        try
-        {
-            icon = e?.IconPath ?? e?.IntendedIconPath ?? "";
-            if (e != null)
-                mult = e.EnchantBlockMultiplicative(1m);
-        }
-        catch
-        {
-            // ignore
-        }
-
-        return $"{card.Id} rank={GetRank(card)} up={card.CurrentUpgradeLevel} " +
-               $"enchType={e?.GetType().FullName ?? "null"} " +
-               $"enchId={e?.Id.ToString() ?? "null"} " +
-               $"entry={e?.Id.Entry ?? "null"} amount={e?.Amount.ToString() ?? "-"} " +
-               $"mult={mult} icon={icon}";
+        return $"{card.Id} tier={RankMath.TierRoman(GetRank(card))}({GetRank(card)}) " +
+               $"up={card.CurrentUpgradeLevel} ench={e?.GetType().Name ?? "null"} " +
+               $"amount={e?.Amount.ToString() ?? "-"} bonuses=[{string.Join(",", TierBonusService.GetAll(card))}]";
     }
 
-    public static bool DeckHasCombinablePair(Player player)
-    {
-        IEnumerable<RankCardView> views = GetDeckCards(player).Select(ToView);
-        return RankMath.DeckHasCombinablePair(views, AllowBasics);
-    }
+    public static bool DeckHasCombinablePair(Player player) =>
+        RankMath.DeckHasCombinablePair(GetDeckCards(player).Select(ToView), AllowBasics);
 
-    public static bool OnlyBlockedByBasicsPolicy(Player player)
-    {
-        IEnumerable<RankCardView> views = GetDeckCards(player).Select(ToView);
-        return RankMath.OnlyBlockedByBasicsPolicy(views, AllowBasics);
-    }
+    public static bool OnlyBlockedByBasicsPolicy(Player player) =>
+        RankMath.OnlyBlockedByBasicsPolicy(GetDeckCards(player).Select(ToView), AllowBasics);
 
     public static IReadOnlyList<CardModel> GetDeckCards(Player player) =>
         PileType.Deck.GetPile(player).Cards;
@@ -242,34 +205,33 @@ public static class CombineService
 
         if (!CanPair(sacrifice, survivor))
             throw new InvalidOperationException(
-                $"Cards are not a legal combine pair: {Describe(sacrifice)} vs {Describe(survivor)}");
+                $"Illegal pair: {Describe(sacrifice)} vs {Describe(survivor)}");
 
-        int maxUp = Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel);
-        maxUp = Math.Max(maxUp, sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
+        int maxUp = Math.Max(
+            Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
+            sacrifice.CurrentUpgradeLevel + survivor.CurrentUpgradeLevel);
 
         if (!RankMath.TryPlanCombine(
                 ToView(sacrifice), ToView(survivor), AllowBasics, maxUp,
                 out CardRankLevel resultRank, out int resultUpgrade))
-            throw new InvalidOperationException("TryPlanCombine failed after CanPair succeeded.");
+            throw new InvalidOperationException("TryPlanCombine failed.");
 
         int sacUp = sacrifice.CurrentUpgradeLevel;
         int survUp = survivor.CurrentUpgradeLevel;
 
-        // Enchant/upgrade FIRST, then remove sacrifice.
         ApplyRankEnchantment(survivor, resultRank);
         ApplyUpgradeLevel(survivor, resultUpgrade);
 
-        CardRankLevel now = GetRank(survivor);
-        if (now != resultRank)
+        if (GetRank(survivor) != resultRank)
             throw new InvalidOperationException(
-                $"Rank apply failed (wanted {resultRank}, got {now}); sacrifice not removed. {Describe(survivor)}");
+                $"Rank apply failed (wanted {resultRank}); sacrifice kept. {Describe(survivor)}");
 
         await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
         TrackedRanks.GetOrCreateValue(sacrifice).Rank = CardRankLevel.None;
 
         MainFile.Logger.Info(
-            $"Combined OK: {sacrifice.Id} {sacRank}+{survRank} → rank {resultRank} " +
-            $"upgrade {sacUp}+{survUp}→{resultUpgrade} | now {Describe(survivor)}");
+            $"Combined OK → Tier {RankMath.TierRoman(resultRank)} " +
+            $"up {sacUp}+{survUp}→{resultUpgrade} | {Describe(survivor)}");
     }
 
     public static async Task ApplyRemoteAsync(Player player, CombineCardsMessage msg)
@@ -281,17 +243,13 @@ public static class CombineService
 
         if (sacrifice == null || survivor == null)
         {
-            MainFile.Logger.Warn(
-                $"Remote combine could not resolve cards for {msg.category}/{msg.entry} " +
-                $"(sac rank={msg.sacrificeRank} up={msg.sacrificeUpgrade}, " +
-                $"surv rank={msg.survivorRank} up={msg.survivorUpgrade}).");
+            MainFile.Logger.Warn("Remote combine could not resolve cards.");
             return;
         }
 
         if (GetRank(sacrifice) != GetRank(survivor) || !CanPair(sacrifice, survivor))
         {
-            MainFile.Logger.Warn(
-                $"Remote combine rejected pair: {Describe(sacrifice)} vs {Describe(survivor)}");
+            MainFile.Logger.Warn($"Remote combine rejected: {Describe(sacrifice)} vs {Describe(survivor)}");
             return;
         }
 
@@ -299,14 +257,17 @@ public static class CombineService
         ApplyUpgradeLevel(survivor, msg.resultUpgradeLevel);
         if (GetRank(survivor) != (CardRankLevel)msg.resultRank)
         {
-            MainFile.Logger.Error(
-                $"Remote rank apply failed; not removing sacrifice. {Describe(survivor)}");
+            MainFile.Logger.Error("Remote rank apply failed; not removing sacrifice.");
             return;
         }
         await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
+
+        if (msg.bonusRolled != 0)
+            TierBonusService.Apply(survivor, (TierBonus)msg.bonusRolled);
     }
 
-    public static CombineCardsMessage BuildMessage(CardModel sacrifice, CardModel survivor, Player owner)
+    public static CombineCardsMessage BuildMessage(
+        CardModel sacrifice, CardModel survivor, Player owner, TierBonus bonusRolled = TierBonus.None)
     {
         int maxUp = Math.Max(
             Math.Max(survivor.MaxUpgradeLevel, sacrifice.MaxUpgradeLevel),
@@ -326,51 +287,51 @@ public static class CombineService
             survivorUpgrade = survivor.CurrentUpgradeLevel,
             resultRank = (int)resultRank,
             resultUpgradeLevel = resultUpgrade,
+            bonusRolled = (int)bonusRolled,
         };
     }
 
-    /// <summary>
-    /// Replace any existing enchant with exactly one Rank 2/3 instance.
-    /// Amount is stamped with <see cref="Rank2AmountTag"/> / <see cref="Rank3AmountTag"/> for reliable reads.
-    /// </summary>
     private static void ApplyRankEnchantment(CardModel card, CardRankLevel rank)
     {
-        if (rank is not (CardRankLevel.Rank2 or CardRankLevel.Rank3))
+        if (rank is not (CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3))
             return;
 
         ForceClearEnchantment(card);
 
-        int amountTag = rank == CardRankLevel.Rank3 ? Rank3AmountTag : Rank2AmountTag;
+        int amountTag = rank switch
+        {
+            CardRankLevel.Tier3 => Tier3AmountTag,
+            CardRankLevel.Tier2 => Tier2AmountTag,
+            _ => Tier1AmountTag,
+        };
 
         EnchantmentModel? applied = rank switch
         {
-            CardRankLevel.Rank3 => CardCmd.Enchant<ThirdRank>(card, amountTag),
-            _ => CardCmd.Enchant<SecondRank>(card, amountTag),
+            CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, amountTag),
+            CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, amountTag),
+            _ => CardCmd.Enchant<FirstRank>(card, amountTag),
         };
 
         if (applied != null && applied.Amount != amountTag)
             applied.Amount = amountTag;
 
         Track(card, rank);
-
-        CardRankLevel now = GetRank(card);
-        if (now != rank)
-        {
-            MainFile.Logger.Error(
-                $"ApplyRankEnchantment expected {rank} but got {now} on {Describe(card)}");
-            // Force tracker so picker filtering still works this run.
-            Track(card, rank);
-        }
-        else
-        {
-            MainFile.Logger.Info($"ApplyRankEnchantment OK: {Describe(card)}");
-        }
+        MainFile.Logger.Info($"ApplyRankEnchantment → {Describe(card)}");
     }
 
     private static void ForceClearEnchantment(CardModel card)
     {
+        // Only clear *our* rank enchantments — never wipe a vanilla/game enchantment.
         if (card.Enchantment == null)
             return;
+
+        if (RankFromEnchantment(card.Enchantment) == CardRankLevel.None
+            && card.Enchantment is not RankEnchantment)
+        {
+            MainFile.Logger.Warn(
+                $"Card already has non-rank enchantment {card.Enchantment.Id}; not clearing for rank.");
+            return;
+        }
 
         try
         {
@@ -381,12 +342,8 @@ public static class CombineService
             MainFile.Logger.Warn($"ClearEnchantment threw: {e.Message}");
         }
 
-        if (card.Enchantment != null)
-        {
-            MainFile.Logger.Warn(
-                $"ClearEnchantment left {card.Enchantment.Id}; forcing null.");
+        if (card.Enchantment != null && card.Enchantment is RankEnchantment)
             card.Enchantment = null;
-        }
 
         TrackedRanks.GetOrCreateValue(card).Rank = CardRankLevel.None;
     }
@@ -395,7 +352,6 @@ public static class CombineService
     {
         if (targetLevel < 0)
             targetLevel = 0;
-
         int guard = 0;
         while (survivor.CurrentUpgradeLevel < targetLevel && guard++ < 32)
         {
@@ -406,21 +362,18 @@ public static class CombineService
             }
             catch (Exception e)
             {
-                MainFile.Logger.Warn($"Upgrade step failed at {before}→{targetLevel}: {e.Message}");
+                MainFile.Logger.Warn($"Upgrade failed: {e.Message}");
                 break;
             }
             if (survivor.CurrentUpgradeLevel <= before)
             {
-                if (survivor.CurrentUpgradeLevel < targetLevel)
+                try
                 {
-                    try
-                    {
-                        survivor.CurrentUpgradeLevel = targetLevel;
-                    }
-                    catch
-                    {
-                        // ignore
-                    }
+                    survivor.CurrentUpgradeLevel = targetLevel;
+                }
+                catch
+                {
+                    // ignore
                 }
                 break;
             }
@@ -441,7 +394,6 @@ public static class CombineService
                         && c.Id.Entry == entry
                         && GetRank(c) == rank)
             .ToList();
-
         return matches.FirstOrDefault(c => c.CurrentUpgradeLevel == upgradeLevel)
                ?? matches.FirstOrDefault();
     }

@@ -5,8 +5,7 @@ namespace CardRanks;
 
 /// <summary>
 /// After a free Combine, rest-site chrome can stay mid-tween / mid-selection.
-/// RankUpCards2 reloads the option button; we also pull description back up so the
-/// next deck-select overlay lays out on a clean rest-site frame.
+/// Reload the option button and pull description back up.
 /// </summary>
 public static class RestSiteUi
 {
@@ -18,7 +17,6 @@ public static class RestSiteUi
             if (room == null)
                 return;
 
-            // Undo description drop that happens around option hover / select.
             room.AnimateDescriptionUp();
 
             var button = room.GetButtonForOption(option);
@@ -26,7 +24,6 @@ public static class RestSiteUi
                 return;
 
             button.Reload();
-            // Keep free-action tile clickable when more pairs remain.
             button._isUnclickable = !option.IsEnabled;
         }
         catch (Exception e)

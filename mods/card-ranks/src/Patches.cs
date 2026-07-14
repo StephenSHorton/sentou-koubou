@@ -54,10 +54,11 @@ public static class RestSiteOptionsPatch
 {
     public static void Postfix(Player player, List<RestSiteOption> __result)
     {
-        if (__result.Any(o => o.OptionId == CombineRestSiteOption.Id))
-            return;
         Loc.EnsureRestSiteEntries();
-        __result.Add(new CombineRestSiteOption(player));
+        if (__result.All(o => o.OptionId != CombineRestSiteOption.Id))
+            __result.Add(new CombineRestSiteOption(player));
+        if (__result.All(o => o.OptionId != CloneRestSiteOption.Id))
+            __result.Add(new CloneRestSiteOption(player));
     }
 }
 

@@ -1,56 +1,47 @@
 # Card Ranks
 
 Manual campfire card combining for **Slay the Spire 2** — a ground-up rebuild of the
-[RankUpCards2](https://github.com/moviejw/RankUpCards2) idea (not a fork).
+RankUpCards idea (not a fork).
 
-## v1 scope
+## Ladder
 
-| Feature | Behavior |
-|---------|----------|
-| **Combine** rest-site tile | Pick **two** identical cards (same `ModelId`, same rank) |
-| Rank 2 | ×**1.5** damage (powered attacks) and block |
-| Rank 3 | ×**3** damage and block |
-| Pairing | Only **same identity + same rank** (plain+plain → R2, R2+R2 → R3). Mixed tiers rejected. |
-| Picker | After first pick, only legal partners stay clickable (others dimmed). |
-| Upgrades | Survivor upgrade level becomes **sum** of both cards (clamped to max). |
-| Safety | Sacrifice is only removed after rank-up succeeds (no silent card loss). |
-| Free action | Default **on** (toggle *Spend campfire action* to consume rest) |
-| Strike/Defend | **On** by default; includes vanilla *and* modded Basic Strike/Defend |
-| Multiplayer | Owner selects; deck mutation broadcasts; peers mirror via net messages |
-| Auto-combine | **Not in v1** (no pile-change auto-merge) |
+| Tier | Badge | Multiplier | From |
+|------|-------|------------|------|
+| **I** (blue) | `rank1.png` | ×**1.5** damage/block | Two plain copies |
+| **II** | `rank2.png` | ×**2** | Two Tier I |
+| **III** | `rank3.png` | ×**3** | Two Tier II (max) |
 
-Every player in a co-op lobby should run the same mod version so messages decode correctly.
+- Same **card identity** and **same tier** only (picker dims illegal partners).
+- Upgrade levels on the two cards are **summed** onto the survivor.
+- Rank lives in the enchantment slot (icon + mult). It is **never cleared** for bonuses.
 
-## Settings
+## Optional bonus roll (each new tier)
 
-- **Allow combining Strike and Defend** — default **on** (starter decks can combine immediately).
-- **Spend campfire action when combining** — off = free Combine tile.
+When a combine **reaches** Tier I, II, or III, a popup offers:
 
-Open **Settings → Mods** (BaseLib mod config). Card Ranks only appears if settings use
-**static** properties (BaseLib requirement); instance properties are ignored and hide the mod.
+- **Roll** — random bonus from a positive-only pool  
+- **Skip** — keep the tier only  
+
+Pool: **Clone**, **Soul's Power**, **Steady**, **Spiral**, **Imbued**, **Perfect Fit**, **Royally Approved**.
+
+Bonuses use keywords / Replay / rank-enchantment hooks so they **stack with rank** (game still allows only one *Enchantment* object — rank stays that object; bonuses are layered).
+
+Setting: **Offer optional bonus roll when a card reaches a new tier**.
+
+## Multiplayer
+
+Every player needs the mod. Owner selects + rolls; peers mirror deck mutation + bonus.
 
 ## Build
 
 ```bash
 cd mods/card-ranks
 dotnet build -c Release
-# copies CardRanks.dll + .json + PNGs into the game Mods/CardRanks folder
-```
-
-```bash
 dotnet test tests/CardRanks.Tests.csproj -c Release
 ```
 
-Requires **BaseLib** ≥ 3.3.0 (Workshop / local).
+Copies `CardRanks.dll`, `.json`, `.pck` (rank icons), and rest-site PNG into the game Mods folder.
 
 ## Reference
 
-Design notes and original art/strings were read from gitignored `reference/RankUpCards2`
-(clone of the upstream mod). Icons shipped here are adapted from that reference for local rebuild work.
-
-## Not in v1
-
-- STS1-style auto-combine on deck entry
-- Ultimate Strike/Defend conversion
-- Neow “Encyclopedian” relic / Neow pool rewrite
-- Harmony scaling of non-damage DynamicVars
+Original art/strings: gitignored `reference/RankUpCards2`.

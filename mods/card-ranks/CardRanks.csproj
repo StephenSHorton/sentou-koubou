@@ -61,6 +61,8 @@
               ContinueOnError="WarnAndContinue"/>
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Condition="Exists('$(TargetDir)$(TargetName).pdb')" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\rank1.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\rank1.png')" ContinueOnError="WarnAndContinue"/>
         <Copy SourceFiles="assets\rank2.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Condition="Exists('assets\rank2.png')" ContinueOnError="WarnAndContinue"/>
         <Copy SourceFiles="assets\rank3.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"

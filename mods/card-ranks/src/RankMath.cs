@@ -1,14 +1,15 @@
 namespace CardRanks;
 
 /// <summary>
-/// Pure combine eligibility and rank ladder. No game types — unit-tested directly.
-/// Rank 2 multiplies damage/block by 1.5; Rank 3 by 3. Manual combine only (v1).
+/// Pure tier ladder. Plain → Tier I (blue) → Tier II → Tier III (max).
+/// Multipliers: I ×1.5, II ×2, III ×3 on damage/block.
 /// </summary>
 public enum CardRankLevel
 {
     None = 0,
-    Rank2 = 1,
-    Rank3 = 2,
+    Tier1 = 1,
+    Tier2 = 2,
+    Tier3 = 3,
 }
 
 public readonly record struct RankCardView(
@@ -19,42 +20,62 @@ public readonly record struct RankCardView(
 
 public static class RankMath
 {
-    public const decimal Rank2Multiplier = 1.5m;
-    public const decimal Rank3Multiplier = 3m;
+    public const decimal Tier1Multiplier = 1.5m;
+    public const decimal Tier2Multiplier = 2.0m;
+    public const decimal Tier3Multiplier = 3.0m;
 
-    /// <summary>
-    /// Stamped into EnchantmentModel.Amount on apply (UI ShowAmount is false).
-    /// Used so the picker can tell Rank 2 from plain even if type checks fail.
-    /// </summary>
-    public const int Rank2AmountTag = 2;
-    public const int Rank3AmountTag = 3;
+    /// <summary>Stamped into Enchantment.Amount (ShowAmount false) for reliable reads.</summary>
+    public const int Tier1AmountTag = 1;
+    public const int Tier2AmountTag = 2;
+    public const int Tier3AmountTag = 3;
+
+    // Back-compat aliases used by older amount-tag logic
+    public const int Rank2AmountTag = Tier2AmountTag;
+    public const int Rank3AmountTag = Tier3AmountTag;
+    public const decimal Rank2Multiplier = Tier1Multiplier;
+    public const decimal Rank3Multiplier = Tier3Multiplier;
 
     public static decimal Multiplier(CardRankLevel rank) => rank switch
     {
-        CardRankLevel.Rank2 => Rank2Multiplier,
-        CardRankLevel.Rank3 => Rank3Multiplier,
+        CardRankLevel.Tier1 => Tier1Multiplier,
+        CardRankLevel.Tier2 => Tier2Multiplier,
+        CardRankLevel.Tier3 => Tier3Multiplier,
         _ => 1m,
     };
 
-    /// <summary>True if an id/type blob names Rank 2 (not Rank 3).</summary>
+    public static string TierRoman(CardRankLevel rank) => rank switch
+    {
+        CardRankLevel.Tier1 => "I",
+        CardRankLevel.Tier2 => "II",
+        CardRankLevel.Tier3 => "III",
+        _ => "-",
+    };
+
+    public static bool LooksLikeTier1(string blob) =>
+        blob.Contains("FIRST_RANK", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("TIER1", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("TIER_1", StringComparison.OrdinalIgnoreCase)
+        || (blob.Contains("FIRST", StringComparison.OrdinalIgnoreCase)
+            && blob.Contains("RANK", StringComparison.OrdinalIgnoreCase));
+
     public static bool LooksLikeSecondRank(string blob) =>
         blob.Contains("SECOND_RANK", StringComparison.OrdinalIgnoreCase)
         || blob.Contains("SECONDRANK", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("TIER2", StringComparison.OrdinalIgnoreCase)
         || (blob.Contains("SECOND", StringComparison.OrdinalIgnoreCase)
             && blob.Contains("RANK", StringComparison.OrdinalIgnoreCase)
             && !blob.Contains("THIRD", StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>True if an id/type blob names Rank 3.</summary>
     public static bool LooksLikeThirdRank(string blob) =>
         blob.Contains("THIRD_RANK", StringComparison.OrdinalIgnoreCase)
         || blob.Contains("THIRDRANK", StringComparison.OrdinalIgnoreCase)
+        || blob.Contains("TIER3", StringComparison.OrdinalIgnoreCase)
         || (blob.Contains("THIRD", StringComparison.OrdinalIgnoreCase)
             && blob.Contains("RANK", StringComparison.OrdinalIgnoreCase));
 
-    /// <summary>A card can be offered as a combine candidate.</summary>
     public static bool IsCandidate(CardRankLevel rank, bool isBasicLike, bool allowBasics)
     {
-        if (rank >= CardRankLevel.Rank3)
+        if (rank >= CardRankLevel.Tier3)
             return false;
         if (isBasicLike && !allowBasics)
             return false;
@@ -64,11 +85,6 @@ public static class RankMath
     public static bool IsCandidate(RankCardView card, bool allowBasics) =>
         IsCandidate(card.Rank, card.IsBasicLike, allowBasics);
 
-    /// <summary>
-    /// Two cards may be combined only if they share identity, share rank
-    /// (both plain → Rank2, both Rank2 → Rank3), and both pass candidate rules.
-    /// Mixed ranks (e.g. plain + Rank2, Rank2 + Rank3) are never legal.
-    /// </summary>
     public static bool CanPair(RankCardView a, RankCardView b, bool allowBasics)
     {
         if (!string.Equals(a.Id, b.Id, StringComparison.Ordinal))
@@ -82,15 +98,12 @@ public static class RankMath
 
     public static CardRankLevel NextRank(CardRankLevel current) => current switch
     {
-        CardRankLevel.None => CardRankLevel.Rank2,
-        CardRankLevel.Rank2 => CardRankLevel.Rank3,
-        _ => CardRankLevel.Rank3,
+        CardRankLevel.None => CardRankLevel.Tier1,
+        CardRankLevel.Tier1 => CardRankLevel.Tier2,
+        CardRankLevel.Tier2 => CardRankLevel.Tier3,
+        _ => CardRankLevel.Tier3,
     };
 
-    /// <summary>
-    /// Combined upgrade level is the sum of both cards' upgrade levels, clamped to
-    /// <paramref name="maxUpgradeLevel"/> (use a large max for uncapped upgrade modes).
-    /// </summary>
     public static int SumUpgradeLevels(int sacrificeLevel, int survivorLevel, int maxUpgradeLevel)
     {
         if (maxUpgradeLevel < 0)
@@ -101,7 +114,6 @@ public static class RankMath
         return (int)sum;
     }
 
-    /// <summary>Whether the deck snapshot has at least one legal combine pair.</summary>
     public static bool DeckHasCombinablePair(IEnumerable<RankCardView> cards, bool allowBasics)
     {
         List<RankCardView> list = cards.Where(c => IsCandidate(c, allowBasics)).ToList();
@@ -116,10 +128,6 @@ public static class RankMath
         return false;
     }
 
-    /// <summary>
-    /// True when the only reason there is no legal pair is that Strike/Defend basics
-    /// are blocked by settings (would combine if allowBasics were true).
-    /// </summary>
     public static bool OnlyBlockedByBasicsPolicy(IEnumerable<RankCardView> cards, bool allowBasics)
     {
         if (allowBasics)
@@ -129,9 +137,6 @@ public static class RankMath
         return false;
     }
 
-    /// <summary>
-    /// Deterministic apply plan: next rank + summed upgrade level.
-    /// </summary>
     public static bool TryPlanCombine(
         RankCardView sacrifice,
         RankCardView survivor,
@@ -150,7 +155,6 @@ public static class RankMath
         return true;
     }
 
-    /// <summary>Back-compat helper used by older tests (upgrade = either card upgraded).</summary>
     public static bool TryPlanCombine(
         RankCardView sacrifice,
         RankCardView survivor,
@@ -159,13 +163,9 @@ public static class RankMath
         out CardRankLevel resultRank,
         out bool resultUpgraded)
     {
-        int max = eitherUpgraded ? 99 : 99;
-        bool ok = TryPlanCombine(sacrifice, survivor, allowBasics, max,
+        bool ok = TryPlanCombine(sacrifice, survivor, allowBasics, 99,
             out resultRank, out int level);
-        resultUpgraded = level > 0;
-        // Preserve old eitherUpgraded semantics for the bool when both are 0 but flag true:
-        if (ok && eitherUpgraded && level == 0)
-            resultUpgraded = true;
+        resultUpgraded = level > 0 || eitherUpgraded;
         return ok;
     }
 }

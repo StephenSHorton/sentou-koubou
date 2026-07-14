@@ -21,4 +21,10 @@ public sealed class CardRanksConfig : SimpleModConfig
     /// Default false matches RankUpCards2's free Combine tile.
     /// </summary>
     public static bool SpendCampfireAction { get; set; } = false;
+
+    /// <summary>
+    /// When true, reaching a new tier offers an optional bonus roll (skippable).
+    /// Bonuses never clear the card's rank.
+    /// </summary>
+    public static bool OfferTierBonusRolls { get; set; } = true;
 }
