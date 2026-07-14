@@ -26,7 +26,9 @@ These are applied as **real vanilla enchantments** when the card can stack them 
 
 **Clone** uses the **native** rest-site Clone button (`CLONE`, game art, **spends** the campfire action). We only inject that vanilla option when your deck has a Clone-enchanted card (same path as Paels’ Growth).
 
-Setting: **Auto-grant a random bonus when a card reaches a new tier**.
+**Combine spends the campfire action** by default (mod setting can make it free again).
+
+**Bonus enchantments** only on reaching **Tier II** and **Tier III** — not on first tier (plain → I).
 
 ## Multiplayer
 

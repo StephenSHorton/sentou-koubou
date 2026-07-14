@@ -17,14 +17,14 @@ public sealed class CardRanksConfig : SimpleModConfig
     public static bool AllowCombineStrikeDefend { get; set; } = true;
 
     /// <summary>
-    /// When true, a successful combine spends the campfire action.
-    /// Default false matches RankUpCards2's free Combine tile.
+    /// When true, a successful combine spends the campfire action (default).
+    /// Turn off only for free-combine testing / special runs.
     /// </summary>
-    public static bool SpendCampfireAction { get; set; } = false;
+    public static bool SpendCampfireAction { get; set; } = true;
 
     /// <summary>
-    /// When true, reaching a new tier auto-grants a random bonus (no dialog)
-    /// and flashes the card. Bonuses never clear the card's rank.
+    /// When true, reaching Tier II or III auto-grants a random bonus enchantment
+    /// (not on first tier). Bonuses never clear the card's rank.
     /// </summary>
     public static bool OfferTierBonusRolls { get; set; } = true;
 }

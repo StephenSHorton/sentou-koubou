@@ -21,8 +21,9 @@ public static class RankUi
     {
         TierBonus granted = TierBonus.None;
 
+        // No bonus on first tier-up (plain → I). Bonus only on II and III.
         if (CardRanksConfig.OfferTierBonusRolls
-            && newTier is CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3)
+            && newTier is CardRankLevel.Tier2 or CardRankLevel.Tier3)
         {
             try
             {
@@ -46,6 +47,11 @@ public static class RankUi
             {
                 MainFile.Logger.Error($"Auto tier bonus failed: {e}");
             }
+        }
+        else if (newTier == CardRankLevel.Tier1)
+        {
+            MainFile.Logger.Info(
+                $"No tier bonus on first tier (Tier I) for {survivor.Id}");
         }
 
         await PlayCombineRevealAsync(sacrifice1, sacrifice2, survivor, removeSacrificesAsync);

@@ -6,8 +6,9 @@ using MegaCrit.Sts2.Core.Localization;
 namespace CardRanks;
 
 /// <summary>
-/// Campfire "Combine" action. Free by default (does not spend rest action);
-/// multiplayer-safe via CombineSynchronizer.
+/// Campfire "Combine" action. Spends the rest-site action on success by default
+/// (config <see cref="CardRanksConfig.SpendCampfireAction"/>). Multiplayer-safe
+/// via CombineSynchronizer.
 /// </summary>
 public sealed class CombineRestSiteOption : RestSiteOption
 {
@@ -48,17 +49,26 @@ public sealed class CombineRestSiteOption : RestSiteOption
         if (!LocalContext.IsMe(Owner))
         {
             bool remoteOk = await sync.AwaitCampfireResult(Owner.NetId);
-            return remoteOk && CardRanksConfig.SpendCampfireAction;
+            return remoteOk && ShouldSpendRestAction();
         }
 
         bool combined = await sync.RunLocalCampfireCombine(Owner);
         sync.BroadcastCampfireResult(combined);
 
-        // Free combine (default) leaves the rest-site open for another pick — refresh
-        // chrome so the next deck-select grid isn't laid out against a half-animated room.
-        if (!CardRanksConfig.SpendCampfireAction)
+        // Free-combine mode only: keep rest site open and refresh chrome.
+        if (combined && !ShouldSpendRestAction())
             RestSiteUi.RefreshAfterCombine(this);
 
-        return combined && CardRanksConfig.SpendCampfireAction;
+        return combined && ShouldSpendRestAction();
+    }
+
+    /// <summary>Spend rest unless config disables it (or a free-rest relic is present).</summary>
+    private bool ShouldSpendRestAction()
+    {
+        if (!CardRanksConfig.SpendCampfireAction)
+            return false;
+        // Girya / similar extra-campfire relics still use a spent action per pick;
+        // no free-combine exemption unless we add an explicit relic later.
+        return true;
     }
 }
