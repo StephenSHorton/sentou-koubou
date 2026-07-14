@@ -57,9 +57,9 @@ public static class RestSiteOptionsPatch
         if (__result.All(o => o.OptionId != CombineRestSiteOption.Id))
             __result.Add(new CombineRestSiteOption(player));
 
-        if (__result.All(o => o.OptionId != CloneRestSiteOption.Id)
-            && CloneRestSiteOption.DeckHasCloneCard(player))
-            __result.Add(new CloneRestSiteOption(player));
+        // Native Clone button (OptionId "CLONE", option_clone.png art, spends rest).
+        // Vanilla only adds this via Paels' Growth; we add it when deck has Clone enchant.
+        NativeCloneRestSite.EnsureVanillaOption(player, __result);
     }
 }
 

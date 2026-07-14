@@ -77,14 +77,7 @@ public static class Loc
             ["OPTION_COMBINE_RANK.descriptionBasicsBlocked"] =
                 "[red]Strike/Defend are blocked by mod settings.[/red] Enable [gold]Allow combining Strike and Defend[/gold] in Card Ranks options.",
         };
-        if (!table.HasEntry("OPTION_CLONE_RANK.name"))
-        {
-            inject["OPTION_CLONE_RANK.name"] = "Clone";
-            inject["OPTION_CLONE_RANK.description"] =
-                "Duplicate a card that has the [gold]Clone[/gold] tier bonus. (Free action.)";
-            inject["OPTION_CLONE_RANK.descriptionDisabled"] =
-                "[red]No Clone-bonus cards in your deck.[/red]";
-        }
+        // Clone uses the vanilla rest option (OptionId CLONE) — no custom loc.
         table.MergeWith(inject);
     }
 
