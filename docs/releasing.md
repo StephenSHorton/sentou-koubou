@@ -16,6 +16,7 @@ Build and package **on a machine with STS2 installed** (same as MarisaMod and mo
 | `brennen/v0.1.1` | `Brennen.zip` |
 | `blake/v0.1.0` | `Blake.zip` |
 | `trading-post/v0.1.0` | `TradingPost.zip` |
+| `card-ranks/v0.1.0` | `CardRanks.zip` |
 
 ## Zip layout (Mods drop-in)
 

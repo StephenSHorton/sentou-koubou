@@ -2,7 +2,7 @@
   "id": "CardRanks",
   "name": "Card Ranks",
   "author": "BlakeHorton",
-  "description": "Combine identical cards at campfires into Rank 2 (×1.5) or Rank 3 (×3). Multiplayer-safe rebuild of the rank-up idea — manual only, no silent auto-merges.",
+  "description": "Combine 3 identical same-tier cards at campfires: plain → Tier I (×1.5) → II (×2) → III (×3). Spends rest. Bonus enchantments on II/III. Multiplayer-safe.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": true,
