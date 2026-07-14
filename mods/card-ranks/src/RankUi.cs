@@ -2,15 +2,14 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace CardRanks;
 
 /// <summary>
-/// Post-combine feedback: auto bonus, then a clean two-beat showcase —
-/// (1) sacrifice alone, (2) survivor alone with the new ribbon.
-/// Never stack previews or insert long empty waits between beats.
+/// Post-combine feedback. Matches RankUpCards2: silent sacrifice remove + single
+/// NCardEnchantVfx on the survivor. No CardCmd.Preview — Preview + VFX on an
+/// already-ranked card draws two copies (one with ribbon, one "gaining" it).
 /// </summary>
 public static class RankUi
 {
@@ -54,9 +53,7 @@ public static class RankUi
     }
 
     /// <summary>
-    /// Beat 1 — sacrifice alone (short flash, then silent deck remove).
-    /// Beat 2 — survivor alone gaining the ribbon (enchant VFX + short preview).
-    /// Only one card is on the preview layer at a time.
+    /// Silent remove sacrifice, then one enchant-ribbon VFX on the survivor.
     /// </summary>
     public static async Task PlayCombineRevealAsync(
         CardModel sacrifice,
@@ -65,23 +62,18 @@ public static class RankUi
     {
         try
         {
-            // --- Beat 1: sacrifice alone ---
-            // Brief single-card flash (feels like it's being consumed), then remove
-            // without a second deck-remove preview that would stack later.
-            await AwaitPreviewAsync(sacrifice, duration: 0.85f, timeoutMs: 1000);
-
             if (removeSacrificeAsync != null)
                 await removeSacrificeAsync();
             else
                 await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
 
-            // Tiny handoff so the first preview can leave the container.
-            await Task.Delay(120);
-
-            // --- Beat 2: survivor alone gains the ribbon ---
-            // Rank is already on the card; VFX = ribbon sparkle, Preview = one card center.
+            // Only the ribbon VFX — do NOT also CardCmd.Preview(survivor).
+            // Rank is already applied; Preview would show a second static copy
+            // that already has the ribbon while VFX animates another.
             SpawnEnchantVfx(survivor);
-            await AwaitPreviewAsync(survivor, duration: 1.35f, timeoutMs: 1600);
+
+            // Just long enough for the VFX to be readable before rest-site UI resumes.
+            await Task.Delay(750);
         }
         catch (Exception e)
         {
@@ -95,24 +87,6 @@ public static class RankUi
             {
                 // ignore
             }
-        }
-    }
-
-    private static async Task AwaitPreviewAsync(CardModel card, float duration, int timeoutMs)
-    {
-        try
-        {
-            TaskCompletionSource? tcs = CardCmd.Preview(
-                card, duration, CardPreviewStyle.HorizontalLayout);
-            if (tcs != null)
-                await Task.WhenAny(tcs.Task, Task.Delay(timeoutMs));
-            else
-                await Task.Delay(Math.Min(timeoutMs, (int)(duration * 1000) + 100));
-        }
-        catch (Exception e)
-        {
-            MainFile.Logger.Warn($"Card preview failed: {e.Message}");
-            await Task.Delay(200);
         }
     }
 
