@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
+// ModelDb used for rank prototypes under MultiEnchantment path.
 
 namespace CardRanks;
 
@@ -24,9 +25,9 @@ public static class CombineService
 
     public static CardRankLevel GetRank(CardModel card)
     {
-        // Always prefer the live enchantment — a stale tracker caused false tier
-        // mismatches and made same-tier combines fail after the first rank-up.
-        CardRankLevel detected = RankFromEnchantment(card.Enchantment);
+        // Prefer live leaf enchantments (unwrap UncappedSpire MultiEnchantment).
+        // Stale tracker alone caused false mismatches after rank-up.
+        CardRankLevel detected = MultiEnchantCompat.DetectRank(card);
         if (detected != CardRankLevel.None)
         {
             Track(card, detected);
@@ -49,72 +50,11 @@ public static class CombineService
         if (enchantment == null)
             return CardRankLevel.None;
 
-        // Prefer concrete types (Amount must stay 1 — the UI draws one ribbon per Amount).
-        switch (enchantment)
-        {
-            case ThirdRank:
-                return CardRankLevel.Tier3;
-            case SecondRank:
-                return CardRankLevel.Tier2;
-            case FirstRank:
-                return CardRankLevel.Tier1;
-            case RankEnchantment ranked:
-                return ranked.Rank;
-        }
+        // MultiEnchantment: never use product multipliers (1.5×2=3 false Tier III).
+        if (MultiEnchantCompat.IsMultiEnchantment(enchantment))
+            return CardRankLevel.None;
 
-        try
-        {
-            decimal mult = enchantment.EnchantBlockMultiplicative(1m);
-            if (mult >= 2.9m)
-                return CardRankLevel.Tier3;
-            if (mult >= 1.9m)
-                return CardRankLevel.Tier2;
-            if (mult > 1.2m)
-                return CardRankLevel.Tier1;
-        }
-        catch
-        {
-            // ignore
-        }
-
-        string icon = "";
-        try
-        {
-            icon = enchantment.IconPath ?? enchantment.IntendedIconPath ?? "";
-        }
-        catch
-        {
-            // ignore
-        }
-        if (icon.Contains("rank3", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Tier3;
-        if (icon.Contains("rank2", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Tier2;
-        if (icon.Contains("rank1", StringComparison.OrdinalIgnoreCase))
-            return CardRankLevel.Tier1;
-
-        for (Type? t = enchantment.GetType(); t != null && t != typeof(object); t = t.BaseType)
-        {
-            string n = t.Name;
-            if (n.Contains("ThirdRank", StringComparison.OrdinalIgnoreCase))
-                return CardRankLevel.Tier3;
-            if (n.Contains("SecondRank", StringComparison.OrdinalIgnoreCase))
-                return CardRankLevel.Tier2;
-            if (n.Contains("FirstRank", StringComparison.OrdinalIgnoreCase))
-                return CardRankLevel.Tier1;
-        }
-
-        string entry = enchantment.Id.Entry ?? "";
-        string category = enchantment.Id.Category ?? "";
-        string idBlob = $"{category}.{entry}|{enchantment.Id}|{enchantment.GetType().FullName}";
-        if (RankMath.LooksLikeThirdRank(idBlob))
-            return CardRankLevel.Tier3;
-        if (RankMath.LooksLikeSecondRank(idBlob))
-            return CardRankLevel.Tier2;
-        if (RankMath.LooksLikeTier1(idBlob))
-            return CardRankLevel.Tier1;
-
-        return CardRankLevel.None;
+        return MultiEnchantCompat.RankFromLeaf(enchantment);
     }
 
     public static bool IsBasicLike(CardModel card)
@@ -171,9 +111,12 @@ public static class CombineService
     public static string Describe(CardModel card)
     {
         var e = card.Enchantment;
+        string leaves = string.Join("+",
+            MultiEnchantCompat.EnumerateLeafEnchantments(card).Select(l => l.GetType().Name));
         return $"{card.Id} tier={RankMath.TierRoman(GetRank(card))}({GetRank(card)}) " +
                $"up={card.CurrentUpgradeLevel} ench={e?.GetType().Name ?? "null"} " +
-               $"amount={e?.Amount.ToString() ?? "-"} bonuses=[{string.Join(",", TierBonusService.GetAll(card))}]";
+               $"leaves=[{leaves}] amount={e?.Amount.ToString() ?? "-"} " +
+               $"bonuses=[{string.Join(",", TierBonusService.GetAll(card))}]";
     }
 
     public static bool DeckHasCombinablePair(Player player) =>
@@ -185,7 +128,7 @@ public static class CombineService
     public static IReadOnlyList<CardModel> GetDeckCards(Player player) =>
         PileType.Deck.GetPile(player).Cards;
 
-    public static async Task ApplyLocalAsync(CardModel sacrifice, CardModel survivor)
+    public static Task ApplyLocalAsync(CardModel sacrifice, CardModel survivor)
     {
         CardRankLevel sacRank = GetRank(sacrifice);
         CardRankLevel survRank = GetRank(survivor);
@@ -210,19 +153,43 @@ public static class CombineService
         int sacUp = sacrifice.CurrentUpgradeLevel;
         int survUp = survivor.CurrentUpgradeLevel;
 
+        // Rank + upgrades first (survivor stays in deck). Sacrifice removal is done
+        // by the reveal sequence so it can play the exhaust-style preview alone.
         ApplyRankEnchantment(survivor, resultRank);
         ApplyUpgradeLevel(survivor, resultUpgrade);
 
         if (GetRank(survivor) != resultRank)
             throw new InvalidOperationException(
-                $"Rank apply failed (wanted {resultRank}); sacrifice kept. {Describe(survivor)}");
-
-        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
-        TrackedRanks.GetOrCreateValue(sacrifice).Rank = CardRankLevel.None;
+                $"Rank apply failed (wanted {resultRank}, got {GetRank(survivor)}); " +
+                $"sacrifice kept. {Describe(survivor)}");
 
         MainFile.Logger.Info(
             $"Combined OK → Tier {RankMath.TierRoman(resultRank)} " +
             $"up {sacUp}+{survUp}→{resultUpgrade} | {Describe(survivor)}");
+        return Task.CompletedTask;
+    }
+
+    /// <summary>Remove sacrifice after reveal VFX (burn). Safe to call once.</summary>
+    public static async Task RemoveSacrificeAsync(CardModel sacrifice)
+    {
+        try
+        {
+            await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: true);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"RemoveSacrifice: {e.Message}");
+            try
+            {
+                await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
+            }
+            catch (Exception e2)
+            {
+                MainFile.Logger.Error($"RemoveSacrifice hard fail: {e2}");
+            }
+        }
+
+        TrackedRanks.GetOrCreateValue(sacrifice).Rank = CardRankLevel.None;
     }
 
     public static async Task ApplyRemoteAsync(Player player, CombineCardsMessage msg)
@@ -251,10 +218,11 @@ public static class CombineService
             MainFile.Logger.Error("Remote rank apply failed; not removing sacrifice.");
             return;
         }
-        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
 
         if (msg.bonusRolled != 0)
             TierBonusService.Apply(survivor, (TierBonus)msg.bonusRolled);
+
+        await RemoveSacrificeAsync(sacrifice);
     }
 
     public static CombineCardsMessage BuildMessage(
@@ -287,57 +255,104 @@ public static class CombineService
         if (rank is not (CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3))
             return;
 
-        ForceClearEnchantment(card);
+        // Under UncappedSpire, CardCmd.Enchant ADDS into MultiEnchantment.
+        // Strip previous First/Second/Third leaves first so we never stack ranks
+        // (blue+purple dual tabs) or multiply multipliers into a false Tier III.
+        MultiEnchantCompat.StripRankLeaves(card);
 
-        // Amount MUST be 1. The game paints one enchantment ribbon per Amount unit
-        // (even when ShowAmount is false) — using 2/3 as "tags" caused double/triple ribbons.
-        EnchantmentModel? applied = rank switch
+        EnchantmentModel? prototype = CreateRankPrototype(rank);
+        if (prototype == null)
+            throw new InvalidOperationException($"Could not create rank prototype for {rank}");
+
+        prototype.Amount = 1;
+
+        bool appliedIntoMulti = false;
+        if (MultiEnchantCompat.IsMultiEnchantment(card.Enchantment))
         {
-            CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
-            CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
-            _ => CardCmd.Enchant<FirstRank>(card, 1m),
-        };
+            // Keep non-rank leaves (Spiral, etc.); only add the new tier.
+            appliedIntoMulti = MultiEnchantCompat.TryAddIntoMulti(card, prototype);
+            if (appliedIntoMulti)
+            {
+                try
+                {
+                    prototype.ModifyCard();
+                }
+                catch (Exception e)
+                {
+                    MainFile.Logger.Warn($"Rank ModifyCard after multi-add: {e.Message}");
+                }
+            }
+        }
 
-        if (applied != null && applied.Amount != 1)
-            applied.Amount = 1;
+        if (!appliedIntoMulti)
+        {
+            // Lone rank slot, or multi strip emptied the wrapper.
+            if (card.Enchantment != null && MultiEnchantCompat.IsRankLeaf(card.Enchantment))
+                MultiEnchantCompat.HardClearTop(card);
+
+            try
+            {
+                EnchantmentModel? applied = rank switch
+                {
+                    CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
+                    CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
+                    CardRankLevel.Tier1 => CardCmd.Enchant<FirstRank>(card, 1m),
+                    _ => null,
+                };
+                if (applied != null)
+                    applied.Amount = 1;
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Warn($"Enchant failed ({rank}): {e.Message}; hard clear + retry.");
+                MultiEnchantCompat.HardClearTop(card);
+                EnchantmentModel? applied = rank switch
+                {
+                    CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
+                    CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
+                    _ => CardCmd.Enchant<FirstRank>(card, 1m),
+                };
+                if (applied != null)
+                    applied.Amount = 1;
+            }
+        }
+
+        // Clamp Amount=1 on every rank leaf (never stack ribbon counters).
+        foreach (EnchantmentModel leaf in MultiEnchantCompat.EnumerateLeafEnchantments(card))
+        {
+            if (MultiEnchantCompat.IsRankLeaf(leaf) && leaf.Amount != 1)
+                leaf.Amount = 1;
+        }
 
         Track(card, rank);
-        MainFile.Logger.Info($"ApplyRankEnchantment → {Describe(card)}");
+
+        CardRankLevel now = GetRank(card);
+        MainFile.Logger.Info(
+            $"ApplyRankEnchantment wanted={rank} now={now} type={card.Enchantment?.GetType().Name} " +
+            $"multi={MultiEnchantCompat.IsMultiEnchantment(card.Enchantment)} | {Describe(card)}");
+
+        if (now != rank)
+            throw new InvalidOperationException(
+                $"Rank mismatch after apply: wanted {rank}, got {now} ({Describe(card)})");
     }
 
-    private static void ForceClearEnchantment(CardModel card)
+    private static EnchantmentModel? CreateRankPrototype(CardRankLevel rank)
     {
-        if (card.Enchantment == null)
-        {
-            TrackedRanks.GetOrCreateValue(card).Rank = CardRankLevel.None;
-            return;
-        }
-
-        // Never wipe a real vanilla/game enchantment (Sharp, Spiral, etc.).
-        bool isOurs = card.Enchantment is RankEnchantment
-                      || RankFromEnchantment(card.Enchantment) != CardRankLevel.None;
-        if (!isOurs)
-        {
-            MainFile.Logger.Warn(
-                $"Card already has non-rank enchantment {card.Enchantment.Id}; not clearing for rank.");
-            return;
-        }
-
         try
         {
-            CardCmd.ClearEnchantment(card);
+            return rank switch
+            {
+                CardRankLevel.Tier3 => ModelDb.Enchantment<ThirdRank>().ToMutable(),
+                CardRankLevel.Tier2 => ModelDb.Enchantment<SecondRank>().ToMutable(),
+                CardRankLevel.Tier1 => ModelDb.Enchantment<FirstRank>().ToMutable(),
+                _ => null,
+            };
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"ClearEnchantment threw: {e.Message}");
+            MainFile.Logger.Error($"CreateRankPrototype {rank}: {e}");
+            return null;
         }
-
-        // Always force-null our rank so a subsequent Enchant never hits the
-        // "already has enchantment" / amount-stack paths (dual ribbons).
-        if (card.Enchantment != null)
-            card.Enchantment = null;
-
-        TrackedRanks.GetOrCreateValue(card).Rank = CardRankLevel.None;
     }
 
     private static void ApplyUpgradeLevel(CardModel survivor, int targetLevel)

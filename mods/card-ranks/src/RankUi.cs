@@ -1,4 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
@@ -8,69 +9,103 @@ using MegaCrit.Sts2.Core.Nodes.Vfx;
 namespace CardRanks;
 
 /// <summary>
-/// Post-combine feedback: auto tier bonus + brief card showcase (no dialogs).
+/// Post-combine feedback: auto bonus + sacrifice burn + survivor ribbon showcase.
+/// Never dual-card "before/after" for the two combine picks — one burns, one gains the ribbon.
 /// </summary>
 public static class RankUi
 {
     /// <summary>
-    /// Auto-roll a tier bonus (no skip prompt) and flash the card like a reward pick.
-    /// Returns the bonus applied (or None if pool empty / disabled).
+    /// Auto-grant a random tier bonus (no dialog), then play combine VFX:
+    /// sacrifice burns away, survivor alone gains the tier ribbon.
     /// </summary>
     public static async Task<TierBonus> AutoGrantBonusAndShowcaseAsync(
-        CardModel card, CardRankLevel newTier)
+        CardModel sacrifice,
+        CardModel survivor,
+        CardRankLevel newTier,
+        Func<Task>? removeSacrificeAsync)
     {
         TierBonus granted = TierBonus.None;
 
         if (CardRanksConfig.OfferTierBonusRolls
             && newTier is CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3)
         {
-            TierBonus? picked = TierBonusService.RollNew(card);
-            if (picked != null)
+            try
             {
-                TierBonusService.Apply(card, picked.Value);
-                granted = picked.Value;
-                MainFile.Logger.Info(
-                    $"Auto tier bonus {TierBonusService.DisplayName(granted)} on {card.Id} " +
-                    $"(Tier {RankMath.TierRoman(newTier)})");
+                TierBonus? picked = TierBonusService.RollNew(survivor);
+                if (picked != null)
+                {
+                    TierBonusService.Apply(survivor, picked.Value);
+                    granted = picked.Value;
+                    MainFile.Logger.Info(
+                        $"Auto tier bonus GRANTED: {TierBonusService.DisplayName(granted)} " +
+                        $"on {survivor.Id} (Tier {RankMath.TierRoman(newTier)}) " +
+                        $"| {CombineService.Describe(survivor)}");
+                }
+                else
+                {
+                    MainFile.Logger.Info(
+                        $"Auto tier bonus: pool exhausted for {survivor.Id}");
+                }
             }
-            else
+            catch (Exception e)
             {
-                MainFile.Logger.Info($"No remaining tier bonuses for {card.Id}");
+                MainFile.Logger.Error($"Auto tier bonus failed: {e}");
             }
         }
+        else
+        {
+            MainFile.Logger.Info(
+                $"Auto tier bonus disabled or not a tier-up (tier={newTier}, " +
+                $"setting={CardRanksConfig.OfferTierBonusRolls})");
+        }
 
-        await ShowcaseCardAsync(card);
+        await PlayCombineRevealAsync(sacrifice, survivor, removeSacrificeAsync);
         return granted;
     }
 
     /// <summary>
-    /// Same visual language as buying / picking a card: big preview, then it settles.
+    /// 1) Burn/remove the sacrifice alone (deck remove with preview = exhaust feel).
+    /// 2) Flash only the survivor gaining the tier ribbon + enchant VFX.
     /// </summary>
-    public static async Task ShowcaseCardAsync(CardModel card)
+    public static async Task PlayCombineRevealAsync(
+        CardModel sacrifice,
+        CardModel survivor,
+        Func<Task>? removeSacrificeAsync)
     {
         try
         {
-            SpawnEnchantVfx(card);
+            // Burn first — only the sacrificed card leaves the deck with preview.
+            if (removeSacrificeAsync != null)
+                await removeSacrificeAsync();
+            else
+                await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: true);
 
-            // Reward-style card flash (duration seconds).
+            // Readable beat between burn and ribbon.
+            await Task.Delay(500);
+
+            SpawnEnchantVfx(survivor);
+
+            // Single-card reward flash — never pass both combine picks.
             TaskCompletionSource? tcs = CardCmd.Preview(
-                card, 2.2f, CardPreviewStyle.HorizontalLayout);
+                survivor, 2.2f, CardPreviewStyle.HorizontalLayout);
 
             if (tcs != null)
-            {
-                Task finished = tcs.Task;
-                Task timeout = Task.Delay(2800);
-                await Task.WhenAny(finished, timeout);
-            }
+                await Task.WhenAny(tcs.Task, Task.Delay(2800));
             else
-            {
                 await Task.Delay(2200);
-            }
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"Card showcase failed: {e.Message}");
-            await Task.Delay(400);
+            MainFile.Logger.Warn($"Combine reveal failed: {e.Message}");
+            try
+            {
+                if (removeSacrificeAsync != null)
+                    await removeSacrificeAsync();
+            }
+            catch
+            {
+                // ignore
+            }
         }
     }
 

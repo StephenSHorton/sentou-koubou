@@ -20,15 +20,16 @@ public static class Loc
 
     private static readonly Dictionary<string, string> EnchantmentEntries = new()
     {
+        // BaseLib ids: CARDRANKS-FIRST_RANK / SECOND_RANK / THIRD_RANK
         ["CARDRANKS-FIRST_RANK.title"] = "Tier I",
         ["CARDRANKS-FIRST_RANK.description"] =
-            "Tier I (blue). Effect multiplied by [blue]1.5[/blue] (damage and block).",
+            "[blue]Tier I[/blue]. Effect ×[blue]1.5[/blue] damage and block.",
         ["CARDRANKS-SECOND_RANK.title"] = "Tier II",
         ["CARDRANKS-SECOND_RANK.description"] =
-            "Tier II. Effect multiplied by [blue]2[/blue] (damage and block).",
+            "[purple]Tier II[/purple]. Effect ×[blue]2[/blue] damage and block.",
         ["CARDRANKS-THIRD_RANK.title"] = "Tier III",
         ["CARDRANKS-THIRD_RANK.description"] =
-            "Tier III. Effect multiplied by [blue]3[/blue] (damage and block).",
+            "[gold]Tier III[/gold]. Effect ×[blue]3[/blue] damage and block.",
     };
 
     private static int _dynCounter;

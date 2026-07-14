@@ -98,10 +98,15 @@ public sealed class CombineSynchronizer : IDisposable
                 sacUp + survUp);
             int resultUp = RankMath.SumUpgradeLevels(sacUp, survUp, maxUp);
 
+            // Apply tier on survivor (does not remove sacrifice yet).
             await CombineService.ApplyLocalAsync(sacrifice, survivor);
 
-            // Auto bonus (no dialog) + brief card showcase like a reward pick.
-            TierBonus bonus = await RankUi.AutoGrantBonusAndShowcaseAsync(survivor, resultTier);
+            // Auto bonus + VFX: sacrifice burns, survivor alone gains ribbon.
+            TierBonus bonus = await RankUi.AutoGrantBonusAndShowcaseAsync(
+                sacrifice,
+                survivor,
+                resultTier,
+                removeSacrificeAsync: () => CombineService.RemoveSacrificeAsync(sacrifice));
 
             _gameService.SendMessage(new CombineCardsMessage
             {

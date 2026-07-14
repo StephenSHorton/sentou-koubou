@@ -132,17 +132,21 @@ public static class TierBonusService
                 case TierBonus.Clone:
                 case TierBonus.Imbued:
                 case TierBonus.PerfectFit:
-                    // Handled by RankEnchantment hooks / rest-site Clone option.
+                    // Flags only — RankEnchantment hooks / Clone rest option read Has(...).
+                    // (Real Imbued/etc. enchantments would fight for the single enchant slot
+                    // without UncappedSpire; hooks keep rank intact.)
                     break;
             }
+
+            MainFile.Logger.Info(
+                $"Tier bonus APPLIED: {DisplayName(bonus)} on {card.Id} " +
+                $"(replay={card.BaseReplayCount}, bonuses=[{string.Join(",", GetAll(card))}])");
         }
         catch (Exception e)
         {
             MainFile.Logger.Error($"Tier bonus apply {bonus} failed: {e}");
+            // Keep the flag so hooks can still fire even if keyword apply threw.
         }
-
-        MainFile.Logger.Info(
-            $"Tier bonus {DisplayName(bonus)} on {card.Id} (rank stays).");
     }
 
     public static bool HasClone(CardModel card) => Has(card, TierBonus.Clone);

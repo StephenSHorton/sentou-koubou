@@ -30,7 +30,7 @@ public static class MainFile
             Logger.Warn($"Settings loc inject deferred: {e.Message}");
         }
         Logger.Info(
-            $"Card Ranks loaded — manual campfire combine (Rank 2 ×1.5 / Rank 3 ×3). " +
+            $"Card Ranks loaded — Tier I×1.5 / II×2 / III×3, auto bonus each tier. " +
             $"AllowStrikeDefend={CardRanksConfig.AllowCombineStrikeDefend}, " +
             $"SpendAction={CardRanksConfig.SpendCampfireAction}");
         var harmony = new Harmony(ModId);

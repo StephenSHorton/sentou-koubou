@@ -9,8 +9,8 @@ using MegaCrit.Sts2.Core.ValueProps;
 namespace CardRanks;
 
 /// <summary>
-/// Rank lives in the enchantment slot (multiplier + icon). Tier bonuses use keywords/Replay
-/// and hooks here so rank is never cleared when a bonus is rolled.
+/// Rank lives in the enchantment slot (one ribbon + multiplier).
+/// Amount is always 1 so the UI never stacks multiple ribbons.
 /// </summary>
 public abstract class RankEnchantment : CustomEnchantmentModel
 {
@@ -19,6 +19,9 @@ public abstract class RankEnchantment : CustomEnchantmentModel
     public abstract decimal Multiplier { get; }
 
     public override bool ShowAmount => false;
+
+    /// <summary>Never paint stacked ribbons.</summary>
+    public override int DisplayAmount => 1;
 
     public override decimal EnchantDamageMultiplicative(decimal originalDamage, ValueProp props)
     {
@@ -35,20 +38,18 @@ public abstract class RankEnchantment : CustomEnchantmentModel
         return playCount + TierBonusService.ReplayBonus(Card);
     }
 
-    /// <summary>Perfect Fit: move this card to the front of the shuffled draw order.</summary>
     public override void ModifyShuffleOrder(Player player, List<CardModel> cards, bool isCombatStartShuffle)
     {
         if (Card == null || !TierBonusService.Has(Card, TierBonus.PerfectFit))
             return;
         if (isCombatStartShuffle)
-            return; // vanilla Perfect Fit skips opening shuffle
+            return;
         if (!cards.Contains(Card))
             return;
         cards.Remove(Card);
         cards.Insert(0, Card);
     }
 
-    /// <summary>Imbued: free auto-play at combat start.</summary>
     public override async Task AfterAutoPrePlayPhaseEntered(
         PlayerChoiceContext context, Player player)
     {
