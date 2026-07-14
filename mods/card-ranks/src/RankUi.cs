@@ -1,23 +1,17 @@
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
-using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace CardRanks;
 
 /// <summary>
-/// Post-combine feedback: auto bonus + sacrifice burn + survivor ribbon showcase.
-/// Never dual-card "before/after" for the two combine picks — one burns, one gains the ribbon.
+/// Post-combine feedback: auto bonus + sacrifice burn, then survivor ribbon only.
+/// Avoid stacking remove-preview + CardCmd.Preview + enchant VFX (that showed 3 cards).
 /// </summary>
 public static class RankUi
 {
-    /// <summary>
-    /// Auto-grant a random tier bonus (no dialog), then play combine VFX:
-    /// sacrifice burns away, survivor alone gains the tier ribbon.
-    /// </summary>
     public static async Task<TierBonus> AutoGrantBonusAndShowcaseAsync(
         CardModel sacrifice,
         CardModel survivor,
@@ -52,20 +46,14 @@ public static class RankUi
                 MainFile.Logger.Error($"Auto tier bonus failed: {e}");
             }
         }
-        else
-        {
-            MainFile.Logger.Info(
-                $"Auto tier bonus disabled or not a tier-up (tier={newTier}, " +
-                $"setting={CardRanksConfig.OfferTierBonusRolls})");
-        }
 
         await PlayCombineRevealAsync(sacrifice, survivor, removeSacrificeAsync);
         return granted;
     }
 
     /// <summary>
-    /// 1) Burn/remove the sacrifice alone (deck remove with preview = exhaust feel).
-    /// 2) Flash only the survivor gaining the tier ribbon + enchant VFX.
+    /// Phase 1: sacrifice burns alone (deck remove with preview).
+    /// Phase 2: only after that settles, survivor gets ribbon enchant VFX (one card).
     /// </summary>
     public static async Task PlayCombineRevealAsync(
         CardModel sacrifice,
@@ -74,25 +62,22 @@ public static class RankUi
     {
         try
         {
-            // Burn first — only the sacrificed card leaves the deck with preview.
+            // --- Burn only the sacrifice (one card on screen) ---
             if (removeSacrificeAsync != null)
                 await removeSacrificeAsync();
             else
                 await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: true);
 
-            // Readable beat between burn and ribbon.
-            await Task.Delay(500);
+            // RemoveFromDeck's Task can complete while the fly-away preview is still
+            // visible. Wait long enough that it fully leaves before we show the survivor,
+            // otherwise the player sees 2–3 cards stacked in the preview container.
+            await Task.Delay(1400);
 
+            // --- Survivor alone: ribbon enchant VFX (no second CardCmd.Preview) ---
+            // NCardEnchantVfx is the "gaining the ribbon" animation. Adding CardCmd.Preview
+            // on top of remove-preview + VFX was showing three cards.
             SpawnEnchantVfx(survivor);
-
-            // Single-card reward flash — never pass both combine picks.
-            TaskCompletionSource? tcs = CardCmd.Preview(
-                survivor, 2.2f, CardPreviewStyle.HorizontalLayout);
-
-            if (tcs != null)
-                await Task.WhenAny(tcs.Task, Task.Delay(2800));
-            else
-                await Task.Delay(2200);
+            await Task.Delay(1600);
         }
         catch (Exception e)
         {
