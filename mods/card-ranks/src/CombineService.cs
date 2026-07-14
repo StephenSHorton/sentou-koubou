@@ -15,10 +15,6 @@ public static class CombineService
 {
     public static bool AllowBasics => CardRanksConfig.AllowCombineStrikeDefend;
 
-    public const int Tier1AmountTag = RankMath.Tier1AmountTag;
-    public const int Tier2AmountTag = RankMath.Tier2AmountTag;
-    public const int Tier3AmountTag = RankMath.Tier3AmountTag;
-
     private static readonly ConditionalWeakTable<CardModel, RankBox> TrackedRanks = new();
 
     private sealed class RankBox
@@ -45,14 +41,7 @@ public static class CombineService
         if (enchantment == null)
             return CardRankLevel.None;
 
-        // Amount tags we stamp on apply.
-        if (enchantment.Amount == Tier3AmountTag)
-            return CardRankLevel.Tier3;
-        if (enchantment.Amount == Tier2AmountTag)
-            return CardRankLevel.Tier2;
-        if (enchantment.Amount == Tier1AmountTag)
-            return CardRankLevel.Tier1;
-
+        // Prefer concrete types (Amount must stay 1 — the UI draws one ribbon per Amount).
         switch (enchantment)
         {
             case ThirdRank:
@@ -116,12 +105,6 @@ public static class CombineService
             return CardRankLevel.Tier2;
         if (RankMath.LooksLikeTier1(idBlob))
             return CardRankLevel.Tier1;
-
-        // Legacy amount-tag era (only 2 and 3 for old Rank2/Rank3).
-        if (enchantment.Amount == 3)
-            return CardRankLevel.Tier3;
-        if (enchantment.Amount == 2)
-            return CardRankLevel.Tier2;
 
         return CardRankLevel.None;
     }
@@ -298,22 +281,17 @@ public static class CombineService
 
         ForceClearEnchantment(card);
 
-        int amountTag = rank switch
-        {
-            CardRankLevel.Tier3 => Tier3AmountTag,
-            CardRankLevel.Tier2 => Tier2AmountTag,
-            _ => Tier1AmountTag,
-        };
-
+        // Amount MUST be 1. The game paints one enchantment ribbon per Amount unit
+        // (even when ShowAmount is false) — using 2/3 as "tags" caused double/triple ribbons.
         EnchantmentModel? applied = rank switch
         {
-            CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, amountTag),
-            CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, amountTag),
-            _ => CardCmd.Enchant<FirstRank>(card, amountTag),
+            CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
+            CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
+            _ => CardCmd.Enchant<FirstRank>(card, 1m),
         };
 
-        if (applied != null && applied.Amount != amountTag)
-            applied.Amount = amountTag;
+        if (applied != null && applied.Amount != 1)
+            applied.Amount = 1;
 
         Track(card, rank);
         MainFile.Logger.Info($"ApplyRankEnchantment → {Describe(card)}");

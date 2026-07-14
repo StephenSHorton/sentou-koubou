@@ -103,14 +103,6 @@ public class RankMathTests
     }
 
     [Fact]
-    public void AmountTags_Distinct()
-    {
-        Assert.Equal(1, RankMath.Tier1AmountTag);
-        Assert.Equal(2, RankMath.Tier2AmountTag);
-        Assert.Equal(3, RankMath.Tier3AmountTag);
-    }
-
-    [Fact]
     public void RomanLabels()
     {
         Assert.Equal("I", RankMath.TierRoman(CardRankLevel.Tier1));

@@ -24,14 +24,7 @@ public static class RankMath
     public const decimal Tier2Multiplier = 2.0m;
     public const decimal Tier3Multiplier = 3.0m;
 
-    /// <summary>Stamped into Enchantment.Amount (ShowAmount false) for reliable reads.</summary>
-    public const int Tier1AmountTag = 1;
-    public const int Tier2AmountTag = 2;
-    public const int Tier3AmountTag = 3;
-
-    // Back-compat aliases used by older amount-tag logic
-    public const int Rank2AmountTag = Tier2AmountTag;
-    public const int Rank3AmountTag = Tier3AmountTag;
+    // Amount is always 1 on rank enchantments (UI draws one icon per Amount).
     public const decimal Rank2Multiplier = Tier1Multiplier;
     public const decimal Rank3Multiplier = Tier3Multiplier;
 
