@@ -57,7 +57,11 @@ public static class RestSiteOptionsPatch
         Loc.EnsureRestSiteEntries();
         if (__result.All(o => o.OptionId != CombineRestSiteOption.Id))
             __result.Add(new CombineRestSiteOption(player));
-        if (__result.All(o => o.OptionId != CloneRestSiteOption.Id))
+
+        // Only inject Clone when the deck actually has a Clone-bonus card.
+        // (IsEnabled alone still leaves a greyed tile that looks "available".)
+        if (__result.All(o => o.OptionId != CloneRestSiteOption.Id)
+            && CloneRestSiteOption.DeckHasCloneCard(player))
             __result.Add(new CloneRestSiteOption(player));
     }
 }

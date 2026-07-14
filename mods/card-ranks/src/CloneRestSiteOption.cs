@@ -22,8 +22,10 @@ public sealed class CloneRestSiteOption : RestSiteOption
 
     public override IEnumerable<string> AssetPaths => Enumerable.Empty<string>();
 
-    public override bool IsEnabled =>
-        CombineService.GetDeckCards(Owner).Any(TierBonusService.HasClone);
+    public static bool DeckHasCloneCard(Player player) =>
+        CombineService.GetDeckCards(player).Any(TierBonusService.HasClone);
+
+    public override bool IsEnabled => DeckHasCloneCard(Owner);
 
     public override LocString Description
     {
