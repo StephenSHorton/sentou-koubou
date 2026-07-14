@@ -110,8 +110,50 @@ internal static class CombineSelectGate
 }
 
 /// <summary>
+/// Gate each click: first pick must be a candidate; second pick must CanPair with the first.
+/// Vanilla auto-opens PreviewSelection when MaxSelect is reached — illegal seconds never add.
+/// </summary>
+[HarmonyPatch(typeof(NDeckCardSelectScreen), "OnCardClicked")]
+public static class CardSelectClickPatch
+{
+    public static bool Prefix(NDeckCardSelectScreen __instance, CardModel card)
+    {
+        if (!CombineSelectGate.IsCombinePrompt(__instance._prefs))
+            return true;
+
+        if (CombineSelectUi.MayToggle(__instance, card))
+            return true;
+
+        MainFile.Logger.Info(
+            $"Combine click blocked: {CombineService.Describe(card)} " +
+            $"(selected={__instance._selectedCards.Count})");
+        return false;
+    }
+
+    public static void Postfix(NDeckCardSelectScreen __instance)
+    {
+        if (!CombineSelectGate.IsCombinePrompt(__instance._prefs))
+            return;
+        CombineSelectUi.RefreshClickableState(__instance);
+    }
+}
+
+/// <summary>
+/// After the grid appears, dim non-candidates so Rank 3 / blocked basics aren't tempting.
+/// </summary>
+[HarmonyPatch(typeof(NDeckCardSelectScreen), "AfterOverlayShown")]
+public static class CardSelectShownPatch
+{
+    public static void Postfix(NDeckCardSelectScreen __instance)
+    {
+        if (!CombineSelectGate.IsCombinePrompt(__instance._prefs))
+            return;
+        CombineSelectUi.RefreshClickableState(__instance);
+    }
+}
+
+/// <summary>
 /// Block finishing the combine select unless the two cards share identity + rank.
-/// Patched at multiple entry points: auto-complete, preview open, and final confirm.
 /// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "CheckIfSelectionComplete")]
 public static class CardSelectCompletePatch
@@ -126,15 +168,14 @@ public static class CardSelectCompletePatch
         if (!CombineSelectGate.SelectedPairIsLegal(__instance))
         {
             MainFile.Logger.Info("Combine confirm blocked: mixed rank/id pair.");
-            return false; // skip original → do not complete selection
+            return false;
         }
         return true;
     }
 }
 
 /// <summary>
-/// Main Confirm opens the preview strip without calling CheckIfSelectionComplete.
-/// Reject illegal pairs before that UI can open (feels like a successful combine).
+/// Auto-preview on 2nd click / Confirm must not open for illegal pairs.
 /// </summary>
 [HarmonyPatch(typeof(NDeckCardSelectScreen), "PreviewSelection", new Type[] { })]
 public static class CardSelectPreviewPatch
@@ -149,6 +190,24 @@ public static class CardSelectPreviewPatch
             return true;
 
         MainFile.Logger.Info("Combine preview blocked: mixed rank/id pair.");
+        // Drop the illegal second selection if it somehow got in.
+        try
+        {
+            if (__instance._selectedCards.Count >= 2)
+            {
+                CardModel? last = __instance._selectedCards.LastOrDefault();
+                if (last != null)
+                {
+                    __instance._selectedCards.Remove(last);
+                    __instance._grid?.UnhighlightCard(last);
+                }
+                CombineSelectUi.RefreshClickableState(__instance);
+            }
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Failed to unselect illegal pair: {e.Message}");
+        }
         return false;
     }
 }

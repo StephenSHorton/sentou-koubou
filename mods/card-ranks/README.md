@@ -11,7 +11,9 @@ Manual campfire card combining for **Slay the Spire 2** — a ground-up rebuild 
 | Rank 2 | ×**1.5** damage (powered attacks) and block |
 | Rank 3 | ×**3** damage and block |
 | Pairing | Only **same identity + same rank** (plain+plain → R2, R2+R2 → R3). Mixed tiers rejected. |
+| Picker | After first pick, only legal partners stay clickable (others dimmed). |
 | Upgrades | Survivor upgrade level becomes **sum** of both cards (clamped to max). |
+| Safety | Sacrifice is only removed after rank-up succeeds (no silent card loss). |
 | Free action | Default **on** (toggle *Spend campfire action* to consume rest) |
 | Strike/Defend | **On** by default; includes vanilla *and* modded Basic Strike/Defend |
 | Multiplayer | Owner selects; deck mutation broadcasts; peers mirror via net messages |

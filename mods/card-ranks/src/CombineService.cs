@@ -162,14 +162,24 @@ public static class CombineService
                 out CardRankLevel resultRank, out int resultUpgrade))
             throw new InvalidOperationException("TryPlanCombine failed after CanPair succeeded.");
 
-        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
+        // Snapshot upgrade levels before mutation (logging + safety).
+        int sacUp = sacrifice.CurrentUpgradeLevel;
+        int survUp = survivor.CurrentUpgradeLevel;
+
+        // Enchant/upgrade FIRST, then remove sacrifice. Never delete a card if rank-up fails.
         ApplyRankEnchantment(survivor, resultRank);
         ApplyUpgradeLevel(survivor, resultUpgrade);
 
+        CardRankLevel now = GetRank(survivor);
+        if (now != resultRank)
+            throw new InvalidOperationException(
+                $"Rank apply failed (wanted {resultRank}, got {now}); sacrifice not removed. {Describe(survivor)}");
+
+        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
+
         MainFile.Logger.Info(
             $"Combined OK: {sacrifice.Id} {sacRank}+{survRank} → rank {resultRank} " +
-            $"upgrade {sacrifice.CurrentUpgradeLevel}+{survivor.CurrentUpgradeLevel}→{resultUpgrade} | " +
-            $"now {Describe(survivor)}");
+            $"upgrade {sacUp}+{survUp}→{resultUpgrade} | now {Describe(survivor)}");
     }
 
     /// <summary>
@@ -199,9 +209,15 @@ public static class CombineService
             return;
         }
 
-        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
         ApplyRankEnchantment(survivor, (CardRankLevel)msg.resultRank);
         ApplyUpgradeLevel(survivor, msg.resultUpgradeLevel);
+        if (GetRank(survivor) != (CardRankLevel)msg.resultRank)
+        {
+            MainFile.Logger.Error(
+                $"Remote rank apply failed; not removing sacrifice. {Describe(survivor)}");
+            return;
+        }
+        await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
     }
 
     public static CombineCardsMessage BuildMessage(CardModel sacrifice, CardModel survivor, Player owner)

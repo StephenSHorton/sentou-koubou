@@ -51,9 +51,8 @@ public sealed class CombineSynchronizer : IDisposable
             RequireManualConfirmation = true,
         };
 
-        // No pre-filter (RankUpCards2 style): show the full deck. Filtering candidates
-        // before layout can leave the grid in a weird size/position after deck mutations.
-        // Pair rules still enforced in CheckIfSelectionComplete + CanPair below.
+        // Show full deck; OnCardClicked + dimming restrict second picks to legal partners.
+        // (Static pre-filter alone can't depend on the first pick.)
         IEnumerable<CardModel> selection =
             await MegaCrit.Sts2.Core.Commands.CardSelectCmd.FromDeckGeneric(
                 owner, prefs, filter: null, sortingOrder: null);
