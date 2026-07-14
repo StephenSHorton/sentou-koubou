@@ -19,6 +19,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/whitney` — Atelier witch rearch (MarisaMod architecture): Amplify / Inkbound / Saturate, violet theme, combat flipbooks. See `docs/whitney-marisa-rearch.md`.
 - `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
+- `mods/card-ranks` — Manual campfire card rank-up (Rank 2/3); multiplayer-safe rebuild of RankUpCards idea.
 
 ## Releases (local, per mod)
 

@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk" InitialTargets="CheckDependencyPaths">
+    <Import Project=".\Sts2PathDiscovery.props"/>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>CardRanks</RootNamespace>
+        <AssemblyName>CardRanks</AssemblyName>
+
+        <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+        <PathMap>$(AppOutputBase)=.\</PathMap>
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Condition="Exists('$(Sts2DataDir)')">
+        <Reference Include="0Harmony">
+            <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="sts2">
+            <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="GodotSharp">
+            <HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.5" PrivateAssets="All"/>
+        <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
+        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="CardRanks.json"/>
+        <None Include="assets/**"/>
+        <Compile Remove="tests/**"/>
+        <None Include="tests/**" />
+    </ItemGroup>
+
+    <Target Name="CheckDependencyPaths">
+        <Error
+                Text=" Slay the Spire 2 data not found at path '$(Sts2DataDir)'"
+                Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')"/>
+    </Target>
+
+    <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
+        <Message Text="Copying CardRanks dll/json/assets to mods folder." Importance="high"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
+        <Copy SourceFiles="CardRanks.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
+        <Copy SourceFiles="assets\rank2.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\rank2.png')"/>
+        <Copy SourceFiles="assets\rank3.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\rank3.png')"/>
+        <Copy SourceFiles="assets\combine_rest_site.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\combine_rest_site.png')"/>
+        <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('assets\mod_image.png')"/>
+    </Target>
+</Project>

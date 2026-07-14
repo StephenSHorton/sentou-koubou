@@ -1,0 +1,14 @@
+{
+  "id": "CardRanks",
+  "name": "Card Ranks",
+  "author": "BlakeHorton",
+  "description": "Combine identical cards at campfires into Rank 2 (×1.5) or Rank 3 (×3). Multiplayer-safe rebuild of the rank-up idea — manual only, no silent auto-merges.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [
+    {"id": "BaseLib", "min_version": "3.3.0"}
+  ],
+  "affects_gameplay": true
+}

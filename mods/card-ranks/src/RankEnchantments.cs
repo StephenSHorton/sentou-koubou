@@ -1,0 +1,40 @@
+using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.ValueProps;
+
+namespace CardRanks;
+
+public abstract class RankEnchantment : CustomEnchantmentModel
+{
+    public abstract CardRankLevel Rank { get; }
+
+    public abstract decimal Multiplier { get; }
+
+    public override decimal EnchantDamageMultiplicative(decimal originalDamage, ValueProp props)
+    {
+        return !props.IsPoweredAttack() ? 1m : Multiplier;
+    }
+
+    public override decimal EnchantBlockMultiplicative(decimal originalBlock)
+    {
+        return Multiplier;
+    }
+}
+
+public sealed class SecondRank : RankEnchantment
+{
+    protected override string CustomIconPath => "res://card_ranks/rank2.png";
+
+    public override CardRankLevel Rank => CardRankLevel.Rank2;
+
+    public override decimal Multiplier => RankMath.Rank2Multiplier;
+}
+
+public sealed class ThirdRank : RankEnchantment
+{
+    protected override string CustomIconPath => "res://card_ranks/rank3.png";
+
+    public override CardRankLevel Rank => CardRankLevel.Rank3;
+
+    public override decimal Multiplier => RankMath.Rank3Multiplier;
+}
