@@ -22,6 +22,13 @@ public static class RankMath
     public const decimal Rank2Multiplier = 1.5m;
     public const decimal Rank3Multiplier = 3m;
 
+    /// <summary>
+    /// Stamped into EnchantmentModel.Amount on apply (UI ShowAmount is false).
+    /// Used so the picker can tell Rank 2 from plain even if type checks fail.
+    /// </summary>
+    public const int Rank2AmountTag = 2;
+    public const int Rank3AmountTag = 3;
+
     public static decimal Multiplier(CardRankLevel rank) => rank switch
     {
         CardRankLevel.Rank2 => Rank2Multiplier,

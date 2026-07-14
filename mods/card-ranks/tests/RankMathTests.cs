@@ -176,4 +176,12 @@ public class RankMathTests
         Assert.False(RankMath.LooksLikeSecondRank("CARDRANKS-THIRD_RANK"));
         Assert.False(RankMath.LooksLikeThirdRank("CARDRANKS-SECOND_RANK"));
     }
+
+    [Fact]
+    public void AmountTags_AreDistinctForRank2AndRank3()
+    {
+        Assert.Equal(2, RankMath.Rank2AmountTag);
+        Assert.Equal(3, RankMath.Rank3AmountTag);
+        Assert.NotEqual(RankMath.Rank2AmountTag, RankMath.Rank3AmountTag);
+    }
 }

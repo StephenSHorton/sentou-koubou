@@ -52,6 +52,15 @@ public static class CombineSelectUi
             ? screen._selectedCards.First()
             : null;
 
+        if (anchor != null)
+        {
+            MainFile.Logger.Info(
+                $"Combine filter anchor: {CombineService.Describe(anchor)}");
+        }
+
+        int allowedCount = 0;
+        int blockedCount = 0;
+
         foreach (NGridCardHolder holder in grid.CurrentlyDisplayedCardHolders)
         {
             CardModel? model = holder.CardModel;
@@ -61,7 +70,7 @@ public static class CombineSelectUi
             bool allowed;
             if (screen._selectedCards.Count == 0)
             {
-                // Nothing selected: only legal combine starters.
+                // Nothing selected: only legal combine starters (not Rank 3).
                 allowed = CombineService.IsCandidate(model);
             }
             else if (screen._selectedCards.Contains(model))
@@ -71,6 +80,7 @@ public static class CombineSelectUi
             }
             else if (anchor != null)
             {
+                // Same identity AND same rank tier only.
                 allowed = CombineService.CanPair(anchor, model);
             }
             else
@@ -78,6 +88,11 @@ public static class CombineSelectUi
                 // Two already selected (preview path): lock further adds.
                 allowed = false;
             }
+
+            if (allowed)
+                allowedCount++;
+            else
+                blockedCount++;
 
             try
             {
@@ -88,6 +103,13 @@ public static class CombineSelectUi
             {
                 MainFile.Logger.Warn($"SetClickable failed: {e.Message}");
             }
+        }
+
+        if (anchor != null)
+        {
+            MainFile.Logger.Info(
+                $"Combine filter: allowed={allowedCount} blocked={blockedCount} " +
+                $"(anchorRank={CombineService.GetRank(anchor)})");
         }
     }
 }
