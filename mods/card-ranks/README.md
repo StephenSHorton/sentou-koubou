@@ -22,6 +22,9 @@ Every player in a co-op lobby should run the same mod version so messages decode
 - **Allow combining Strike and Defend** — default **on** (starter decks can combine immediately).
 - **Spend campfire action when combining** — off = free Combine tile.
 
+Open **Settings → Mods** (BaseLib mod config). Card Ranks only appears if settings use
+**static** properties (BaseLib requirement); instance properties are ignored and hide the mod.
+
 ## Build
 
 ```bash

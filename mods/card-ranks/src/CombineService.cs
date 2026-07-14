@@ -11,7 +11,7 @@ namespace CardRanks;
 /// </summary>
 public static class CombineService
 {
-    public static bool AllowBasics => MainFile.Config?.AllowCombineStrikeDefend ?? false;
+    public static bool AllowBasics => CardRanksConfig.AllowCombineStrikeDefend;
 
     public static CardRankLevel GetRank(CardModel card) => card.Enchantment switch
     {

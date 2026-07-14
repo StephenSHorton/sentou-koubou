@@ -5,9 +5,20 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.RestSite;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
+using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace CardRanks;
+
+/// <summary>Inject settings loc before the player opens BaseLib's mod config menu.</summary>
+[HarmonyPatch(typeof(NMainMenu), "_Ready")]
+public static class MainMenuReadyPatch
+{
+    public static void Postfix()
+    {
+        Loc.EnsureSettingsEntries();
+    }
+}
 
 [HarmonyPatch(typeof(RunManager), "InitializeShared")]
 public static class RunManagerInitializePatch

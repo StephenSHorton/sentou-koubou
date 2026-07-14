@@ -48,11 +48,11 @@ public sealed class CombineRestSiteOption : RestSiteOption
         if (!LocalContext.IsMe(Owner))
         {
             bool remoteOk = await sync.AwaitCampfireResult(Owner.NetId);
-            return remoteOk && MainFile.Config.SpendCampfireAction;
+            return remoteOk && CardRanksConfig.SpendCampfireAction;
         }
 
         bool combined = await sync.RunLocalCampfireCombine(Owner);
         sync.BroadcastCampfireResult(combined);
-        return combined && MainFile.Config.SpendCampfireAction;
+        return combined && CardRanksConfig.SpendCampfireAction;
     }
 }

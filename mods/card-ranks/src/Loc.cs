@@ -9,6 +9,9 @@ public static class Loc
     private static readonly Dictionary<string, string> Entries = new()
     {
         ["TO_COMBINE"] = "Choose matching{Amount:choose(1):| [blue]{}[/blue] cards} to combine and raise their [gold]Rank[/gold]",
+        // BaseLib config UI keys: {ModPrefix}.mod_title and {ModPrefix}-{PROPERTY}.title
+        // ModPrefix for CardRanksConfig is typically CARDRANKS.
+        ["CARDRANKS.mod_title"] = "Card Ranks",
         ["CARDRANKS-ALLOW_COMBINE_STRIKE_DEFEND.title"] =
             "Allow combining Strike and Defend (including modded Basic Strike/Defend)",
         ["CARDRANKS-SPEND_CAMPFIRE_ACTION.title"] =
@@ -61,15 +64,23 @@ public static class Loc
 
     public static void EnsureSettingsEntries()
     {
-        LocManager mgr = LocManager.Instance;
+        LocManager? mgr = LocManager.Instance;
+        if (mgr == null)
+            return;
         if (!mgr._tables.TryGetValue("settings_ui", out LocTable? table))
             return;
         var inject = new Dictionary<string, string>();
         foreach ((string key, string value) in Entries)
         {
-            if (key.EndsWith(".title", StringComparison.Ordinal) && !table.HasEntry(key))
+            bool isSettingsKey = key.EndsWith(".title", StringComparison.Ordinal)
+                                 || key.EndsWith(".mod_title", StringComparison.Ordinal)
+                                 || key.Contains(".mod_title", StringComparison.Ordinal);
+            if (isSettingsKey && !table.HasEntry(key))
                 inject[key] = value;
         }
+        // Also cover common prefix variants BaseLib may derive from type/namespace.
+        if (!table.HasEntry("CARDRANKS.mod_title"))
+            inject["CARDRANKS.mod_title"] = "Card Ranks";
         if (inject.Count > 0)
             table.MergeWith(inject);
     }

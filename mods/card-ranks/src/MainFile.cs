@@ -16,9 +16,23 @@ public static class MainFile
 
     public static void Initialize()
     {
+        // Must construct before Register: ctor discovers static properties and Load()s disk.
+        // Instance properties are ignored by BaseLib ("only static properties are supported")
+        // and Register silently no-ops when HasSettings() is false — that hid the whole menu.
         Config = new CardRanksConfig();
         ModConfigRegistry.Register(ModId, Config);
-        Logger.Info("Card Ranks loaded — manual campfire combine (Rank 2 ×1.5 / Rank 3 ×3).");
+        try
+        {
+            Loc.EnsureSettingsEntries();
+        }
+        catch (Exception e)
+        {
+            Logger.Warn($"Settings loc inject deferred: {e.Message}");
+        }
+        Logger.Info(
+            $"Card Ranks loaded — manual campfire combine (Rank 2 ×1.5 / Rank 3 ×3). " +
+            $"AllowStrikeDefend={CardRanksConfig.AllowCombineStrikeDefend}, " +
+            $"SpendAction={CardRanksConfig.SpendCampfireAction}");
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
     }
