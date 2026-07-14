@@ -2,13 +2,15 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 
 namespace CardRanks;
 
 /// <summary>
-/// Post-combine feedback: auto bonus + sacrifice burn, then survivor ribbon only.
-/// Avoid stacking remove-preview + CardCmd.Preview + enchant VFX (that showed 3 cards).
+/// Post-combine feedback: auto bonus, then a clean two-beat showcase —
+/// (1) sacrifice alone, (2) survivor alone with the new ribbon.
+/// Never stack previews or insert long empty waits between beats.
 /// </summary>
 public static class RankUi
 {
@@ -52,8 +54,9 @@ public static class RankUi
     }
 
     /// <summary>
-    /// Phase 1: sacrifice burns alone (deck remove with preview).
-    /// Phase 2: only after that settles, survivor gets ribbon enchant VFX (one card).
+    /// Beat 1 — sacrifice alone (short flash, then silent deck remove).
+    /// Beat 2 — survivor alone gaining the ribbon (enchant VFX + short preview).
+    /// Only one card is on the preview layer at a time.
     /// </summary>
     public static async Task PlayCombineRevealAsync(
         CardModel sacrifice,
@@ -62,22 +65,23 @@ public static class RankUi
     {
         try
         {
-            // --- Burn only the sacrifice (one card on screen) ---
+            // --- Beat 1: sacrifice alone ---
+            // Brief single-card flash (feels like it's being consumed), then remove
+            // without a second deck-remove preview that would stack later.
+            await AwaitPreviewAsync(sacrifice, duration: 0.85f, timeoutMs: 1000);
+
             if (removeSacrificeAsync != null)
                 await removeSacrificeAsync();
             else
-                await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: true);
+                await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: false);
 
-            // RemoveFromDeck's Task can complete while the fly-away preview is still
-            // visible. Wait long enough that it fully leaves before we show the survivor,
-            // otherwise the player sees 2–3 cards stacked in the preview container.
-            await Task.Delay(1400);
+            // Tiny handoff so the first preview can leave the container.
+            await Task.Delay(120);
 
-            // --- Survivor alone: ribbon enchant VFX (no second CardCmd.Preview) ---
-            // NCardEnchantVfx is the "gaining the ribbon" animation. Adding CardCmd.Preview
-            // on top of remove-preview + VFX was showing three cards.
+            // --- Beat 2: survivor alone gains the ribbon ---
+            // Rank is already on the card; VFX = ribbon sparkle, Preview = one card center.
             SpawnEnchantVfx(survivor);
-            await Task.Delay(1600);
+            await AwaitPreviewAsync(survivor, duration: 1.35f, timeoutMs: 1600);
         }
         catch (Exception e)
         {
@@ -91,6 +95,24 @@ public static class RankUi
             {
                 // ignore
             }
+        }
+    }
+
+    private static async Task AwaitPreviewAsync(CardModel card, float duration, int timeoutMs)
+    {
+        try
+        {
+            TaskCompletionSource? tcs = CardCmd.Preview(
+                card, duration, CardPreviewStyle.HorizontalLayout);
+            if (tcs != null)
+                await Task.WhenAny(tcs.Task, Task.Delay(timeoutMs));
+            else
+                await Task.Delay(Math.Min(timeoutMs, (int)(duration * 1000) + 100));
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Card preview failed: {e.Message}");
+            await Task.Delay(200);
         }
     }
 

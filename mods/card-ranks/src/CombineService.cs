@@ -169,12 +169,15 @@ public static class CombineService
         return Task.CompletedTask;
     }
 
-    /// <summary>Remove sacrifice after reveal VFX (burn). Safe to call once.</summary>
-    public static async Task RemoveSacrificeAsync(CardModel sacrifice)
+    /// <summary>
+    /// Remove sacrifice after the reveal sequence. Default silent (no deck-remove
+    /// preview) so it does not stack with the survivor ribbon showcase.
+    /// </summary>
+    public static async Task RemoveSacrificeAsync(CardModel sacrifice, bool showPreview = false)
     {
         try
         {
-            await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: true);
+            await CardPileCmd.RemoveFromDeck(sacrifice, showPreview: showPreview);
         }
         catch (Exception e)
         {
