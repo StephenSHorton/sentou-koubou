@@ -18,7 +18,7 @@ Usage:
   # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
 
-Known mods: whitney, brennen, blake, trading-post, rmp-player-limit
+Known mods: whitney, brennen, blake, trading-post, mp-player-limit, rmp-player-limit
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -56,7 +56,13 @@ MODS: dict[str, dict[str, str]] = {
         "project": "TradingPost.csproj",
         "assembly": "TradingPost",
     },
-    # IL-patched workshop RMP (build.ps1, not a .csproj game mod)
+    # Clean Harmony rewrite (preferred)
+    "mp-player-limit": {
+        "folder": "mp-player-limit",
+        "project": "MpPlayerLimit.csproj",
+        "assembly": "MpPlayerLimit",
+    },
+    # Legacy: IL-patched workshop RMP (superseded by mp-player-limit)
     "rmp-player-limit": {
         "folder": "rmp-player-limit",
         "project": "",  # custom build via build.ps1

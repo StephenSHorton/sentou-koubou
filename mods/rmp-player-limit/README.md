@@ -1,3 +1,10 @@
+# DEPRECATED
+
+**Use [`mods/mp-player-limit`](../mp-player-limit/) instead** — clean Harmony rewrite of the multiplayer capacity raise.
+
+This folder is the old IL-patched workshop RMP binary and is no longer recommended.
+
+---
 # Remove Multiplayer Player Limit (Sentou fix)
 
 Fork/fix of [Rain156/sts2-RMP-Mods](https://github.com/Rain156/sts2-RMP-Mods) workshop build **0.1.8**.
@@ -58,3 +65,4 @@ dotnet run --project tools/PatchRmp -c Release -- \
 ```
 
 If patch sites go missing (`hashFixes=0`), the upstream DLL changed — re-vendor from workshop and update the patcher.
+

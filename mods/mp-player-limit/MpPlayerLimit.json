@@ -1,0 +1,17 @@
+{
+  "id": "MpPlayerLimit",
+  "name": "Multiplayer Player Limit",
+  "author": "BlakeHorton",
+  "description": "Raises the multiplayer lobby cap above vanilla 4 (default 16). Clean Harmony rewrite — no workshop RMP dependency. All players should use the same max.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.3.0"
+    }
+  ],
+  "affects_gameplay": true
+}
