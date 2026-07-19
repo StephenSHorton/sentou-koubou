@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
+using MegaCrit.Sts2.Core.Nodes.Screens.Overlays;
 using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
@@ -153,7 +155,11 @@ public class TradeSynchronizer : IDisposable
             Cancelable = true,
             RequireManualConfirmation = true
         };
-        CardModel? card = (await CardSelectCmd.FromDeckGeneric(LocalPlayer, prefs)).FirstOrDefault();
+        // Drive the deck-select screen directly instead of CardSelectCmd.FromDeckGeneric:
+        // the Cmd reserves an id from PlayerChoiceSynchronizer, which only ticks on the
+        // giver's client (mirrors never run this flow) and desyncs the run checksum.
+        // The trade itself is synced by GiftCardMessage, so no synced choice is needed.
+        CardModel? card = (await PickCardFromLocalDeck(prefs))?.FirstOrDefault();
         if (card == null)
         {
             return false;
@@ -189,6 +195,27 @@ public class TradeSynchronizer : IDisposable
         if (receiver == LocalPlayer)
         {
             TradeUi.Notify($"{NameOf(giver)} gave you a card: {ModelDb.GetByIdOrNull<CardModel>(id)?.Title ?? message.entry}!");
+        }
+    }
+
+    /// <summary>UI-only deck picker; never touches the synced choice-id stream.</summary>
+    private async Task<IEnumerable<CardModel>?> PickCardFromLocalDeck(CardSelectorPrefs prefs)
+    {
+        List<CardModel> cards = LocalPlayer.Deck.Cards.ToList();
+        if (cards.Count == 0)
+        {
+            return null;
+        }
+        NDeckCardSelectScreen screen = NDeckCardSelectScreen.Create(cards, prefs);
+        NOverlayStack.Instance.Push(screen);
+        try
+        {
+            return await screen.CardsSelected();
+        }
+        catch (TaskCanceledException)
+        {
+            // Screen was torn down (e.g. room ended) without a pick.
+            return null;
         }
     }
 
