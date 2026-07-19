@@ -221,7 +221,11 @@ public static class TierBonusService
                     CardCmd.RemoveKeyword(card, CardKeyword.Exhaust);
                     break;
                 case TierBonus.Spiral:
-                    card.BaseReplayCount = Math.Max(0, card.BaseReplayCount) + 1;
+                    // Prefer the vanilla Spiral leaf for play-count (multiplayer-visible).
+                    // Only fall back to BaseReplayCount when the leaf could not land — never both,
+                    // or RankEnchantment.ReplayBonus double-counts with the leaf / BaseReplayCount.
+                    if (!realEnchantOk)
+                        card.BaseReplayCount = Math.Max(0, card.BaseReplayCount) + 1;
                     break;
                 case TierBonus.Clone:
                 case TierBonus.Imbued:
@@ -230,12 +234,12 @@ public static class TierBonusService
                     break;
             }
 
-            // Soul's Power with no real leaf and no Exhaust change is invisible — undo so we re-roll.
-            if (bonus == TierBonus.SoulsPower && !realEnchantOk)
+            // Invisible / non-functional rolls: undo so AutoGrant can re-roll.
+            if (!realEnchantOk && bonus is TierBonus.SoulsPower or TierBonus.Imbued)
             {
                 box.Bonuses.Remove(bonus);
                 MainFile.Logger.Info(
-                    $"Tier bonus REJECTED (invisible): Soul's Power on {card.Id} — re-roll allowed");
+                    $"Tier bonus REJECTED (no real enchant): {DisplayName(bonus)} on {card.Id}");
                 return false;
             }
 

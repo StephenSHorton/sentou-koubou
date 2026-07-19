@@ -35,6 +35,15 @@ public abstract class RankEnchantment : CustomEnchantmentModel
 
     public override int EnchantPlayCount(int playCount)
     {
+        // If a vanilla Spiral leaf is already on the multi-enchant stack, it applies
+        // its own play-count hook — do not also add our CWT ReplayBonus.
+        if (Card != null
+            && MultiEnchantCompat.EnumerateLeafEnchantments(Card)
+                .Any(e => e.GetType().Name.Equals("Spiral", StringComparison.OrdinalIgnoreCase)))
+        {
+            return playCount;
+        }
+
         return playCount + TierBonusService.ReplayBonus(Card);
     }
 

@@ -288,12 +288,26 @@ public static class CombineService
         bool appliedIntoMulti = false;
         if (MultiEnchantCompat.IsMultiEnchantment(card.Enchantment))
         {
+            // Multi-add may not bind Card; ModifyCard requires it or rank hooks mis-fire.
+            if (!prototype.HasCard)
+            {
+                try
+                {
+                    prototype.Card = card;
+                }
+                catch (Exception e)
+                {
+                    MainFile.Logger.Warn($"Could not bind rank prototype Card: {e.Message}");
+                }
+            }
+
             appliedIntoMulti = MultiEnchantCompat.TryAddIntoMulti(card, prototype);
             if (appliedIntoMulti)
             {
                 try
                 {
-                    prototype.ModifyCard();
+                    if (prototype.HasCard)
+                        prototype.ModifyCard();
                 }
                 catch (Exception e)
                 {
