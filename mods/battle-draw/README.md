@@ -1,20 +1,33 @@
 # Battle Draw
 
-Scribble on the **combat field** in Slay the Spire 2 co-op or solo — for callouts, arrows, and “hit this” notes.
+Scribble on the **combat field** and restyle your **map pen** in Slay the Spire 2.
 
-## Controls
+## Controls (combat)
 
 | Input | Action |
 |-------|--------|
 | **Middle-mouse drag** | Draw |
-| **Alt + left-drag** | Draw (same) |
-| Plain left-click | Unchanged — still plays / selects cards |
+| **Alt + left-drag** | Draw |
+| Plain left-click | Unchanged — plays / selects cards |
+| **`[` / `]`** | Smaller / larger brush |
+| **`;` / `'`** | Previous / next color preset |
 
-Ink **never** starts over the hand, play strip, or card previews. Mid-stroke into those areas stops the line. The canvas sits **under** combat UI so cards render on top.
+Ink never starts over the hand, play strip, or card previews. Canvas sits under combat UI so cards render on top. Strokes **clear when combat ends**.
 
-## Lifetime
+## Map pen
 
-Strokes **clear when combat is won or otherwise ends** (and again if the combat room is torn down).
+Vanilla map drawing still uses the game’s draw tool. When **you** draw, lines use this mod’s **brush size + color** (same as combat).
+
+Friends see your character’s default map color on their screens (packets don’t carry brush settings). Install this mod on every client if you all want custom map pens.
+
+## Settings
+
+Mod menu → **Battle Draw**:
+
+- **Brush size** (1–24 px)
+- **Color preset** (Yellow, Red, Orange, Green, Cyan, Blue, Purple, Pink, White, Black)
+
+Requires [BaseLib](https://github.com/Alchyr/BaseLib-StS2/releases) ≥ 3.3.0.
 
 ## Build
 
@@ -23,7 +36,4 @@ cd mods/battle-draw
 dotnet build -c Release
 ```
 
-Copies `BattleDraw.dll` + `BattleDraw.json` into `Slay the Spire 2/mods/BattleDraw/`.
-
-- `affects_gameplay: false` — safe cosmetic QoL.
-- No BaseLib / multiplayer sync required (each client doodles locally).
+Copies into `Slay the Spire 2/mods/BattleDraw/`.

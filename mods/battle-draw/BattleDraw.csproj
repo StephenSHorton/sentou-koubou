@@ -27,6 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.5" PrivateAssets="All"/>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>

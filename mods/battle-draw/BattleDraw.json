@@ -2,11 +2,16 @@
   "id": "BattleDraw",
   "name": "Battle Draw",
   "author": "BlakeHorton",
-  "description": "Scribble on the combat field (middle-mouse or Alt+left drag). Never blocks card play. Clears when the battle is won or ends.",
-  "version": "v0.1.0",
+  "description": "Scribble on combat (middle-mouse / Alt+LMB) and restyle your map pen. Shared brush color + size in mod settings. Never blocks card play. Clears when battle ends.",
+  "version": "v0.2.0",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.3.0"
+    }
+  ],
   "affects_gameplay": false
 }

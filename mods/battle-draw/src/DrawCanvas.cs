@@ -11,30 +11,34 @@ namespace BattleDraw;
 /// <item>Only paints while middle-mouse is held, or Alt+left-drag (not plain LMB).</item>
 /// <item>Refuses strokes that start or run over the hand / play-container hit areas.</item>
 /// <item>Z-index sits under combat UI so cards render on top of ink.</item>
+/// <item>Color/size from <see cref="BrushConfig"/> (mod settings + hotkeys).</item>
 /// </list>
 /// </summary>
 public partial class DrawCanvas : Control
 {
     public static DrawCanvas? Instance { get; private set; }
 
-    private const float StrokeWidth = 3.5f;
     private const float MinPointDistance = 2.0f;
-    private static readonly Color InkColor = new(1f, 0.92f, 0.35f, 0.85f); // soft yellow
 
-    private readonly List<List<Vector2>> _strokes = new();
-    private List<Vector2>? _active;
+    private sealed class Stroke
+    {
+        public required List<Vector2> Points;
+        public required Color Color;
+        public required float Width;
+    }
+
+    private readonly List<Stroke> _strokes = new();
+    private Stroke? _active;
     private bool _drawing;
 
     public static DrawCanvas AttachTo(NCombatRoom room)
     {
-        // Drop any leftover from a prior combat that didn't clean up cleanly.
         Instance?.QueueFreeSafe();
 
         var canvas = new DrawCanvas
         {
             Name = "BattleDrawCanvas",
             MouseFilter = MouseFilterEnum.Ignore,
-            // Under Ui (hand/buttons) so ink never paints over cards.
             ZIndex = -1,
             ZAsRelative = true,
         };
@@ -44,8 +48,6 @@ public partial class DrawCanvas : Control
         canvas.OffsetRight = 0;
         canvas.OffsetBottom = 0;
 
-        // Prefer parenting under the room so we share its lifetime; insert before Ui
-        // when possible so draw order is: scene → ink → UI.
         if (room.Ui != null)
         {
             int uiIndex = room.Ui.GetIndex();
@@ -82,6 +84,39 @@ public partial class DrawCanvas : Control
         if (!IsVisibleInTree())
             return;
 
+        // Brush hotkeys (work in combat even when not drawing).
+        if (@event is InputEventKey { Pressed: true, Echo: false } key)
+        {
+            if (key.Keycode == Key.Bracketleft)
+            {
+                BrushConfig.NudgeSize(-0.5f);
+                MainFile.Logger.Info($"Brush size {BrushConfig.ClampedSize:0.#}");
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+            if (key.Keycode == Key.Bracketright)
+            {
+                BrushConfig.NudgeSize(0.5f);
+                MainFile.Logger.Info($"Brush size {BrushConfig.ClampedSize:0.#}");
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+            if (key.Keycode == Key.Semicolon)
+            {
+                BrushConfig.CycleColor(-1);
+                MainFile.Logger.Info($"Brush color {BrushConfig.ColorPreset}");
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+            if (key.Keycode == Key.Apostrophe)
+            {
+                BrushConfig.CycleColor(1);
+                MainFile.Logger.Info($"Brush color {BrushConfig.ColorPreset}");
+                GetViewport().SetInputAsHandled();
+                return;
+            }
+        }
+
         switch (@event)
         {
             case InputEventMouseButton mb:
@@ -109,10 +144,13 @@ public partial class DrawCanvas : Control
                 return;
 
             _drawing = true;
-            _active = new List<Vector2> { pos };
+            _active = new Stroke
+            {
+                Points = new List<Vector2> { pos },
+                Color = BrushConfig.CurrentColor,
+                Width = BrushConfig.ClampedSize,
+            };
             _strokes.Add(_active);
-            // Do not mark as handled for Alt+LMB? We *do* want to stop card drag
-            // only when intentionally drawing with Alt. Middle never conflicts.
             if (mb.ButtonIndex == MouseButton.Left && mb.AltPressed)
                 GetViewport().SetInputAsHandled();
             QueueRedraw();
@@ -132,8 +170,6 @@ public partial class DrawCanvas : Control
             return;
 
         Vector2 pos = mm.Position;
-        // Stop the stroke when the cursor enters the hand / play area so we never
-        // scribble across someone's cards mid-drag.
         if (IsOverCardUi(pos))
         {
             _drawing = false;
@@ -141,22 +177,17 @@ public partial class DrawCanvas : Control
             return;
         }
 
-        if (_active.Count == 0
-            || _active[^1].DistanceTo(pos) >= MinPointDistance)
+        if (_active.Points.Count == 0
+            || _active.Points[^1].DistanceTo(pos) >= MinPointDistance)
         {
-            _active.Add(pos);
+            _active.Points.Add(pos);
             QueueRedraw();
         }
 
-        // Only eat motion while Alt-drawing (LMB); middle never fights the hand.
         if (mm.ButtonMask.HasFlag(MouseButtonMask.Left) && Input.IsKeyPressed(Key.Alt))
             GetViewport().SetInputAsHandled();
     }
 
-    /// <summary>
-    /// True if the pointer is over hand cards, the play-queue strip, or card previews —
-    /// places where ink would both obscure and steal card UX.
-    /// </summary>
     private static bool IsOverCardUi(Vector2 screenPos)
     {
         NCombatRoom? room = NCombatRoom.Instance;
@@ -175,8 +206,6 @@ public partial class DrawCanvas : Control
         if (ControlContainsScreenPoint(ui.MessyCardPreviewContainer, screenPos))
             return true;
 
-        // Bottom strip fallback: if hand isn't ready yet, protect the lower ~28% of
-        // the screen where hand cards live in the default layout.
         if (ui.Hand == null || !ui.Hand.IsVisibleInTree())
         {
             Rect2 vp = ui.GetViewport().GetVisibleRect();
@@ -191,24 +220,27 @@ public partial class DrawCanvas : Control
     {
         if (control == null || !control.IsVisibleInTree())
             return false;
-        Rect2 rect = control.GetGlobalRect();
-        // Slight pad so card hover lift still counts as "over cards".
-        rect = rect.Grow(12f);
+        Rect2 rect = control.GetGlobalRect().Grow(12f);
         return rect.HasPoint(screenPos);
     }
 
     public override void _Draw()
     {
-        foreach (List<Vector2> stroke in _strokes)
+        foreach (Stroke stroke in _strokes)
         {
-            if (stroke.Count == 1)
+            if (stroke.Points.Count == 1)
             {
-                DrawCircle(stroke[0], StrokeWidth * 0.6f, InkColor);
+                DrawCircle(stroke.Points[0], stroke.Width * 0.55f, stroke.Color);
                 continue;
             }
 
-            for (int i = 1; i < stroke.Count; i++)
-                DrawLine(stroke[i - 1], stroke[i], InkColor, StrokeWidth, antialiased: true);
+            for (int i = 1; i < stroke.Points.Count; i++)
+                DrawLine(
+                    stroke.Points[i - 1],
+                    stroke.Points[i],
+                    stroke.Color,
+                    stroke.Width,
+                    antialiased: true);
         }
     }
 
