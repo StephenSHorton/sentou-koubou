@@ -112,14 +112,31 @@ public static class TierBonusService
         _ => "",
     };
 
+    /// <summary>
+    /// Whether this bonus can actually land on the card as a visible/meaningful effect.
+    /// Soul's Power is rejected by the game on many cards (and is a no-op without Exhaust).
+    /// </summary>
+    public static bool IsEligible(CardModel card, TierBonus bonus)
+    {
+        if (bonus == TierBonus.None)
+            return false;
+        if (bonus == TierBonus.SoulsPower)
+            return card.Keywords.Contains(CardKeyword.Exhaust);
+        return true;
+    }
+
     /// <summary>Pick a random bonus the card does not already have; null if pool exhausted.</summary>
-    public static TierBonus? RollNew(CardModel card, Random? rng = null)
+    public static TierBonus? RollNew(CardModel card, Random? rng = null, ISet<TierBonus>? exclude = null)
     {
         rng ??= Random.Shared;
         HashSet<TierBonus> have = Table.TryGetValue(card, out BonusBox? box)
             ? box.Bonuses
             : new HashSet<TierBonus>();
-        List<TierBonus> available = Pool.Where(b => !have.Contains(b)).ToList();
+        List<TierBonus> available = Pool
+            .Where(b => !have.Contains(b)
+                        && (exclude == null || !exclude.Contains(b))
+                        && IsEligible(card, b))
+            .ToList();
         if (available.Count == 0)
             return null;
         return available[rng.Next(available.Count)];
@@ -163,14 +180,17 @@ public static class TierBonusService
         Table.GetOrCreateValue(card).Bonuses.Add(bonus);
     }
 
-    public static void Apply(CardModel card, TierBonus bonus)
+    /// <summary>
+    /// Apply a tier bonus. Returns false if nothing meaningful landed (caller may re-roll).
+    /// </summary>
+    public static bool Apply(CardModel card, TierBonus bonus)
     {
         if (bonus == TierBonus.None)
-            return;
+            return false;
 
         BonusBox box = Table.GetOrCreateValue(card);
         if (!box.Bonuses.Add(bonus))
-            return; // already had it
+            return false; // already had it
 
         bool realEnchantOk = false;
         try
@@ -210,14 +230,26 @@ public static class TierBonusService
                     break;
             }
 
+            // Soul's Power with no real leaf and no Exhaust change is invisible — undo so we re-roll.
+            if (bonus == TierBonus.SoulsPower && !realEnchantOk)
+            {
+                box.Bonuses.Remove(bonus);
+                MainFile.Logger.Info(
+                    $"Tier bonus REJECTED (invisible): Soul's Power on {card.Id} — re-roll allowed");
+                return false;
+            }
+
             MainFile.Logger.Info(
                 $"Tier bonus APPLIED: {DisplayName(bonus)} on {card.Id} " +
                 $"(realEnchant={realEnchantOk}, replay={card.BaseReplayCount}, " +
                 $"bonuses=[{string.Join(",", GetAll(card))}])");
+            return true;
         }
         catch (Exception e)
         {
             MainFile.Logger.Error($"Tier bonus apply {bonus} failed: {e}");
+            box.Bonuses.Remove(bonus);
+            return false;
         }
     }
 

@@ -22,25 +22,37 @@ public static class RankUi
         TierBonus granted = TierBonus.None;
 
         // Random bonus on each new tier (plain → I, I → II, II → III).
+        // Re-roll if a pick can't land (e.g. Soul's Power on Strike — game rejects the leaf).
         if (CardRanksConfig.OfferTierBonusRolls
             && newTier is CardRankLevel.Tier1 or CardRankLevel.Tier2 or CardRankLevel.Tier3)
         {
             try
             {
-                TierBonus? picked = TierBonusService.RollNew(survivor);
-                if (picked != null)
+                var tried = new HashSet<TierBonus>();
+                for (int attempt = 0; attempt < 8; attempt++)
                 {
-                    TierBonusService.Apply(survivor, picked.Value);
+                    TierBonus? picked = TierBonusService.RollNew(survivor, exclude: tried);
+                    if (picked == null)
+                    {
+                        MainFile.Logger.Info(
+                            $"Auto tier bonus: pool exhausted for {survivor.Id}");
+                        break;
+                    }
+
+                    tried.Add(picked.Value);
+                    if (!TierBonusService.Apply(survivor, picked.Value))
+                    {
+                        MainFile.Logger.Info(
+                            $"Auto tier bonus retry after rejected {TierBonusService.DisplayName(picked.Value)}");
+                        continue;
+                    }
+
                     granted = picked.Value;
                     MainFile.Logger.Info(
                         $"Auto tier bonus GRANTED: {TierBonusService.DisplayName(granted)} " +
                         $"on {survivor.Id} (Tier {RankMath.TierRoman(newTier)}) " +
                         $"| {CombineService.Describe(survivor)}");
-                }
-                else
-                {
-                    MainFile.Logger.Info(
-                        $"Auto tier bonus: pool exhausted for {survivor.Id}");
+                    break;
                 }
             }
             catch (Exception e)
