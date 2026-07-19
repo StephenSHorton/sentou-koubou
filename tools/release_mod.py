@@ -18,7 +18,7 @@ Usage:
   # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
 
-Known mods: whitney, brennen, blake, trading-post
+Known mods: whitney, brennen, blake, trading-post, rmp-player-limit
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -56,6 +56,13 @@ MODS: dict[str, dict[str, str]] = {
         "project": "TradingPost.csproj",
         "assembly": "TradingPost",
     },
+    # IL-patched workshop RMP (build.ps1, not a .csproj game mod)
+    "rmp-player-limit": {
+        "folder": "rmp-player-limit",
+        "project": "",  # custom build via build.ps1
+        "assembly": "RemoveMultiplayerPlayerLimit",
+        "build": "ps1",
+    },
 }
 
 
@@ -77,8 +84,28 @@ def set_manifest_version(mod_dir: Path, assembly: str, version: str) -> Path:
     return manifest
 
 
-def build_mod(mod_dir: Path, project: str) -> Path:
+def build_mod(mod_dir: Path, project: str, *, build_kind: str = "dotnet") -> Path:
     """Build Release; return directory that should contain the dll (mods copy or bin)."""
+    if build_kind == "ps1":
+        script = mod_dir / "build.ps1"
+        if not script.is_file():
+            raise SystemExit(f"Missing {script}")
+        run(
+            [
+                "powershell",
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                str(script),
+            ],
+            cwd=mod_dir,
+        )
+        dist = mod_dir / "dist"
+        if dist.is_dir() and any(dist.glob("*.dll")):
+            return dist
+        raise SystemExit(f"Could not find patched dll under {dist}")
+
     # Prefer normal local discovery via Sts2PathDiscovery.props
     run(["dotnet", "build", project, "-c", "Release"], cwd=mod_dir)
 
@@ -152,6 +179,11 @@ def stage_release(
     # Always use repo manifest (version already bumped)
     shutil.copy2(mod_dir / f"{assembly}.json", staging / f"{assembly}.json")
 
+    # RMP-style: pck lives under vendor/ (not produced by the patcher)
+    vendor_pck = mod_dir / "vendor" / f"{assembly}.pck"
+    if vendor_pck.is_file() and not (staging / f"{assembly}.pck").is_file():
+        shutil.copy2(vendor_pck, staging / f"{assembly}.pck")
+
     if include_trading_assets:
         assets = mod_dir / "assets"
         if assets.is_dir():
@@ -198,6 +230,7 @@ def main() -> None:
     mod_dir = ROOT / "mods" / info["folder"]
     assembly = info["assembly"]
     tag = f"{args.mod}/v{version}"
+    build_kind = info.get("build", "dotnet")
 
     set_manifest_version(mod_dir, assembly, version)
 
@@ -205,11 +238,14 @@ def main() -> None:
     out_root.mkdir(parents=True, exist_ok=True)
 
     if not args.skip_build:
-        build_dir = build_mod(mod_dir, info["project"])
+        build_dir = build_mod(mod_dir, info["project"], build_kind=build_kind)
     else:
-        build_dir = mod_dir / ".godot" / "mono" / "temp" / "bin" / "Release"
-        if not build_dir.is_dir():
-            build_dir = mod_dir / "bin" / "Release" / "net9.0"
+        if build_kind == "ps1":
+            build_dir = mod_dir / "dist"
+        else:
+            build_dir = mod_dir / ".godot" / "mono" / "temp" / "bin" / "Release"
+            if not build_dir.is_dir():
+                build_dir = mod_dir / "bin" / "Release" / "net9.0"
 
     staging = stage_release(
         mod_dir,
@@ -268,6 +304,22 @@ def main() -> None:
             print(f"Pushed tag {tag}")
 
         if args.local_upload:
+            notes = (
+                f"**{assembly}** `v{version}`\n\n"
+                f"Unzip into `Slay the Spire 2/mods/` "
+                f"(character mods need [BaseLib](https://github.com/Alchyr/BaseLib-StS2/releases))."
+            )
+            if args.mod == "rmp-player-limit":
+                notes = (
+                    f"**{assembly}** `v{version}` (Sentou IL-patched RMP)\n\n"
+                    "Fixes multiplayer ready-up hang on current STS2 "
+                    "(`GetDeterministicHashCode` int + `Rng(uint)`).\n\n"
+                    "**Install:** unzip into `Slay the Spire 2/mods/` → "
+                    f"`mods/{assembly}/`.\n\n"
+                    "**Important:** disable/unsubscribe the Steam Workshop "
+                    "copy of Remove Multiplayer Player Limit (same mod id) "
+                    "so only this fixed build loads. All players need the fix."
+                )
             run(
                 [
                     "gh",
@@ -277,11 +329,8 @@ def main() -> None:
                     str(zip_path),
                     "--title",
                     f"{assembly} v{version}",
-                    "--generate-notes",
                     "--notes",
-                    f"**{assembly}** `v{version}`\n\n"
-                    f"Unzip into `Slay the Spire 2/mods/` "
-                    f"(character mods need [BaseLib](https://github.com/Alchyr/BaseLib-StS2/releases)).",
+                    notes,
                 ]
             )
             print(f"GitHub Release created for {tag}")
