@@ -9,7 +9,8 @@ sentou-koubou/
 └── mods/
     ├── brennen/        # Tank character — full kit
     ├── whitney/        # Atelier witch — Energy + Ink
-    └── trading-post/   # Co-op trading QoL
+    ├── trading-post/   # Co-op trading QoL
+    └── battle-draw/    # Combat doodle layer (clears on win)
 ```
 
 ## Why this name?
@@ -26,6 +27,7 @@ sentou-koubou/
 | [`mods/brennen`](mods/brennen) | Full character kit | **Brennen** — frontline tank; Barricade/Block payoffs, peel, HP→energy |
 | [`mods/whitney`](mods/whitney) | Full character kit | **Whitney** — atelier witch; Energy + Ink dual mana, Attunement |
 | [`mods/trading-post`](mods/trading-post) | Co-op QoL | Shop gold gifts + campfire card trades |
+| [`mods/battle-draw`](mods/battle-draw) | Cosmetic QoL | Draw on the combat field; clears when battle ends; never blocks cards |
 
 ### Card catalog
 

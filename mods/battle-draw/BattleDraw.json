@@ -1,0 +1,12 @@
+{
+  "id": "BattleDraw",
+  "name": "Battle Draw",
+  "author": "BlakeHorton",
+  "description": "Scribble on the combat field (middle-mouse or Alt+left drag). Never blocks card play. Clears when the battle is won or ends.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}
