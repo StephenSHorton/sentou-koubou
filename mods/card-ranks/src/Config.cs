@@ -23,8 +23,8 @@ public sealed class CardRanksConfig : SimpleModConfig
     public static bool SpendCampfireAction { get; set; } = true;
 
     /// <summary>
-    /// When true, reaching Tier II or III auto-grants a random bonus enchantment
-    /// (not on first tier). Bonuses never clear the card's rank.
+    /// When true, reaching Tier I, II, or III auto-grants a random bonus enchantment.
+    /// Bonuses never clear the card's rank.
     /// </summary>
     public static bool OfferTierBonusRolls { get; set; } = true;
 }

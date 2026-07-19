@@ -2,7 +2,7 @@
   "id": "CardRanks",
   "name": "Card Ranks",
   "author": "BlakeHorton",
-  "description": "Combine 3 identical same-tier cards at campfires: plain → Tier I (×1.5) → II (×2) → III (×3). Spends rest. Bonus enchantments on II/III. Multiplayer-safe.",
+  "description": "Combine 3 identical same-tier cards at campfires: plain → Tier I (×1.5) → II (×2) → III (×3). Spends rest. Random bonus enchantment each tier-up. Multiplayer-safe.",
   "version": "v0.1.0",
   "min_game_version": "0.107.0",
   "has_pck": true,

@@ -28,8 +28,6 @@ These are applied as **real vanilla enchantments** when the card can stack them 
 
 **Combine spends the campfire action** by default (mod setting can make it free again).
 
-**Bonus enchantments** only on reaching **Tier II** and **Tier III** — not on first tier (plain → I).
-
 ## Multiplayer
 
 Every player needs the mod. Owner selects + rolls; peers mirror deck mutation + bonus.

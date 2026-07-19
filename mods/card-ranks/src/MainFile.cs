@@ -31,7 +31,7 @@ public static class MainFile
         }
         Logger.Info(
             $"Card Ranks loaded — 3-card combine (spends rest by default), " +
-            $"Tier I×1.5 / II×2 / III×3, bonus on II–III only. " +
+            $"Tier I×1.5 / II×2 / III×3, bonus on each tier-up. " +
             $"AllowStrikeDefend={CardRanksConfig.AllowCombineStrikeDefend}, " +
             $"SpendAction={CardRanksConfig.SpendCampfireAction}");
         var harmony = new Harmony(ModId);
