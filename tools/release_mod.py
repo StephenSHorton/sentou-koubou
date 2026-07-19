@@ -18,7 +18,7 @@ Usage:
   # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
 
-Known mods: whitney, brennen, blake, trading-post
+Known mods: whitney, brennen, blake, trading-post, card-ranks, battle-draw
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -55,6 +55,11 @@ MODS: dict[str, dict[str, str]] = {
         "folder": "trading-post",
         "project": "TradingPost.csproj",
         "assembly": "TradingPost",
+    },
+    "battle-draw": {
+        "folder": "battle-draw",
+        "project": "BattleDraw.csproj",
+        "assembly": "BattleDraw",
     },
 }
 

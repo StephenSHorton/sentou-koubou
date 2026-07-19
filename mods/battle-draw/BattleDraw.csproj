@@ -44,8 +44,15 @@
 
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying BattleDraw dll/json to mods folder." Importance="high"/>
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
-        <Copy SourceFiles="BattleDraw.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
-        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="BattleDraw.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('$(TargetDir)$(TargetName).pdb')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\mod_image.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
     </Target>
 </Project>
