@@ -33,7 +33,8 @@ public static class MainFile
             $"Card Ranks loaded — 3-card combine (spends rest by default), " +
             $"Tier I×1.5 / II×2 / III×3, bonus on each tier-up. " +
             $"AllowStrikeDefend={CardRanksConfig.AllowCombineStrikeDefend}, " +
-            $"SpendAction={CardRanksConfig.SpendCampfireAction}");
+            $"SpendAction={CardRanksConfig.SpendCampfireAction} " +
+            $"(use the same SpendAction setting on every multiplayer client)");
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
     }

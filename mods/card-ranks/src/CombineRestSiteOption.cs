@@ -46,20 +46,23 @@ public sealed class CombineRestSiteOption : RestSiteOption
             return false;
         }
 
+        // Mirrors must trust the owner's broadcast rest-spend result — not their own
+        // SpendCampfireAction config. Host free-combine + client paid-combine (or the
+        // reverse) used to clear options on one peer only → choice-id / rest-site desync.
         if (!LocalContext.IsMe(Owner))
-        {
-            bool remoteOk = await sync.AwaitCampfireResult(Owner.NetId);
-            return remoteOk && ShouldSpendRestAction();
-        }
+            return await sync.AwaitCampfireResult(Owner.NetId);
 
         bool combined = await sync.RunLocalCampfireCombine(Owner);
-        sync.BroadcastCampfireResult(combined);
+        // OnSelect's bool is "did this consume the rest action?" — broadcast that,
+        // not merely "did the combine succeed" (free-combine succeeds without spending).
+        bool spentRest = combined && ShouldSpendRestAction();
+        sync.BroadcastCampfireResult(spentRest);
 
-        // Free-combine mode only: keep rest site open and refresh chrome.
-        if (combined && !ShouldSpendRestAction())
+        // Free-combine mode: keep rest site open and refresh chrome.
+        if (combined && !spentRest)
             RestSiteUi.RefreshAfterCombine(this);
 
-        return combined && ShouldSpendRestAction();
+        return spentRest;
     }
 
     /// <summary>Spend rest unless config disables it (or a free-rest relic is present).</summary>
