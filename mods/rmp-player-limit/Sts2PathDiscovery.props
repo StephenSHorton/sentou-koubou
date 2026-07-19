@@ -1,0 +1,9 @@
+<Project>
+  <!-- Shared STS2 install discovery (mirrors other mods in this monorepo). -->
+  <PropertyGroup>
+    <Sts2Root Condition="'$(Sts2Root)' == '' and Exists('C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2')">C:\Program Files (x86)\Steam\steamapps\common\Slay the Spire 2</Sts2Root>
+    <Sts2Root Condition="'$(Sts2Root)' == '' and Exists('C:\Program Files\Steam\steamapps\common\Slay the Spire 2')">C:\Program Files\Steam\steamapps\common\Slay the Spire 2</Sts2Root>
+    <Sts2DataDir Condition="'$(Sts2DataDir)' == '' and '$(Sts2Root)' != ''">$(Sts2Root)\data_sts2_windows_x86_64</Sts2DataDir>
+    <ModsPath Condition="'$(ModsPath)' == '' and '$(Sts2Root)' != ''">$(Sts2Root)\mods\</ModsPath>
+  </PropertyGroup>
+</Project>

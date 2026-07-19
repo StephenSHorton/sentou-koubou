@@ -1,0 +1,13 @@
+{
+  "id": "RemoveMultiplayerPlayerLimit",
+  "pck_name": "RemoveMultiplayerPlayerLimit",
+  "name": "Remove Multiplayer Player Limit (Sentou fix)",
+  "version": "0.1.8-sentou.1",
+  "author": "Rain_G; patched by sentou-koubou",
+  "description": "Raise multiplayer lobby cap (workshop RMP 0.1.8) fixed for current STS2: GetDeterministicHashCode is int, Rng takes uint. Disable the Steam workshop copy of this mod.",
+  "dependencies": [],
+  "has_pck": true,
+  "has_dll": true,
+  "affects_gameplay": true,
+  "min_game_version": "0.107.0"
+}
