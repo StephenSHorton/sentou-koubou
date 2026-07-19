@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
+using MegaCrit.Sts2.Core.Nodes.Screens.CardSelection;
+using MegaCrit.Sts2.Core.Nodes.Screens.Overlays;
 using MegaCrit.Sts2.Core.Runs;
 
 namespace CardRanks;
@@ -41,6 +43,27 @@ public sealed class CombineSynchronizer : IDisposable
         _messageBuffer.UnregisterMessageHandler<CampfireCombineResultMessage>(HandleCampfireResult);
     }
 
+    /// <summary>UI-only deck picker; never touches the synced choice-id stream.</summary>
+    private static async Task<IEnumerable<CardModel>> PickCardsFromDeck(Player owner, CardSelectorPrefs prefs)
+    {
+        List<CardModel> cards = owner.Deck.Cards.ToList();
+        if (cards.Count == 0)
+        {
+            return Enumerable.Empty<CardModel>();
+        }
+        NDeckCardSelectScreen screen = NDeckCardSelectScreen.Create(cards, prefs);
+        NOverlayStack.Instance.Push(screen);
+        try
+        {
+            return await screen.CardsSelected();
+        }
+        catch (TaskCanceledException)
+        {
+            // Screen was torn down (e.g. room ended) without a pick.
+            return Enumerable.Empty<CardModel>();
+        }
+    }
+
     public async Task<bool> RunLocalCampfireCombine(Player owner)
     {
         Loc.EnsureCardSelectionEntries();
@@ -52,9 +75,12 @@ public sealed class CombineSynchronizer : IDisposable
             RequireManualConfirmation = true,
         };
 
-        IEnumerable<CardModel> selection =
-            await MegaCrit.Sts2.Core.Commands.CardSelectCmd.FromDeckGeneric(
-                owner, prefs, filter: null, sortingOrder: null);
+        // Drive the deck-select screen directly instead of CardSelectCmd.FromDeckGeneric:
+        // the Cmd reserves an id from the synced PlayerChoiceSynchronizer, which only ticks
+        // on the combining client (mirrors never run this flow) and desyncs the run checksum
+        // (see trading-post PR #13 — same failure, confirmed via RitsuLib divergence dump).
+        // The combine itself is synced by CombineCardsMessage, so no synced choice is needed.
+        IEnumerable<CardModel> selection = await PickCardsFromDeck(owner, prefs);
 
         List<CardModel> picked = selection.ToList();
         if (picked.Count < RankMath.CardsPerCombine)
