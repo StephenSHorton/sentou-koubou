@@ -1,0 +1,12 @@
+{
+  "id": "UncappedChapterFix",
+  "name": "Uncapped Chapter Fix",
+  "author": "BlakeHorton",
+  "description": "Compat patch for UncappedSpire multiplayer: properly finishes Closing the Chapter on every peer before the next act/Neow, preventing state divergence after starting a new chapter. Soft-depends on UncappedSpire (no-ops if missing).",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}
