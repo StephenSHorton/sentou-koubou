@@ -6,14 +6,11 @@ using MegaCrit.Sts2.Core.GameActions;
 namespace UncappedChapterFix;
 
 /// <summary>
-/// During the same desync session we saw:
-/// <c>Tried to get index from player choice result of type DeckCard!</c>
-/// inside CardReward.OnSelect when applying a remote peer's choice.
-/// That throws on the host, skips applying the reward, and drifts
-/// PlayerChoiceSynchronizer next-choice IDs (host vs client off-by-one).
+/// Softens <see cref="PlayerChoiceResult.AsIndexOrNull"/> when a peer sends a
+/// non-Index payload (e.g. DeckCard) where an index was expected — common under
+/// CardReward and relic AfterObtained apply paths.
 ///
-/// Soft fix: if AsIndexOrNull throws a type-mismatch while CardReward is on the
-/// stack, return null so the reward path does not explode mid-sync.
+/// Returning null avoids throwing after a choice ID was reserved (nextChoiceId drift).
 /// </summary>
 public static class CardRewardChoicePatches
 {
@@ -25,7 +22,7 @@ public static class CardRewardChoicePatches
 
         if (asIndex == null)
         {
-            MainFile.Logger.Warn("PlayerChoiceResult.AsIndexOrNull not found — skip card-reward harden.");
+            MainFile.Logger.Warn("PlayerChoiceResult.AsIndexOrNull not found — skip index-choice harden.");
             return false;
         }
 
@@ -34,12 +31,12 @@ public static class CardRewardChoicePatches
             finalizer: new HarmonyMethod(typeof(CardRewardChoicePatches), nameof(AsIndexFinalizer)));
 
         MainFile.Logger.Info(
-            "Patched PlayerChoiceResult.AsIndexOrNull finalizer (wrong-type→null under CardReward).");
+            "Patched PlayerChoiceResult.AsIndexOrNull finalizer (wrong-type→null under reward/relic apply).");
         return true;
     }
 
     /// <summary>
-    /// Harmony finalizer: on type-mismatch under CardReward, swallow and return null.
+    /// Harmony finalizer: on type-mismatch under reward/relic/card-select, swallow and return null.
     /// </summary>
     public static Exception? AsIndexFinalizer(
         PlayerChoiceResult __instance,
@@ -54,18 +51,18 @@ public static class CardRewardChoicePatches
         if (typeName is "Index")
             return __exception;
 
-        if (!StackHasCardReward())
+        if (!StackIsSoftHardenContext())
             return __exception;
 
         MainFile.Logger.Warn(
-            $"CardReward expected Index choice but got {typeName} — " +
+            $"AsIndexOrNull expected Index but got {typeName} — " +
             "returning null instead of throwing (prevents host choice-ID drift). " +
             $"Detail: {__exception.Message}");
         __result = null;
         return null; // swallow
     }
 
-    private static bool StackHasCardReward()
+    private static bool StackIsSoftHardenContext()
     {
         var st = new StackTrace(1, fNeedFileInfo: false);
         foreach (StackFrame frame in st.GetFrames() ?? Array.Empty<StackFrame>())
@@ -74,8 +71,18 @@ public static class CardRewardChoicePatches
             while (t != null)
             {
                 string name = t.Name;
-                // Async state machines: CardReward+<OnSelect>d__49
+                // Async state machines: CardReward+<OnSelect>d__49, Claws+<AfterObtained>d__*, etc.
                 if (name.Contains("CardReward", StringComparison.Ordinal))
+                    return true;
+                if (name.Contains("AfterObtained", StringComparison.Ordinal))
+                    return true;
+                if (name.Contains("RelicReward", StringComparison.Ordinal))
+                    return true;
+                if (name.Contains("FromChooseACardScreen", StringComparison.Ordinal))
+                    return true;
+                if (name.Contains("FromDeckFor", StringComparison.Ordinal))
+                    return true;
+                if (name.Contains("FromSimpleGrid", StringComparison.Ordinal))
                     return true;
                 t = t.DeclaringType;
             }

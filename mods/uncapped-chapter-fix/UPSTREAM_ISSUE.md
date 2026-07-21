@@ -55,9 +55,42 @@ So **every** shared-event instance is marked finished, then only the local owner
 
 Optional hardening: ensure `ChapterChangeMessage` is applied on clients before `SetLocalPlayerReady` races into the act transition.
 
-## Secondary issue same session (may be separate)
+## Secondary issue (now primary remaining desync) — boss reward choices
 
-Host threw during a remote card reward apply:
+Even with chapter finish fixed, act-2 boss rewards can still desync `choices.nextChoiceIds` (host +1 on peers who took interactive relics). Detected at **Exiting event room EVENT.NEOW**.
+
+### Hefty Tablet (skip)
+
+```text
+Player obtained RELIC.HEFTY_TABLET
+… choice ID N: NetPlayerChoiceResult indexes 3
+System.ArgumentOutOfRangeException: Index was out of range
+  at CardSelectCmd+<FromChooseACardScreen>d__13.MoveNext
+  at HeftyTablet.AfterObtained()
+```
+
+Vanilla remote apply: `result = (num < 0) ? null : cards[num]`. Skip is usually `-1`, but peers sometimes send the reward-style sentinel `indexes == cards.Count` (3 on a 3-card offer) → OOB after the choice ID was reserved.
+
+Suggested vanilla fix in `FromChooseACardScreen`:
+
+```csharp
+result = (num < 0 || num >= cards.Count) ? null : cards[num];
+```
+
+### Claws (wrong choice type)
+
+```text
+Player obtained RELIC.CLAWS
+… choice ID N: NetPlayerChoiceResult indexes 3
+System.InvalidOperationException: Tried to get deck cards from player choice result of type Index!
+  at PlayerChoiceResult.AsDeckCards()
+  at CardSelectCmd.FromDeckForTransformation(...)
+  at Claws.AfterObtained()
+```
+
+`FromDeckForTransformation` always calls `AsDeckCards()`; Index (skip/misroute) throws. Empty-success is the safe host apply for cancel.
+
+### Earlier same class
 
 ```text
 System.InvalidOperationException: Tried to get index from player choice result of type DeckCard!
@@ -65,11 +98,16 @@ System.InvalidOperationException: Tried to get index from player choice result o
   at CardReward.OnSelect ...
 ```
 
-That can desync choice IDs even if chapter finish is fixed. Worth a separate look if you touch reward/choice code.
-
 ## Workaround / local compat
 
-We shipped a tiny Harmony compat mod that postfixes `StartANewChapter` to force-finish the event instance on all peers (**UncappedChapterFix**). Happy to open a PR here with the in-tree `SetEventFinished` change if you want the fix upstream.
+**UncappedChapterFix v0.2.0** (Harmony compat):
+
+1. Postfix `StartANewChapter` → force-finish event on all peers.
+2. Prefix `FromChooseACardScreen` → bounds-checked skip.
+3. Finalizer `AsDeckCards` → empty on wrong type.
+4. Finalizer `AsIndexOrNull` → null on wrong type under reward/relic stacks.
+
+Happy to open a PR with the in-tree `SetEventFinished` change if you want the chapter fix upstream.
 
 ## Environment
 
