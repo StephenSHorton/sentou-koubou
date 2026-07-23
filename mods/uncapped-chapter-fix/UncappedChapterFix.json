@@ -1,0 +1,12 @@
+{
+  "id": "UncappedChapterFix",
+  "name": "Uncapped Chapter Fix",
+  "author": "BlakeHorton",
+  "description": "Compat for UncappedSpire MP: finishes Closing the Chapter on every peer before Neow, and hardens remote card/relic choices (Hefty Tablet skip index + Claws Index-vs-DeckCard) so host does not throw after reserving PlayerChoice IDs (prevents state divergence). Soft-depends on UncappedSpire for the chapter patch.",
+  "version": "v0.2.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}
