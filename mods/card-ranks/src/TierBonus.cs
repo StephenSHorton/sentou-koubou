@@ -115,6 +115,8 @@ public static class TierBonusService
     /// <summary>
     /// Whether this bonus can actually land on the card as a visible/meaningful effect.
     /// Soul's Power is rejected by the game on many cards (and is a no-op without Exhaust).
+    /// Spiral only enchants basic Strike/Defend — anything else used to fall back to
+    /// non-serialized BaseReplayCount/CWT flags and desynced multiplayer play counts.
     /// </summary>
     public static bool IsEligible(CardModel card, TierBonus bonus)
     {
@@ -122,7 +124,19 @@ public static class TierBonusService
             return false;
         if (bonus == TierBonus.SoulsPower)
             return card.Keywords.Contains(CardKeyword.Exhaust);
+        if (bonus == TierBonus.Spiral)
+            return CanTakeVanillaSpiral(card);
         return true;
+    }
+
+    /// <summary>Mirrors vanilla <c>Spiral.CanEnchant</c> (Basic + Strike/Defend).</summary>
+    public static bool CanTakeVanillaSpiral(CardModel card)
+    {
+        if (card.IsBasicStrikeOrDefend)
+            return true;
+        if (card.Rarity != CardRarity.Basic)
+            return false;
+        return card.Tags.Contains(CardTag.Strike) || card.Tags.Contains(CardTag.Defend);
     }
 
     /// <summary>Pick a random bonus the card does not already have; null if pool exhausted.</summary>
@@ -221,11 +235,9 @@ public static class TierBonusService
                     CardCmd.RemoveKeyword(card, CardKeyword.Exhaust);
                     break;
                 case TierBonus.Spiral:
-                    // Prefer the vanilla Spiral leaf for play-count (multiplayer-visible).
-                    // Only fall back to BaseReplayCount when the leaf could not land — never both,
-                    // or RankEnchantment.ReplayBonus double-counts with the leaf / BaseReplayCount.
-                    if (!realEnchantOk)
-                        card.BaseReplayCount = Math.Max(0, card.BaseReplayCount) + 1;
+                    // Only the vanilla Spiral leaf is multiplayer-safe (serialized on the
+                    // MultiEnchantment). Do NOT bump BaseReplayCount or rely on CWT alone —
+                    // those are not in SerializableCard and desync peers (1 play vs 2).
                     break;
                 case TierBonus.Clone:
                 case TierBonus.Imbued:
@@ -235,7 +247,9 @@ public static class TierBonusService
             }
 
             // Invisible / non-functional rolls: undo so AutoGrant can re-roll.
-            if (!realEnchantOk && bonus is TierBonus.SoulsPower or TierBonus.Imbued)
+            // Spiral without a real leaf used to set BaseReplayCount + CWT flags; that
+            // desynced combat play counts after campfire combine (e.g. Crush Under).
+            if (!realEnchantOk && bonus is TierBonus.SoulsPower or TierBonus.Imbued or TierBonus.Spiral)
             {
                 box.Bonuses.Remove(bonus);
                 MainFile.Logger.Info(
