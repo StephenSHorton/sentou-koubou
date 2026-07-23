@@ -35,16 +35,14 @@ public abstract class RankEnchantment : CustomEnchantmentModel
 
     public override int EnchantPlayCount(int playCount)
     {
-        // If a vanilla Spiral leaf is already on the multi-enchant stack, it applies
-        // its own play-count hook — do not also add our CWT ReplayBonus.
-        if (Card != null
-            && MultiEnchantCompat.EnumerateLeafEnchantments(Card)
-                .Any(e => e.GetType().Name.Equals("Spiral", StringComparison.OrdinalIgnoreCase)))
-        {
-            return playCount;
-        }
-
-        return playCount + TierBonusService.ReplayBonus(Card);
+        // Replay extras must be multiplayer-visible state only:
+        // - Vanilla Spiral leaf: MultiEnchantment composes leaf EnchantPlayCount.
+        // - BaseReplayCount: already passed in as `playCount` by GetEnchantedReplayCount.
+        //
+        // CWT ReplayBonus is NOT serialized and desynced peers after campfire combine
+        // (host applied 1 play, client 2 — FOGMOG HP/strength/CrushUnder power mismatch).
+        // Never add it here.
+        return playCount;
     }
 
     public override void ModifyShuffleOrder(Player player, List<CardModel> cards, bool isCombatStartShuffle)
