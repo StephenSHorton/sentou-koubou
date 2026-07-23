@@ -209,7 +209,9 @@ public static class MultiEnchantCompat
                 object? listObj = _getEnchantmentsOnCards?.Invoke(top, null);
                 if (listObj is not IList list)
                 {
-                    HardClearTop(card);
+                    // Cannot unwrap safely — do NOT hard-clear (would wipe Spiral/etc.).
+                    MainFile.Logger.Warn(
+                        "StripRankLeaves: MultiEnchantment list unavailable; leaving enchants intact.");
                     return;
                 }
 
@@ -224,22 +226,110 @@ public static class MultiEnchantCompat
 
                 if (list.Count == 0)
                     HardClearTop(card);
+                else
+                {
+                    // Keep serializable side in sync with live list.
+                    try
+                    {
+                        MethodInfo? setSer = top.GetType().GetMethod(
+                            "SetSerializableCards",
+                            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                        setSer?.Invoke(top, [list.Cast<CardModel>().ToList()]);
+                    }
+                    catch
+                    {
+                        // non-fatal
+                    }
+                }
 
                 MainFile.Logger.Info(
                     $"Stripped rank leaves from MultiEnchantment; remaining={list.Count}");
             }
             catch (Exception e)
             {
-                MainFile.Logger.Warn($"StripRankLeaves multi failed: {e.Message}; hard clear.");
-                HardClearTop(card);
+                // Never hard-clear the whole slot on failure — that bulldozed Spiral etc.
+                MainFile.Logger.Warn(
+                    $"StripRankLeaves multi failed: {e.Message}; leaving enchants intact.");
             }
 
             return;
         }
 
-        if (IsRankLeaf(top) || RankFromLeaf(top) != CardRankLevel.None)
+        // Lone top enchant: only clear *actual* rank leaves. Do NOT use RankFromLeaf()
+        // heuristics (block mult) — those false-positive non-rank enchants and wipe them.
+        if (IsRankLeaf(top))
             HardClearTop(card);
     }
+
+    /// <summary>
+    /// Copy non-rank enchant leaves from <paramref name="source"/> onto <paramref name="dest"/>
+    /// (e.g. Spiral/Steady from a sacrificed combine card). Skips types dest already has.
+    /// Under UncappedSpire, property-set stacks into MultiEnchantment.
+    /// </summary>
+    public static int MergeNonRankLeaves(CardModel source, CardModel dest)
+    {
+        if (ReferenceEquals(source, dest))
+            return 0;
+
+        int merged = 0;
+        HashSet<Type> already = EnumerateLeafEnchantments(dest)
+            .Select(e => e.GetType())
+            .ToHashSet();
+
+        foreach (EnchantmentModel leaf in EnumerateLeafEnchantments(source))
+        {
+            if (IsRankLeaf(leaf))
+                continue;
+            if (!already.Add(leaf.GetType()))
+                continue;
+
+            EnchantmentModel clone;
+            try
+            {
+                clone = (EnchantmentModel)leaf.MutableClone();
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Warn(
+                    $"MergeNonRankLeaves: clone {leaf.GetType().Name} failed: {e.Message}");
+                continue;
+            }
+
+            try
+            {
+                if (IsMultiEnchantment(dest.Enchantment))
+                {
+                    if (!TryAddIntoMulti(dest, clone))
+                    {
+                        MainFile.Logger.Warn(
+                            $"MergeNonRankLeaves: multi-add {clone.GetType().Name} failed on {dest.Id}");
+                        continue;
+                    }
+                }
+                else
+                {
+                    // Uncapped set_Enchantment: null→create Multi, then AddEnchantment;
+                    // existing single → wrap/add. Without Uncapped this replaces.
+                    dest.Enchantment = clone;
+                }
+
+                merged++;
+                MainFile.Logger.Info(
+                    $"MergeNonRankLeaves: carried {clone.GetType().Name} → {dest.Id}");
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Warn(
+                    $"MergeNonRankLeaves: apply {clone.GetType().Name} failed: {e.Message}");
+            }
+        }
+
+        return merged;
+    }
+
+    /// <summary>Count of non-rank leaves (for survivor preference).</summary>
+    public static int CountNonRankLeaves(CardModel card) =>
+        EnumerateLeafEnchantments(card).Count(e => !IsRankLeaf(e));
 
     /// <summary>
     /// Force-clear the card enchantment slot. Uses ClearEnchantment + backing-field null
