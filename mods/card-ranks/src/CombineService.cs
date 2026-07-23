@@ -140,7 +140,9 @@ public static class CombineService
         PileType.Deck.GetPile(player).Cards;
 
     /// <summary>
-    /// Pick survivor (highest upgrade) and the two sacrifices from a 3-card selection.
+    /// Pick survivor and the two sacrifices from a 3-card selection.
+    /// Prefer the copy that already has non-rank enchantments (Spiral etc.), then
+    /// highest upgrade — so combine does not throw away event/shop enchantments.
     /// </summary>
     public static void SplitSurvivorAndSacrifices(
         IReadOnlyList<CardModel> picked,
@@ -152,11 +154,22 @@ public static class CombineService
             throw new ArgumentException($"Need {CardsPerCombine} cards, got {picked.Count}");
 
         List<CardModel> ordered = picked
-            .OrderByDescending(c => c.CurrentUpgradeLevel)
+            .OrderByDescending(MultiEnchantCompat.CountNonRankLeaves)
+            .ThenByDescending(c => c.CurrentUpgradeLevel)
+            .ThenByDescending(c => c.Enchantment != null)
             .ToList();
         survivor = ordered[0];
         sacrifice1 = ordered[1];
         sacrifice2 = ordered[2];
+
+        if (MultiEnchantCompat.CountNonRankLeaves(survivor) > 0
+            || MultiEnchantCompat.CountNonRankLeaves(sacrifice1) > 0
+            || MultiEnchantCompat.CountNonRankLeaves(sacrifice2) > 0)
+        {
+            MainFile.Logger.Info(
+                $"Combine survivor pick: keep {Describe(survivor)} " +
+                $"(sac {Describe(sacrifice1)} | {Describe(sacrifice2)})");
+        }
     }
 
     /// <summary>
@@ -171,9 +184,12 @@ public static class CombineService
             throw new InvalidOperationException(
                 $"Illegal triple: {Describe(sacrifice1)} | {Describe(sacrifice2)} | {Describe(survivor)}");
 
-        // Carry bonuses from sacrificed copies onto the survivor.
+        // Carry tier-bonus flags + real non-rank enchant leaves (Spiral, Steady, …)
+        // from sacrificed copies so combine does not bulldoze existing enchants.
         TierBonusService.MergeFrom(sacrifice1, survivor);
         TierBonusService.MergeFrom(sacrifice2, survivor);
+        MultiEnchantCompat.MergeNonRankLeaves(sacrifice1, survivor);
+        MultiEnchantCompat.MergeNonRankLeaves(sacrifice2, survivor);
 
         int maxUp = Math.Max(
             Math.Max(survivor.MaxUpgradeLevel, sacrifice1.MaxUpgradeLevel),
@@ -257,6 +273,8 @@ public static class CombineService
 
         TierBonusService.MergeFrom(sac1, survivor);
         TierBonusService.MergeFrom(sac2, survivor);
+        MultiEnchantCompat.MergeNonRankLeaves(sac1, survivor);
+        MultiEnchantCompat.MergeNonRankLeaves(sac2, survivor);
 
         ApplyRankEnchantment(survivor, (CardRankLevel)msg.resultRank);
         ApplyUpgradeLevel(survivor, msg.resultUpgradeLevel);
@@ -335,16 +353,25 @@ public static class CombineService
             }
             catch (Exception e)
             {
-                MainFile.Logger.Warn($"Enchant failed ({rank}): {e.Message}; hard clear + retry.");
-                MultiEnchantCompat.HardClearTop(card);
-                EnchantmentModel? applied = rank switch
+                // Do not HardClearTop here — that wiped Spiral/other non-rank enchants.
+                // StripRankLeaves already removed only rank leaves; retry Enchant only.
+                MainFile.Logger.Warn($"Enchant failed ({rank}): {e.Message}; retry without clear.");
+                try
                 {
-                    CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
-                    CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
-                    _ => CardCmd.Enchant<FirstRank>(card, 1m),
-                };
-                if (applied != null)
-                    applied.Amount = 1;
+                    EnchantmentModel? applied = rank switch
+                    {
+                        CardRankLevel.Tier3 => CardCmd.Enchant<ThirdRank>(card, 1m),
+                        CardRankLevel.Tier2 => CardCmd.Enchant<SecondRank>(card, 1m),
+                        _ => CardCmd.Enchant<FirstRank>(card, 1m),
+                    };
+                    if (applied != null)
+                        applied.Amount = 1;
+                }
+                catch (Exception e2)
+                {
+                    MainFile.Logger.Error($"Enchant retry failed ({rank}): {e2.Message}");
+                    throw;
+                }
             }
         }
 
