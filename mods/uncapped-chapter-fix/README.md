@@ -1,8 +1,36 @@
 # Uncapped Chapter Fix
 
-Compat patch for **UncappedSpire** multiplayer chapter transitions and boss-reward choice apply.
+Compat patch for **UncappedSpire** multiplayer: chapter transitions, boss-reward choice apply, and STS2 hash/RNG API breaks (embark + Mysterious Door).
 
 ## Problems
+
+### 0a. "Through the Mysterious Door" hangs (both voted, nothing happens)
+
+After both peers vote **START_A_NEW_CHAPTER**, UncappedSpire sends `ChapterChangeMessage` then runs `DoSeedChange`, which throws:
+
+```text
+MissingMethodException: Method not found:
+  'UInt64 MegaCrit.Sts2.Core.Helpers.StringHelper.GetDeterministicHashCode(System.String)'
+   at ChapterChangeSynchronizer.DoSeedChange
+```
+
+STS2 now returns `int` from that API. Seed/act reseed never completes → UI stuck on Closing the Chapter.
+
+This mod **replaces** `DoSeedChange` with a uint/int-safe implementation.
+
+### 0b. Multiplayer embark crash (`PlayerRngSet.get_Seed` MissingMethodException)
+
+Starting a multiplayer run with UncappedSpire workshop **≤0.3.15** fails during combat-state sync:
+
+```text
+[ERROR] Exception starting multiplayer run : System.MissingMethodException:
+  Method not found: 'UInt64 MegaCrit.Sts2.Core.Random.PlayerRngSet.get_Seed()'.
+   at UncappedSpire...PlayerRngSetPatches.Patch_LoadFromSerializable.Prefix(...)
+   at PlayerRngSet.LoadFromSerializable_Patch1(...)
+   at CombatStateSynchronizer.WaitForSync()
+```
+
+UncappedSpire’s Harmony prefix still calls the old `UInt64` Seed getter; STS2 0.107.x exposes `uint Seed`. This mod **unpatches** that prefix and re-applies the same logic against `uint`.
 
 ### 1. Closing the Chapter → Neow (unfinished shared event)
 
@@ -28,12 +56,14 @@ Even with the chapter event finished correctly, act-2 boss rewards with interact
 
 Host reserves the choice ID, then throws mid-apply → host counters end **+1** vs clients → checksum fails at **Exiting event room EVENT.NEOW**. Inventory/RNG often still match.
 
-## Fixes (v0.2.0)
+## Fixes (v0.2.2)
 
 1. **ClosingTheChapter** postfix — force-finish every shared-event instance before act/Neow.
 2. **`FromChooseACardScreen` prefix** — bounds-check remote index; OOB / reward-style sentinel → null skip (also allows &gt;3 cards like Downfall’s NOP of the vanilla throw).
 3. **`AsDeckCards` finalizer** — wrong type (esp. Index) → empty list instead of throw under relic/deck select.
 4. **`AsIndexOrNull` finalizer** — wrong type under reward/relic/card-select stacks → null (broader than CardReward-only).
+5. **PlayerRngSet.LoadFromSerializable** — replace UncappedSpire’s broken `UInt64` Seed prefix with a `uint` version so multiplayer embark no longer throws.
+6. **ChapterChangeSynchronizer.DoSeedChange** — replace body to use `int` `GetDeterministicHashCode` + `Rng(uint)` so Mysterious Door chapter reseed completes.
 
 ## Install
 
@@ -45,7 +75,9 @@ Quit STS2, build, or unzip into `Slay the Spire 2/mods/UncappedChapterFix/`.
 dotnet build mods/uncapped-chapter-fix -c Release
 ```
 
-On load you should see four patch groups applied.
+On load you should see five patch groups applied (four if UncappedSpire is absent).
+
+**Load order:** this mod must initialize **after** UncappedSpire so it can replace the broken seed prefix. With the default local+workshop layout that is already the case; if you reorder mods manually, keep UncappedChapterFix after UncappedSpire.
 
 ## Relation to upstream
 
