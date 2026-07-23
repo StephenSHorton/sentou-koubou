@@ -1,5 +1,37 @@
 ## Summary
 
+Several UncappedSpire multiplayer issues. Newest first.
+
+### A. Multiplayer embark crash (Seed UInt64 → uint) — **blocks all MP runs**
+
+Observed UncappedSpire **v0.3.15** (Workshop `3749824653`), STS2 **v0.107.1**.
+
+```text
+[ERROR] Exception starting multiplayer run : System.MissingMethodException:
+  Method not found: 'UInt64 MegaCrit.Sts2.Core.Random.PlayerRngSet.get_Seed()'.
+   at UncappedSpire...PlayerRngSetPatches.Patch_LoadFromSerializable.Prefix
+   at Player.SyncWithSerializedPlayer → CombatStateSynchronizer.WaitForSync
+```
+
+Upstream prefix (still shipping):
+
+```csharp
+// PlayerRngSetPatches/Patch_LoadFromSerializable.cs
+save.Seed = __instance.Seed; // compiled against UInt64 get_Seed()
+```
+
+Game API now:
+
+```csharp
+public uint Seed { get; }  // was UInt64 on older builds
+```
+
+**Suggested upstream fix:** rebuild against current `sts2.dll` so `Seed` is `uint` (source already assigns `Seed` — only the reference assembly age is wrong). `RunRngSet` prefix already uses `StringSeed` and is fine.
+
+---
+
+### B. Chapter → Neow unfinished event (state divergence)
+
 Multiplayer state divergence when starting a **new UncappedSpire chapter** via **Closing the Chapter → Through the Mysterious Door**, then completing the following **Neow** event.
 
 Observed on UncappedSpire **v0.3.12** (Workshop `3749824653`), STS2 ~0.107.x, RitsuLib 0.4.57, BaseLib 3.3.7, 3 players (host + 2 clients).
