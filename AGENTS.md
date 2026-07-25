@@ -19,6 +19,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/whitney` — Atelier witch rearch (MarisaMod architecture): Amplify / Inkbound / Saturate, violet theme, combat flipbooks. See `docs/whitney-marisa-rearch.md`.
 - `mods/blake` — Falcon racer-brawler (Charge / Rev / Unleash). Generate with `python tools/generate_blake_kit.py`.
 - `mods/trading-post` — Co-op shop gold + campfire card trading.
+- `mods/card-ranks` — Manual campfire card rank-up (Rank 2/3); multiplayer-safe rebuild of RankUpCards idea.
 - `mods/mp-player-limit` — Raise multiplayer lobby cap above vanilla 4.
 - `mods/uncapped-chapter-fix` — Compat for UncappedSpire MP chapter transition desync (finishes Closing the Chapter on all peers).
 
@@ -55,7 +56,7 @@ What that does: bump `mods/<mod>/<Assembly>.json` version → Release build → 
 | `--push` | Tag + `git push` branch/tag (no asset upload) |
 | `--skip-build` | Reuse last local build when re-packaging |
 
-Known mod ids: `whitney`, `brennen`, `blake`, `trading-post`.
+Known mod ids: `whitney`, `brennen`, `blake`, `trading-post`, `card-ranks`, `mp-player-limit`, `rmp-player-limit`.
 
 More detail: `docs/releasing.md`.
 

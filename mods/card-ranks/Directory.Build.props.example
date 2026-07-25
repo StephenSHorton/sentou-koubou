@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Copy to Directory.Build.props (gitignored) if auto-discovery fails. -->
+    <!-- <Sts2Path>C:/Program Files (x86)/Steam/steamapps/common/Slay the Spire 2</Sts2Path> -->
+  </PropertyGroup>
+</Project>

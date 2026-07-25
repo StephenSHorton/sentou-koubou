@@ -18,7 +18,7 @@ Usage:
   # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
 
-Known mods: whitney, brennen, blake, trading-post, mp-player-limit, rmp-player-limit
+Known mods: whitney, brennen, blake, trading-post, card-ranks, mp-player-limit, rmp-player-limit
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -55,6 +55,11 @@ MODS: dict[str, dict[str, str]] = {
         "folder": "trading-post",
         "project": "TradingPost.csproj",
         "assembly": "TradingPost",
+    },
+    "card-ranks": {
+        "folder": "card-ranks",
+        "project": "CardRanks.csproj",
+        "assembly": "CardRanks",
     },
     # Clean Harmony rewrite (preferred)
     "mp-player-limit": {
@@ -258,7 +263,7 @@ def main() -> None:
         assembly,
         build_dir,
         out_root,
-        include_trading_assets=(args.mod == "trading-post"),
+        include_trading_assets=(args.mod in ("trading-post", "card-ranks")),
     )
     zip_path = out_root / f"{assembly}.zip"
     zip_mod(staging, zip_path)
