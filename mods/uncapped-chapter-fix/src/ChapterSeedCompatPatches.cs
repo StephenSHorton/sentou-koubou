@@ -14,76 +14,243 @@ namespace UncappedChapterFix;
 /// UncappedSpire ≤0.3.15 <c>ChapterChangeSynchronizer.DoSeedChange</c> is compiled against
 /// <c>UInt64 StringHelper.GetDeterministicHashCode(string)</c>. Current STS2 returns <c>int</c>.
 ///
-/// On "Through the Mysterious Door" the shared vote succeeds, then the peer receiving
-/// <c>ChapterChangeMessage</c> (and host's local DoSeedChange) throws
-/// <c>MissingMethodException</c> and the chapter transition hangs with no act/map.
+/// On "Through the Mysterious Door" the shared vote succeeds, then DoSeedChange throws
+/// <c>MissingMethodException</c> and the chapter transition hangs.
 ///
-/// Fix: Harmony-prefix that replaces DoSeedChange with the same logic using the current
-/// <c>int</c> hash API (and <c>Rng(uint)</c>). Soft-depends on UncappedSpire.
+/// Important: Harmony cannot patch <c>DoSeedChange</c> itself — reading its IL fails with the
+/// same MissingMethodException when resolving the dead UInt64 call token. We instead prefix
+/// the two callers whose bodies are clean:
+///   • <c>DoLocalSeedChange</c> (local vote path — also broadcasts ChapterChangeMessage)
+///   • <c>HandleChapterChangeMessage</c> (remote peer path)
 /// </summary>
 public static class ChapterSeedCompatPatches
 {
     private const string SynchronizerTypeName =
         "UncappedSpire.UncappedSpireCode.UncappedActs.ChapterChangeSynchronizer";
 
+    private const string MessageTypeName =
+        "UncappedSpire.UncappedSpireCode.UncappedActs.ChapterChangeMessage";
+
     public static bool TryApply(Harmony harmony)
-    {
-        Type? syncType = AccessTools.TypeByName(SynchronizerTypeName);
-        if (syncType == null)
-        {
-            MainFile.Logger.Info(
-                "UncappedSpire ChapterChangeSynchronizer not found — chapter seed compat skipped.");
-            return false;
-        }
-
-        MethodInfo? doSeedChange = AccessTools.Method(syncType, "DoSeedChange", [typeof(string)]);
-        if (doSeedChange == null)
-        {
-            MainFile.Logger.Warn(
-                "ChapterChangeSynchronizer.DoSeedChange not found — API changed?");
-            return false;
-        }
-
-        harmony.Patch(
-            doSeedChange,
-            prefix: new HarmonyMethod(typeof(ChapterSeedCompatPatches), nameof(DoSeedChangePrefix)));
-
-        MainFile.Logger.Info(
-            "Patched ChapterChangeSynchronizer.DoSeedChange " +
-            "(replaced UInt64 GetDeterministicHashCode with int).");
-        return true;
-    }
-
-    /// <summary>
-    /// Replaces UncappedSpire DoSeedChange. Returns false to skip the broken original body.
-    /// </summary>
-    public static bool DoSeedChangePrefix(object __instance, string seed, ref bool __result)
     {
         try
         {
-            FieldInfo? runStateField = AccessTools.Field(__instance.GetType(), "_runState");
-            FieldInfo? localIdField = AccessTools.Field(__instance.GetType(), "_localPlayerId");
-            FieldInfo? gameServiceField = AccessTools.Field(__instance.GetType(), "_gameService");
+            Type? syncType = AccessTools.TypeByName(SynchronizerTypeName);
+            if (syncType == null)
+            {
+                MainFile.Logger.Info(
+                    "UncappedSpire ChapterChangeSynchronizer not found — chapter seed compat skipped.");
+                return false;
+            }
 
-            if (runStateField?.GetValue(__instance) is not RunState runState)
+            int patched = 0;
+
+            MethodInfo? doLocal = AccessTools.Method(syncType, "DoLocalSeedChange", [typeof(string)]);
+            if (doLocal != null)
+            {
+                // Do not patch DoSeedChange — Harmony MethodBodyReader dies on the UInt64 token.
+                harmony.Patch(
+                    doLocal,
+                    prefix: new HarmonyMethod(
+                        typeof(ChapterSeedCompatPatches), nameof(DoLocalSeedChangePrefix)));
+                patched++;
+                MainFile.Logger.Info(
+                    "Patched ChapterChangeSynchronizer.DoLocalSeedChange " +
+                    "(bypass broken DoSeedChange UInt64 hash).");
+            }
+            else
+            {
+                MainFile.Logger.Warn("DoLocalSeedChange not found — API changed?");
+            }
+
+            MethodInfo? handle = AccessTools.Method(syncType, "HandleChapterChangeMessage");
+            if (handle != null)
+            {
+                harmony.Patch(
+                    handle,
+                    prefix: new HarmonyMethod(
+                        typeof(ChapterSeedCompatPatches), nameof(HandleChapterChangeMessagePrefix)));
+                patched++;
+                MainFile.Logger.Info(
+                    "Patched ChapterChangeSynchronizer.HandleChapterChangeMessage " +
+                    "(remote chapter seed reseed).");
+            }
+            else
+            {
+                MainFile.Logger.Warn("HandleChapterChangeMessage not found — API changed?");
+            }
+
+            return patched > 0;
+        }
+        catch (Exception e)
+        {
+            // Never let a failed seed patch abort the rest of UncappedChapterFix init.
+            MainFile.Logger.Error($"Chapter seed compat TryApply failed: {e}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Local vote path: broadcast ChapterChangeMessage, apply int-safe seed change, skip original.
+    /// </summary>
+    public static bool DoLocalSeedChangePrefix(object __instance, string seed)
+    {
+        try
+        {
+            BroadcastChapterChange(__instance, seed);
+            if (!ApplySeedChange(__instance, seed))
+            {
+                MainFile.Logger.Error("DoLocalSeedChange compat: ApplySeedChange returned false.");
+            }
+            return false; // skip original (which would call broken DoSeedChange)
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"DoLocalSeedChange compat failed: {e}");
+            // Still skip original — calling it only throws MissingMethodException.
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Remote peer path: apply seed from message. Skip original DoSeedChange call.
+    /// </summary>
+    public static bool HandleChapterChangeMessagePrefix(object __instance, object message, ulong senderId)
+    {
+        try
+        {
+            // Upstream throws if the local player somehow handles their own message.
+            if (IsMessageFromLocalPlayer(__instance, senderId))
+            {
+                MainFile.Logger.Warn(
+                    "HandleChapterChangeMessage from local player — skipping seed apply.");
+                return false;
+            }
+
+            FieldInfo? seedField = AccessTools.Field(message.GetType(), "seed");
+            string? seed = seedField?.GetValue(message) as string;
+            if (string.IsNullOrEmpty(seed))
+            {
+                MainFile.Logger.Error("HandleChapterChangeMessage compat: missing seed.");
+                return false;
+            }
+
+            if (!ApplySeedChange(__instance, seed))
+            {
+                MainFile.Logger.Error("HandleChapterChangeMessage compat: ApplySeedChange failed.");
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"HandleChapterChangeMessage compat failed: {e}");
+            return false;
+        }
+    }
+
+    private static bool IsMessageFromLocalPlayer(object sync, ulong senderId)
+    {
+        try
+        {
+            FieldInfo? runStateField = AccessTools.Field(sync.GetType(), "_runState");
+            FieldInfo? localIdField = AccessTools.Field(sync.GetType(), "_localPlayerId");
+            if (runStateField?.GetValue(sync) is not RunState runState || localIdField == null)
+                return false;
+            ulong localId = (ulong)localIdField.GetValue(sync)!;
+            return senderId == localId || runState.GetPlayer(senderId)?.NetId == localId;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static void BroadcastChapterChange(object sync, string seed)
+    {
+        try
+        {
+            Type? msgType = AccessTools.TypeByName(MessageTypeName);
+            FieldInfo? bufferField = AccessTools.Field(sync.GetType(), "_messageBuffer");
+            FieldInfo? gameServiceField = AccessTools.Field(sync.GetType(), "_gameService");
+            if (msgType == null || bufferField == null || gameServiceField == null)
+            {
+                MainFile.Logger.Warn("BroadcastChapterChange: missing types/fields.");
+                return;
+            }
+
+            object msg = Activator.CreateInstance(msgType)!;
+            AccessTools.Field(msgType, "seed")?.SetValue(msg, seed);
+
+            object? buffer = bufferField.GetValue(sync);
+            object? location = AccessTools.Property(buffer!.GetType(), "CurrentLocation")
+                ?.GetValue(buffer);
+            if (location != null)
+                AccessTools.Field(msgType, "location")?.SetValue(msg, location);
+
+            object? gameService = gameServiceField.GetValue(sync);
+            if (gameService == null)
+            {
+                MainFile.Logger.Warn("BroadcastChapterChange: no game service.");
+                return;
+            }
+
+            // INetGameService.SendMessage<T>(T) or non-generic SendMessage(INetMessage)
+            MethodInfo? send = gameService.GetType()
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                .FirstOrDefault(m =>
+                    m.Name == "SendMessage"
+                    && m.IsGenericMethodDefinition
+                    && m.GetParameters().Length == 1);
+
+            if (send != null)
+            {
+                send.MakeGenericMethod(msgType).Invoke(gameService, [msg]);
+                MainFile.Logger.Info("Broadcast ChapterChangeMessage (compat).");
+                return;
+            }
+
+            MethodInfo? sendPlain = gameService.GetType()
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                .FirstOrDefault(m =>
+                    m.Name == "SendMessage"
+                    && !m.IsGenericMethod
+                    && m.GetParameters().Length == 1);
+            sendPlain?.Invoke(gameService, [msg]);
+            MainFile.Logger.Info("Broadcast ChapterChangeMessage via non-generic SendMessage.");
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"BroadcastChapterChange failed: {e}");
+        }
+    }
+
+    /// <summary>
+    /// int-safe reimplementation of UncappedSpire DoSeedChange.
+    /// </summary>
+    private static bool ApplySeedChange(object sync, string seed)
+    {
+        try
+        {
+            FieldInfo? runStateField = AccessTools.Field(sync.GetType(), "_runState");
+            FieldInfo? localIdField = AccessTools.Field(sync.GetType(), "_localPlayerId");
+            FieldInfo? gameServiceField = AccessTools.Field(sync.GetType(), "_gameService");
+
+            if (runStateField?.GetValue(sync) is not RunState runState)
             {
                 MainFile.Logger.Error("Chapter seed compat: missing _runState.");
-                __result = false;
                 return false;
             }
 
             ulong localPlayerId = localIdField != null
-                ? (ulong)localIdField.GetValue(__instance)!
+                ? (ulong)localIdField.GetValue(sync)!
                 : 0UL;
             Player? localPlayer = runState.GetPlayer(localPlayerId);
             if (localPlayer == null)
             {
                 MainFile.Logger.Error($"Chapter seed compat: no player {localPlayerId}.");
-                __result = false;
                 return false;
             }
 
-            // Replace run RNG (same as upstream via reflection setter).
             MethodInfo? setRng = AccessTools.PropertySetter(typeof(RunState), nameof(RunState.Rng));
             setRng?.Invoke(localPlayer.RunState, [new RunRngSet(seed)]);
 
@@ -94,7 +261,7 @@ public static class ChapterSeedCompatPatches
             uint actSeed = (uint)StringHelper.GetDeterministicHashCode(seed);
             var rng = new Rng(actSeed);
 
-            object? netService = gameServiceField?.GetValue(__instance);
+            object? netService = gameServiceField?.GetValue(sync);
             bool isMultiplayer = ResolveIsMultiplayer(netService);
 
             List<ActModel> mutableActs = ActModel
@@ -113,13 +280,11 @@ public static class ChapterSeedCompatPatches
 
             MainFile.Logger.Info(
                 $"Chapter seed change applied (seed={seed}, acts={mutableActs.Count}, mp={isMultiplayer}).");
-            __result = true;
-            return false; // skip broken UInt64 body
+            return true;
         }
         catch (Exception e)
         {
-            MainFile.Logger.Error($"Chapter seed compat failed: {e}");
-            __result = false;
+            MainFile.Logger.Error($"Chapter seed ApplySeedChange failed: {e}");
             return false;
         }
     }
@@ -127,7 +292,7 @@ public static class ChapterSeedCompatPatches
     private static bool ResolveIsMultiplayer(object? netService)
     {
         if (netService == null)
-            return true; // safe default for chapter reseed in MP
+            return true;
 
         try
         {
