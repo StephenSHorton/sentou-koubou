@@ -109,8 +109,9 @@ public static class TradeUi
 
     private static void BuildButtonStyles()
     {
-        // Prefer painted STS2 button plate; fall back to flat gold-trim chrome.
-        StyleBoxTexture? painted = TradeAssets.MakeNineSlice(TradeAssets.BtnPlate, margin: 36f, content: 20f);
+        // Prefer rest-site painted plates (soft irregular edges) over sharp flat chrome.
+        Texture2D? plate = TradeAssets.BtnRestBar ?? TradeAssets.BtnPlate;
+        StyleBoxTexture? painted = TradeAssets.MakeNineSlice(plate, margin: 48f, content: 22f);
         if (painted != null)
         {
             _btnNormal = painted;
@@ -121,22 +122,31 @@ public static class TradeUi
             return;
         }
 
+        // Soft rounded fallback (still not sharp 1px edges).
         StyleBoxFlat Make(Color bg, Color border)
         {
             return new StyleBoxFlat
             {
                 BgColor = bg,
                 BorderColor = border,
-                BorderWidthBottom = 2, BorderWidthTop = 2, BorderWidthLeft = 2, BorderWidthRight = 2,
-                CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
-                CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
-                ContentMarginLeft = 18, ContentMarginRight = 18,
-                ContentMarginTop = 10, ContentMarginBottom = 10,
+                BorderWidthBottom = 3, BorderWidthTop = 3, BorderWidthLeft = 3, BorderWidthRight = 3,
+                CornerRadiusBottomLeft = 18, CornerRadiusBottomRight = 18,
+                CornerRadiusTopLeft = 18, CornerRadiusTopRight = 18,
+                ContentMarginLeft = 22, ContentMarginRight = 22,
+                ContentMarginTop = 14, ContentMarginBottom = 14,
             };
         }
-        _btnNormal = Make(new Color(0.086f, 0.078f, 0.11f, 0.94f), new Color(0.62f, 0.50f, 0.22f));
-        _btnHover = Make(new Color(0.16f, 0.13f, 0.19f, 0.96f), new Color(0.90f, 0.76f, 0.36f));
-        _btnPressed = Make(new Color(0.05f, 0.04f, 0.07f, 0.96f), new Color(0.42f, 0.34f, 0.15f));
+        _btnNormal = Make(new Color(0.12f, 0.09f, 0.07f, 0.94f), new Color(0.55f, 0.42f, 0.22f));
+        _btnHover = Make(new Color(0.18f, 0.13f, 0.10f, 0.96f), new Color(0.85f, 0.70f, 0.34f));
+        _btnPressed = Make(new Color(0.07f, 0.05f, 0.04f, 0.96f), new Color(0.40f, 0.30f, 0.15f));
+    }
+
+    /// <summary>Public factory for painted rest-site-style buttons (relic sell, etc.).</summary>
+    public static Button MakePaintedButton(string text, Action onPressed,
+        float minWidth = 620, float minHeight = 64)
+    {
+        EnsureStyles();
+        return MakeButton(text, onPressed, minWidth, minHeight);
     }
 
     private static StyleBox? FindPanelStyle(Node node)
@@ -382,19 +392,20 @@ public static class TradeUi
 
     // ------------------------------------------------------------ trade flow
 
-    /// <summary>Adds a painted Trade button to the merchant room screen.</summary>
+    /// <summary>Adds a rest-site-style painted Trade button to the merchant room screen.</summary>
     public static void AddTradeButton(Control shopScreen)
     {
         EnsureStyles();
-        Button button = MakeIconButton("Trade", TradeAssets.IconTrade ?? TradeAssets.OptionTrade, OpenMenu,
-            minWidth: 280, minHeight: 72);
+        // Prefer the campfire-option plate look over a sharp chrome widget.
+        Button button = MakeIconButton("Trade", TradeAssets.IconGold ?? TradeAssets.IconTrade, OpenMenu,
+            minWidth: 300, minHeight: 84);
         button.Name = "TradingPostButton";
         shopScreen.AddChild(button);
         button.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.BottomLeft);
-        button.OffsetLeft = 36;
-        button.OffsetRight = 316;
-        button.OffsetTop = -140;
-        button.OffsetBottom = -68;
+        button.OffsetLeft = 28;
+        button.OffsetRight = 328;
+        button.OffsetTop = -150;
+        button.OffsetBottom = -66;
     }
 
     private static void OpenMenu()
@@ -404,9 +415,10 @@ public static class TradeUi
             return;
         }
         VBoxContainer content = OpenShell("TRADING POST",
-            "Gold flows freely at the shop. Cards trade at campfires.");
+            "Gift gold to allies. Sell potions & relics to the merchant from their own UI.");
         content.AddChild(MakeIconButton("Give Gold — a gift, no strings attached",
             TradeAssets.IconGold, () => PickTarget("Send gold to whom?", PickGoldAmount)));
+        content.AddChild(MakeLabel("Tip: open a potion or relic while shopping to Sell.", isTitle: false, dim: true));
         content.AddChild(MakeButton("Never Mind", CloseMenu, minWidth: 300, minHeight: 52));
     }
 

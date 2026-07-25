@@ -15,8 +15,8 @@ namespace TradingPost;
 
 /// <summary>
 /// Synchronizes trades between co-op players, modeled on the game's OneOffSynchronizer.
-/// Gold gifts are unlimited and available at shops; card gifts and relic requests happen
-/// at campfires through <see cref="TradeRestSiteOption" /> and consume that action.
+/// Gold gifts are unlimited at shops; card gifts happen at campfires (rest action).
+/// Shop sells (potion / relic → merchant gold) are also synced so inventories match.
 /// The initiating client applies state changes locally and broadcasts messages; every
 /// other client mirrors the same change for the involved players.
 /// </summary>
@@ -47,6 +47,8 @@ public class TradeSynchronizer : IDisposable
         messageBuffer.RegisterMessageHandler<GiftGoldMessage>(HandleGiftGold);
         messageBuffer.RegisterMessageHandler<GiftCardMessage>(HandleGiftCard);
         messageBuffer.RegisterMessageHandler<CampfireTradeResultMessage>(HandleCampfireResult);
+        messageBuffer.RegisterMessageHandler<SellPotionMessage>(HandleSellPotion);
+        messageBuffer.RegisterMessageHandler<SellRelicMessage>(HandleSellRelic);
     }
 
     public void Dispose()
@@ -54,6 +56,8 @@ public class TradeSynchronizer : IDisposable
         _messageBuffer.UnregisterMessageHandler<GiftGoldMessage>(HandleGiftGold);
         _messageBuffer.UnregisterMessageHandler<GiftCardMessage>(HandleGiftCard);
         _messageBuffer.UnregisterMessageHandler<CampfireTradeResultMessage>(HandleCampfireResult);
+        _messageBuffer.UnregisterMessageHandler<SellPotionMessage>(HandleSellPotion);
+        _messageBuffer.UnregisterMessageHandler<SellRelicMessage>(HandleSellRelic);
     }
 
     public IReadOnlyList<Player> OtherPlayers =>
@@ -236,5 +240,120 @@ public class TradeSynchronizer : IDisposable
         // Fresh cards must be registered with the run before joining a deck.
         receiver.RunState.AddCard(copy, receiver);
         await CardPileCmd.Add(copy, receiver.Deck, skipVisuals: true);
+    }
+
+    // ---------------------------------------------------------------- shop sells (merchant)
+
+    /// <summary>Local player sells a belt potion to the merchant for gold.</summary>
+    public async Task SellPotionLocal(PotionModel potion)
+    {
+        if (!MerchantContext.IsInShop())
+        {
+            TradeUi.Notify("The merchant only buys potions at the shop.");
+            return;
+        }
+        if (potion.Owner != LocalPlayer || potion.HasBeenRemovedFromState)
+        {
+            return;
+        }
+        int gold = SellPricing.PotionSellPrice(potion);
+        ModelId id = potion.Id;
+        try
+        {
+            await ApplyPotionSale(LocalPlayer, id, gold);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"Potion sale failed: {e}");
+            TradeUi.Notify("The sale fizzled — nothing was exchanged.");
+            return;
+        }
+        _gameService.SendMessage(new SellPotionMessage
+        {
+            category = id.Category,
+            entry = id.Entry,
+            gold = gold,
+            Location = _messageBuffer.CurrentLocation
+        });
+        TradeUi.Notify($"Sold for {gold} gold.");
+    }
+
+    private void HandleSellPotion(SellPotionMessage message, ulong senderId)
+    {
+        Player seller = _playerCollection.GetPlayer(senderId);
+        var id = new ModelId(message.category, message.entry);
+        TaskHelper.RunSafely(ApplyPotionSale(seller, id, message.gold));
+    }
+
+    private static async Task ApplyPotionSale(Player seller, ModelId potionId, int gold)
+    {
+        PotionModel? potion = seller.Potions.FirstOrDefault(p => p.Id == potionId && !p.HasBeenRemovedFromState);
+        if (potion == null)
+        {
+            MainFile.Logger.Warn($"Sell potion: no matching potion {potionId} on {seller.NetId}");
+            return;
+        }
+        await PotionCmd.Discard(potion);
+        if (gold > 0)
+        {
+            await PlayerCmd.GainGold(gold, seller);
+        }
+    }
+
+    /// <summary>Local player sells a tradable relic to the merchant for gold.</summary>
+    public async Task SellRelicLocal(RelicModel relic)
+    {
+        if (!MerchantContext.IsInShop())
+        {
+            TradeUi.Notify("The merchant only buys relics at the shop.");
+            return;
+        }
+        if (!SellPricing.CanSellRelic(relic) || relic.Owner != LocalPlayer)
+        {
+            TradeUi.Notify("That relic can't be sold.");
+            return;
+        }
+        int gold = SellPricing.RelicSellPrice(relic);
+        ModelId id = relic.Id;
+        try
+        {
+            await ApplyRelicSale(LocalPlayer, id, gold);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Error($"Relic sale failed: {e}");
+            TradeUi.Notify("The sale fizzled — nothing was exchanged.");
+            return;
+        }
+        _gameService.SendMessage(new SellRelicMessage
+        {
+            category = id.Category,
+            entry = id.Entry,
+            gold = gold,
+            Location = _messageBuffer.CurrentLocation
+        });
+        TradeUi.Notify($"Sold for {gold} gold.");
+    }
+
+    private void HandleSellRelic(SellRelicMessage message, ulong senderId)
+    {
+        Player seller = _playerCollection.GetPlayer(senderId);
+        var id = new ModelId(message.category, message.entry);
+        TaskHelper.RunSafely(ApplyRelicSale(seller, id, message.gold));
+    }
+
+    private static async Task ApplyRelicSale(Player seller, ModelId relicId, int gold)
+    {
+        RelicModel? relic = seller.Relics.FirstOrDefault(r => r.Id == relicId && !r.HasBeenRemovedFromState);
+        if (relic == null)
+        {
+            MainFile.Logger.Warn($"Sell relic: no matching relic {relicId} on {seller.NetId}");
+            return;
+        }
+        await RelicCmd.Remove(relic);
+        if (gold > 0)
+        {
+            await PlayerCmd.GainGold(gold, seller);
+        }
     }
 }

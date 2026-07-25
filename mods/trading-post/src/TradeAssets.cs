@@ -14,7 +14,10 @@ public static class TradeAssets
     public static Texture2D? OptionTrade => Load("option_trade.png", punchBlack: false);
     public static Texture2D? MenuBanner => Load("menu_banner.png", punchBlack: false);
     public static Texture2D? MenuPanel => Load("menu_panel.png", punchBlack: false);
-    public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: false);
+    /// <summary>Painted rest-site style horizontal button plate (soft edges, wood/stone).</summary>
+    public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: false)
+                                        ?? Load("btn_rest_bar.png", punchBlack: false);
+    public static Texture2D? BtnRestBar => Load("btn_rest_bar.png", punchBlack: false) ?? BtnPlate;
     public static Texture2D? IconGold => Load("icon_gold.png") ?? TryGame("res://images/packed/sprite_fonts/gold_icon.png");
     public static Texture2D? IconCard => Load("icon_card.png");
     public static Texture2D? IconTrade => Load("icon_trade.png") ?? OptionTrade;
