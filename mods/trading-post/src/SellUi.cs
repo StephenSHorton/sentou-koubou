@@ -288,22 +288,27 @@ public static class SellUi
             return;
         }
 
+        // Prefer the inspect popup panel; fall back to the full screen.
         Control host = FindRelicPopupHost(screen) ?? screen;
         int gold = SellPricing.RelicSellPrice(relic);
+        // Wider short plate — wood art is ~16:9; keep aspect so edges aren't squashed boxy.
         Button sell = TradeUi.MakePaintedButton($"Sell  ·  {gold}g", () => OnRelicSellPressed(screen, relic),
-            minWidth: 280, minHeight: 72);
+            minWidth: 320, minHeight: 96);
         sell.Name = RelicSellButtonName;
         host.AddChild(sell);
 
-        // Bottom-center of the inspect popup
-        sell.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.BottomWide);
+        // Centered under the relic art / description, not a full-width bottom bar.
         sell.AnchorLeft = 0.5f;
         sell.AnchorRight = 0.5f;
-        sell.OffsetLeft = -140;
-        sell.OffsetRight = 140;
-        sell.OffsetTop = -110;
-        sell.OffsetBottom = -38;
+        sell.AnchorTop = 1f;
+        sell.AnchorBottom = 1f;
+        sell.OffsetLeft = -160;
+        sell.OffsetRight = 160;
+        sell.OffsetTop = -118;
+        sell.OffsetBottom = -22;
         sell.GrowHorizontal = Control.GrowDirection.Both;
+        sell.GrowVertical = Control.GrowDirection.Begin;
+        sell.ZIndex = 20;
 
         MainFile.Logger.Info($"Relic sell button injected for {relic.Id} ({gold}g).");
     }

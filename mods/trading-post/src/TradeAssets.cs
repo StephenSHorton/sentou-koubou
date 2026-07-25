@@ -14,10 +14,13 @@ public static class TradeAssets
     public static Texture2D? OptionTrade => Load("option_trade.png", punchBlack: false);
     public static Texture2D? MenuBanner => Load("menu_banner.png", punchBlack: false);
     public static Texture2D? MenuPanel => Load("menu_panel.png", punchBlack: false);
-    /// <summary>Painted rest-site style horizontal button plate (soft edges, wood/stone).</summary>
-    public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: false)
-                                        ?? Load("btn_rest_bar.png", punchBlack: false);
-    public static Texture2D? BtnRestBar => Load("btn_rest_bar.png", punchBlack: false) ?? BtnPlate;
+    /// <summary>
+    /// Painted rest-site style horizontal button plate. Loaded with dark-bg punch so
+    /// only the drawn wood silhouette is opaque (no sharp rectangular plate).
+    /// </summary>
+    public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: true)
+                                        ?? Load("btn_rest_bar.png", punchBlack: true);
+    public static Texture2D? BtnRestBar => Load("btn_rest_bar.png", punchBlack: true) ?? BtnPlate;
     public static Texture2D? IconGold => Load("icon_gold.png") ?? TryGame("res://images/packed/sprite_fonts/gold_icon.png");
     public static Texture2D? IconCard => Load("icon_card.png");
     public static Texture2D? IconTrade => Load("icon_trade.png") ?? OptionTrade;
@@ -92,8 +95,9 @@ public static class TradeAssets
     }
 
     /// <summary>
-    /// Convert near-black fully-opaque pixels to transparent (legacy uncut icons only).
-    /// Skipped for full-bleed plates that intentionally use dark stone edges.
+    /// Convert dark / cool vignette pixels to transparent so painted plates keep
+    /// irregular drawn edges (no sharp box). Also used for legacy icon cutouts.
+    /// Skipped only when the image is already mostly alpha-cut.
     /// </summary>
     public static void PunchNearBlackToAlpha(Image image)
     {
@@ -112,7 +116,8 @@ public static class TradeAssets
                 }
             }
         }
-        if (samples > 0 && transparent / (float)samples > 0.05f)
+        // Already a cutout (e.g. option_trade) — leave alone.
+        if (samples > 0 && transparent / (float)samples > 0.12f)
         {
             return;
         }
@@ -122,14 +127,49 @@ public static class TradeAssets
             for (int x = 0; x < w; x++)
             {
                 Color c = image.GetPixel(x, y);
+                if (c.A < 0.02f)
+                {
+                    continue;
+                }
                 float maxc = Math.Max(c.R, Math.Max(c.G, c.B));
                 float lum = 0.2126f * c.R + 0.7152f * c.G + 0.0722f * c.B;
-                if (lum < 0.07f && maxc < 0.11f)
+                float warm = c.R - c.B; // wood is warm; bg is cool/dark
+                bool darkBg = lum < 0.16f
+                              || (lum < 0.28f && warm < 0.10f && c.B >= c.G - 0.02f)
+                              || (lum < 0.35f && warm < 0.05f && maxc < 0.43f);
+                if (darkBg)
                 {
                     c.A = 0f;
                     image.SetPixel(x, y, c);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// StyleBox that draws the full painted plate with alpha (no 9-slice stretch artifacts
+    /// that re-introduce boxy edges). Content margins keep text inside the wood face.
+    /// </summary>
+    public static StyleBoxTexture? MakePaintedPlateStyle(Texture2D? tex)
+    {
+        if (tex == null)
+        {
+            return null;
+        }
+        // Zero texture margins = draw whole silhouette; content margins inset the label.
+        return new StyleBoxTexture
+        {
+            Texture = tex,
+            TextureMarginLeft = 0,
+            TextureMarginRight = 0,
+            TextureMarginTop = 0,
+            TextureMarginBottom = 0,
+            ContentMarginLeft = 36,
+            ContentMarginRight = 36,
+            ContentMarginTop = 18,
+            ContentMarginBottom = 20,
+            AxisStretchHorizontal = StyleBoxTexture.AxisStretchMode.Stretch,
+            AxisStretchVertical = StyleBoxTexture.AxisStretchMode.Stretch,
+        };
     }
 }
