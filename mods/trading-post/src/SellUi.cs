@@ -61,13 +61,128 @@ public static class SellUi
         Control sell = (Control)discard.Duplicate();
         sell.Name = PotionSellButtonName;
         parent.AddChild(sell);
-        // Place after Use, before Discard when possible
+        // Tree order: Use → Sell → Discard (when free-layout, we also shift positions).
         int discardIdx = discard.GetIndex();
         parent.MoveChild(sell, Math.Max(0, discardIdx));
+
+        // Duplicate() keeps absolute Position/anchors of Discard, so Sell would sit on
+        // top of it. Reflow into a third row (container layout or manual stack).
+        LayoutPotionSellButton(popup, parent, sell, discard);
 
         ApplyPotionSellLabel(sell, potion);
         WirePotionSellPress(sell, popup, potion);
         MainFile.Logger.Info($"Potion sell option injected for {potion.Id} ({SellPricing.PotionSellPrice(potion)}g).");
+    }
+
+    /// <summary>
+    /// Place Sell as its own row between Use and Discard (or above Discard).
+    /// Vanilla popup uses fixed positions, not a reflowing box — must shift Discard down.
+    /// </summary>
+    private static void LayoutPotionSellButton(
+        NPotionPopup popup, Node parent, Control sell, Control discard)
+    {
+        const float gap = 6f;
+
+        // If parent is a box/container that sizes children, clear absolute coords so it reflows.
+        if (parent is BoxContainer box)
+        {
+            sell.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
+            sell.Position = Vector2.Zero;
+            sell.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+            if (sell.CustomMinimumSize.Y < 1f && discard.Size.Y > 1f)
+            {
+                sell.CustomMinimumSize = new Vector2(discard.Size.X, discard.Size.Y);
+            }
+            // Ensure Sell is directly above Discard in child order.
+            int discardIdx = discard.GetIndex();
+            int sellIdx = sell.GetIndex();
+            if (sellIdx > discardIdx)
+            {
+                box.MoveChild(sell, discardIdx);
+            }
+            return;
+        }
+
+        // Free layout (typical for NPotionPopup): clone sat on Discard's pixel position.
+        // Put Sell where Discard is, push Discard down by one row, grow the popup.
+        float rowH = discard.Size.Y;
+        if (rowH < 8f)
+        {
+            rowH = discard.GetCombinedMinimumSize().Y;
+        }
+        if (rowH < 8f)
+        {
+            rowH = discard.CustomMinimumSize.Y;
+        }
+        if (rowH < 8f)
+        {
+            rowH = 40f;
+        }
+
+        Vector2 discardPos = discard.Position;
+        Vector2 discardSize = discard.Size.X > 1f && discard.Size.Y > 1f
+            ? discard.Size
+            : new Vector2(Math.Max(discard.CustomMinimumSize.X, 120f), rowH);
+
+        // Copy layout mode from Discard, then claim its slot for Sell.
+        sell.AnchorLeft = discard.AnchorLeft;
+        sell.AnchorTop = discard.AnchorTop;
+        sell.AnchorRight = discard.AnchorRight;
+        sell.AnchorBottom = discard.AnchorBottom;
+        sell.OffsetLeft = discard.OffsetLeft;
+        sell.OffsetTop = discard.OffsetTop;
+        sell.OffsetRight = discard.OffsetRight;
+        sell.OffsetBottom = discard.OffsetBottom;
+        sell.Size = discardSize;
+        sell.CustomMinimumSize = discardSize;
+        // Position after anchors/offsets so free-layout nodes land correctly.
+        sell.Position = discardPos;
+        sell.Size = discardSize;
+
+        float dy = rowH + gap;
+        // Prefer offset shift when the control is offset-driven; else Position only.
+        // Do not apply both — that double-moves Discard and can re-overlap.
+        bool offsetDriven = Math.Abs(discard.OffsetTop) > 0.5f
+                            || Math.Abs(discard.OffsetBottom) > 0.5f
+                            || discard.AnchorTop > 0.001f
+                            || discard.AnchorBottom > 0.001f;
+        if (offsetDriven)
+        {
+            discard.OffsetTop += dy;
+            discard.OffsetBottom += dy;
+        }
+        else
+        {
+            discard.Position = new Vector2(discardPos.X, discardPos.Y + dy);
+        }
+
+        GrowPotionPopupForExtraRow(popup, parent, dy);
+    }
+
+    private static void GrowPotionPopupForExtraRow(NPotionPopup popup, Node parent, float dy)
+    {
+        // Grow the immediate parent and the popup root so Discard isn't clipped.
+        foreach (Node n in new Node?[] { parent, popup, FindNamedDescendant(popup, "Container")
+            ?? FindNamedDescendant(popup, "%Container") }.OfType<Node>())
+        {
+            if (n is not Control c || !GodotObject.IsInstanceValid(c))
+            {
+                continue;
+            }
+            if (c.CustomMinimumSize.Y > 0f)
+            {
+                c.CustomMinimumSize = new Vector2(c.CustomMinimumSize.X, c.CustomMinimumSize.Y + dy);
+            }
+            if (c.Size.Y > 0f)
+            {
+                c.Size = new Vector2(c.Size.X, c.Size.Y + dy);
+            }
+            // Bottom-anchored panels: extend bottom offset
+            if (c.AnchorBottom > 0.01f || Math.Abs(c.OffsetBottom) > 0.01f)
+            {
+                c.OffsetBottom += dy;
+            }
+        }
     }
 
     private static void ApplyPotionSellLabel(Control sell, PotionModel potion)
