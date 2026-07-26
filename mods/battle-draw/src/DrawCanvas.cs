@@ -1,5 +1,8 @@
 using Godot;
+using MegaCrit.Sts2.Core.Assets;
+using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 
@@ -9,6 +12,7 @@ namespace BattleDraw;
 /// Combat doodle surface — event-driven <see cref="_Input"/> (zero idle ticks).
 /// Ink path matches vanilla map drawing: half-res SubViewport + Line2D pen/eraser
 /// (subtractive eraser material), PremultAlpha composite.
+/// Cursor matches map: native quill / eraser via <see cref="NCursorManager"/>.
 /// </summary>
 public partial class DrawCanvas : Control
 {
@@ -16,9 +20,6 @@ public partial class DrawCanvas : Control
 
     private const float MinPointDistance = 2f; // map uses DistanceSquared < 4 → dist 2
     public const float HandNoDrawBandFrac = 0.30f;
-    private const string QuillCursorPath = "res://images/packed/common_ui/cursor_quill.png";
-    private const string QuillTiltedPath = "res://images/packed/common_ui/cursor_quill_tilted.png";
-    private const string EraserCursorPath = "res://images/packed/common_ui/cursor_eraser.png";
 
     private readonly InkSurface _ink = new();
     private readonly Dictionary<(ulong Owner, int Id), Line2D> _openRemote = new();
@@ -32,9 +33,7 @@ public partial class DrawCanvas : Control
     private DrawTool _strokeTool;
     private int _activeStrokeId;
     private bool _cursorOverridden;
-    private static Texture2D? _quillTex;
-    private static Texture2D? _eraserTex;
-    private static readonly Vector2 QuillHotspot = new(2f, 56f);
+    private DrawTool _cursorTool = DrawTool.None;
     private int _strokeLogBudget = 3;
 
     public bool HideRemoteStrokes { get; private set; }
@@ -80,7 +79,7 @@ public partial class DrawCanvas : Control
 
         Instance = canvas;
         MainFile.Logger.Info(
-            "Battle Draw surface ready — map-style SubViewport Line2D (v0.6.2).");
+            "Battle Draw surface ready — map quill/eraser cursor + SubViewport ink (v0.6.3).");
     }
 
     public override void _Input(InputEvent e)
@@ -269,7 +268,14 @@ public partial class DrawCanvas : Control
         RefreshCursor();
     }
 
-    public void RefreshCursor() => ApplyCursorForTool(_tool);
+    /// <summary>
+    /// Armed tool cursor when idle; active stroke tool (RMB pen / MMB erase) while drawing.
+    /// </summary>
+    public void RefreshCursor()
+    {
+        DrawTool shown = _drawing ? _strokeTool : _tool;
+        ApplyCursorForTool(shown);
+    }
 
     public void SetHideRemoteStrokes(bool hide)
     {
@@ -308,7 +314,7 @@ public partial class DrawCanvas : Control
 
         _drawing = true;
         _strokeTool = tool;
-        ApplyCursorForTool(tool);
+        RefreshCursor();
 
         bool erase = tool == DrawTool.Eraser;
         _activeStrokeId = DrawSync.Instance?.AllocStrokeId() ?? (int)Time.GetTicksMsec();
@@ -469,36 +475,147 @@ public partial class DrawCanvas : Control
         return false;
     }
 
+    /// <summary>
+    /// Same path as <c>NMapDrawings.UpdateLocalCursor</c>: game cursor manager + native
+    /// quill/eraser images (tilted while mouse down). <see cref="Input.SetCustomMouseCursor"/>
+    /// alone is overwritten by STS2's cursor system every frame.
+    /// </summary>
     private void ApplyCursorForTool(DrawTool tool)
     {
-        EnsureCursorTextures();
-        switch (tool)
+        if (tool == _cursorTool && _cursorOverridden && tool != DrawTool.None)
+            return;
+        if (tool == DrawTool.None && !_cursorOverridden)
+            return;
+
+        try
         {
-            case DrawTool.Brush when _quillTex != null:
-                Input.SetCustomMouseCursor(_quillTex, Input.CursorShape.Arrow, QuillHotspot);
-                _cursorOverridden = true;
-                return;
-            case DrawTool.Eraser when _eraserTex != null:
-                Input.SetCustomMouseCursor(_eraserTex, Input.CursorShape.Arrow, new Vector2(8, 8));
-                _cursorOverridden = true;
-                return;
+            NCursorManager? cm = NGame.Instance?.CursorManager;
+            if (cm != null && GodotObject.IsInstanceValid(cm))
+            {
+                if (tool == DrawTool.Brush)
+                {
+                    Image? upright = LoadCursorImage(NMapDrawings.drawingCursorPath);
+                    Image? tilted = LoadCursorImage(NMapDrawings.drawingCursorTiltedPath);
+                    if (upright != null && tilted != null)
+                    {
+                        cm.OverrideCursor(tilted, upright, NMapDrawings.drawingCursorHotspot);
+                        _cursorOverridden = true;
+                        _cursorTool = DrawTool.Brush;
+                        return;
+                    }
+                }
+                else if (tool == DrawTool.Eraser)
+                {
+                    Image? upright = LoadCursorImage(NMapDrawings.erasingCursorPath);
+                    Image? tilted = LoadCursorImage(NMapDrawings.erasingCursorTiltedPath);
+                    if (upright != null && tilted != null)
+                    {
+                        cm.OverrideCursor(tilted, upright, NMapDrawings.erasingCursorHotspot);
+                        _cursorOverridden = true;
+                        _cursorTool = DrawTool.Eraser;
+                        return;
+                    }
+                }
+                else
+                {
+                    cm.StopOverridingCursor();
+                    _cursorOverridden = false;
+                    _cursorTool = DrawTool.None;
+                    return;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Map-style cursor override failed: {e.Message}");
         }
 
-        RestoreCursor();
+        // Fallback if NCursorManager / preload unavailable.
+        ApplyCursorFallback(tool);
+    }
+
+    private void ApplyCursorFallback(DrawTool tool)
+    {
+        Texture2D? tex = tool switch
+        {
+            DrawTool.Brush => LoadTex(NMapDrawings.drawingCursorPath)
+                             ?? LoadTex(NMapDrawings.drawingCursorTiltedPath),
+            DrawTool.Eraser => LoadTex(NMapDrawings.erasingCursorPath)
+                              ?? LoadTex(NMapDrawings.erasingCursorTiltedPath),
+            _ => null,
+        };
+        if (tex == null)
+        {
+            RestoreCursor();
+            return;
+        }
+
+        Vector2 hot = tool == DrawTool.Eraser
+            ? NMapDrawings.erasingCursorHotspot
+            : NMapDrawings.drawingCursorHotspot;
+        Input.SetCustomMouseCursor(tex, Input.CursorShape.Arrow, hot);
+        _cursorOverridden = true;
+        _cursorTool = tool;
     }
 
     private void RestoreCursor()
     {
-        if (!_cursorOverridden)
+        if (!_cursorOverridden && _cursorTool == DrawTool.None)
             return;
-        Input.SetCustomMouseCursor(null);
+        try
+        {
+            NGame.Instance?.CursorManager?.StopOverridingCursor();
+        }
+        catch
+        {
+            // ignore
+        }
+
+        try
+        {
+            Input.SetCustomMouseCursor(null);
+        }
+        catch
+        {
+            // ignore
+        }
+
         _cursorOverridden = false;
+        _cursorTool = DrawTool.None;
     }
 
-    private static void EnsureCursorTextures()
+    private static Image? LoadCursorImage(string path)
     {
-        _quillTex ??= LoadTex(QuillCursorPath) ?? LoadTex(QuillTiltedPath);
-        _eraserTex ??= LoadTex(EraserCursorPath);
+        try
+        {
+            // Prefer the same preload cache the map uses.
+            Image? fromCache = PreloadManager.Cache?.GetAsset<Image>(path);
+            if (fromCache != null)
+                return fromCache;
+        }
+        catch
+        {
+            // fall through
+        }
+
+        try
+        {
+            if (ResourceLoader.Exists(path))
+            {
+                // Some assets load as Texture2D; convert to Image for OverrideCursor.
+                var img = ResourceLoader.Load<Image>(path);
+                if (img != null)
+                    return img;
+                var tex = ResourceLoader.Load<Texture2D>(path);
+                return tex?.GetImage();
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return null;
     }
 
     private static Texture2D? LoadTex(string path)
