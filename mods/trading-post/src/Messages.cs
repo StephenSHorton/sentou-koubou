@@ -100,3 +100,55 @@ public class CampfireTradeResultMessage : TradeMessageBase
         Location = reader.Read<RunLocation>();
     }
 }
+
+/// <summary>Sender sells one potion to the merchant for <see cref="gold"/>.</summary>
+public class SellPotionMessage : TradeMessageBase
+{
+    public string category = "";
+
+    public string entry = "";
+
+    public int gold;
+
+    public override void Serialize(PacketWriter writer)
+    {
+        writer.WriteString(category);
+        writer.WriteString(entry);
+        writer.WriteInt(gold);
+        writer.Write(Location);
+    }
+
+    public override void Deserialize(PacketReader reader)
+    {
+        category = reader.ReadString();
+        entry = reader.ReadString();
+        gold = reader.ReadInt();
+        Location = reader.Read<RunLocation>();
+    }
+}
+
+/// <summary>Sender sells one relic to the merchant for <see cref="gold"/>.</summary>
+public class SellRelicMessage : TradeMessageBase
+{
+    public string category = "";
+
+    public string entry = "";
+
+    public int gold;
+
+    public override void Serialize(PacketWriter writer)
+    {
+        writer.WriteString(category);
+        writer.WriteString(entry);
+        writer.WriteInt(gold);
+        writer.Write(Location);
+    }
+
+    public override void Deserialize(PacketReader reader)
+    {
+        category = reader.ReadString();
+        entry = reader.ReadString();
+        gold = reader.ReadInt();
+        Location = reader.Read<RunLocation>();
+    }
+}

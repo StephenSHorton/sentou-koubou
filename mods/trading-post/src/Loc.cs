@@ -20,6 +20,7 @@ public static class Loc
         ["ACCEPT"] = "Accept",
         ["DECLINE"] = "Decline",
         ["GIVE_CARD"] = "Choose a card to give away.",
+        ["POTION_SELL"] = "Sell",
     };
 
     private static LocTable EnsureTable()
@@ -61,5 +62,23 @@ public static class Loc
         // Braces would be parsed as SmartFormat placeholders; neutralize them.
         table.MergeWith(new Dictionary<string, string> { [key] = text.Replace('{', '(').Replace('}', ')') });
         return new LocString(Table, key);
+    }
+
+    /// <summary>
+    /// Inject sell label into the game's <c>gameplay_ui</c> table so
+    /// <see cref="MegaCrit.Sts2.Core.Nodes.Potions.NPotionPopupButton.SetLocKey"/> resolves it.
+    /// Key matches vanilla style: <c>POTION_POPUP.discard</c> / drink / throw.
+    /// </summary>
+    public static void EnsurePotionPopupSellEntry(int gold)
+    {
+        LocManager mgr = LocManager.Instance;
+        if (!mgr._tables.TryGetValue("gameplay_ui", out LocTable? table))
+        {
+            return;
+        }
+        table.MergeWith(new Dictionary<string, string>
+        {
+            ["POTION_POPUP.sell"] = gold > 0 ? $"Sell ({gold}g)" : "Sell",
+        });
     }
 }

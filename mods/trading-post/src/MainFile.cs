@@ -13,7 +13,7 @@ public class MainFile
 
     public static void Initialize()
     {
-        Logger.Info("Trading Post loaded — co-op shop trading (gold / cards / relics, one per visit).");
+        Logger.Info("Trading Post loaded — co-op gold gifts, campfire cards, shop sell (potions/relics).");
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
     }
