@@ -22,6 +22,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/card-ranks` — Manual campfire card rank-up (Rank 2/3); multiplayer-safe rebuild of RankUpCards idea.
 - `mods/mp-player-limit` — Raise multiplayer lobby cap above vanilla 4.
 - `mods/uncapped-chapter-fix` — Compat for UncappedSpire MP chapter transition desync (finishes Closing the Chapter on all peers).
+- `mods/mp-teammate-view` — Combined teammate potions + hand cards (BAKAOLC/OLC MIT rewrite; disable the two Workshop originals).
 
 ## Releases (local, per mod)
 

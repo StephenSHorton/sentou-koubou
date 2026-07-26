@@ -81,6 +81,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "UncappedChapterFix.csproj",
         "assembly": "UncappedChapterFix",
     },
+    "mp-teammate-view": {
+        "folder": "mp-teammate-view",
+        "project": "MpTeammateView.csproj",
+        "assembly": "MpTeammateView",
+    },
 }
 
 

@@ -1,0 +1,12 @@
+{
+  "id": "MpTeammateView",
+  "name": "MP Teammate View",
+  "author": "sentou-koubou (based on BAKAOLC / OLC)",
+  "description": "Multiplayer QoL: show teammates' potions and hand cards next to the player list. Combined rewrite of MultiPlayerPotionView + ShowPlayerHandCards with more reliable hand attach. Disable the original two Workshop mods if both are installed.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}
