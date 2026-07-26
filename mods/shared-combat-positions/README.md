@@ -1,12 +1,13 @@
 # Shared Combat Positions
 
-In multiplayer combat, **vanilla always puts your own character in the front** of the party line. Each player therefore sees a different lineup.
+Multiplayer combat visual QoL:
 
-This mod lays out characters by **lobby / host slot order** (`RunState.Players` index) so **everyone sees the same positions as the host**.
+1. **Shared lineup** — characters use **lobby / host slot order** instead of always putting you first  
+2. **Always-visible teammate state** — HP, block, and power/status icons stay on screen **without hovering**
 
-## Why
+## Shared lineup
 
-`NCombatRoom.PositionPlayersAndPets` builds the player list like this:
+Vanilla builds the combat party list like this:
 
 ```csharp
 if (LocalContext.IsMe(...))
@@ -15,7 +16,19 @@ else
     list.Add(item);
 ```
 
-We keep the same grid / spacing / pet / Osty logic, but sort by slot index instead of “me first”.
+We keep the same grid / spacing / pet / Osty logic, but sort by `RunState.GetPlayerSlotIndex` so every client matches the host’s view.
+
+## Always-visible HP / statuses
+
+For remote players (and their pets), vanilla:
+
+- `HideImmediately()` on spawn  
+- `AnimateIn` only on hover  
+- `AnimateOut` on unhover  
+
+This mod forces `AnimateIn` after setup and after unhover, and stops hiding your own bar while you hover a teammate.
+
+Nameplates still appear on hover (less clutter). Hover tips still work.
 
 ## Install
 
@@ -26,17 +39,18 @@ dotnet build -c Release
 
 Enable **Shared Combat Positions**. No dependencies.
 
-**Recommended:** enable on **all** multiplayer peers so everyone’s view matches. Visual-only if only some clients run it (each client only changes their own screen).
+**Recommended:** enable on **all** multiplayer peers so everyone’s view matches.
 
 ## Scope
 
 | | |
 |---|---|
-| Combat party X/Y layout | yes — host slot order |
-| Draw order (who is “in front”) | yes — same order |
+| Combat party X/Y layout | host slot order |
+| Draw order | same order |
+| Teammate HP / block / powers | always visible |
 | Enemy placement | unchanged |
-| Singleplayer | no-op (one player) |
-| Affects gameplay / targeting logic | no (visual positions only) |
+| Singleplayer | no-op for lineup; no remote allies |
+| Gameplay / targeting | visual only |
 
 ## License
 
