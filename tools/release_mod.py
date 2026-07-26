@@ -101,6 +101,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "SharedCombatPositions.csproj",
         "assembly": "SharedCombatPositions",
     },
+    "ping-rage": {
+        "folder": "ping-rage",
+        "project": "PingRage.csproj",
+        "assembly": "PingRage",
+    },
 }
 
 
