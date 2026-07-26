@@ -24,6 +24,10 @@ When a combine **reaches** Tier I, II, or III, a random bonus is granted automat
 
 These are applied as **real vanilla enchantments** when the card can stack them (UncappedSpire MultiEnchantment), plus keyword/Replay side-effects so combat still works. Bonuses from sacrificed copies are **merged** onto the survivor.
 
+Eligibility filters:
+- **Soul's Power** only rolls if the card has **local Exhaust** (same as vanilla `SoulsPower.CanEnchant`) — never on non-Exhaust cards.
+- **Spiral** only on basic Strike/Defend.
+
 **Clone** uses the **native** rest-site Clone button (`CLONE`, game art, **spends** the campfire action). We only inject that vanilla option when your deck has a Clone-enchanted card (same path as Paels’ Growth).
 
 **Combine spends the campfire action** by default (mod setting can make it free again).
