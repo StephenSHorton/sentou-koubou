@@ -109,40 +109,29 @@ public static class TradeUi
 
     private static void BuildButtonStyles()
     {
-        // Full painted silhouette (alpha cutout). No 9-slice — stretch preserves
-        // irregular edges instead of re-boxing the plate.
-        Texture2D? plate = TradeAssets.BtnRestBar ?? TradeAssets.BtnPlate;
-        StyleBoxTexture? painted = TradeAssets.MakePaintedPlateStyle(plate);
-        if (painted != null)
-        {
-            _btnNormal = painted;
-            _btnHover = painted;
-            _btnPressed = painted;
-            return;
-        }
-
-        // Soft rounded fallback only if plate art missing.
+        // Soft rounded chrome for secondary UI (Never Mind, %, player rows, long labels).
+        // The full wood plate is ONLY for short primary CTAs via MakePaintedButton.
         StyleBoxFlat Make(Color bg, Color border)
         {
             return new StyleBoxFlat
             {
                 BgColor = bg,
                 BorderColor = border,
-                BorderWidthBottom = 3, BorderWidthTop = 3, BorderWidthLeft = 3, BorderWidthRight = 3,
-                CornerRadiusBottomLeft = 22, CornerRadiusBottomRight = 22,
-                CornerRadiusTopLeft = 22, CornerRadiusTopRight = 22,
-                ContentMarginLeft = 22, ContentMarginRight = 22,
-                ContentMarginTop = 14, ContentMarginBottom = 14,
+                BorderWidthBottom = 2, BorderWidthTop = 2, BorderWidthLeft = 2, BorderWidthRight = 2,
+                CornerRadiusBottomLeft = 14, CornerRadiusBottomRight = 14,
+                CornerRadiusTopLeft = 14, CornerRadiusTopRight = 14,
+                ContentMarginLeft = 18, ContentMarginRight = 18,
+                ContentMarginTop = 10, ContentMarginBottom = 10,
             };
         }
-        _btnNormal = Make(new Color(0.12f, 0.09f, 0.07f, 0.94f), new Color(0.55f, 0.42f, 0.22f));
-        _btnHover = Make(new Color(0.18f, 0.13f, 0.10f, 0.96f), new Color(0.85f, 0.70f, 0.34f));
-        _btnPressed = Make(new Color(0.07f, 0.05f, 0.04f, 0.96f), new Color(0.40f, 0.30f, 0.15f));
+        _btnNormal = Make(new Color(0.10f, 0.09f, 0.12f, 0.94f), new Color(0.58f, 0.48f, 0.28f));
+        _btnHover = Make(new Color(0.16f, 0.14f, 0.18f, 0.96f), new Color(0.88f, 0.74f, 0.38f));
+        _btnPressed = Make(new Color(0.06f, 0.05f, 0.08f, 0.96f), new Color(0.40f, 0.32f, 0.18f));
     }
 
     /// <summary>
-    /// Rest-site style drawn button: alpha-cut wood plate as the only chrome
-    /// (no sharp default Button panel). Used for relic Sell and shop Trade UI.
+    /// Rest-site drawn wood plate — short primary CTAs only (shop Trade, relic Sell).
+    /// Do not use for long sentences or cancel/secondary actions.
     /// </summary>
     public static Button MakePaintedButton(string text, Action onPressed,
         float minWidth = 300, float minHeight = 84)
@@ -157,7 +146,6 @@ public static class TradeUi
             CustomMinimumSize = new Vector2(minWidth, minHeight),
             ClipContents = false,
         };
-        // Strip every default stylebox — otherwise Godot draws a sharp rect under the art.
         var empty = new StyleBoxEmpty();
         button.AddThemeStyleboxOverride("normal", empty);
         button.AddThemeStyleboxOverride("hover", empty);
@@ -174,11 +162,9 @@ public static class TradeUi
                 ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
                 StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
                 MouseFilter = Control.MouseFilterEnum.Ignore,
-                // Slight brighten on hover via modulate is optional; keep static for now.
             };
             bg.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
             button.AddChild(bg);
-            // Ensure plate draws behind the label.
             button.MoveChild(bg, 0);
         }
         else
@@ -192,19 +178,20 @@ public static class TradeUi
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             MouseFilter = Control.MouseFilterEnum.Ignore,
+            AutowrapMode = TextServer.AutowrapMode.Off,
         };
         label.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-        label.OffsetLeft = 28;
-        label.OffsetRight = -28;
-        label.OffsetTop = 8;
-        label.OffsetBottom = -10;
+        label.OffsetLeft = 36;
+        label.OffsetRight = -36;
+        label.OffsetTop = 10;
+        label.OffsetBottom = -12;
         if (_buttonFont != null)
         {
             label.AddThemeFontOverride("font", _buttonFont);
         }
-        label.AddThemeFontSizeOverride("font_size", _buttonSize + 2);
+        // Slightly smaller so short labels sit in the wood face cleanly.
+        label.AddThemeFontSizeOverride("font_size", Math.Max(18, _buttonSize));
         label.AddThemeColorOverride("font_color", new Color(0.96f, 0.92f, 0.78f));
-        // Soft shadow for readability on wood
         label.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.65f));
         label.AddThemeConstantOverride("shadow_offset_x", 1);
         label.AddThemeConstantOverride("shadow_offset_y", 1);
@@ -284,11 +271,9 @@ public static class TradeUi
             button.AddThemeFontOverride("font", _buttonFont);
         }
         button.AddThemeFontSizeOverride("font_size", _buttonSize);
-        // Flat + empty focus so the theme never paints a sharp rect around the plate.
-        button.Flat = true;
+        button.Flat = false;
         var empty = new StyleBoxEmpty();
         button.AddThemeStyleboxOverride("focus", empty);
-        button.AddThemeStyleboxOverride("disabled", empty);
         if (_btnNormal != null)
         {
             button.AddThemeStyleboxOverride("normal", _btnNormal);
@@ -303,58 +288,30 @@ public static class TradeUi
         }
     }
 
+    /// <summary>Secondary / cancel / compact actions — soft rounded, not the wood plate.</summary>
     private static Button MakeButton(string text, Action onPressed, float minWidth = 620, float minHeight = 64)
     {
-        // Prefer painted cutout plate for all Trading Post chrome buttons.
-        if (TradeAssets.BtnRestBar != null || TradeAssets.BtnPlate != null)
-        {
-            return MakePaintedButton(text, onPressed, minWidth, minHeight);
-        }
+        EnsureStyles();
         var button = new Button { Text = text, CustomMinimumSize = new Vector2(minWidth, minHeight) };
         ApplyButtonChrome(button);
         button.Pressed += () => onPressed();
         return button;
     }
 
-    /// <summary>STS2-style row: large painted icon + label on a plate button.</summary>
+    /// <summary>
+    /// Menu rows with optional icon + longer copy (Give Gold, pick a player).
+    /// Soft chrome so multi-line text fits; wood plate is reserved for short CTAs.
+    /// </summary>
     private static Button MakeIconButton(string text, Texture2D? icon, Action onPressed,
         float minWidth = 640, float minHeight = 88)
     {
-        // Use the same drawn plate path so shop Trade isn't a sharp rect.
-        if (icon == null && (TradeAssets.BtnRestBar != null || TradeAssets.BtnPlate != null))
-        {
-            return MakePaintedButton(text, onPressed, minWidth, minHeight);
-        }
-
+        EnsureStyles();
         var button = new Button
         {
             CustomMinimumSize = new Vector2(minWidth, minHeight),
-            Text = "", // content is custom
-            Flat = true,
+            Text = "",
         };
-        // Empty chrome + painted plate as child (keeps alpha silhouette).
-        var empty = new StyleBoxEmpty();
-        button.AddThemeStyleboxOverride("normal", empty);
-        button.AddThemeStyleboxOverride("hover", empty);
-        button.AddThemeStyleboxOverride("pressed", empty);
-        button.AddThemeStyleboxOverride("focus", empty);
-        Texture2D? plate = TradeAssets.BtnRestBar ?? TradeAssets.BtnPlate;
-        if (plate != null)
-        {
-            var bg = new TextureRect
-            {
-                Texture = plate,
-                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
-                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-                MouseFilter = Control.MouseFilterEnum.Ignore,
-            };
-            bg.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
-            button.AddChild(bg);
-        }
-        else
-        {
-            ApplyButtonChrome(button);
-        }
+        ApplyButtonChrome(button);
 
         var row = new HBoxContainer
         {
@@ -374,7 +331,7 @@ public static class TradeUi
                 Texture = icon,
                 ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
                 StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-                CustomMinimumSize = new Vector2(72, 72),
+                CustomMinimumSize = new Vector2(56, 56),
                 MouseFilter = Control.MouseFilterEnum.Ignore,
             };
             row.AddChild(tex);
@@ -387,13 +344,13 @@ public static class TradeUi
             HorizontalAlignment = HorizontalAlignment.Left,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
             MouseFilter = Control.MouseFilterEnum.Ignore,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
         };
         if (_buttonFont != null)
         {
             label.AddThemeFontOverride("font", _buttonFont);
         }
         label.AddThemeFontSizeOverride("font_size", _buttonSize + 2);
-        // Cream text reads better on painted plates
         label.AddThemeColorOverride("font_color", new Color(0.95f, 0.91f, 0.78f));
         row.AddChild(label);
 
@@ -518,10 +475,12 @@ public static class TradeUi
             return;
         }
         VBoxContainer content = OpenShell("TRADING POST",
-            "Gift gold to allies. Sell potions & relics to the merchant from their own UI.");
-        content.AddChild(MakeIconButton("Give Gold — a gift, no strings attached",
+            "Gift gold to co-op allies here. Sell potions/relics on their own UIs while shopping.");
+        content.AddChild(MakeIconButton("Give gold to a friend",
             TradeAssets.IconGold, () => PickTarget("Send gold to whom?", PickGoldAmount)));
-        content.AddChild(MakeLabel("Tip: open a potion or relic while shopping to Sell.", isTitle: false, dim: true));
+        content.AddChild(MakeLabel(
+            "Sell at the shop: open a potion (Sell in the popup) or click a relic in your inventory (Sell under the inspect panel).",
+            isTitle: false, dim: true));
         content.AddChild(MakeButton("Never Mind", CloseMenu, minWidth: 300, minHeight: 52));
     }
 
@@ -829,7 +788,7 @@ public static class TradeUi
         }
         content.AddChild(presets);
 
-        content.AddChild(MakeIconButton("Send It", TradeAssets.IconGold, () =>
+        content.AddChild(MakePaintedButton("Send gold", () =>
         {
             int amount = (int)slider.Value;
             CloseMenu();
@@ -837,7 +796,7 @@ public static class TradeUi
             {
                 TaskHelper.RunSafely(sync.GiftGoldLocal(target, amount));
             }
-        }));
+        }, minWidth: 340, minHeight: 88));
         content.AddChild(MakeButton("Never Mind", CloseMenu, minWidth: 300, minHeight: 52));
     }
 
