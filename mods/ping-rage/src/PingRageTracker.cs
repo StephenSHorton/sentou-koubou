@@ -4,15 +4,15 @@ namespace PingRage;
 
 /// <summary>
 /// Tracks how hard a player is mashing Ping.
-/// Fast successive pings raise rage; idle time decays it.
+/// Rage builds slowly; 1s without a ping zeros rage immediately.
 /// </summary>
 internal static class PingRageTracker
 {
     /// <summary>Minimum gap between accepted pings (vanilla is 1000ms).</summary>
     public const ulong DebounceMsec = 160;
 
-    /// <summary>Window for “this is still a mash combo”.</summary>
-    private const float ComboWindowSec = 2.2f;
+    /// <summary>After this idle gap, rage drops to zero immediately.</summary>
+    public const float RageResetIdleSec = 1.0f;
 
     private static readonly Dictionary<ulong, PlayerRage> ByPlayer = new();
 
@@ -25,27 +25,34 @@ internal static class PingRageTracker
             ByPlayer[playerNetId] = state;
         }
 
-        float dt = now - state.LastPingSec;
-        if (state.LastPingSec <= 0f)
-            dt = ComboWindowSec; // first ping = calm
+        float dt = state.LastPingSec <= 0f ? 999f : now - state.LastPingSec;
 
-        // Decay if they paused.
-        if (dt > ComboWindowSec)
-            state.Rage *= 0.15f;
-        else if (dt > 1.0f)
-            state.Rage *= 0.55f;
+        // Immediate cool-down after ~1s without mashing.
+        if (dt >= RageResetIdleSec)
+            state.Rage = 0f;
 
-        // Faster mash → more rage. dt near Debounce is max gain.
-        float speed = 1f - Mathf.Clamp(dt / ComboWindowSec, 0f, 1f);
-        state.Rage = Mathf.Clamp(state.Rage + 0.12f + speed * 0.38f, 0f, 1f);
+        // Slow build: small base tick + modest speed bonus when mashing hard.
+        // At ~160ms gaps, ~12–15 pings to full rage (was ~3–4 before).
+        float speed = dt >= RageResetIdleSec
+            ? 0f
+            : 1f - Mathf.Clamp(dt / RageResetIdleSec, 0f, 1f);
+        float gain = 0.035f + speed * 0.055f + speed * speed * 0.04f;
+        state.Rage = Mathf.Clamp(state.Rage + gain, 0f, 1f);
         state.LastPingSec = now;
-        state.Streak++;
+        state.Streak = dt >= RageResetIdleSec ? 1 : state.Streak + 1;
 
         return state.Rage;
     }
 
-    public static float Peek(ulong playerNetId) =>
-        ByPlayer.TryGetValue(playerNetId, out var s) ? s.Rage : 0f;
+    public static float Peek(ulong playerNetId)
+    {
+        if (!ByPlayer.TryGetValue(playerNetId, out var s))
+            return 0f;
+        float now = Time.GetTicksMsec() / 1000f;
+        if (s.LastPingSec > 0f && now - s.LastPingSec >= RageResetIdleSec)
+            return 0f;
+        return s.Rage;
+    }
 
     private sealed class PlayerRage
     {

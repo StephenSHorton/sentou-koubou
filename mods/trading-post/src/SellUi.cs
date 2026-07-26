@@ -156,33 +156,12 @@ public static class SellUi
             discard.Position = new Vector2(discardPos.X, discardPos.Y + dy);
         }
 
-        GrowPotionPopupForExtraRow(popup, parent, dy);
-    }
-
-    private static void GrowPotionPopupForExtraRow(NPotionPopup popup, Node parent, float dy)
-    {
-        // Grow the immediate parent and the popup root so Discard isn't clipped.
-        foreach (Node n in new Node?[] { parent, popup, FindNamedDescendant(popup, "Container")
-            ?? FindNamedDescendant(popup, "%Container") }.OfType<Node>())
-        {
-            if (n is not Control c || !GodotObject.IsInstanceValid(c))
-            {
-                continue;
-            }
-            if (c.CustomMinimumSize.Y > 0f)
-            {
-                c.CustomMinimumSize = new Vector2(c.CustomMinimumSize.X, c.CustomMinimumSize.Y + dy);
-            }
-            if (c.Size.Y > 0f)
-            {
-                c.Size = new Vector2(c.Size.X, c.Size.Y + dy);
-            }
-            // Bottom-anchored panels: extend bottom offset
-            if (c.AnchorBottom > 0.01f || Math.Abs(c.OffsetBottom) > 0.01f)
-            {
-                c.OffsetBottom += dy;
-            }
-        }
+        // Do NOT stretch the popup Size/CustomMinimumSize — that warps the painted plate.
+        // Allow overflow so Discard isn't clipped.
+        if (popup is Control popCtl)
+            popCtl.ClipContents = false;
+        if (parent is Control parentCtl)
+            parentCtl.ClipContents = false;
     }
 
     private static void ApplyPotionSellLabel(Control sell, PotionModel potion)
@@ -311,111 +290,27 @@ public static class SellUi
         }
 
         int gold = SellPricing.RelicSellPrice(relic);
-        // Parent to the full inspect screen (not the inner popup) so we aren't clipped
-        // and sit in a reliable bottom-center screen spot.
-        Button sell = TradeUi.MakePaintedButton($"Sell  {gold}g", () => OnRelicSellPressed(screen, relic),
-            minWidth: 300, minHeight: 92);
+        // Unique Sell plate (not Trade wood bar), bottom-right of the inspect overlay.
+        Button sell = TradeUi.MakeSellButton($"Sell  {gold}g", () => OnRelicSellPressed(screen, relic),
+            minWidth: 280, minHeight: 88);
         sell.Name = RelicSellButtonName;
         sell.ZIndex = 200;
         sell.MouseFilter = Control.MouseFilterEnum.Stop;
         screen.AddChild(sell);
 
-        // Bottom-center of the inspect overlay — always on-screen.
-        sell.SetAnchorsPreset(Control.LayoutPreset.CenterBottom);
-        sell.AnchorLeft = 0.5f;
-        sell.AnchorRight = 0.5f;
+        sell.SetAnchorsPreset(Control.LayoutPreset.BottomRight);
+        sell.AnchorLeft = 1f;
+        sell.AnchorRight = 1f;
         sell.AnchorTop = 1f;
         sell.AnchorBottom = 1f;
-        sell.GrowHorizontal = Control.GrowDirection.Both;
+        sell.GrowHorizontal = Control.GrowDirection.Begin;
         sell.GrowVertical = Control.GrowDirection.Begin;
-        sell.OffsetLeft = -150;
-        sell.OffsetRight = 150;
-        sell.OffsetTop = -150;
-        sell.OffsetBottom = -36;
+        sell.OffsetLeft = -300;
+        sell.OffsetRight = -24;
+        sell.OffsetTop = -130;
+        sell.OffsetBottom = -28;
 
-        // After layout settles, nudge under the description if we can find it.
-        TaskHelper.RunSafely(DeferRelicSellPosition(screen, sell));
-
-        MainFile.Logger.Info($"Relic sell button injected for {relic.Id} ({gold}g) on inspect screen.");
-    }
-
-    private static async Task DeferRelicSellPosition(NInspectRelicScreen screen, Button sell)
-    {
-        try
-        {
-            SceneTree? tree = screen.GetTree();
-            if (tree != null)
-            {
-                await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-                await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-            }
-            else
-            {
-                await Task.Delay(30);
-            }
-        }
-        catch
-        {
-            await Task.Delay(30);
-        }
-        PositionRelicSellUnderContent(screen, sell);
-    }
-
-    private static void PositionRelicSellUnderContent(NInspectRelicScreen screen, Button sell)
-    {
-        if (!GodotObject.IsInstanceValid(screen) || !GodotObject.IsInstanceValid(sell))
-        {
-            return;
-        }
-        try
-        {
-            // Prefer sitting just below the description / popup content in screen space.
-            Control? desc = AccessTools.Field(typeof(NInspectRelicScreen), "_description")
-                ?.GetValue(screen) as Control;
-            Control? popup = AccessTools.Field(typeof(NInspectRelicScreen), "_popup")
-                ?.GetValue(screen) as Control;
-            Control? anchor = desc ?? popup;
-            if (anchor == null || !GodotObject.IsInstanceValid(anchor))
-            {
-                return;
-            }
-
-            // Convert anchor bottom-center to screen local coords for the button.
-            Vector2 bottomCenter = anchor.GlobalPosition
-                + new Vector2(anchor.Size.X * 0.5f, anchor.Size.Y + 12f);
-            Vector2 local = screen.GetGlobalTransformWithCanvas().AffineInverse() * bottomCenter;
-            sell.SetAnchorsPreset(Control.LayoutPreset.TopLeft);
-            sell.AnchorLeft = 0f;
-            sell.AnchorRight = 0f;
-            sell.AnchorTop = 0f;
-            sell.AnchorBottom = 0f;
-            float w = sell.CustomMinimumSize.X;
-            float h = sell.CustomMinimumSize.Y;
-            sell.Position = new Vector2(local.X - w * 0.5f, local.Y);
-            sell.Size = new Vector2(w, h);
-
-            // Keep on-screen if content is near the bottom edge.
-            Vector2 screenSize = screen.Size;
-            if (screenSize.Y > 1f)
-            {
-                float maxY = screenSize.Y - h - 24f;
-                if (sell.Position.Y > maxY)
-                {
-                    sell.Position = new Vector2(sell.Position.X, maxY);
-                }
-                if (sell.Position.Y < 24f)
-                {
-                    sell.Position = new Vector2(sell.Position.X, 24f);
-                }
-                float maxX = screenSize.X - w - 16f;
-                float x = Math.Clamp(sell.Position.X, 16f, Math.Max(16f, maxX));
-                sell.Position = new Vector2(x, sell.Position.Y);
-            }
-        }
-        catch (Exception e)
-        {
-            MainFile.Logger.Warn($"Relic sell reposition failed: {e.Message}");
-        }
+        MainFile.Logger.Info($"Relic sell button injected for {relic.Id} ({gold}g) bottom-right.");
     }
 
     private static void OnRelicSellPressed(NInspectRelicScreen screen, RelicModel relic)

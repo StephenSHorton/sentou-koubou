@@ -123,13 +123,12 @@ internal static class PingDialogue
 
     private static void ApplyRageVisuals(NSpeechBubbleVfx bubble, float rage)
     {
-        // Scale: 1.0 → ~2.8 at full rage
-        float scale = 1f + rage * 1.8f;
+        // Start at half vanilla size; grow hard as rage climbs (0.5 → ~2.6).
+        float scale = 0.5f + rage * rage * 2.1f;
         bubble.Scale = Vector2.One * scale;
 
-        // Start a bit snappier when enraged
-        if (rage > 0.35f)
-            bubble.Modulate = new Color(1f, 1f - rage * 0.15f, 1f - rage * 0.25f);
+        if (rage > 0.25f)
+            bubble.Modulate = new Color(1f, 1f - rage * 0.2f, 1f - rage * 0.35f);
 
         Callable.From(() => AttachWiggle(bubble, rage)).CallDeferred();
     }
@@ -139,21 +138,19 @@ internal static class PingDialogue
         if (bubble == null || !GodotObject.IsInstanceValid(bubble))
             return;
 
-        // Kill old wiggles
         foreach (var child in bubble.GetChildren())
         {
             if (child is RageWiggle old)
                 old.QueueFree();
         }
 
-        if (rage < 0.08f)
-            return;
-
+        // Even calm pings get a tiny idle sway; mash goes unhinged.
+        float intensity = 0.12f + rage * rage * 1.6f + rage * 0.5f;
         var wiggle = new RageWiggle
         {
             Name = "PingRageWiggle",
             Target = bubble,
-            Intensity = rage,
+            Intensity = intensity,
             BasePosition = bubble.Position,
         };
         bubble.AddChild(wiggle);

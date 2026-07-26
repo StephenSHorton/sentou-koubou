@@ -3,7 +3,7 @@
   "name": "Trading Post",
   "author": "BlakeHorton",
   "description": "Co-op trading: gift gold at shops; gift cards at campfires (spends rest). At shops, sell potions (dropdown) and relics (inspect Sell) to the merchant for half buy price.",
-  "version": "v0.2.1",
+  "version": "v0.2.2",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,

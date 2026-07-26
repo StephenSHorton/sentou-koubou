@@ -130,15 +130,25 @@ public static class TradeUi
     }
 
     /// <summary>
-    /// Rest-site drawn wood plate — short primary CTAs only (shop Trade, relic Sell).
-    /// Do not use for long sentences or cancel/secondary actions.
+    /// Shop-floor Trade CTA — rest-site wood plate only (never used for menu rows).
     /// </summary>
     public static Button MakePaintedButton(string text, Action onPressed,
         float minWidth = 300, float minHeight = 84)
+        => MakeTexturedCta(text, onPressed, TradeAssets.BtnRestBar ?? TradeAssets.BtnPlate,
+            minWidth, minHeight);
+
+    /// <summary>
+    /// Unique Sell CTA (relics etc.) — dedicated sell plate, not the Trade wood bar.
+    /// </summary>
+    public static Button MakeSellButton(string text, Action onPressed,
+        float minWidth = 280, float minHeight = 88)
+        => MakeTexturedCta(text, onPressed, TradeAssets.BtnSell ?? TradeAssets.BtnRestBar,
+            minWidth, minHeight);
+
+    private static Button MakeTexturedCta(string text, Action onPressed, Texture2D? plate,
+        float minWidth, float minHeight)
     {
         EnsureStyles();
-        Texture2D? plate = TradeAssets.BtnRestBar ?? TradeAssets.BtnPlate;
-
         var button = new Button
         {
             Text = "",
@@ -186,17 +196,13 @@ public static class TradeUi
         label.OffsetTop = 10;
         label.OffsetBottom = -12;
         if (_buttonFont != null)
-        {
             label.AddThemeFontOverride("font", _buttonFont);
-        }
-        // Slightly smaller so short labels sit in the wood face cleanly.
         label.AddThemeFontSizeOverride("font_size", Math.Max(18, _buttonSize));
         label.AddThemeColorOverride("font_color", new Color(0.96f, 0.92f, 0.78f));
         label.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.65f));
         label.AddThemeConstantOverride("shadow_offset_x", 1);
         label.AddThemeConstantOverride("shadow_offset_y", 1);
         button.AddChild(label);
-
         button.Pressed += () => onPressed();
         return button;
     }
@@ -300,7 +306,7 @@ public static class TradeUi
 
     /// <summary>
     /// Menu rows with optional icon + longer copy (Give Gold, pick a player).
-    /// Soft chrome so multi-line text fits; wood plate is reserved for short CTAs.
+    /// Uses dedicated menu-row art — never the shop Trade wood plate.
     /// </summary>
     private static Button MakeIconButton(string text, Texture2D? icon, Action onPressed,
         float minWidth = 640, float minHeight = 88)
@@ -310,8 +316,33 @@ public static class TradeUi
         {
             CustomMinimumSize = new Vector2(minWidth, minHeight),
             Text = "",
+            Flat = true,
+            ClipContents = false,
         };
-        ApplyButtonChrome(button);
+        Texture2D? rowPlate = TradeAssets.BtnMenuRow;
+        if (rowPlate != null)
+        {
+            var empty = new StyleBoxEmpty();
+            button.AddThemeStyleboxOverride("normal", empty);
+            button.AddThemeStyleboxOverride("hover", empty);
+            button.AddThemeStyleboxOverride("pressed", empty);
+            button.AddThemeStyleboxOverride("focus", empty);
+            var bg = new TextureRect
+            {
+                Name = "MenuRowPlate",
+                Texture = rowPlate,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.Scale,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            bg.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+            button.AddChild(bg);
+            button.MoveChild(bg, 0);
+        }
+        else
+        {
+            ApplyButtonChrome(button);
+        }
 
         var row = new HBoxContainer
         {
@@ -383,32 +414,54 @@ public static class TradeUi
     /// Dimmed full-screen overlay with a centered game-styled panel + optional banner art.
     /// <paramref name="minPanelSize"/> raises the panel so player lists have room to scroll.
     /// </summary>
+    private static PanelContainer? _openPanel;
+    private static bool _closing;
+
     private static VBoxContainer OpenShell(string title, string? subtitle, bool showBanner = true,
         Vector2? minPanelSize = null)
     {
-        CloseMenu();
+        CloseMenuImmediate();
         EnsureStyles();
+        _closing = false;
 
         var layer = new CanvasLayer { Name = "TradingPostOverlay", Layer = 80 };
         var blocker = new Control { MouseFilter = Control.MouseFilterEnum.Stop };
         blocker.SetAnchorsPreset(Control.LayoutPreset.FullRect);
         layer.AddChild(blocker);
 
-        var dim = new ColorRect { Color = new Color(0f, 0f, 0f, 0.62f), MouseFilter = Control.MouseFilterEnum.Stop };
+        // Click dimmed backdrop to dismiss.
+        var dim = new ColorRect
+        {
+            Color = new Color(0f, 0f, 0f, 0f),
+            MouseFilter = Control.MouseFilterEnum.Stop,
+        };
         dim.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        dim.GuiInput += e =>
+        {
+            if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+            {
+                AnimateCloseMenu();
+                dim.GetViewport()?.SetInputAsHandled();
+            }
+        };
         blocker.AddChild(dim);
 
-        var center = new CenterContainer();
+        var center = new CenterContainer { MouseFilter = Control.MouseFilterEnum.Ignore };
         center.SetAnchorsPreset(Control.LayoutPreset.FullRect);
         blocker.AddChild(center);
 
-        var panel = new PanelContainer();
+        var panel = new PanelContainer { MouseFilter = Control.MouseFilterEnum.Stop };
         panel.AddThemeStyleboxOverride("panel", PanelStyleOrFallback());
         if (minPanelSize is { } size)
-        {
             panel.CustomMinimumSize = size;
-        }
+        // Appear animation: scale + fade from slightly below.
+        panel.Modulate = new Color(1f, 1f, 1f, 0f);
+        panel.Scale = new Vector2(0.92f, 0.92f);
+        panel.PivotOffset = minPanelSize is { } s
+            ? s * 0.5f
+            : new Vector2(320, 200);
         center.AddChild(panel);
+        _openPanel = panel;
 
         var margin = new MarginContainer();
         margin.AddThemeConstantOverride("margin_left", 44);
@@ -426,29 +479,67 @@ public static class TradeUi
         {
             Control? banner = MakeBanner();
             if (banner != null)
-            {
                 content.AddChild(banner);
-            }
         }
 
         content.AddChild(MakeLabel(title, isTitle: true));
         if (subtitle != null)
-        {
             content.AddChild(MakeLabel(subtitle, isTitle: false, dim: true));
-        }
 
         Root?.AddChild(layer);
         _openMenu = layer;
+
+        // Animate dim + panel in.
+        Tween tween = layer.CreateTween().SetParallel();
+        tween.TweenProperty(dim, "color:a", 0.62f, 0.18).SetEase(Tween.EaseType.Out);
+        tween.TweenProperty(panel, "modulate:a", 1f, 0.2).SetEase(Tween.EaseType.Out);
+        tween.TweenProperty(panel, "scale", Vector2.One, 0.22)
+            .SetEase(Tween.EaseType.Out).SetTrans(Tween.TransitionType.Back);
+
         return content;
     }
 
-    private static void CloseMenu()
+    private static void AnimateCloseMenu()
+    {
+        if (_closing || _openMenu == null || !GodotObject.IsInstanceValid(_openMenu))
+        {
+            CloseMenuImmediate();
+            return;
+        }
+        _closing = true;
+        CanvasLayer layer = _openMenu;
+        PanelContainer? panel = _openPanel;
+        ColorRect? dim = null;
+        try
+        {
+            dim = layer.GetChild(0)?.GetChild(0) as ColorRect;
+        }
+        catch
+        {
+            // ignore
+        }
+
+        Tween tween = layer.CreateTween().SetParallel();
+        if (dim != null)
+            tween.TweenProperty(dim, "color:a", 0f, 0.14).SetEase(Tween.EaseType.In);
+        if (panel != null && GodotObject.IsInstanceValid(panel))
+        {
+            tween.TweenProperty(panel, "modulate:a", 0f, 0.15).SetEase(Tween.EaseType.In);
+            tween.TweenProperty(panel, "scale", new Vector2(0.94f, 0.94f), 0.15)
+                .SetEase(Tween.EaseType.In);
+        }
+        tween.Chain().TweenCallback(Callable.From(CloseMenuImmediate));
+    }
+
+    private static void CloseMenu() => AnimateCloseMenu();
+
+    private static void CloseMenuImmediate()
     {
         if (_openMenu != null && GodotObject.IsInstanceValid(_openMenu))
-        {
             _openMenu.QueueFree();
-        }
         _openMenu = null;
+        _openPanel = null;
+        _closing = false;
     }
 
     // ------------------------------------------------------------ trade flow
@@ -481,7 +572,7 @@ public static class TradeUi
         content.AddChild(MakeLabel(
             "Sell at the shop: open a potion (Sell in the popup) or click a relic in your inventory (Sell under the inspect panel).",
             isTitle: false, dim: true));
-        content.AddChild(MakeButton("Never Mind", CloseMenu, minWidth: 300, minHeight: 52));
+        content.AddChild(MakeButton("Never Mind", AnimateCloseMenu, minWidth: 300, minHeight: 52));
     }
 
     /// <summary>

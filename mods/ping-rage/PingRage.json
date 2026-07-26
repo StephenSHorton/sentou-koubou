@@ -3,7 +3,7 @@
   "name": "Ping Rage",
   "author": "sentou-koubou",
   "description": "End-turn Ping speech bubbles: random funny impatient lines, and the faster you mash Ping the bigger and more unhinged the bubble gets.",
-  "version": "v0.1.0",
+  "version": "v0.1.1",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,
