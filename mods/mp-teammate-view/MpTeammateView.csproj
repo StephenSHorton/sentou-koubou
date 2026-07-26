@@ -28,11 +28,18 @@
 
     <ItemGroup>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
+        <PackageReference Include="STS2.RitsuLib" Version="0.0.60">
+            <PrivateAssets>none</PrivateAssets>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </PackageReference>
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
     <ItemGroup>
         <None Include="MpTeammateView.json"/>
+        <EmbeddedResource Include="src\Settings\Localization\ModSettings\**\*.json">
+            <LogicalName>MpTeammateView.Settings.Localization.ModSettings.%(Filename)%(Extension)</LogicalName>
+        </EmbeddedResource>
     </ItemGroup>
 
     <Target Name="CheckDependencyPaths">

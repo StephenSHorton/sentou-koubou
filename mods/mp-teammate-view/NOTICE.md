@@ -7,4 +7,8 @@ This mod is a combined rewrite of two MIT-licensed projects by **OLC (BAKAOLC)**
 
 Original copyright: Copyright (c) 2026 OLC
 
-Full license text: see those repositories (MIT). This combination and reliability rewrite are part of sentou-koubou and remain under MIT with the same attribution requirement.
+Full license text: see those repositories (MIT). This combination, reliability rewrite, and unified settings/interop port are part of sentou-koubou and remain under MIT with the same attribution requirement.
+
+**Runtime dependency:** STS2-RitsuLib (settings UI, persistence, hotkeys).
+
+**Optional soft deps (reflection):** LemonSpire (Alt+click share/flash), Typing (Alt+click chat item links).

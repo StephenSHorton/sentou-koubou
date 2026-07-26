@@ -1,16 +1,21 @@
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Multiplayer;
 using MegaCrit.Sts2.Core.Rooms;
+using MpTeammateView.Utils;
 
 namespace MpTeammateView;
 
 /// <summary>
 /// Reliability fix vs upstream ShowPlayerHandCards: attach on player-state ready
 /// (and combat events), not only SetUpCombat — that race often left hands empty.
+/// Also restores EnergyVar.ColorPrefix after description generation (MP-safe).
 /// </summary>
 [HarmonyPatch(typeof(NMultiplayerPlayerState), nameof(NMultiplayerPlayerState._Ready))]
 public static class PlayerStateReadyPatch
@@ -52,18 +57,13 @@ public static class CombatSetupPatch
     public static void Postfix()
     {
         EnsureCombatHooks();
-        // Defer one frame so MultiplayerPlayerContainer rows exist.
         try
         {
             var tree = NRun.Instance?.GetTree();
             if (tree != null)
-            {
                 Callable.From(() => RefreshAllHosts(combatRefresh: true)).CallDeferred();
-            }
             else
-            {
                 RefreshAllHosts(combatRefresh: true);
-            }
         }
         catch
         {
@@ -88,20 +88,17 @@ public static class CombatSetupPatch
         }
     }
 
-    private static void OnTurnStarted(object? _)
-    {
-        RefreshAllHosts(combatRefresh: true);
-    }
+    private static void OnTurnStarted(object? _) => RefreshAllHosts(combatRefresh: true);
 
     private static void OnCombatEnded(object? _)
     {
-        foreach (var host in EnumerateHosts())
+        foreach (var host in TeammateViewHost.EnumerateHosts())
             host.OnCombatEnded();
     }
 
     internal static void RefreshAllHosts(bool combatRefresh)
     {
-        foreach (var host in EnumerateHosts())
+        foreach (var host in TeammateViewHost.EnumerateHosts())
         {
             try
             {
@@ -116,23 +113,6 @@ public static class CombatSetupPatch
             }
         }
     }
-
-    private static IEnumerable<TeammateViewHost> EnumerateHosts()
-    {
-        var run = NRun.Instance;
-        var container = run?.GlobalUi?.MultiplayerPlayerContainer;
-        if (container == null)
-            yield break;
-
-        for (int i = 0; i < container.GetChildCount(); i++)
-        {
-            if (container.GetChild(i) is not NMultiplayerPlayerState ps)
-                continue;
-            var host = ps.GetNodeOrNull<TeammateViewHost>(TeammateViewHost.NodeName);
-            if (host != null)
-                yield return host;
-        }
-    }
 }
 
 [HarmonyPatch(typeof(CombatManager), nameof(CombatManager.AfterCombatRoomLoaded))]
@@ -141,5 +121,42 @@ public static class AfterCombatRoomLoadedPatch
     public static void Postfix()
     {
         Callable.From(() => CombatSetupPatch.RefreshAllHosts(combatRefresh: true)).CallDeferred();
+    }
+}
+
+/// <summary>
+/// Restores EnergyVar.ColorPrefix after GetDescription* so mini-card UI text
+/// building does not leak into multiplayer checksum state.
+/// </summary>
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.GetDescriptionForPile),
+    new[] { typeof(PileType), typeof(Creature) })]
+public static class CardDescriptionForPileEnergyVarPatch
+{
+    public static void Prefix(CardModel __instance, ref List<(EnergyVar Var, string Prefix)>? __state)
+    {
+        __state = EnergyVarColorPrefixSnapshot.Capture(__instance);
+    }
+
+    public static Exception? Finalizer(ref List<(EnergyVar Var, string Prefix)>? __state)
+    {
+        EnergyVarColorPrefixSnapshot.Restore(__state);
+        __state = null;
+        return null;
+    }
+}
+
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.GetDescriptionForUpgradePreview))]
+public static class CardDescriptionUpgradePreviewEnergyVarPatch
+{
+    public static void Prefix(CardModel __instance, ref List<(EnergyVar Var, string Prefix)>? __state)
+    {
+        __state = EnergyVarColorPrefixSnapshot.Capture(__instance);
+    }
+
+    public static Exception? Finalizer(ref List<(EnergyVar Var, string Prefix)>? __state)
+    {
+        EnergyVarColorPrefixSnapshot.Restore(__state);
+        __state = null;
+        return null;
     }
 }
