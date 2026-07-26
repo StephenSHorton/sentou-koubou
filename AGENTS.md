@@ -56,7 +56,7 @@ What that does: bump `mods/<mod>/<Assembly>.json` version → Release build → 
 | `--push` | Tag + `git push` branch/tag (no asset upload) |
 | `--skip-build` | Reuse last local build when re-packaging |
 
-Known mod ids: `whitney`, `brennen`, `blake`, `trading-post`, `card-ranks`, `mp-player-limit`, `rmp-player-limit`.
+Known mod ids: `whitney`, `brennen`, `blake`, `trading-post`, `card-ranks`, `mp-player-limit`, `rmp-player-limit`, `uncapped-chapter-fix`.
 
 More detail: `docs/releasing.md`.
 
