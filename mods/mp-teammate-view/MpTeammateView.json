@@ -2,11 +2,16 @@
   "id": "MpTeammateView",
   "name": "MP Teammate View",
   "author": "sentou-koubou (based on BAKAOLC / OLC)",
-  "description": "Multiplayer QoL: show teammates' potions and hand cards next to the player list. Combined rewrite of MultiPlayerPotionView + ShowPlayerHandCards with more reliable hand attach. Disable the original two Workshop mods if both are installed.",
-  "version": "v0.1.0",
+  "description": "Multiplayer QoL: teammate potions + hand cards next to the player list. Settings (scale/offset/highlights/toggle key), LemonSpire/Typing Alt+click share. Combined rewrite of MultiPlayerPotionView + ShowPlayerHandCards with reliable hand attach. Disable the original two Workshop mods if both are installed. Requires STS2-RitsuLib.",
+  "version": "v0.2.0",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id": "STS2-RitsuLib",
+      "min_version": "0.2.27"
+    }
+  ],
   "affects_gameplay": false
 }
