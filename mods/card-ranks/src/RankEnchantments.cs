@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Enchantments;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace CardRanks;
@@ -57,6 +58,12 @@ public abstract class RankEnchantment : CustomEnchantmentModel
         cards.Insert(0, Card);
     }
 
+    /// <summary>
+    /// Fallback for Imbued when we only have a CWT flag (no stackable vanilla leaf).
+    /// Vanilla <see cref="MegaCrit.Sts2.Core.Models.Enchantments.Imbued"/> also hooks
+    /// AutoPrePlay but only on <c>TurnNumber == 1</c>. Without that gate, a ranked card
+    /// with the Imbued bonus auto-played every turn.
+    /// </summary>
     public override async Task AfterAutoPrePlayPhaseEntered(
         PlayerChoiceContext context, Player player)
     {
@@ -64,6 +71,17 @@ public abstract class RankEnchantment : CustomEnchantmentModel
             return;
         if (Card.Owner != player)
             return;
+
+        // Real Imbued leaf (Uncapped multi-stack) already auto-plays on turn 1 — do not double.
+        if (Card.Enchantment is Imbued
+            || MultiEnchantCompat.EnumerateLeafEnchantments(Card).Any(e => e is Imbued))
+            return;
+
+        // Match vanilla Imbued: only the first player turn of combat.
+        PlayerCombatState? combat = player.PlayerCombatState;
+        if (combat == null || combat.TurnNumber != 1)
+            return;
+
         try
         {
             await CardCmd.AutoPlay(
