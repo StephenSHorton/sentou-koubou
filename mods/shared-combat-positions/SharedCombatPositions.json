@@ -3,7 +3,7 @@
   "name": "Shared Combat Positions",
   "author": "sentou-koubou",
   "description": "Multiplayer combat QoL: party lineup uses host/lobby slot order (not local-always-front), and teammate health bars / statuses stay visible without hovering.",
-  "version": "v0.2.0",
+  "version": "v0.2.1",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,

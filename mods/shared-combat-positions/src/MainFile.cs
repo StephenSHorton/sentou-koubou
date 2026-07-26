@@ -23,7 +23,8 @@ public static class MainFile
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "Shared Combat Positions loaded — host-order lineup + always-visible teammate HP/status. " +
+            "Shared Combat Positions loaded — host-order lineup + always-visible teammate HP/status " +
+            "(combat only; cleared on end so bars don't leak onto the map). " +
             "Enable on all peers for a consistent view.");
     }
 }
