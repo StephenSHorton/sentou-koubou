@@ -40,10 +40,13 @@ internal static class PingLines
     private static readonly Random Rng = new();
     private static int _lastIndex = -1;
 
-    public static string Next()
+    public static int Count => Lines.Length;
+
+    /// <summary>Pick a new line index (avoids immediate repeat). Caller broadcasts this.</summary>
+    public static int NextIndex()
     {
         if (Lines.Length == 0)
-            return "…";
+            return 0;
 
         int index;
         if (Lines.Length == 1)
@@ -52,7 +55,6 @@ internal static class PingLines
         }
         else
         {
-            // Avoid immediate repeat.
             do
             {
                 index = Rng.Next(Lines.Length);
@@ -60,8 +62,18 @@ internal static class PingLines
         }
 
         _lastIndex = index;
+        return index;
+    }
+
+    public static string Get(int index)
+    {
+        if (Lines.Length == 0)
+            return "…";
+        if (index < 0 || index >= Lines.Length)
+            index = ((index % Lines.Length) + Lines.Length) % Lines.Length;
         return Lines[index];
     }
 
-    public static int Count => Lines.Length;
+    /// <summary>Local-only helper (prefer NextIndex + Get so net can share the pick).</summary>
+    public static string Next() => Get(NextIndex());
 }
