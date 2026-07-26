@@ -1,42 +1,41 @@
 # Battle Draw
 
-Map-style **drawing in combat** for Slay the Spire 2, plus **map pen color/size** controls.
+**Map-style drawing in combat** for Slay the Spire 2, plus **map pen color/size** controls.
 
-## Performance (v0.5 rewrite)
+## v0.6 — same ink path as the map
 
-Older builds caused combat lag (per-frame ProcessFrame hooks, full-rect layout thrash, unbounded `Line2D` stacks, unthrottled erase net).
+Combat now uses the vanilla map drawing stack instead of a custom image stamp:
 
-**v0.5+** rewrites the ink path:
+| Piece | Implementation |
+|-------|----------------|
+| Surface | Half-res transparent **SubViewport** |
+| Pen | `map_line_draw` **Line2D** (trail texture + mix shader) |
+| Eraser | `map_line_erase` **Line2D** (**subtractive** `blend_sub` shader) |
+| Composite | TextureRect with **premultiplied alpha** |
 
-| Old | New |
-|-----|-----|
-| Many antialiased `Line2D` nodes forever | Near-full-res **baked ImageTexture** |
-| Soft erase (dim leftover) | **Hard erase** (full wipe under the disk) |
-| Soft fuzzy stamps | Hard disks + dense steps (sharper at any size) |
-| Generated icon plates with weak contrast | Dark collapsible panel + readable text buttons |
-| Two tabs (map stuck over combat) | **One** global collapsible menu; combat tools hide on map |
+That fixes weak erase / “negative residual” multi-swipe erase and makes pen strokes match map ink.
 
 ## Combat
 
 | Input | Action |
 |-------|--------|
 | **RMB drag** | Draw |
-| **MMB drag** | Erase |
-| **Bottom-right tab** | Tools palette |
+| **MMB drag** | Erase (full-strength subtractive stroke) |
+| **Bottom-right tab** | Collapsible tools palette (color/size; combat also has Brush/Clear) |
 | **Color / size** | Shared with map pen |
 | **Hide others** | Local hide of peer combat ink |
 
-Hand strip / card drag / palette block ink. Strokes clear when combat ends.
+Hand strip / card drag / palette block ink. Strokes clear when combat ends. No click-arm eraser — **MMB only**.
 
-Shortcuts: **B** brush, **E** eraser, **`[` / `]`** size.
+Shortcuts: **B** arm LMB brush, **`[` / `]`** size.
 
 ## Map
 
-Vanilla map draw still works. A **map pen palette** (same color + size as combat) sits bottom-right so you can change brush without opening mod settings. Local lines use your chosen color/width.
+Vanilla map draw still works. A **map pen palette** (same color + size as combat) sits bottom-right. Local lines use your chosen color/width.
 
 ## Multiplayer
 
-Combat doodles sync (begin / points / erase / clear). All peers need Battle Draw.
+Combat doodles sync (begin / points / end / clear). Eraser is a stroke flag (`isEraser`), not stamp circles. All peers need Battle Draw **≥ 0.6.0**.
 
 ## Settings
 

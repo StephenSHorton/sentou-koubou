@@ -24,13 +24,24 @@ public static class MapCreateLinePatch
         {
             if (isErasing)
             {
-                // Full-weight eraser: match pen width so thick strokes wipe clean.
-                float w = Math.Max(BrushConfig.ClampedSize * 2.5f, BrushConfig.ClampedSize + 4f);
-                __result.Width = Math.Clamp(w, 4f, 48f);
+                // Subtractive erase (map line_erase shader: blend_sub, RGB *= texture.a).
+                // Vanilla sets DefaultColor to Character.MapDrawingColor for BOTH pen and
+                // eraser. That only fully clears when pen used that same color. Our pen
+                // uses BrushConfig.CurrentColor, so character-colored erase leaves residual
+                // / "negative" ink. White subtracts every channel at full weight.
+                __result.DefaultColor = Colors.White;
+                // Wider than pen (vanilla erase default 12 vs pen 4 ≈ 3×) so soft trail
+                // edges and half-res upscale still wipe solid coverage.
+                float pen = BrushConfig.ClampedSize;
+                float w = Math.Max(pen * 3f, pen + 6f);
+                __result.Width = Math.Clamp(w, 8f, 64f);
                 return;
             }
 
-            __result.DefaultColor = BrushConfig.CurrentColor;
+            Color ink = BrushConfig.CurrentColor;
+            if (ink.A < 0.95f)
+                ink.A = 1f;
+            __result.DefaultColor = ink;
             __result.Width = BrushConfig.ClampedSize;
         }
         catch (Exception e)

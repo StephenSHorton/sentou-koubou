@@ -30,7 +30,6 @@ public partial class BrushToolbar : Control
     private Button? _tabButton;
     private PanelContainer? _panel;
     private Button? _brushBtn;
-    private Button? _eraserBtn;
     private Button? _clearBtn;
     private Button? _hidePeersBtn;
     private Control? _combatToolsRow;
@@ -322,23 +321,18 @@ public partial class BrushToolbar : Control
         collapse.Pressed += () => SetExpanded(false);
         header.AddChild(collapse);
 
-        // Combat tools row
+        // Combat tools row (no click-arm eraser — MMB always erases on map + combat)
         _combatToolsRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
         _combatToolsRow.AddThemeConstantOverride("separation", 8);
         vbox.AddChild(_combatToolsRow);
 
         _brushBtn = MakeDarkButton("Brush", "Brush (B) — LMB when armed; RMB always draws");
-        _brushBtn.CustomMinimumSize = new Vector2(88, 40);
+        _brushBtn.CustomMinimumSize = new Vector2(100, 40);
         _brushBtn.Pressed += () => SetTool(DrawTool.Brush);
         _combatToolsRow.AddChild(_brushBtn);
 
-        _eraserBtn = MakeDarkButton("Erase", "Eraser (E) — LMB when armed; MMB always erases");
-        _eraserBtn.CustomMinimumSize = new Vector2(88, 40);
-        _eraserBtn.Pressed += () => SetTool(DrawTool.Eraser);
-        _combatToolsRow.AddChild(_eraserBtn);
-
         _clearBtn = MakeDarkButton("Clear", "Clear all combat doodles");
-        _clearBtn.CustomMinimumSize = new Vector2(88, 40);
+        _clearBtn.CustomMinimumSize = new Vector2(100, 40);
         _clearBtn.Pressed += () => DrawCanvas.Instance?.ClearAll();
         _combatToolsRow.AddChild(_clearBtn);
 
@@ -401,7 +395,7 @@ public partial class BrushToolbar : Control
 
         var tip = new Label
         {
-            Text = "RMB pen · MMB erase · [ ] size",
+            Text = "RMB pen · MMB erase · [ ] size · B brush",
             HorizontalAlignment = HorizontalAlignment.Center,
             MouseFilter = MouseFilterEnum.Ignore,
         };
@@ -562,6 +556,10 @@ public partial class BrushToolbar : Control
 
     public void SetTool(DrawTool tool)
     {
+        // Eraser is not a click-arm tool (MMB only). Ignore arm requests for it.
+        if (tool == DrawTool.Eraser)
+            tool = DrawTool.None;
+
         ActiveTool = ActiveTool == tool ? DrawTool.None : tool;
         if (ActiveTool != DrawTool.None)
             SetExpanded(true);
@@ -573,7 +571,6 @@ public partial class BrushToolbar : Control
     private void RefreshToolVisuals()
     {
         Highlight(_brushBtn, ActiveTool == DrawTool.Brush);
-        Highlight(_eraserBtn, ActiveTool == DrawTool.Eraser);
     }
 
     private static void Highlight(Button? btn, bool on)
