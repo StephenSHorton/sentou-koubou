@@ -1,6 +1,7 @@
 using Godot;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 
 namespace BattleDraw;
 
@@ -79,11 +80,21 @@ public partial class DrawCanvas : Control
 
         Instance = canvas;
         MainFile.Logger.Info(
-            "Battle Draw surface ready — map-style SubViewport Line2D pen/eraser (v0.6.0).");
+            "Battle Draw surface ready — map-style SubViewport Line2D (v0.6.2).");
     }
 
     public override void _Input(InputEvent e)
     {
+        // Combat canvas uses global _Input. If it keeps listening while the map is open
+        // (or combat room is hidden), RMB draws a second screen-space stroke that does not
+        // scroll with the map — ghost duplicate of the real map mark.
+        if (!IsCombatDrawingActive())
+        {
+            if (_drawing)
+                EndStroke();
+            return;
+        }
+
         switch (e)
         {
             case InputEventKey { Pressed: true, Echo: false } key:
@@ -109,6 +120,44 @@ public partial class DrawCanvas : Control
         }
     }
 
+    /// <summary>
+    /// Only draw in combat when the combat room is the live surface and the map is not up.
+    /// </summary>
+    private bool IsCombatDrawingActive()
+    {
+        if (!IsInsideTree() || !GodotObject.IsInstanceValid(this))
+            return false;
+
+        try
+        {
+            NMapScreen? map = NMapScreen.Instance;
+            if (map != null && GodotObject.IsInstanceValid(map)
+                && map.IsVisibleInTree() && map.Visible)
+                return false;
+        }
+        catch
+        {
+            // ignore map probe failures
+        }
+
+        try
+        {
+            NCombatRoom? room = NCombatRoom.Instance;
+            if (room == null || !GodotObject.IsInstanceValid(room) || !room.IsInsideTree())
+                return false;
+            if (!room.IsVisibleInTree())
+                return false;
+        }
+        catch
+        {
+            return false;
+        }
+
+        // Parent layer must still be live (not mid-teardown).
+        Node? parent = GetParent();
+        return parent != null && GodotObject.IsInstanceValid(parent) && parent.IsInsideTree();
+    }
+
     private void HandleHotkey(Key key)
     {
         switch (key)
@@ -124,9 +173,7 @@ public partial class DrawCanvas : Control
             case Key.B:
                 BrushToolbar.CombatInstance?.SetTool(DrawTool.Brush);
                 break;
-            case Key.E:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Eraser);
-                break;
+            // No click-arm eraser (E): MMB always erases; armed LMB eraser removed.
         }
     }
 
@@ -193,7 +240,8 @@ public partial class DrawCanvas : Control
     {
         MouseButton.Middle => DrawTool.Eraser,
         MouseButton.Right => DrawTool.Brush,
-        MouseButton.Left when _tool is DrawTool.Brush or DrawTool.Eraser => _tool,
+        // LMB only arms pen (optional). Eraser is MMB-only — no click-to-arm erase tool.
+        MouseButton.Left when _tool == DrawTool.Brush => DrawTool.Brush,
         _ => null,
     };
 
@@ -203,8 +251,8 @@ public partial class DrawCanvas : Control
             return DrawTool.Eraser;
         if ((mask & MouseButtonMask.Right) != 0)
             return DrawTool.Brush;
-        if ((mask & MouseButtonMask.Left) != 0 && _tool is DrawTool.Brush or DrawTool.Eraser)
-            return _tool;
+        if ((mask & MouseButtonMask.Left) != 0 && _tool == DrawTool.Brush)
+            return DrawTool.Brush;
         return null;
     }
 

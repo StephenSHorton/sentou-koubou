@@ -3,7 +3,7 @@
   "name": "Battle Draw",
   "author": "sentou-koubou",
   "description": "Map-style combat whiteboard (SubViewport + Line2D pen/eraser) + map pen color/size. RMB pen, MMB erase; strokes sync in multiplayer. Clears when battle ends.",
-  "version": "v0.6.1",
+  "version": "v0.6.2",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,

@@ -21,13 +21,13 @@ That fixes weak erase / “negative residual” multi-swipe erase and makes pen 
 |-------|--------|
 | **RMB drag** | Draw |
 | **MMB drag** | Erase (full-strength subtractive stroke) |
-| **Bottom-right tab** | Collapsible tools palette |
+| **Bottom-right tab** | Collapsible tools palette (color/size; combat also has Brush/Clear) |
 | **Color / size** | Shared with map pen |
 | **Hide others** | Local hide of peer combat ink |
 
-Hand strip / card drag / palette block ink. Strokes clear when combat ends.
+Hand strip / card drag / palette block ink. Strokes clear when combat ends. No click-arm eraser — **MMB only**.
 
-Shortcuts: **B** brush, **E** eraser, **`[` / `]`** size.
+Shortcuts: **B** arm LMB brush, **`[` / `]`** size.
 
 ## Map
 

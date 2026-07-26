@@ -57,18 +57,22 @@ public static class CombatRoomReadyPatch
     }
 }
 
-/// <summary>Wipe ink as soon as combat is won (before rewards settle in).</summary>
+/// <summary>
+/// Tear down combat ink as soon as combat ends so RMB cannot keep drawing a
+/// screen-space ghost that double-marks the map after the fight.
+/// </summary>
 [HarmonyPatch(typeof(CombatManager), "EndCombatInternal")]
 public static class CombatEndClearPatch
 {
     public static void Prefix()
     {
-        DrawCanvas.Instance?.ClearAll(network: false);
+        DrawCanvas.Instance?.Teardown();
+        BrushToolbar.DetachCombat();
     }
 }
 
 /// <summary>
-/// Belt-and-suspenders: UI cleanup path also wipes strokes if EndCombatInternal
+/// Belt-and-suspenders: UI cleanup path also tears down if EndCombatInternal
 /// was skipped or the room is torn down another way.
 /// </summary>
 [HarmonyPatch(typeof(NCombatUi), "PostCombatCleanUp")]
@@ -76,7 +80,8 @@ public static class PostCombatUiCleanPatch
 {
     public static void Prefix()
     {
-        DrawCanvas.Instance?.ClearAll(network: false);
+        DrawCanvas.Instance?.Teardown();
+        BrushToolbar.DetachCombat();
     }
 }
 
