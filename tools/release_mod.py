@@ -96,6 +96,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "CharacterCursors.csproj",
         "assembly": "CharacterCursors",
     },
+    "shared-combat-positions": {
+        "folder": "shared-combat-positions",
+        "project": "SharedCombatPositions.csproj",
+        "assembly": "SharedCombatPositions",
+    },
 }
 
 
