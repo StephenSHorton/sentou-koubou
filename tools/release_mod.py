@@ -18,7 +18,8 @@ Usage:
   # Tag + push only (no Release asset)
   python tools/release_mod.py whitney 0.2.1 --push
 
-Known mods: whitney, brennen, blake, trading-post, card-ranks, mp-player-limit, rmp-player-limit
+Known mods: whitney, brennen, blake, trading-post, card-ranks, mp-player-limit,
+rmp-player-limit, uncapped-chapter-fix
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -73,6 +74,12 @@ MODS: dict[str, dict[str, str]] = {
         "project": "",  # custom build via build.ps1
         "assembly": "RemoveMultiplayerPlayerLimit",
         "build": "ps1",
+    },
+    # UncappedSpire MP chapter/seed/potion compat (soft-depends on UncappedSpire)
+    "uncapped-chapter-fix": {
+        "folder": "uncapped-chapter-fix",
+        "project": "UncappedChapterFix.csproj",
+        "assembly": "UncappedChapterFix",
     },
 }
 

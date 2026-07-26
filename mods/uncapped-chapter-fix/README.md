@@ -56,14 +56,20 @@ Even with the chapter event finished correctly, act-2 boss rewards with interact
 
 Host reserves the choice ID, then throws mid-apply → host counters end **+1** vs clients → checksum fails at **Exiting event room EVENT.NEOW**. Inventory/RNG often still match.
 
-## Fixes (v0.2.2)
+## Fixes (v0.2.3)
 
 1. **ClosingTheChapter** postfix — force-finish every shared-event instance before act/Neow.
 2. **`FromChooseACardScreen` prefix** — bounds-check remote index; OOB / reward-style sentinel → null skip (also allows &gt;3 cards like Downfall’s NOP of the vanilla throw).
 3. **`AsDeckCards` finalizer** — wrong type (esp. Index) → empty list instead of throw under relic/deck select.
 4. **`AsIndexOrNull` finalizer** — wrong type under reward/relic/card-select stacks → null (broader than CardReward-only).
 5. **PlayerRngSet.LoadFromSerializable** — replace UncappedSpire’s broken `UInt64` Seed prefix with a `uint` version so multiplayer embark no longer throws.
-6. **ChapterChangeSynchronizer.DoSeedChange** — replace body to use `int` `GetDeterministicHashCode` + `Rng(uint)` so Mysterious Door chapter reseed completes.
+6. **Chapter reseed (Mysterious Door hang)** — UncappedSpire’s `DoSeedChange` still references
+   `UInt64 GetDeterministicHashCode`. Harmony **cannot** patch that method (IL read throws the
+   same MissingMethodException). v0.2.2 therefore never applied the seed fix. v0.2.3 prefixes
+   the clean callers instead:
+   - `DoLocalSeedChange` — local vote: broadcast `ChapterChangeMessage` + int-safe reseed
+   - `HandleChapterChangeMessage` — remote peer reseed
+   Each patch group is try/caught so one failure cannot abort the rest of this mod’s init.
 
 ## Install
 

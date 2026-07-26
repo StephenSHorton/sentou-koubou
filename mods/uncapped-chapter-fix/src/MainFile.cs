@@ -24,12 +24,15 @@ public static class MainFile
         var harmony = new Harmony(ModId);
 
         int applied = 0;
-        applied += ClosingTheChapterPatches.TryApply(harmony) ? 1 : 0;
-        applied += CardRewardChoicePatches.TryApply(harmony) ? 1 : 0;
-        applied += DeckChoiceHardenPatches.TryApply(harmony) ? 1 : 0;
-        applied += ChooseACardScreenSkipPatches.TryApply(harmony) ? 1 : 0;
-        applied += PlayerRngSeedCompatPatches.TryApply(harmony) ? 1 : 0;
-        applied += ChapterSeedCompatPatches.TryApply(harmony) ? 1 : 0;
+        applied += SafeApply("ClosingTheChapter", () => ClosingTheChapterPatches.TryApply(harmony));
+        applied += SafeApply("CardRewardChoice", () => CardRewardChoicePatches.TryApply(harmony));
+        applied += SafeApply("DeckChoiceHarden", () => DeckChoiceHardenPatches.TryApply(harmony));
+        applied += SafeApply("ChooseACardScreenSkip", () => ChooseACardScreenSkipPatches.TryApply(harmony));
+        applied += SafeApply("PlayerRngSeed", () => PlayerRngSeedCompatPatches.TryApply(harmony));
+        // Must not patch DoSeedChange directly (Harmony IL read throws MissingMethodException
+        // on the dead UInt64 GetDeterministicHashCode token). Callers are patched instead.
+        applied += SafeApply("ChapterSeed", () => ChapterSeedCompatPatches.TryApply(harmony));
+        applied += SafeApply("PotionSlotHarden", () => PotionSlotHardenPatches.TryApply(harmony));
 
         if (applied == 0)
         {
@@ -42,7 +45,21 @@ public static class MainFile
             Logger.Info(
                 $"Uncapped Chapter Fix loaded — {applied} patch group(s). " +
                 "Chapter finish; choice harden; PlayerRngSet Seed uint; " +
-                "ChapterChange GetDeterministicHashCode int (Mysterious Door).");
+                "ChapterChange seed via DoLocalSeedChange/HandleChapterChangeMessage " +
+                "(Mysterious Door); potion procure no-throw when belt full.");
+        }
+    }
+
+    private static int SafeApply(string name, Func<bool> apply)
+    {
+        try
+        {
+            return apply() ? 1 : 0;
+        }
+        catch (Exception e)
+        {
+            Logger.Error($"Patch group '{name}' failed (continuing): {e}");
+            return 0;
         }
     }
 }
