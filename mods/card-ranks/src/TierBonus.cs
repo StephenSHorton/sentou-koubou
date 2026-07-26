@@ -113,12 +113,10 @@ public static class TierBonusService
     };
 
     /// <summary>
-    /// Whether this bonus can actually land on the card as a visible/meaningful effect.
+    /// Rules / card-type eligibility (ignores whether MultiEnchantment can stack right now).
     /// Soul's Power only if the card has <b>local</b> Exhaust (mirrors vanilla
-    /// <c>SoulsPower.CanEnchant</c>) — global/combat-only Exhaust does not count, and
-    /// cards with no Exhaust must never roll it.
-    /// Spiral only enchants basic Strike/Defend — anything else used to fall back to
-    /// non-serialized BaseReplayCount/CWT flags and desynced multiplayer play counts.
+    /// <c>SoulsPower.CanEnchant</c>).
+    /// Spiral only on basic Strike/Defend.
     /// </summary>
     public static bool IsEligible(CardModel card, TierBonus bonus)
     {
@@ -129,6 +127,33 @@ public static class TierBonusService
         if (bonus == TierBonus.Spiral)
             return CanTakeVanillaSpiral(card);
         return true;
+    }
+
+    /// <summary>
+    /// True when this bonus can actually land as a real result (not a no-op flag).
+    /// Used for fair rolling so Spiral/Imbued/etc. aren't "wasted picks" that re-roll
+    /// into Perfect Fit / Royally Approved every time.
+    /// </summary>
+    public static bool CanLand(CardModel card, TierBonus bonus)
+    {
+        if (!IsEligible(card, bonus))
+            return false;
+
+        // Steady / Royally Approved can fall back to keywords even without Multi stacking.
+        if (bonus is TierBonus.Steady or TierBonus.RoyallyApproved)
+            return true;
+
+        // Everything else needs a free enchant slot or MultiEnchantment to attach a leaf.
+        // Without that, Apply would only set invisible CWT flags (or reject) — biasing the
+        // visible outcomes toward keyword-only bonuses.
+        return CanStackExtraEnchant(card);
+    }
+
+    /// <summary>True if CardCmd.Enchant can add another leaf without replacing rank.</summary>
+    public static bool CanStackExtraEnchant(CardModel card)
+    {
+        EnchantmentModel? top = card.Enchantment;
+        return top == null || MultiEnchantCompat.IsMultiEnchantment(top);
     }
 
     /// <summary>
@@ -158,21 +183,39 @@ public static class TierBonusService
         return card.Tags.Contains(CardTag.Strike) || card.Tags.Contains(CardTag.Defend);
     }
 
-    /// <summary>Pick a random bonus the card does not already have; null if pool exhausted.</summary>
+    /// <summary>
+    /// Pick a random bonus the card does not already have and that can actually land.
+    /// Uniform among <see cref="CanLand"/> options (not the raw pool).
+    /// </summary>
     public static TierBonus? RollNew(CardModel card, Random? rng = null, ISet<TierBonus>? exclude = null)
     {
         rng ??= Random.Shared;
-        HashSet<TierBonus> have = Table.TryGetValue(card, out BonusBox? box)
-            ? box.Bonuses
-            : new HashSet<TierBonus>();
-        List<TierBonus> available = Pool
-            .Where(b => !have.Contains(b)
-                        && (exclude == null || !exclude.Contains(b))
-                        && IsEligible(card, b))
-            .ToList();
+        List<TierBonus> available = GetLandablePool(card, exclude);
         if (available.Count == 0)
             return null;
         return available[rng.Next(available.Count)];
+    }
+
+    /// <summary>Landable bonuses for logging / fair rolls.</summary>
+    public static List<TierBonus> GetLandablePool(CardModel card, ISet<TierBonus>? exclude = null)
+    {
+        HashSet<TierBonus> have = Table.TryGetValue(card, out BonusBox? box)
+            ? box.Bonuses
+            : new HashSet<TierBonus>();
+        // Also treat real vanilla leaves as already-have so we don't re-roll Clone twice.
+        List<TierBonus> available = [];
+        foreach (TierBonus b in Pool)
+        {
+            if (have.Contains(b) || Has(card, b))
+                continue;
+            if (exclude != null && exclude.Contains(b))
+                continue;
+            if (!CanLand(card, b))
+                continue;
+            available.Add(b);
+        }
+
+        return available;
     }
 
     /// <summary>Copy all tracked bonuses from source onto dest (flags + side effects).</summary>
@@ -275,10 +318,11 @@ public static class TierBonusService
                     break;
             }
 
-            // Invisible / non-functional rolls: undo so AutoGrant can re-roll.
-            // Spiral without a real leaf used to set BaseReplayCount + CWT flags; that
-            // desynced combat play counts after campfire combine (e.g. Crush Under).
-            if (!realEnchantOk && bonus is TierBonus.SoulsPower or TierBonus.Imbued or TierBonus.Spiral)
+            // No invisible "success": flag-only Perfect Fit / Clone / Imbued / Spiral /
+            // Soul's Power used to count as applied, then re-rolls never happened — and when
+            // they did fail later, the remaining pool skewed to Royally Approved / Perfect Fit.
+            // Steady + Royally Approved may keep keyword-only fallback (still a real effect).
+            if (!realEnchantOk && bonus is not (TierBonus.Steady or TierBonus.RoyallyApproved))
             {
                 box.Bonuses.Remove(bonus);
                 MainFile.Logger.Info(
@@ -288,7 +332,7 @@ public static class TierBonusService
 
             MainFile.Logger.Info(
                 $"Tier bonus APPLIED: {DisplayName(bonus)} on {card.Id} " +
-                $"(realEnchant={realEnchantOk}, replay={card.BaseReplayCount}, " +
+                $"(realEnchant={realEnchantOk}, landable=[{string.Join(",", GetLandablePool(card))}], " +
                 $"bonuses=[{string.Join(",", GetAll(card))}])");
             return true;
         }

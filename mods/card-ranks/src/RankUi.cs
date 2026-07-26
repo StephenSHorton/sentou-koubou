@@ -28,7 +28,20 @@ public static class RankUi
         {
             try
             {
+                // Uniform among bonuses that can actually land (CanLand).
+
                 var tried = new HashSet<TierBonus>();
+
+                var landable = TierBonusService.GetLandablePool(survivor);
+
+                MainFile.Logger.Info(
+
+                    $"Auto tier bonus pool for {survivor.Id}: " +
+
+                    $"[{string.Join(", ", landable.Select(TierBonusService.DisplayName))}] " +
+
+                    $"(stack={TierBonusService.CanStackExtraEnchant(survivor)})");
+
                 for (int attempt = 0; attempt < 8; attempt++)
                 {
                     TierBonus? picked = TierBonusService.RollNew(survivor, exclude: tried);
