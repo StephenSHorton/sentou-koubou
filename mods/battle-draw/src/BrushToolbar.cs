@@ -1,4 +1,6 @@
 using Godot;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 
 namespace BattleDraw;
 
@@ -9,160 +11,120 @@ public enum DrawTool
     Eraser = 2,
 }
 
-public enum DrawSurfaceKind
-{
-    Combat = 0,
-    Map = 1,
-}
-
 /// <summary>
-/// Collapsible palette for combat (full tools) or map (color + size only).
-/// Shared <see cref="BrushConfig"/> drives both.
+/// Single compact toolbar for map + combat (no separate submenu panel).
+/// ColorPickerButton popup gets a Size slider injected into it.
 /// </summary>
 public partial class BrushToolbar : Control
 {
-    public static BrushToolbar? CombatInstance { get; private set; }
-    public static BrushToolbar? MapInstance { get; private set; }
+    /// <summary>One shared instance for map and combat.</summary>
+    public static BrushToolbar? Instance { get; private set; }
+
+    // Back-compat aliases
+    public static BrushToolbar? CombatInstance => Instance;
+    public static BrushToolbar? MapInstance => Instance;
 
     public DrawTool ActiveTool { get; private set; } = DrawTool.None;
-    public DrawSurfaceKind Kind { get; private set; }
 
-    private bool _expanded;
-    private PanelContainer? _panel;
-    private Button? _tabButton;
+    private HBoxContainer? _row;
     private Button? _brushBtn;
     private Button? _eraserBtn;
-    private HSlider? _sizeSlider;
-    private ColorPickerButton? _colorPicker;
-    private Label? _sizeValueLabel;
+    private Button? _clearBtn;
     private Button? _hidePeersBtn;
+    private ColorPickerButton? _colorPicker;
+    private HSlider? _sizeSlider;
+    private Label? _sizeLabel;
+    private bool _injectedPickerExtras;
+    private bool _inCombatContext;
 
-    public static void AttachCombat(CanvasLayer layer)
+    /// <summary>
+    /// One global toolbar on a high CanvasLayer under the scene root.
+    /// Survives combat/map transitions; visibility swaps via context.
+    /// </summary>
+    public static void EnsureGlobal()
     {
-        DetachCombat();
-        var bar = Create(DrawSurfaceKind.Combat);
-        layer.AddChild(bar);
-        CombatInstance = bar;
-        MainFile.Logger.Info("Combat brush toolbar ready.");
-    }
+        if (Instance != null && GodotObject.IsInstanceValid(Instance))
+            return;
 
-    public static void AttachMap(Node parent)
-    {
-        DetachMap();
-        var bar = Create(DrawSurfaceKind.Map);
-        parent.AddChild(bar);
-        MapInstance = bar;
-        MainFile.Logger.Info("Map brush toolbar ready (color + size).");
-    }
+        SceneTree? tree = Engine.GetMainLoop() as SceneTree;
+        Node? root = tree?.Root;
+        if (root == null)
+            return;
 
-    private static BrushToolbar Create(DrawSurfaceKind kind)
-    {
+        var layer = new CanvasLayer
+        {
+            Name = "BattleDrawGlobalUi",
+            Layer = 120,
+        };
+        root.AddChild(layer);
+
         var bar = new BrushToolbar
         {
-            Name = kind == DrawSurfaceKind.Combat ? "BattleDrawToolbar" : "BattleDrawMapToolbar",
+            Name = "BattleDrawToolbar",
             MouseFilter = MouseFilterEnum.Stop,
-            ZIndex = 20,
-            Kind = kind,
+            ZIndex = 30,
         };
         bar.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomRight);
         bar.GrowHorizontal = GrowDirection.Begin;
         bar.GrowVertical = GrowDirection.Begin;
-        bar.OffsetRight = -20;
-        // Map tab sits lower-right; combat sits above the hand strip.
-        bar.OffsetBottom = kind == DrawSurfaceKind.Combat ? -96 : -36;
-        bar.OffsetLeft = bar.OffsetRight - 56;
-        bar.OffsetTop = bar.OffsetBottom - 56;
+        bar.OffsetRight = -16;
+        bar.OffsetBottom = -40;
+        bar.OffsetLeft = bar.OffsetRight - 420;
+        bar.OffsetTop = bar.OffsetBottom - 52;
+        layer.AddChild(bar);
         bar.BuildUi();
+        bar.SetProcess(true);
         BrushConfig.SettingsChanged += bar.OnConfigChanged;
-        // Map palette must never appear over combat — poll visibility cheaply.
-        if (kind == DrawSurfaceKind.Map)
-        {
-            bar.SetProcess(true);
-            bar.Visible = false;
-        }
-        return bar;
+        Instance = bar;
+        MainFile.Logger.Info("Battle Draw unified toolbar ready (color picker + tools).");
     }
 
-    public override void _Process(double delta)
+    public static void AttachCombat(CanvasLayer _)
     {
-        if (Kind != DrawSurfaceKind.Map)
-            return;
-        // Only while the map screen is the thing on screen (not buried under combat).
-        bool show = ShouldShowMapToolbar();
-        if (Visible != show)
-            Visible = show;
+        EnsureGlobal();
+        Instance?.SetCombatContext(true);
     }
 
-    private static bool ShouldShowMapToolbar()
+    public static void AttachMap(Node _)
     {
-        try
-        {
-            // Combat room present and in tree ⇒ hide map tools.
-            var combat = MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance;
-            if (combat != null && GodotObject.IsInstanceValid(combat) && combat.IsInsideTree()
-                && combat.IsVisibleInTree())
-                return false;
-
-            var map = MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen.Instance;
-            if (map == null || !GodotObject.IsInstanceValid(map))
-                return false;
-            return map.IsVisibleInTree() && map.Visible;
-        }
-        catch
-        {
-            return false;
-        }
+        EnsureGlobal();
+        Instance?.SetCombatContext(false);
     }
 
     public static void DetachCombat()
     {
-        if (CombatInstance != null && GodotObject.IsInstanceValid(CombatInstance))
-        {
-            BrushConfig.SettingsChanged -= CombatInstance.OnConfigChanged;
-            CombatInstance.QueueFree();
-        }
-
-        CombatInstance = null;
+        Instance?.SetCombatContext(false);
     }
 
     public static void DetachMap()
     {
-        if (MapInstance != null && GodotObject.IsInstanceValid(MapInstance))
-        {
-            BrushConfig.SettingsChanged -= MapInstance.OnConfigChanged;
-            MapInstance.QueueFree();
-        }
-
-        MapInstance = null;
+        // Global bar stays; visibility polls map/combat.
     }
 
-    /// <summary>Back-compat for older call sites.</summary>
-    public static void Detach() => DetachCombat();
-
-    public static void SyncAllSizeSliders()
+    public static void Detach()
     {
-        CombatInstance?.SyncSizeSlider();
-        MapInstance?.SyncSizeSlider();
+        if (Instance != null && GodotObject.IsInstanceValid(Instance))
+        {
+            BrushConfig.SettingsChanged -= Instance.OnConfigChanged;
+            Node? layer = Instance.GetParent();
+            Instance.QueueFree();
+            if (layer != null && layer.Name == "BattleDrawGlobalUi" && GodotObject.IsInstanceValid(layer))
+                layer.QueueFree();
+        }
+        Instance = null;
     }
+
+    public static void SyncAllSizeSliders() => Instance?.SyncSizeSlider();
 
     public static bool HitsPointer()
     {
-        if (Hits(CombatInstance))
-            return true;
-        if (Hits(MapInstance))
-            return true;
-        return false;
-    }
-
-    private static bool Hits(BrushToolbar? bar)
-    {
-        if (bar == null || !GodotObject.IsInstanceValid(bar) || !bar.IsVisibleInTree())
+        BrushToolbar? bar = Instance;
+        if (bar == null || !GodotObject.IsInstanceValid(bar) || !bar.Visible)
             return false;
-        if (bar._tabButton != null && RectHits(bar._tabButton, 6f))
+        if (RectHits(bar, 4f))
             return true;
-        if (bar._panel is { Visible: true } panel && RectHits(panel, 8f))
-            return true;
-        if (bar._expanded && IsOverColorPickerPopup(bar))
+        // Color picker popup (viewport root).
+        if (bar._colorPicker != null && IsOverColorPickerPopup(bar))
             return true;
         return false;
     }
@@ -232,11 +194,70 @@ public partial class BrushToolbar : Control
     public override void _ExitTree()
     {
         BrushConfig.SettingsChanged -= OnConfigChanged;
-        if (CombatInstance == this)
-            CombatInstance = null;
-        if (MapInstance == this)
-            MapInstance = null;
+        if (Instance == this)
+            Instance = null;
         base._ExitTree();
+    }
+
+    public override void _Process(double delta)
+    {
+        bool show = ShouldShow();
+        if (Visible != show)
+            Visible = show;
+
+        bool combat = IsCombatActive();
+        if (combat != _inCombatContext)
+            SetCombatContext(combat);
+    }
+
+    private static bool IsCombatActive()
+    {
+        try
+        {
+            var combat = NCombatRoom.Instance;
+            return combat != null && GodotObject.IsInstanceValid(combat)
+                   && combat.IsInsideTree() && combat.IsVisibleInTree();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool ShouldShow()
+    {
+        try
+        {
+            if (IsCombatActive())
+                return true;
+            var map = NMapScreen.Instance;
+            return map != null && GodotObject.IsInstanceValid(map)
+                   && map.IsVisibleInTree() && map.Visible;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public void SetCombatContext(bool combat)
+    {
+        _inCombatContext = combat;
+        // Combat-only tools
+        if (_brushBtn != null) _brushBtn.Visible = combat;
+        if (_eraserBtn != null) _eraserBtn.Visible = combat;
+        if (_clearBtn != null) _clearBtn.Visible = combat;
+        if (_hidePeersBtn != null) _hidePeersBtn.Visible = combat;
+        // Offset above hand in combat
+        OffsetBottom = combat ? -96 : -36;
+        OffsetTop = OffsetBottom - 52;
+        if (!combat && ActiveTool != DrawTool.None)
+        {
+            ActiveTool = DrawTool.None;
+            RefreshToolVisuals();
+            DrawCanvas.Instance?.OnToolChanged(DrawTool.None);
+        }
+        RefreshHidePeersButton();
     }
 
     private void OnConfigChanged()
@@ -247,196 +268,231 @@ public partial class BrushToolbar : Control
 
     private void BuildUi()
     {
-        Texture2D? tabIcon = DrawAssets.IconTab ?? DrawAssets.IconBrush;
-        _tabButton = new Button
+        _row = new HBoxContainer
         {
-            Name = "DrawToolsTab",
-            TooltipText = Kind == DrawSurfaceKind.Map ? "Pen color & size (map)" : "Show draw tools",
-            FocusMode = FocusModeEnum.None,
-            ExpandIcon = true,
-            CustomMinimumSize = new Vector2(56, 56),
+            Name = "ToolRow",
             MouseFilter = MouseFilterEnum.Stop,
-            MouseDefaultCursorShape = CursorShape.PointingHand,
+            Alignment = BoxContainer.AlignmentMode.End,
         };
-        if (tabIcon != null)
-            _tabButton.Icon = tabIcon;
-        else
-            _tabButton.Text = "✎";
-        _tabButton.Pressed += ToggleExpanded;
-        _tabButton.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomRight);
-        _tabButton.OffsetLeft = -56;
-        _tabButton.OffsetTop = -56;
-        _tabButton.OffsetRight = 0;
-        _tabButton.OffsetBottom = 0;
-        AddChild(_tabButton);
+        _row.AddThemeConstantOverride("separation", 6);
+        _row.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        AddChild(_row);
 
-        float panelH = Kind == DrawSurfaceKind.Combat ? 250f : 160f;
-        _panel = new PanelContainer
-        {
-            Name = "ToolPanel",
-            MouseFilter = MouseFilterEnum.Stop,
-            Visible = false,
-        };
-        _panel.SetAnchorsAndOffsetsPreset(LayoutPreset.BottomRight);
-        _panel.OffsetRight = 0;
-        _panel.OffsetBottom = -64;
-        _panel.OffsetLeft = -300;
-        _panel.OffsetTop = _panel.OffsetBottom - panelH;
+        // Small text buttons — high contrast, no generated plates.
+        _brushBtn = MakeToolButton("Brush", "Brush (B) — LMB when armed; RMB always draws");
+        _brushBtn.Pressed += () => SetTool(DrawTool.Brush);
+        _row.AddChild(_brushBtn);
 
-        StyleBoxTexture? plate = DrawAssets.MakeNineSlice(DrawAssets.PanelTools);
-        if (plate != null)
-            _panel.AddThemeStyleboxOverride("panel", plate);
-        else
-        {
-            _panel.AddThemeStyleboxOverride("panel", new StyleBoxFlat
-            {
-                BgColor = new Color(0.12f, 0.1f, 0.08f, 0.94f),
-                BorderColor = new Color(0.55f, 0.45f, 0.25f, 1f),
-                BorderWidthBottom = 2,
-                BorderWidthTop = 2,
-                BorderWidthLeft = 2,
-                BorderWidthRight = 2,
-                ContentMarginLeft = 12,
-                ContentMarginRight = 12,
-                ContentMarginTop = 10,
-                ContentMarginBottom = 10,
-            });
-        }
+        _eraserBtn = MakeToolButton("Erase", "Eraser (E) — LMB when armed; MMB always erases");
+        _eraserBtn.Pressed += () => SetTool(DrawTool.Eraser);
+        _row.AddChild(_eraserBtn);
 
-        var vbox = new VBoxContainer { MouseFilter = MouseFilterEnum.Stop };
-        vbox.AddThemeConstantOverride("separation", 8);
-        _panel.AddChild(vbox);
+        _clearBtn = MakeToolButton("Clear", "Clear all combat doodles");
+        _clearBtn.Pressed += () => DrawCanvas.Instance?.ClearAll();
+        _row.AddChild(_clearBtn);
 
-        var header = new HBoxContainer();
-        vbox.AddChild(header);
-        var title = new Label
-        {
-            Text = Kind == DrawSurfaceKind.Map ? "Map pen" : "Battle Draw",
-            SizeFlagsHorizontal = SizeFlags.ExpandFill,
-            MouseFilter = MouseFilterEnum.Ignore,
-        };
-        title.AddThemeColorOverride("font_color", new Color(0.95f, 0.9f, 0.7f));
-        header.AddChild(title);
-        var hideBtn = new Button
-        {
-            Text = "▾",
-            TooltipText = "Collapse",
-            CustomMinimumSize = new Vector2(28, 28),
-            FocusMode = FocusModeEnum.None,
-            MouseFilter = MouseFilterEnum.Stop,
-        };
-        hideBtn.Pressed += () => SetExpanded(false);
-        header.AddChild(hideBtn);
+        _hidePeersBtn = MakeToolButton("Peers", "Toggle other players' combat drawings");
+        _hidePeersBtn.Pressed += ToggleHidePeers;
+        _row.AddChild(_hidePeersBtn);
 
-        if (Kind == DrawSurfaceKind.Combat)
-        {
-            var tools = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
-            tools.AddThemeConstantOverride("separation", 8);
-            vbox.AddChild(tools);
-
-            _brushBtn = MakeIconButton(DrawAssets.IconBrush, "Brush — left-drag on field");
-            _brushBtn.Pressed += () => SetTool(DrawTool.Brush);
-            tools.AddChild(_brushBtn);
-
-            _eraserBtn = MakeIconButton(DrawAssets.IconEraser, "Eraser — left-drag on field");
-            _eraserBtn.Pressed += () => SetTool(DrawTool.Eraser);
-            tools.AddChild(_eraserBtn);
-
-            var clearBtn = MakeIconButton(DrawAssets.IconClear, "Clear all doodles");
-            clearBtn.Pressed += () => DrawCanvas.Instance?.ClearAll();
-            tools.AddChild(clearBtn);
-        }
-
-        // Color
-        var colorRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
-        colorRow.AddThemeConstantOverride("separation", 8);
-        vbox.AddChild(colorRow);
-        var colorLabel = new Label { Text = "Color", MouseFilter = MouseFilterEnum.Ignore };
-        colorLabel.AddThemeColorOverride("font_color", new Color(0.9f, 0.85f, 0.7f));
-        colorRow.AddChild(colorLabel);
         _colorPicker = new ColorPickerButton
         {
-            CustomMinimumSize = new Vector2(120, 32),
+            CustomMinimumSize = new Vector2(48, 40),
             Color = BrushConfig.CurrentColor,
             EditAlpha = true,
-            TooltipText = Kind == DrawSurfaceKind.Map
-                ? "Map pen color (your lines)"
-                : "Combat ink color",
+            TooltipText = "Ink color (opens picker — size slider is inside)",
             FocusMode = FocusModeEnum.None,
             MouseFilter = MouseFilterEnum.Stop,
         };
-        _colorPicker.ColorChanged += OnColorChanged;
-        colorRow.AddChild(_colorPicker);
+        _colorPicker.ColorChanged += c =>
+        {
+            BrushConfig.SetColor(c);
+            DrawCanvas.Instance?.RefreshCursor();
+        };
+        // Inject size controls when the picker popup opens.
+        _colorPicker.Pressed += OnColorPickerPressed;
+        _row.AddChild(_colorPicker);
 
-        // Size
-        var sizeRow = new HBoxContainer();
-        sizeRow.AddThemeConstantOverride("separation", 8);
-        vbox.AddChild(sizeRow);
-        var sizeLabel = new Label { Text = "Size", MouseFilter = MouseFilterEnum.Ignore };
-        sizeLabel.AddThemeColorOverride("font_color", new Color(0.9f, 0.85f, 0.7f));
-        sizeRow.AddChild(sizeLabel);
+        // Always-visible compact size (also mirrored inside picker popup).
+        _sizeLabel = new Label
+        {
+            Text = $"Sz {BrushConfig.ClampedSize:0.#}",
+            VerticalAlignment = VerticalAlignment.Center,
+            CustomMinimumSize = new Vector2(52, 0),
+            MouseFilter = MouseFilterEnum.Ignore,
+        };
+        _sizeLabel.AddThemeColorOverride("font_color", new Color(0.95f, 0.92f, 0.8f));
+        _sizeLabel.AddThemeColorOverride("font_shadow_color", new Color(0f, 0f, 0f, 0.85f));
+        _sizeLabel.AddThemeConstantOverride("shadow_offset_x", 1);
+        _sizeLabel.AddThemeConstantOverride("shadow_offset_y", 1);
+        _row.AddChild(_sizeLabel);
+
         _sizeSlider = new HSlider
         {
             MinValue = 1,
             MaxValue = 24,
             Step = 0.5,
             Value = BrushConfig.ClampedSize,
-            SizeFlagsHorizontal = SizeFlags.ExpandFill,
-            CustomMinimumSize = new Vector2(140, 24),
-            TooltipText = "Brush size",
+            CustomMinimumSize = new Vector2(110, 28),
+            TooltipText = "Brush size  [  ]",
             MouseFilter = MouseFilterEnum.Stop,
         };
-        _sizeSlider.ValueChanged += OnSizeChanged;
-        sizeRow.AddChild(_sizeSlider);
-        _sizeValueLabel = new Label
-        {
-            Text = $"{BrushConfig.ClampedSize:0.#}",
-            CustomMinimumSize = new Vector2(28, 0),
-            MouseFilter = MouseFilterEnum.Ignore,
-        };
-        sizeRow.AddChild(_sizeValueLabel);
+        _sizeSlider.ValueChanged += v => BrushConfig.SetSize((float)v);
+        _row.AddChild(_sizeSlider);
 
-        if (Kind == DrawSurfaceKind.Combat)
-        {
-            _hidePeersBtn = new Button
-            {
-                Text = "Hide others' drawings",
-                TooltipText = "Toggle co-op partners' combat doodles",
-                FocusMode = FocusModeEnum.None,
-                MouseFilter = MouseFilterEnum.Stop,
-                CustomMinimumSize = new Vector2(0, 32),
-                SizeFlagsHorizontal = SizeFlags.ExpandFill,
-            };
-            _hidePeersBtn.Pressed += ToggleHidePeers;
-            vbox.AddChild(_hidePeersBtn);
-            RefreshHidePeersButton();
-
-            var tip = new Label
-            {
-                Text = "Tip: RMB pen · MMB erase · no ink on hand",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                MouseFilter = MouseFilterEnum.Ignore,
-            };
-            tip.AddThemeColorOverride("font_color", new Color(0.75f, 0.72f, 0.6f, 0.9f));
-            tip.AddThemeFontSizeOverride("font_size", 12);
-            vbox.AddChild(tip);
-        }
-        else
-        {
-            var tip = new Label
-            {
-                Text = "Applies to your map pen · [ ] size",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                MouseFilter = MouseFilterEnum.Ignore,
-            };
-            tip.AddThemeColorOverride("font_color", new Color(0.75f, 0.72f, 0.6f, 0.9f));
-            tip.AddThemeFontSizeOverride("font_size", 12);
-            vbox.AddChild(tip);
-        }
-
-        AddChild(_panel);
         RefreshToolVisuals();
-        SetExpanded(false);
+        SetCombatContext(false);
+        Visible = false;
+    }
+
+    private void OnColorPickerPressed()
+    {
+        // Defer until ColorPickerButton has spawned its popup.
+        Callable.From(TryInjectSizeIntoColorPicker).CallDeferred();
+        Callable.From(TryInjectSizeIntoColorPicker).CallDeferred();
+    }
+
+    private void TryInjectSizeIntoColorPicker()
+    {
+        if (_injectedPickerExtras || _colorPicker == null)
+        {
+            // Still update value if already injected.
+            UpdateInjectedSliderValue();
+            return;
+        }
+
+        SceneTree? tree = GetTree();
+        if (tree?.Root == null)
+            return;
+
+        Popup? popup = FindColorPickerPopup(tree.Root);
+        if (popup == null)
+            return;
+
+        // Find a VBox inside the popup to append to.
+        Control host = FindBestHost(popup);
+        var sep = new HSeparator();
+        host.AddChild(sep);
+
+        var sizeRow = new HBoxContainer();
+        sizeRow.AddThemeConstantOverride("separation", 8);
+        host.AddChild(sizeRow);
+
+        var lab = new Label { Text = "Size", VerticalAlignment = VerticalAlignment.Center };
+        sizeRow.AddChild(lab);
+
+        var slider = new HSlider
+        {
+            Name = "BattleDrawPickerSize",
+            MinValue = 1,
+            MaxValue = 24,
+            Step = 0.5,
+            Value = BrushConfig.ClampedSize,
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            CustomMinimumSize = new Vector2(160, 24),
+        };
+        slider.ValueChanged += v =>
+        {
+            BrushConfig.SetSize((float)v);
+            if (_sizeSlider != null)
+                _sizeSlider.SetValueNoSignal(v);
+            if (_sizeLabel != null)
+                _sizeLabel.Text = $"Sz {BrushConfig.ClampedSize:0.#}";
+        };
+        sizeRow.AddChild(slider);
+
+        var val = new Label { Name = "BattleDrawPickerSizeVal", Text = $"{BrushConfig.ClampedSize:0.#}" };
+        sizeRow.AddChild(val);
+
+        _injectedPickerExtras = true;
+        // Reset flag when popup closes so we can re-inject next open if tree rebuilt.
+        popup.VisibilityChanged += () =>
+        {
+            if (!popup.Visible)
+                _injectedPickerExtras = false;
+        };
+    }
+
+    private void UpdateInjectedSliderValue()
+    {
+        // no-op if not open
+    }
+
+    private static Popup? FindColorPickerPopup(Node node)
+    {
+        if (node is Popup { Visible: true } popup)
+        {
+            foreach (Node child in popup.GetChildren())
+            {
+                if (child is ColorPicker || HasDescendantColorPicker(child))
+                    return popup;
+            }
+        }
+
+        foreach (Node child in node.GetChildren())
+        {
+            Popup? found = FindColorPickerPopup(child);
+            if (found != null)
+                return found;
+        }
+
+        return null;
+    }
+
+    private static Control FindBestHost(Popup popup)
+    {
+        Control? vbox = FindFirstVBox(popup);
+        if (vbox != null)
+            return vbox;
+        // Popup is a Window in Godot 4 — add a small footer container as child.
+        var footer = new VBoxContainer { Name = "BattleDrawPickerFooter" };
+        popup.AddChild(footer);
+        return footer;
+    }
+
+    private static Control? FindFirstVBox(Node node)
+    {
+        if (node is VBoxContainer v)
+            return v;
+        foreach (Node child in node.GetChildren())
+        {
+            Control? found = FindFirstVBox(child);
+            if (found != null)
+                return found;
+        }
+
+        return null;
+    }
+
+    private static Button MakeToolButton(string text, string tip)
+    {
+        var btn = new Button
+        {
+            Text = text,
+            TooltipText = tip,
+            FocusMode = FocusModeEnum.None,
+            CustomMinimumSize = new Vector2(64, 40),
+            MouseFilter = MouseFilterEnum.Stop,
+            MouseDefaultCursorShape = CursorShape.PointingHand,
+        };
+        // Dark readable chrome so labels contrast.
+        StyleBoxFlat Make(Color bg, Color border) => new()
+        {
+            BgColor = bg,
+            BorderColor = border,
+            BorderWidthBottom = 2, BorderWidthTop = 2, BorderWidthLeft = 2, BorderWidthRight = 2,
+            CornerRadiusBottomLeft = 8, CornerRadiusBottomRight = 8,
+            CornerRadiusTopLeft = 8, CornerRadiusTopRight = 8,
+            ContentMarginLeft = 10, ContentMarginRight = 10,
+            ContentMarginTop = 6, ContentMarginBottom = 6,
+        };
+        btn.AddThemeStyleboxOverride("normal", Make(new Color(0.08f, 0.07f, 0.09f, 0.92f), new Color(0.75f, 0.65f, 0.35f)));
+        btn.AddThemeStyleboxOverride("hover", Make(new Color(0.14f, 0.12f, 0.1f, 0.95f), new Color(0.95f, 0.85f, 0.45f)));
+        btn.AddThemeStyleboxOverride("pressed", Make(new Color(0.05f, 0.04f, 0.06f, 0.95f), new Color(0.5f, 0.42f, 0.22f)));
+        btn.AddThemeColorOverride("font_color", new Color(0.98f, 0.95f, 0.85f));
+        btn.AddThemeColorOverride("font_hover_color", Colors.White);
+        btn.AddThemeColorOverride("font_pressed_color", new Color(0.9f, 0.88f, 0.75f));
+        return btn;
     }
 
     private void ToggleHidePeers()
@@ -453,24 +509,16 @@ public partial class BrushToolbar : Control
         if (_hidePeersBtn == null)
             return;
         bool hidden = DrawCanvas.Instance?.HideRemoteStrokes ?? false;
-        _hidePeersBtn.Text = hidden ? "Show others' drawings" : "Hide others' drawings";
-        _hidePeersBtn.Modulate = hidden ? new Color(1.15f, 1.05f, 0.55f) : Colors.White;
+        _hidePeersBtn.Text = hidden ? "Peers: off" : "Peers";
+        _hidePeersBtn.Modulate = hidden ? new Color(1.2f, 1.05f, 0.5f) : Colors.White;
     }
-
-    private void OnColorChanged(Color c)
-    {
-        BrushConfig.SetColor(c);
-        DrawCanvas.Instance?.RefreshCursor();
-    }
-
-    private void OnSizeChanged(double v) => BrushConfig.SetSize((float)v);
 
     public void SyncSizeSlider()
     {
         if (_sizeSlider != null)
             _sizeSlider.SetValueNoSignal(BrushConfig.ClampedSize);
-        if (_sizeValueLabel != null)
-            _sizeValueLabel.Text = $"{BrushConfig.ClampedSize:0.#}";
+        if (_sizeLabel != null)
+            _sizeLabel.Text = $"Sz {BrushConfig.ClampedSize:0.#}";
     }
 
     public void SyncColorPicker()
@@ -479,63 +527,12 @@ public partial class BrushToolbar : Control
             _colorPicker.Color = BrushConfig.CurrentColor;
     }
 
-    private static Button MakeIconButton(Texture2D? icon, string tip)
-    {
-        var btn = new Button
-        {
-            CustomMinimumSize = new Vector2(48, 48),
-            TooltipText = tip,
-            FocusMode = FocusModeEnum.None,
-            ExpandIcon = true,
-            MouseFilter = MouseFilterEnum.Stop,
-            MouseDefaultCursorShape = CursorShape.PointingHand,
-        };
-        if (icon != null)
-            btn.Icon = icon;
-        else
-            btn.Text = tip.Length > 0 ? tip[..1] : "?";
-        return btn;
-    }
-
-    private void ToggleExpanded() => SetExpanded(!_expanded);
-
-    public void SetExpanded(bool expanded)
-    {
-        _expanded = expanded;
-        if (_panel != null)
-            _panel.Visible = expanded;
-
-        if (expanded)
-        {
-            OffsetLeft = OffsetRight - 310;
-            OffsetTop = OffsetBottom - (Kind == DrawSurfaceKind.Combat ? 320 : 200);
-            RefreshHidePeersButton();
-        }
-        else
-        {
-            OffsetLeft = OffsetRight - 56;
-            OffsetTop = OffsetBottom - 56;
-        }
-
-        if (_tabButton != null)
-        {
-            _tabButton.TooltipText = expanded ? "Hide" : (Kind == DrawSurfaceKind.Map ? "Pen color & size" : "Show draw tools");
-            _tabButton.Modulate = expanded ? new Color(1.15f, 1.1f, 0.7f) : Colors.White;
-            Texture2D? tab = DrawAssets.IconTab ?? DrawAssets.IconBrush;
-            if (tab != null)
-                _tabButton.Icon = tab;
-        }
-    }
-
     public void SetTool(DrawTool tool)
     {
-        if (Kind != DrawSurfaceKind.Combat)
-            return;
         ActiveTool = ActiveTool == tool ? DrawTool.None : tool;
-        if (ActiveTool != DrawTool.None)
-            SetExpanded(true);
         RefreshToolVisuals();
         DrawCanvas.Instance?.OnToolChanged(ActiveTool);
+        MainFile.Logger.Info($"Draw tool: {ActiveTool}");
     }
 
     private void RefreshToolVisuals()
@@ -548,6 +545,6 @@ public partial class BrushToolbar : Control
     {
         if (btn == null)
             return;
-        btn.Modulate = on ? new Color(1.2f, 1.15f, 0.65f) : Colors.White;
+        btn.Modulate = on ? new Color(1.25f, 1.15f, 0.55f) : Colors.White;
     }
 }

@@ -3,13 +3,13 @@ using Godot;
 namespace BattleDraw;
 
 /// <summary>
-/// Half-resolution baked ink (map-style): at most two TextureRects (local + remote)
-/// instead of unbounded antialiased Line2D nodes. Stamping is O(brush footprint).
+/// Near-full-res baked ink: two TextureRects (local + remote). Hard stamps + hard erase
+/// (no soft residual alpha). Slightly denser than half-res to reduce blur when scaling width.
 /// </summary>
 public sealed class InkSurface
 {
-    /// <summary>Ink resolution as fraction of viewport (0.5 = half-res like vanilla map).</summary>
-    public const float ResScale = 0.5f;
+    /// <summary>Ink resolution vs viewport. 0.75 balances sharpness vs cost.</summary>
+    public const float ResScale = 0.75f;
 
     private Image? _localImg;
     private Image? _remoteImg;
@@ -40,6 +40,7 @@ public sealed class InkSurface
         MouseFilter = Control.MouseFilterEnum.Ignore,
         ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
         StretchMode = TextureRect.StretchModeEnum.Scale,
+        // Linear is fine at 0.75×; hard stamps avoid mushy edges.
         TextureFilter = CanvasItem.TextureFilterEnum.Linear,
     };
 
@@ -102,22 +103,19 @@ public sealed class InkSurface
         ClearRemote();
     }
 
-    /// <summary>Stamp a poly-line (screen-space points) into local or remote layer.</summary>
     public void StampPolyline(IReadOnlyList<Vector2> screenPoints, Color color, float widthScreen, bool remote)
     {
         if (screenPoints.Count == 0 || _localImg == null || _remoteImg == null)
             return;
 
         Image img = remote ? _remoteImg! : _localImg!;
-        float r = Math.Max(0.75f, widthScreen * ResScale * 0.5f);
+        float r = Math.Max(0.85f, widthScreen * ResScale * 0.5f);
         Color ink = color;
-        if (ink.A < 0.5f)
+        if (ink.A < 0.85f)
             ink.A = 1f;
 
         if (screenPoints.Count == 1)
-        {
-            StampCircle(img, ToInk(screenPoints[0]), r, ink, erase: false);
-        }
+            StampDisk(img, ToInk(screenPoints[0]), r, ink, erase: false);
         else
         {
             for (int i = 1; i < screenPoints.Count; i++)
@@ -134,24 +132,25 @@ public sealed class InkSurface
         if (_localImg == null || _remoteImg == null)
             return;
         Image img = remote ? _remoteImg! : _localImg!;
-        float r = Math.Max(0.75f, widthScreen * ResScale * 0.5f);
+        float r = Math.Max(0.85f, widthScreen * ResScale * 0.5f);
         Color ink = color;
-        if (ink.A < 0.5f) ink.A = 1f;
+        if (ink.A < 0.85f) ink.A = 1f;
         StampSegment(img, ToInk(a), ToInk(b), r, ink, erase: false);
         if (remote) _remoteDirty = true;
         else _localDirty = true;
         Flush();
     }
 
-    /// <summary>Soft eraser: clear alpha in a circle (both layers — eraser removes everyone's ink).</summary>
+    /// <summary>Full-strength eraser (hard disk) — no residual dim ink.</summary>
     public void EraseCircleScreen(Vector2 center, float radiusScreen)
     {
         if (_localImg == null || _remoteImg == null)
             return;
         Vector2 c = ToInk(center);
-        float r = Math.Max(1f, radiusScreen * ResScale);
-        StampCircle(_localImg, c, r, Colors.Transparent, erase: true);
-        StampCircle(_remoteImg, c, r, Colors.Transparent, erase: true);
+        // Match pen weight: radius is half-width of eraser in screen space.
+        float r = Math.Max(1.25f, radiusScreen * ResScale);
+        StampDisk(_localImg, c, r, Colors.Transparent, erase: true);
+        StampDisk(_remoteImg, c, r, Colors.Transparent, erase: true);
         _localDirty = _remoteDirty = true;
         Flush();
     }
@@ -183,27 +182,35 @@ public sealed class InkSurface
     private static void StampSegment(Image img, Vector2 a, Vector2 b, float radius, Color color, bool erase)
     {
         float dist = a.DistanceTo(b);
-        int steps = Math.Max(1, (int)Math.Ceiling(dist / Math.Max(0.5f, radius * 0.45f)));
+        // Dense stamps so large brushes don't look gappy/blurry.
+        float step = Math.Max(0.35f, radius * 0.28f);
+        int steps = Math.Max(1, (int)Math.Ceiling(dist / step));
         for (int i = 0; i <= steps; i++)
         {
             float t = i / (float)steps;
-            StampCircle(img, a.Lerp(b, t), radius, color, erase);
+            StampDisk(img, a.Lerp(b, t), radius, color, erase);
         }
     }
 
-    private static void StampCircle(Image img, Vector2 center, float radius, Color color, bool erase)
+    /// <summary>
+    /// Hard disk stamp. Draw: solid coverage with a tiny 1px anti-alias rim.
+    /// Erase: full clear inside radius (no soft residual).
+    /// </summary>
+    private static void StampDisk(Image img, Vector2 center, float radius, Color color, bool erase)
     {
         int w = img.GetWidth();
         int h = img.GetHeight();
-        int r = Math.Max(1, (int)Math.Ceiling(radius));
-        int cx = (int)Math.Round(center.X);
-        int cy = (int)Math.Round(center.Y);
+        int rCeil = Math.Max(1, (int)Math.Ceiling(radius + 1f));
         float r2 = radius * radius;
+        // AA rim only for draw, ~0.75 ink px
+        float aa = erase ? 0f : 0.75f;
+        float rOuter = radius + aa;
+        float rOuter2 = rOuter * rOuter;
 
-        int x0 = Math.Max(0, cx - r - 1);
-        int y0 = Math.Max(0, cy - r - 1);
-        int x1 = Math.Min(w - 1, cx + r + 1);
-        int y1 = Math.Min(h - 1, cy + r + 1);
+        int x0 = Math.Max(0, (int)Math.Floor(center.X - rOuter) - 1);
+        int y0 = Math.Max(0, (int)Math.Floor(center.Y - rOuter) - 1);
+        int x1 = Math.Min(w - 1, (int)Math.Ceiling(center.X + rOuter) + 1);
+        int y1 = Math.Min(h - 1, (int)Math.Ceiling(center.Y + rOuter) + 1);
 
         for (int y = y0; y <= y1; y++)
         {
@@ -212,28 +219,34 @@ public sealed class InkSurface
                 float dx = x + 0.5f - center.X;
                 float dy = y + 0.5f - center.Y;
                 float d2 = dx * dx + dy * dy;
-                if (d2 > r2)
+                if (d2 > rOuter2)
                     continue;
 
                 if (erase)
                 {
-                    // Soft edge erase
-                    float edge = 1f - Math.Clamp(MathF.Sqrt(d2) / radius, 0f, 1f);
-                    Color prev = img.GetPixel(x, y);
-                    prev.A *= 1f - edge;
-                    if (prev.A < 0.02f)
-                        prev = Colors.Transparent;
-                    img.SetPixel(x, y, prev);
+                    // Full weight erase — anything under the disk is gone.
+                    if (d2 <= r2)
+                        img.SetPixel(x, y, Colors.Transparent);
+                    continue;
                 }
-                else
+
+                float cover = 1f;
+                if (d2 > r2 && aa > 0f)
                 {
-                    // Soft edge alpha
-                    float edge = 1f - Math.Clamp(MathF.Sqrt(d2) / radius, 0f, 1f);
-                    Color src = color;
-                    src.A *= 0.35f + 0.65f * edge;
-                    Color dst = img.GetPixel(x, y);
-                    img.SetPixel(x, y, AlphaOver(dst, src));
+                    float d = MathF.Sqrt(d2);
+                    cover = 1f - Math.Clamp((d - radius) / aa, 0f, 1f);
                 }
+
+                if (cover <= 0.01f)
+                    continue;
+
+                Color src = color;
+                src.A = Math.Clamp(color.A * cover, 0f, 1f);
+                // Prefer solid overwrite when fully covered so strokes stay opaque at any size.
+                if (src.A >= 0.98f)
+                    img.SetPixel(x, y, new Color(color.R, color.G, color.B, 1f));
+                else
+                    img.SetPixel(x, y, AlphaOver(img.GetPixel(x, y), src));
             }
         }
     }
