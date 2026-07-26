@@ -1,0 +1,12 @@
+{
+  "id": "SharedCombatPositions",
+  "name": "Shared Combat Positions",
+  "author": "sentou-koubou",
+  "description": "Places multiplayer characters in combat using lobby/host slot order instead of always putting the local player in front. Everyone sees the same lineup as the host.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

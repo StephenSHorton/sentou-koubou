@@ -25,6 +25,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/mp-teammate-view` — Combined teammate potions + hand cards (BAKAOLC/OLC MIT rewrite; settings/hotkeys/highlights/LemonSpire+Typing interop; requires STS2-RitsuLib; disable the two Workshop originals).
 - `mods/max-hp-size` — Player combat scale from max HP (Workshop MaxHpSizeMod reimplementation; unsubscribe/disable that Workshop item).
 - `mods/character-cursors` — Tint local/remote cursors with character NameColor (visual QoL).
+- `mods/shared-combat-positions` — MP combat lineup uses host/lobby slot order (not local-always-front).
 
 ## Releases (local, per mod)
 
