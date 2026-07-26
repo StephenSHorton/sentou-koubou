@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Runs;
 
 namespace BattleDraw;
 
-/// <summary>Reliable combat-draw messages (begin / end / clear / erase).</summary>
+/// <summary>Reliable combat-draw messages (begin / end / clear). Eraser is a stroke flag on begin.</summary>
 public abstract class BattleDrawReliableMessage : INetMessage, IPacketSerializable, IRunLocationTargetedMessage
 {
     public bool ShouldBroadcast => true;
@@ -39,6 +39,8 @@ public sealed class BattleDrawStrokeBeginMessage : BattleDrawReliableMessage
     public float y;
     public float r, g, b, a;
     public float width;
+    /// <summary>True = subtractive eraser Line2D (map-style), not pen.</summary>
+    public bool isEraser;
 
     public override void Serialize(PacketWriter writer)
     {
@@ -50,6 +52,7 @@ public sealed class BattleDrawStrokeBeginMessage : BattleDrawReliableMessage
         writer.WriteFloat(b);
         writer.WriteFloat(a);
         writer.WriteFloat(width);
+        writer.WriteBool(isEraser);
         writer.Write(Location);
     }
 
@@ -63,6 +66,7 @@ public sealed class BattleDrawStrokeBeginMessage : BattleDrawReliableMessage
         b = reader.ReadFloat();
         a = reader.ReadFloat();
         width = reader.ReadFloat();
+        isEraser = reader.ReadBool();
         Location = reader.Read<RunLocation>();
     }
 }
@@ -103,29 +107,6 @@ public sealed class BattleDrawStrokeEndMessage : BattleDrawReliableMessage
     public override void Deserialize(PacketReader reader)
     {
         strokeId = reader.ReadInt();
-        Location = reader.Read<RunLocation>();
-    }
-}
-
-public sealed class BattleDrawEraseMessage : BattleDrawReliableMessage
-{
-    public float x;
-    public float y;
-    public float radius;
-
-    public override void Serialize(PacketWriter writer)
-    {
-        writer.WriteFloat(x);
-        writer.WriteFloat(y);
-        writer.WriteFloat(radius);
-        writer.Write(Location);
-    }
-
-    public override void Deserialize(PacketReader reader)
-    {
-        x = reader.ReadFloat();
-        y = reader.ReadFloat();
-        radius = reader.ReadFloat();
         Location = reader.Read<RunLocation>();
     }
 }

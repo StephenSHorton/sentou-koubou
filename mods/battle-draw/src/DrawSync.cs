@@ -8,6 +8,7 @@ namespace BattleDraw;
 /// Multiplayer combat-draw sync (same idea as map pen): local strokes are broadcast;
 /// peers reconstruct them so everyone sees the whiteboard.
 /// Positions are normalized 0–1 of the viewport so resolutions can differ.
+/// Eraser is a stroke with <c>isEraser</c> (subtractive Line2D), not stamp circles.
 /// </summary>
 public sealed class DrawSync : IDisposable
 {
@@ -18,7 +19,6 @@ public sealed class DrawSync : IDisposable
     private readonly ulong _localId;
     private int _nextStrokeId = 1;
     private ulong _lastPointMsec;
-    private ulong _lastEraseMsec;
 
     public DrawSync(
         RunLocationTargetedMessageBuffer buffer,
@@ -31,7 +31,6 @@ public sealed class DrawSync : IDisposable
         buffer.RegisterMessageHandler<BattleDrawStrokeBeginMessage>(OnBegin);
         buffer.RegisterMessageHandler<BattleDrawStrokePointMessage>(OnPoint);
         buffer.RegisterMessageHandler<BattleDrawStrokeEndMessage>(OnEnd);
-        buffer.RegisterMessageHandler<BattleDrawEraseMessage>(OnErase);
         buffer.RegisterMessageHandler<BattleDrawClearMessage>(OnClear);
         MainFile.Logger.Info("DrawSync attached (multiplayer combat doodles).");
     }
@@ -41,7 +40,6 @@ public sealed class DrawSync : IDisposable
         _buffer.UnregisterMessageHandler<BattleDrawStrokeBeginMessage>(OnBegin);
         _buffer.UnregisterMessageHandler<BattleDrawStrokePointMessage>(OnPoint);
         _buffer.UnregisterMessageHandler<BattleDrawStrokeEndMessage>(OnEnd);
-        _buffer.UnregisterMessageHandler<BattleDrawEraseMessage>(OnErase);
         _buffer.UnregisterMessageHandler<BattleDrawClearMessage>(OnClear);
     }
 
@@ -63,7 +61,7 @@ public sealed class DrawSync : IDisposable
 
     public int AllocStrokeId() => _nextStrokeId++;
 
-    public void SendBegin(int strokeId, Vector2 localPos, Color color, float width)
+    public void SendBegin(int strokeId, Vector2 localPos, Color color, float width, bool isEraser)
     {
         if (!IsMultiplayer)
             return;
@@ -78,6 +76,7 @@ public sealed class DrawSync : IDisposable
             b = color.B,
             a = color.A,
             width = width,
+            isEraser = isEraser,
             Location = _buffer.CurrentLocation,
         });
         _lastPointMsec = Time.GetTicksMsec();
@@ -88,7 +87,7 @@ public sealed class DrawSync : IDisposable
         if (!IsMultiplayer)
             return;
         ulong now = Time.GetTicksMsec();
-        // ~20 Hz like map drawing (50ms).
+        // ~20 Hz like map drawing (50ms); use 40ms for slightly smoother remote ink.
         if (now - _lastPointMsec < 40)
             return;
         _lastPointMsec = now;
@@ -113,27 +112,6 @@ public sealed class DrawSync : IDisposable
         });
     }
 
-    public void SendErase(Vector2 localPos, float radius)
-    {
-        if (!IsMultiplayer)
-            return;
-        // Throttle like points (~20 Hz). Unthrottled reliable erase was a major MP hitch.
-        ulong now = Time.GetTicksMsec();
-        if (now - _lastEraseMsec < 50)
-            return;
-        _lastEraseMsec = now;
-        Vector2 n = Normalize(localPos);
-        Vector2 vp = ViewportSize();
-        float rn = radius / Math.Max(1f, Math.Min(vp.X, vp.Y));
-        _net.SendMessage(new BattleDrawEraseMessage
-        {
-            x = n.X,
-            y = n.Y,
-            radius = rn,
-            Location = _buffer.CurrentLocation,
-        });
-    }
-
     public void SendClear()
     {
         if (!IsMultiplayer)
@@ -150,7 +128,8 @@ public sealed class DrawSync : IDisposable
             msg.strokeId,
             Denormalize(msg.x, msg.y),
             new Color(msg.r, msg.g, msg.b, msg.a),
-            msg.width);
+            msg.width,
+            msg.isEraser);
     }
 
     private void OnPoint(BattleDrawStrokePointMessage msg, ulong senderId)
@@ -165,15 +144,6 @@ public sealed class DrawSync : IDisposable
         if (senderId == _localId)
             return;
         DrawCanvas.Instance?.RemoteEnd(senderId, msg.strokeId);
-    }
-
-    private void OnErase(BattleDrawEraseMessage msg, ulong senderId)
-    {
-        if (senderId == _localId)
-            return;
-        Vector2 vp = ViewportSize();
-        float radius = msg.radius * Math.Min(vp.X, vp.Y);
-        DrawCanvas.Instance?.RemoteErase(Denormalize(msg.x, msg.y), radius);
     }
 
     private void OnClear(BattleDrawClearMessage msg, ulong senderId)
