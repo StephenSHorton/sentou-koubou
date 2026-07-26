@@ -20,6 +20,6 @@ public static class MainFile
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "Ping Rage loaded — mash Ping for bigger, wigglier bubbles and random impatient one-liners.");
+            "Ping Rage loaded — mash Ping for bigger bubbles; funny lines + rage sync in multiplayer.");
     }
 }

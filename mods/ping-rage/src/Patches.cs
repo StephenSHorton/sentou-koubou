@@ -7,11 +7,13 @@ using MegaCrit.Sts2.Core.Multiplayer.Messages.Game.Flavor;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.Runs;
 
 namespace PingRage;
 
 /// <summary>
-/// Faster local debounce + custom dialogue creation with random lines / rage FX.
+/// Faster local debounce + custom dialogue. Line + rage are chosen by the pinger
+/// and broadcast so every client shows the same bubble.
 /// </summary>
 [HarmonyPatch(typeof(FlavorSynchronizer), nameof(FlavorSynchronizer.SendEndTurnPing))]
 public static class SendEndTurnPingPatch
@@ -24,12 +26,25 @@ public static class SendEndTurnPingPatch
             if (now < __instance._nextAllowedPingTime)
                 return false;
 
+            var player = __instance._playerCollection.GetPlayer(__instance._localPlayerId);
+            if (player == null)
+                return false;
+
+            // Authoritative pick on the sender — remotes must not re-roll.
+            int lineIndex = PingLines.NextIndex();
+            float rage = PingRageTracker.RegisterPing(player.NetId);
+
+            // Vanilla empty ping (events / other listeners) + our sync payload.
             __instance._gameService.SendMessage(default(EndTurnPingMessage));
+            __instance._gameService.SendMessage(new PingRageBubbleMessage
+            {
+                lineIndex = lineIndex,
+                rage = rage,
+            });
             __instance._nextAllowedPingTime = now + PingRageTracker.DebounceMsec;
 
-            var player = __instance._playerCollection.GetPlayer(__instance._localPlayerId);
-            if (player != null)
-                PingDialogue.Create(player);
+            // Local display immediately (we skip re-handling our own bubble message).
+            PingDialogue.Create(player, lineIndex, rage);
 
             return false;
         }
@@ -42,44 +57,140 @@ public static class SendEndTurnPingPatch
 }
 
 /// <summary>
-/// Remote (and any remaining vanilla path) dialogue: still use our funny bubbles.
+/// Suppress vanilla / per-client random dialogue. Remotes build the bubble from
+/// <see cref="PingRageBubbleMessage"/> so the phrase matches the pinger.
 /// </summary>
 [HarmonyPatch(typeof(FlavorSynchronizer), "CreateEndTurnPingDialogueIfNecessary")]
 public static class CreateEndTurnPingDialoguePatch
 {
     public static bool Prefix(FlavorSynchronizer __instance, Player player)
     {
+        _ = __instance;
+        _ = player;
+        // Local already created in SendEndTurnPing; remotes use PingRageBubbleMessage.
+        return false;
+    }
+}
+
+/// <summary>Register bubble sync with the run net bus.</summary>
+[HarmonyPatch(typeof(RunManager), "InitializeShared")]
+public static class RunManagerInitPingRagePatch
+{
+    public static void Postfix(RunManager __instance)
+    {
         try
         {
-            _ = __instance;
-            if (player == null)
-                return false;
-            PingDialogue.Create(player);
-            return false;
+            PingRageSync.Attach(__instance.NetService);
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"Create dialogue override failed, vanilla path: {e.Message}");
-            return true;
+            MainFile.Logger.Error($"PingRage sync attach failed: {e}");
         }
+    }
+}
+
+[HarmonyPatch(typeof(RunManager), nameof(RunManager.CleanUp))]
+public static class RunManagerCleanUpPingRagePatch
+{
+    public static void Prefix()
+    {
+        PingRageSync.Detach();
+    }
+}
+
+/// <summary>Net handler: apply peer-authored line index + rage.</summary>
+internal static class PingRageSync
+{
+    private static INetGameService? _net;
+    private static ulong _localId;
+
+    public static void Attach(INetGameService net)
+    {
+        Detach();
+        _net = net;
+        _localId = net.NetId;
+        net.RegisterMessageHandler<PingRageBubbleMessage>(OnBubble);
+        MainFile.Logger.Info("PingRage bubble sync attached (shared phrases + rage).");
+    }
+
+    public static void Detach()
+    {
+        if (_net == null)
+            return;
+        try
+        {
+            _net.UnregisterMessageHandler<PingRageBubbleMessage>(OnBubble);
+        }
+        catch
+        {
+            // ignore
+        }
+
+        _net = null;
+    }
+
+    private static void OnBubble(PingRageBubbleMessage msg, ulong senderId)
+    {
+        // Sender already created locally in SendEndTurnPing.
+        if (senderId == _localId)
+            return;
+
+        try
+        {
+            Player? player = FindPlayer(senderId);
+            if (player == null)
+            {
+                MainFile.Logger.Warn($"PingRage bubble: unknown sender {senderId}");
+                return;
+            }
+
+            PingDialogue.Create(player, msg.lineIndex, msg.rage);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"PingRage remote bubble failed: {e.Message}");
+        }
+    }
+
+    private static Player? FindPlayer(ulong netId)
+    {
+        try
+        {
+            // RunState.GetPlayer is the usual multiplayer lookup.
+            Player? p = RunManager.Instance?.State?.GetPlayer(netId);
+            if (p != null)
+                return p;
+
+            var players = RunManager.Instance?.State?.Players;
+            if (players == null)
+                return null;
+            foreach (Player player in players)
+            {
+                if (player.NetId == netId)
+                    return player;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return null;
     }
 }
 
 internal static class PingDialogue
 {
-    public static void Create(Player player)
+    public static void Create(Player player, int lineIndex, float rage)
     {
         if (NRun.Instance == null || player == null)
             return;
 
-        float rage = PingRageTracker.RegisterPing(player.NetId);
-        string line = PingLines.Next();
+        string line = PingLines.Get(lineIndex);
 
         // Slightly longer on the screen when they're losing it.
         double seconds = 1.35 + rage * 1.4;
 
-        // Free previous bubble for this player if still up.
-        // FlavorSynchronizer keeps a dict — we free any child speech bubbles we tagged.
         FreeTaggedBubblesFor(player);
 
         var bubble = NSpeechBubbleVfx.Create(
@@ -93,7 +204,6 @@ internal static class PingDialogue
 
         NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(bubble);
 
-        // Tag for cleanup / identity
         bubble.SetMeta("PingRage", true);
         bubble.SetMeta("PingRagePlayer", (long)player.NetId);
 
@@ -144,7 +254,6 @@ internal static class PingDialogue
                 old.QueueFree();
         }
 
-        // Even calm pings get a tiny idle sway; mash goes unhinged.
         float intensity = 0.12f + rage * rage * 1.6f + rage * 0.5f;
         var wiggle = new RageWiggle
         {
