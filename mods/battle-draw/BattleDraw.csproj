@@ -1,0 +1,72 @@
+<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
+    <Import Project=".\Sts2PathDiscovery.props"/>
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BattleDraw</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
+        <PathMap>$(AppOutputBase)=.\</PathMap>
+        <!-- Avoid generating a Godot plugin entrypoint; STS2 loads the DLL itself. -->
+        <GodotDisabledSourceGenerators>GodotPluginsInitializer</GodotDisabledSourceGenerators>
+        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup Condition="Exists('$(Sts2DataDir)')">
+        <Reference Include="0Harmony">
+            <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="sts2">
+            <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.5" PrivateAssets="All"/>
+        <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
+        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="BattleDraw.json"/>
+    </ItemGroup>
+
+    <Target Name="CheckDependencyPaths">
+        <Error
+                Text="Slay the Spire 2 data not found at path '$(Sts2DataDir)'"
+                Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')"/>
+    </Target>
+
+    <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
+        <Message Text="Copying BattleDraw dll/json to mods folder." Importance="high"/>
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="BattleDraw.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('$(TargetDir)$(TargetName).pdb')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\mod_image.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\mod_image.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\panel_tools.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\panel_tools.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\icon_brush.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\icon_brush.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\icon_eraser.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\icon_eraser.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\icon_clear.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\icon_clear.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+        <Copy SourceFiles="assets\icon_tab.png" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+              Condition="Exists('assets\icon_tab.png')"
+              Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
+    </Target>
+</Project>
