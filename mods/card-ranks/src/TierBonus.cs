@@ -103,7 +103,7 @@ public static class TierBonusService
     public static string Description(TierBonus bonus) => bonus switch
     {
         TierBonus.Clone => "Can be duplicated at rest sites.",
-        TierBonus.SoulsPower => "Loses Exhaust (if it had it).",
+        TierBonus.SoulsPower => "Loses Exhaust (only rolls on cards that have Exhaust).",
         TierBonus.Steady => "Gains Retain.",
         TierBonus.Spiral => "Gains Replay +1.",
         TierBonus.Imbued => "Plays automatically at the start of combat.",
@@ -114,7 +114,9 @@ public static class TierBonusService
 
     /// <summary>
     /// Whether this bonus can actually land on the card as a visible/meaningful effect.
-    /// Soul's Power is rejected by the game on many cards (and is a no-op without Exhaust).
+    /// Soul's Power only if the card has <b>local</b> Exhaust (mirrors vanilla
+    /// <c>SoulsPower.CanEnchant</c>) — global/combat-only Exhaust does not count, and
+    /// cards with no Exhaust must never roll it.
     /// Spiral only enchants basic Strike/Defend — anything else used to fall back to
     /// non-serialized BaseReplayCount/CWT flags and desynced multiplayer play counts.
     /// </summary>
@@ -123,10 +125,27 @@ public static class TierBonusService
         if (bonus == TierBonus.None)
             return false;
         if (bonus == TierBonus.SoulsPower)
-            return card.Keywords.Contains(CardKeyword.Exhaust);
+            return HasLocalExhaust(card);
         if (bonus == TierBonus.Spiral)
             return CanTakeVanillaSpiral(card);
         return true;
+    }
+
+    /// <summary>
+    /// Same filter as vanilla <c>SoulsPower.CanEnchant</c>: only keywords applied on the
+    /// card itself (<see cref="KeywordSources.Local"/>), not transient global sources.
+    /// </summary>
+    public static bool HasLocalExhaust(CardModel card)
+    {
+        try
+        {
+            return card.GetKeywordsWithSources(KeywordSources.Local).Contains(CardKeyword.Exhaust);
+        }
+        catch
+        {
+            // Fallback if API shape changes — still better than allowing free rolls.
+            return card.Keywords.Contains(CardKeyword.Exhaust);
+        }
     }
 
     /// <summary>Mirrors vanilla <c>Spiral.CanEnchant</c> (Basic + Strike/Defend).</summary>
@@ -202,6 +221,15 @@ public static class TierBonusService
         if (bonus == TierBonus.None)
             return false;
 
+        // Defense in depth: never land Soul's Power (etc.) on an ineligible card even if
+        // a remote peer or older client sent a bad roll.
+        if (!IsEligible(card, bonus))
+        {
+            MainFile.Logger.Info(
+                $"Tier bonus SKIPPED (ineligible): {DisplayName(bonus)} on {card.Id}");
+            return false;
+        }
+
         BonusBox box = Table.GetOrCreateValue(card);
         if (!box.Bonuses.Add(bonus))
             return false; // already had it
@@ -232,6 +260,7 @@ public static class TierBonusService
                     CardCmd.ApplyKeyword(card, CardKeyword.Innate, CardKeyword.Retain);
                     break;
                 case TierBonus.SoulsPower:
+                    // Only meaningful if local Exhaust was present (IsEligible already checked).
                     CardCmd.RemoveKeyword(card, CardKeyword.Exhaust);
                     break;
                 case TierBonus.Spiral:
@@ -291,6 +320,9 @@ public static class TierBonusService
                     CardCmd.Enchant<Clone>(card, 1m);
                     return HasVanillaCloneLeaf(card);
                 case TierBonus.SoulsPower:
+                    // Vanilla CanEnchant requires local Exhaust; never Enchant without it.
+                    if (!HasLocalExhaust(card))
+                        return false;
                     CardCmd.Enchant<SoulsPower>(card, 1m);
                     return HasVanillaLeaf(card, "SoulsPower");
                 case TierBonus.Steady:
