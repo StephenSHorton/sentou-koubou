@@ -1,0 +1,12 @@
+{
+  "id": "CharacterCursors",
+  "name": "Character Cursors",
+  "author": "sentou-koubou",
+  "description": "Tints the local mouse cursor (and multiplayer remote cursors) with each character's primary name color. Pure visual QoL.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

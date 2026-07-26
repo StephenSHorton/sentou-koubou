@@ -91,6 +91,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "MaxHpSize.csproj",
         "assembly": "MaxHpSize",
     },
+    "character-cursors": {
+        "folder": "character-cursors",
+        "project": "CharacterCursors.csproj",
+        "assembly": "CharacterCursors",
+    },
 }
 
 
