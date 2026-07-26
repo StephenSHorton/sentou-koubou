@@ -27,6 +27,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/character-cursors` — Tint local/remote cursors with character NameColor (visual QoL).
 - `mods/shared-combat-positions` — MP combat lineup uses host/lobby slot order + always-visible teammate HP/status.
 - `mods/ping-rage` — End-turn Ping: random funny lines, mash-scaled bubble size + wiggle.
+- `mods/battle-draw` — Combat whiteboard (half-res baked ink) + map pen color/size; BaseLib; installable on `main` from v0.5.
 
 ## Releases (local, per mod)
 
