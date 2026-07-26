@@ -19,6 +19,7 @@ public static class RunManagerInitializePatch
                 __instance.RunLocationTargetedBuffer,
                 __instance.NetService,
                 __instance.NetService.NetId);
+            BrushToolbar.EnsureGlobal();
         }
         catch (Exception e)
         {
@@ -34,6 +35,7 @@ public static class RunManagerCleanUpPatch
     {
         DrawSync.Instance?.Dispose();
         DrawSync.Instance = null;
+        BrushToolbar.Detach();
     }
 }
 

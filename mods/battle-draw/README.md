@@ -6,15 +6,15 @@ Map-style **drawing in combat** for Slay the Spire 2, plus **map pen color/size*
 
 Older builds caused combat lag (per-frame ProcessFrame hooks, full-rect layout thrash, unbounded `Line2D` stacks, unthrottled erase net).
 
-**v0.5** rewrites the ink path:
+**v0.5+** rewrites the ink path:
 
 | Old | New |
 |-----|-----|
-| Many antialiased `Line2D` nodes forever | Half-res **baked ImageTexture** (map-style) |
-| Live node per stroke | Only the **active** stroke is a live Line2D |
-| Erase = O(n) stroke search + delete | Erase = stamp transparent circles on the bake |
-| Reliable erase every motion sample | Erase net **throttled ~20 Hz** |
-| Idle ProcessFrame tax | Pure **`_Input`** — zero idle managed ticks |
+| Many antialiased `Line2D` nodes forever | Near-full-res **baked ImageTexture** |
+| Soft erase (dim leftover) | **Hard erase** (full wipe under the disk) |
+| Soft fuzzy stamps | Hard disks + dense steps (sharper at any size) |
+| Separate map submenu + generated panel | **One toolbar**; size lives next to / inside the color picker |
+| Two tabs in combat | Single bar; combat tools hide on map |
 
 ## Combat
 

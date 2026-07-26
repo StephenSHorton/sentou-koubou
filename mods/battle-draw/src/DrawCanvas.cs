@@ -80,7 +80,7 @@ public partial class DrawCanvas : Control
 
         Instance = canvas;
         MainFile.Logger.Info(
-            "Battle Draw surface ready — baked half-res ink, event input only (v0.5).");
+            "Battle Draw surface ready — sharp baked ink + unified toolbar (v0.5.2).");
     }
 
     public override void _Input(InputEvent e)

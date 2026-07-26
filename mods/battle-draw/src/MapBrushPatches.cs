@@ -7,7 +7,8 @@ using MegaCrit.Sts2.Core.Nodes.Screens.Map;
 namespace BattleDraw;
 
 /// <summary>
-/// Restyle local map pen with shared brush color/size, and attach map palette UI.
+/// Restyle local map pen with shared brush color/size.
+/// Toolbar is global (one instance) — not parented under the map screen.
 /// </summary>
 [HarmonyPatch(typeof(NMapDrawings), nameof(NMapDrawings.CreateLineForPlayer))]
 public static class MapCreateLinePatch
@@ -23,6 +24,7 @@ public static class MapCreateLinePatch
         {
             if (isErasing)
             {
+                // Full-weight eraser: match pen width so thick strokes wipe clean.
                 float w = Math.Max(BrushConfig.ClampedSize * 2.5f, BrushConfig.ClampedSize + 4f);
                 __result.Width = Math.Clamp(w, 4f, 48f);
                 return;
@@ -38,7 +40,6 @@ public static class MapCreateLinePatch
     }
 }
 
-/// <summary>Spawn floating color/size controls on the map screen.</summary>
 [HarmonyPatch(typeof(NMapScreen), "_Ready")]
 public static class MapScreenReadyPatch
 {
@@ -46,27 +47,12 @@ public static class MapScreenReadyPatch
     {
         try
         {
-            // High layer so palette sits above map chrome.
-            var layer = new CanvasLayer
-            {
-                Name = "BattleDrawMapUiLayer",
-                Layer = 80,
-            };
-            __instance.AddChild(layer);
-            BrushToolbar.AttachMap(layer);
+            BrushToolbar.EnsureGlobal();
+            BrushToolbar.Instance?.SetCombatContext(false);
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"Map palette attach failed: {e.Message}");
+            MainFile.Logger.Warn($"Map toolbar ensure failed: {e.Message}");
         }
-    }
-}
-
-[HarmonyPatch(typeof(NMapScreen), "_ExitTree")]
-public static class MapScreenExitPatch
-{
-    public static void Prefix()
-    {
-        BrushToolbar.DetachMap();
     }
 }
