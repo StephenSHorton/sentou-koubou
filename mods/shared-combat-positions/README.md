@@ -26,7 +26,9 @@ For remote players (and their pets), vanilla:
 - `AnimateIn` only on hover  
 - `AnimateOut` on unhover  
 
-This mod forces `AnimateIn` after setup and after unhover, and stops hiding your own bar while you hover a teammate.
+This mod forces `AnimateIn` after setup and after unhover, and stops hiding your own bar while you hover a teammate — **only while combat is active**.
+
+When combat ends (or the combat room exits), remote state UI is force-hidden so HP/status cannot paint through the map.
 
 Nameplates still appear on hover (less clutter). Hover tips still work.
 
