@@ -5,10 +5,11 @@ using MegaCrit.Sts2.Core.Modding;
 namespace SharedCombatPositions;
 
 /// <summary>
-/// Vanilla always puts the local player first in the combat lineup
-/// (<c>PositionPlayersAndPets</c> inserts IsMe at index 0). That makes each
-/// peer see a different spatial layout. This mod sorts by lobby slot order
-/// (RunState.Players index) so every client matches the host's view.
+/// Multiplayer combat visual QoL:
+/// <list type="bullet">
+/// <item>Lineup uses lobby/host slot order (not local-player-always-front).</item>
+/// <item>Teammate HP / block / power icons stay visible without hover.</item>
+/// </list>
 /// </summary>
 [ModInitializer(nameof(Initialize))]
 public static class MainFile
@@ -22,7 +23,7 @@ public static class MainFile
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "Shared Combat Positions loaded — multiplayer combat lineup uses lobby/host slot order " +
-            "(not local-player-always-front). Enable on all peers for a consistent view.");
+            "Shared Combat Positions loaded — host-order lineup + always-visible teammate HP/status. " +
+            "Enable on all peers for a consistent view.");
     }
 }
