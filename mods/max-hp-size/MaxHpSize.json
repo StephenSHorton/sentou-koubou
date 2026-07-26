@@ -1,0 +1,12 @@
+{
+  "id": "MaxHpSize",
+  "name": "Max HP Size",
+  "author": "sentou-koubou (based on BittersweetGirlJay MaxHpSizeMod)",
+  "description": "Scales playable character size with max HP (bigger with more max HP, smaller with less). Same formula as Workshop MaxHpSizeMod — unsubscribe from that if both would run. No dependencies.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}

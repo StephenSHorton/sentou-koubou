@@ -86,6 +86,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "MpTeammateView.csproj",
         "assembly": "MpTeammateView",
     },
+    "max-hp-size": {
+        "folder": "max-hp-size",
+        "project": "MaxHpSize.csproj",
+        "assembly": "MaxHpSize",
+    },
 }
 
 
