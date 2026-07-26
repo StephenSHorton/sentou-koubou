@@ -23,6 +23,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/mp-player-limit` — Raise multiplayer lobby cap above vanilla 4.
 - `mods/uncapped-chapter-fix` — Compat for UncappedSpire MP chapter transition desync (finishes Closing the Chapter on all peers).
 - `mods/mp-teammate-view` — Combined teammate potions + hand cards (BAKAOLC/OLC MIT rewrite; settings/hotkeys/highlights/LemonSpire+Typing interop; requires STS2-RitsuLib; disable the two Workshop originals).
+- `mods/max-hp-size` — Player combat scale from max HP (Workshop MaxHpSizeMod reimplementation; unsubscribe/disable that Workshop item).
 
 ## Releases (local, per mod)
 
