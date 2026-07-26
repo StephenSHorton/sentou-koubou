@@ -68,12 +68,50 @@ public partial class BrushToolbar : Control
         bar.GrowHorizontal = GrowDirection.Begin;
         bar.GrowVertical = GrowDirection.Begin;
         bar.OffsetRight = -20;
-        bar.OffsetBottom = kind == DrawSurfaceKind.Combat ? -96 : -48;
+        // Map tab sits lower-right; combat sits above the hand strip.
+        bar.OffsetBottom = kind == DrawSurfaceKind.Combat ? -96 : -36;
         bar.OffsetLeft = bar.OffsetRight - 56;
         bar.OffsetTop = bar.OffsetBottom - 56;
         bar.BuildUi();
         BrushConfig.SettingsChanged += bar.OnConfigChanged;
+        // Map palette must never appear over combat — poll visibility cheaply.
+        if (kind == DrawSurfaceKind.Map)
+        {
+            bar.SetProcess(true);
+            bar.Visible = false;
+        }
         return bar;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Kind != DrawSurfaceKind.Map)
+            return;
+        // Only while the map screen is the thing on screen (not buried under combat).
+        bool show = ShouldShowMapToolbar();
+        if (Visible != show)
+            Visible = show;
+    }
+
+    private static bool ShouldShowMapToolbar()
+    {
+        try
+        {
+            // Combat room present and in tree ⇒ hide map tools.
+            var combat = MegaCrit.Sts2.Core.Nodes.Rooms.NCombatRoom.Instance;
+            if (combat != null && GodotObject.IsInstanceValid(combat) && combat.IsInsideTree()
+                && combat.IsVisibleInTree())
+                return false;
+
+            var map = MegaCrit.Sts2.Core.Nodes.Screens.Map.NMapScreen.Instance;
+            if (map == null || !GodotObject.IsInstanceValid(map))
+                return false;
+            return map.IsVisibleInTree() && map.Visible;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     public static void DetachCombat()

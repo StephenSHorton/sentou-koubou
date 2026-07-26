@@ -20,7 +20,12 @@ public static class TradeAssets
     /// </summary>
     public static Texture2D? BtnPlate => Load("btn_plate.png", punchBlack: true)
                                         ?? Load("btn_rest_bar.png", punchBlack: true);
+    /// <summary>Shop-floor Trade CTA only (wood rest bar, alpha cutout).</summary>
     public static Texture2D? BtnRestBar => Load("btn_rest_bar.png", punchBlack: true) ?? BtnPlate;
+    /// <summary>Menu rows (Give gold / player pick) — separate art from Trade CTA.</summary>
+    public static Texture2D? BtnMenuRow => Load("btn_menu_row.png", punchBlack: true);
+    /// <summary>Relic/potion Sell CTA — unique plate, not Trade.</summary>
+    public static Texture2D? BtnSell => Load("btn_sell.png", punchBlack: true);
     public static Texture2D? IconGold => Load("icon_gold.png") ?? TryGame("res://images/packed/sprite_fonts/gold_icon.png");
     public static Texture2D? IconCard => Load("icon_card.png");
     public static Texture2D? IconTrade => Load("icon_trade.png") ?? OptionTrade;
@@ -134,9 +139,11 @@ public static class TradeAssets
                 float maxc = Math.Max(c.R, Math.Max(c.G, c.B));
                 float lum = 0.2126f * c.R + 0.7152f * c.G + 0.0722f * c.B;
                 float warm = c.R - c.B; // wood is warm; bg is cool/dark
-                bool darkBg = lum < 0.16f
-                              || (lum < 0.28f && warm < 0.10f && c.B >= c.G - 0.02f)
-                              || (lum < 0.35f && warm < 0.05f && maxc < 0.43f);
+                // Aggressive corner/edge punch for leftover vignette artifacts.
+                bool darkBg = lum < 0.18f
+                              || (lum < 0.32f && warm < 0.12f && c.B >= c.G - 0.03f)
+                              || (lum < 0.40f && warm < 0.06f && maxc < 0.48f)
+                              || (lum < 0.22f && maxc < 0.30f);
                 if (darkBg)
                 {
                     c.A = 0f;
