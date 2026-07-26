@@ -3,7 +3,7 @@
   "name": "Battle Draw",
   "author": "sentou-koubou",
   "description": "Low-lag combat whiteboard (half-res baked ink) + map pen color/size palette. RMB pen, MMB erase; strokes sync in multiplayer. Clears when battle ends.",
-  "version": "v0.5.2",
+  "version": "v0.5.3",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,

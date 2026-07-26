@@ -13,8 +13,8 @@ Older builds caused combat lag (per-frame ProcessFrame hooks, full-rect layout t
 | Many antialiased `Line2D` nodes forever | Near-full-res **baked ImageTexture** |
 | Soft erase (dim leftover) | **Hard erase** (full wipe under the disk) |
 | Soft fuzzy stamps | Hard disks + dense steps (sharper at any size) |
-| Separate map submenu + generated panel | **One toolbar**; size lives next to / inside the color picker |
-| Two tabs in combat | Single bar; combat tools hide on map |
+| Generated icon plates with weak contrast | Dark collapsible panel + readable text buttons |
+| Two tabs (map stuck over combat) | **One** global collapsible menu; combat tools hide on map |
 
 ## Combat
 
