@@ -32,6 +32,7 @@ public static class MainFile
         // Must not patch DoSeedChange directly (Harmony IL read throws MissingMethodException
         // on the dead UInt64 GetDeterministicHashCode token). Callers are patched instead.
         applied += SafeApply("ChapterSeed", () => ChapterSeedCompatPatches.TryApply(harmony));
+        applied += SafeApply("PotionSlotHarden", () => PotionSlotHardenPatches.TryApply(harmony));
 
         if (applied == 0)
         {
@@ -45,7 +46,7 @@ public static class MainFile
                 $"Uncapped Chapter Fix loaded — {applied} patch group(s). " +
                 "Chapter finish; choice harden; PlayerRngSet Seed uint; " +
                 "ChapterChange seed via DoLocalSeedChange/HandleChapterChangeMessage " +
-                "(Mysterious Door, bypass UInt64 hash).");
+                "(Mysterious Door); potion procure no-throw when belt full.");
         }
     }
 
