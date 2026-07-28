@@ -12,6 +12,9 @@ namespace SharedCombatPositions;
 /// <c>_Ready</c> calls <c>HideImmediately</c>, <c>OnUnfocus</c> calls <c>AnimateOut</c>.
 /// Keep teammate state UI (HP, block, powers/statuses) always visible <b>during combat only</b>.
 ///
+/// Also lifts ally state displays above creature sprites so back-row HP is not
+/// occluded by front-row bodies (shared multi-row lineup).
+///
 /// Important: unfocus during combat teardown must NOT re-show bars, or they leak onto the map.
 /// </summary>
 [HarmonyPatch(typeof(NCreature), nameof(NCreature._Ready))]
@@ -20,6 +23,7 @@ public static class CreatureReadyAlwaysShowPatch
     public static void Postfix(NCreature __instance)
     {
         AlwaysShowState.EnsureVisible(__instance, spawnAnim: true);
+        AlwaysShowState.LiftStateDisplayAboveCreatures(__instance);
     }
 }
 
@@ -31,6 +35,7 @@ public static class CreatureUnfocusAlwaysShowPatch
         // Vanilla AnimateOut after unhover — re-show only while combat UI is live.
         // After combat ends, unfocus still fires; re-showing here was leaking HP onto the map.
         AlwaysShowState.EnsureVisible(__instance, spawnAnim: false);
+        AlwaysShowState.LiftStateDisplayAboveCreatures(__instance);
     }
 }
 
@@ -50,6 +55,23 @@ public static class LocalHpWhileHoveringTeammatePatch
         _ = __instance;
         _ = remotePlayerFocused;
         return false;
+    }
+}
+
+/// <summary>
+/// After layout (including multi-row host order), re-lift ally HP so draw order
+/// matches shared positions — tree MoveChild alone would bury back-row bars.
+/// </summary>
+[HarmonyPatch(typeof(NCombatRoom), nameof(NCombatRoom.PositionPlayersAndPets))]
+public static class PositionPlayersLiftStatePatch
+{
+    public static void Postfix(List<NCreature> creatureNodes)
+    {
+        if (creatureNodes == null)
+            return;
+
+        foreach (var creature in creatureNodes)
+            AlwaysShowState.LiftStateDisplayAboveCreatures(creature);
     }
 }
 
@@ -76,6 +98,12 @@ public static class CombatRoomExitHideStatePatch
 
 internal static class AlwaysShowState
 {
+    /// <summary>
+    /// Absolute CanvasItem z so ally HP/status draws above other creature sprites.
+    /// Stays on the combat canvas (below CanvasLayer UI such as hand / menus).
+    /// </summary>
+    private const int AllyStateDisplayZIndex = 50;
+
     /// <summary>
     /// True only while combat is setting up or actively running — not ending / not on map.
     /// </summary>
@@ -124,12 +152,61 @@ internal static class AlwaysShowState
                 : HealthBarAnimMode.FromHidden;
             display.AnimateIn(mode);
             display.Visible = true;
+            LiftStateDisplay(display);
             // Nameplate still hover-only (vanilla dimming of powers on nameplate show is fine).
         }
         catch (Exception e)
         {
             MainFile.Logger.Warn($"Always-show state UI failed: {e.Message}");
         }
+    }
+
+    /// <summary>
+    /// Raise ally (player/pet) state UI above creature bodies so multi-row overlap
+    /// does not hide HP/block/powers. Local players in a back row need this too.
+    /// </summary>
+    public static void LiftStateDisplayAboveCreatures(NCreature creature)
+    {
+        if (creature == null || !GodotObject.IsInstanceValid(creature))
+            return;
+
+        if (!IsCombatUiActive())
+            return;
+
+        try
+        {
+            var entity = creature.Entity;
+            if (entity == null || entity.IsDead)
+                return;
+
+            // Players and their pets only — leave enemy HP draw order alone.
+            if (!entity.IsPlayer && entity.PetOwner == null)
+                return;
+
+            var display = creature._stateDisplay;
+            if (display == null || !GodotObject.IsInstanceValid(display))
+                return;
+
+            LiftStateDisplay(display);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Lift state UI z-order failed: {e.Message}");
+        }
+    }
+
+    private static void LiftStateDisplay(NCreatureStateDisplay display)
+    {
+        // Absolute z so this Control draws above other NCreature trees regardless
+        // of MoveChild sibling order used for multi-row lineup.
+        display.ZAsRelative = false;
+        display.ZIndex = AllyStateDisplayZIndex;
+    }
+
+    private static void ResetStateDisplayZ(NCreatureStateDisplay display)
+    {
+        display.ZAsRelative = true;
+        display.ZIndex = 0;
     }
 
     /// <summary>Collapse remote teammate HP/status UI (combat end / room teardown).</summary>
@@ -147,11 +224,18 @@ internal static class AlwaysShowState
                     continue;
                 try
                 {
-                    if (!creature._isRemotePlayerOrPet)
-                        continue;
                     var display = creature._stateDisplay;
                     if (display == null || !GodotObject.IsInstanceValid(display))
                         continue;
+
+                    // Reset z for every ally we lifted (local + remote).
+                    var entity = creature.Entity;
+                    if (entity != null && (entity.IsPlayer || entity.PetOwner != null))
+                        ResetStateDisplayZ(display);
+
+                    if (!creature._isRemotePlayerOrPet)
+                        continue;
+
                     display.HideImmediately();
                     display.Visible = false;
                 }
