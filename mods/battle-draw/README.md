@@ -25,7 +25,7 @@ That fixes weak erase / “negative residual” multi-swipe erase and makes pen 
 | **Color / size** | Shared with map pen |
 | **Hide others** | Local hide of peer combat ink |
 
-Hand strip / card drag / palette block ink. Strokes clear when combat ends. No click-arm eraser — **MMB only**.
+Hand strip / card drag / palette block ink. Combat ink composites **under** the hand, cards, and menus (not a high CanvasLayer). Strokes clear when combat ends. No click-arm eraser — **MMB only**.
 
 Shortcuts: **B** arm LMB brush, **`[` / `]`** size.
 
