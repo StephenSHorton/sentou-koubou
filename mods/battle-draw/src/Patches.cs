@@ -47,7 +47,7 @@ public static class CombatRoomReadyPatch
     {
         try
         {
-            // Attach creates CanvasLayer + surface + toolbar.
+            // Attach creates under-UI ink host + surface + toolbar.
             DrawCanvas.AttachTo(__instance);
         }
         catch (Exception e)

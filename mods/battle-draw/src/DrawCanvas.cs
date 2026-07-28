@@ -43,13 +43,22 @@ public partial class DrawCanvas : Control
         Instance?.Teardown();
         BrushToolbar.DetachCombat();
 
-        var layer = new CanvasLayer
+        // IMPORTANT: do NOT put combat ink on a high CanvasLayer.
+        // Layer 100 was compositing above the hand, played cards, and even pause/settings
+        // menus. Parent into the combat room tree *under* NCombatUi so battlefield doodles
+        // stay visible while cards/HUD/menus always draw on top.
+        var host = new Control
         {
-            Name = "BattleDrawUiLayer",
-            Layer = 100,
+            Name = "BattleDrawInkHost",
+            MouseFilter = MouseFilterEnum.Ignore,
             ProcessMode = ProcessModeEnum.Inherit,
+            // Stay below creature Z lifts / UI; tree order under Ui is the real guarantee.
+            ZIndex = 0,
+            ZAsRelative = true,
         };
-        room.AddChild(layer);
+        host.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        room.AddChild(host);
+        PlaceInkHostUnderCombatUi(room, host);
 
         var inkRoot = new Node2D
         {
@@ -57,7 +66,7 @@ public partial class DrawCanvas : Control
             ZIndex = 0,
             ProcessMode = ProcessModeEnum.Inherit,
         };
-        layer.AddChild(inkRoot);
+        host.AddChild(inkRoot);
 
         var canvas = new DrawCanvas
         {
@@ -66,7 +75,8 @@ public partial class DrawCanvas : Control
             ProcessMode = ProcessModeEnum.Inherit,
             CustomMinimumSize = Vector2.Zero,
         };
-        layer.AddChild(canvas);
+        canvas.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        host.AddChild(canvas);
         canvas.SetProcess(false);
         canvas.SetProcessInput(true);
         canvas._ink.Attach(inkRoot);
@@ -75,11 +85,48 @@ public partial class DrawCanvas : Control
         if (vp != null)
             canvas._ink.EnsureSize(vp.GetVisibleRect().Size);
 
-        BrushToolbar.AttachCombat(layer);
+        BrushToolbar.AttachCombat(host);
 
         Instance = canvas;
         MainFile.Logger.Info(
-            "Battle Draw surface ready — map quill/eraser cursor + SubViewport ink (v0.6.3).");
+            "Battle Draw surface ready — ink under combat UI/cards (no high CanvasLayer) + map-style SubViewport pen (v0.6.4).");
+    }
+
+    /// <summary>
+    /// Keep ink as a sibling just before <see cref="NCombatRoom.Ui"/> so hand/energy/cards
+    /// composite above it. Falls back to the combat VFX container if Ui is missing.
+    /// </summary>
+    private static void PlaceInkHostUnderCombatUi(NCombatRoom room, Control host)
+    {
+        try
+        {
+            NCombatUi? ui = room.Ui;
+            if (ui != null && GodotObject.IsInstanceValid(ui) && ui.GetParent() == room)
+            {
+                // Insert at Ui's index → Ui shifts right; host is immediately underneath.
+                room.MoveChild(host, ui.GetIndex());
+                return;
+            }
+        }
+        catch
+        {
+            // fall through
+        }
+
+        try
+        {
+            Control? vfx = room.CombatVfxContainer ?? room.BackCombatVfxContainer;
+            if (vfx != null && GodotObject.IsInstanceValid(vfx) && host.GetParent() == room)
+            {
+                room.RemoveChild(host);
+                vfx.AddChild(host);
+                host.SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+            }
+        }
+        catch
+        {
+            // leave as last child of room
+        }
     }
 
     public override void _Input(InputEvent e)
@@ -369,9 +416,11 @@ public partial class DrawCanvas : Control
         RestoreCursor();
         if (GodotObject.IsInstanceValid(this) && IsInsideTree())
         {
-            Node? uiLayer = GetParent();
-            if (uiLayer != null && uiLayer.Name == "BattleDrawUiLayer")
-                uiLayer.QueueFree();
+            Node? parent = GetParent();
+            // Free the ink host (or legacy CanvasLayer) so both TextureRects + canvas go away.
+            if (parent != null
+                && (parent.Name == "BattleDrawInkHost" || parent.Name == "BattleDrawUiLayer"))
+                parent.QueueFree();
             else
                 QueueFree();
         }

@@ -75,7 +75,7 @@ public partial class BrushToolbar : Control
         MainFile.Logger.Info("Battle Draw collapsible toolbar ready (map + combat).");
     }
 
-    public static void AttachCombat(CanvasLayer _)
+    public static void AttachCombat(Node? _)
     {
         EnsureGlobal();
         Instance?.SetCombatContext(true);
