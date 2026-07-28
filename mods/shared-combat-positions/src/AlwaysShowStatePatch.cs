@@ -3,6 +3,7 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.UI;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Orbs;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 
 namespace SharedCombatPositions;
@@ -12,8 +13,8 @@ namespace SharedCombatPositions;
 /// <c>_Ready</c> calls <c>HideImmediately</c>, <c>OnUnfocus</c> calls <c>AnimateOut</c>.
 /// Keep teammate state UI (HP, block, powers/statuses) always visible <b>during combat only</b>.
 ///
-/// Also lifts ally state displays above creature sprites so back-row HP is not
-/// occluded by front-row bodies (shared multi-row lineup).
+/// Also lifts ally state displays and orb managers above creature sprites so back-row
+/// HP/orbs are not occluded by front-row bodies (shared multi-row lineup).
 ///
 /// Important: unfocus during combat teardown must NOT re-show bars, or they leak onto the map.
 /// </summary>
@@ -23,7 +24,7 @@ public static class CreatureReadyAlwaysShowPatch
     public static void Postfix(NCreature __instance)
     {
         AlwaysShowState.EnsureVisible(__instance, spawnAnim: true);
-        AlwaysShowState.LiftStateDisplayAboveCreatures(__instance);
+        AlwaysShowState.LiftAllyUiAboveCreatures(__instance);
     }
 }
 
@@ -35,7 +36,7 @@ public static class CreatureUnfocusAlwaysShowPatch
         // Vanilla AnimateOut after unhover — re-show only while combat UI is live.
         // After combat ends, unfocus still fires; re-showing here was leaking HP onto the map.
         AlwaysShowState.EnsureVisible(__instance, spawnAnim: false);
-        AlwaysShowState.LiftStateDisplayAboveCreatures(__instance);
+        AlwaysShowState.LiftAllyUiAboveCreatures(__instance);
     }
 }
 
@@ -59,8 +60,8 @@ public static class LocalHpWhileHoveringTeammatePatch
 }
 
 /// <summary>
-/// After layout (including multi-row host order), re-lift ally HP so draw order
-/// matches shared positions — tree MoveChild alone would bury back-row bars.
+/// After layout (including multi-row host order), re-lift ally HP/orbs so draw order
+/// matches shared positions — tree MoveChild alone would bury back-row UI.
 /// </summary>
 [HarmonyPatch(typeof(NCombatRoom), nameof(NCombatRoom.PositionPlayersAndPets))]
 public static class PositionPlayersLiftStatePatch
@@ -71,7 +72,49 @@ public static class PositionPlayersLiftStatePatch
             return;
 
         foreach (var creature in creatureNodes)
-            AlwaysShowState.LiftStateDisplayAboveCreatures(creature);
+            AlwaysShowState.LiftAllyUiAboveCreatures(creature);
+    }
+}
+
+/// <summary>
+/// Orb manager is positioned after creature setup; lift again so slots stay above bodies.
+/// </summary>
+[HarmonyPatch(typeof(NCreature), nameof(NCreature.SetOrbManagerPosition))]
+public static class OrbManagerPositionLiftPatch
+{
+    public static void Postfix(NCreature __instance)
+    {
+        AlwaysShowState.LiftAllyUiAboveCreatures(__instance);
+    }
+}
+
+/// <summary>
+/// New empty slots / channelled orbs may reparent under the manager — keep z lifted.
+/// </summary>
+[HarmonyPatch(typeof(NOrbManager), nameof(NOrbManager._Ready))]
+public static class OrbManagerReadyLiftPatch
+{
+    public static void Postfix(NOrbManager __instance)
+    {
+        AlwaysShowState.LiftOrbManager(__instance);
+    }
+}
+
+[HarmonyPatch(typeof(NOrbManager), nameof(NOrbManager.AddSlotAnim))]
+public static class OrbManagerAddSlotLiftPatch
+{
+    public static void Postfix(NOrbManager __instance)
+    {
+        AlwaysShowState.LiftOrbManager(__instance);
+    }
+}
+
+[HarmonyPatch(typeof(NOrbManager), nameof(NOrbManager.UpdateVisuals))]
+public static class OrbManagerUpdateVisualsLiftPatch
+{
+    public static void Postfix(NOrbManager __instance)
+    {
+        AlwaysShowState.LiftOrbManager(__instance);
     }
 }
 
@@ -99,10 +142,15 @@ public static class CombatRoomExitHideStatePatch
 internal static class AlwaysShowState
 {
     /// <summary>
-    /// Absolute CanvasItem z so ally HP/status draws above other creature sprites.
+    /// Absolute CanvasItem z for ally HP/status (above creature sprites).
     /// Stays on the combat canvas (below CanvasLayer UI such as hand / menus).
     /// </summary>
     private const int AllyStateDisplayZIndex = 50;
+
+    /// <summary>
+    /// Absolute z for orb slots / orbs — above character bodies, just under state UI.
+    /// </summary>
+    private const int AllyOrbManagerZIndex = 45;
 
     /// <summary>
     /// True only while combat is setting up or actively running — not ending / not on map.
@@ -152,7 +200,7 @@ internal static class AlwaysShowState
                 : HealthBarAnimMode.FromHidden;
             display.AnimateIn(mode);
             display.Visible = true;
-            LiftStateDisplay(display);
+            LiftCanvasItem(display, AllyStateDisplayZIndex);
             // Nameplate still hover-only (vanilla dimming of powers on nameplate show is fine).
         }
         catch (Exception e)
@@ -162,10 +210,10 @@ internal static class AlwaysShowState
     }
 
     /// <summary>
-    /// Raise ally (player/pet) state UI above creature bodies so multi-row overlap
-    /// does not hide HP/block/powers. Local players in a back row need this too.
+    /// Raise ally HP/status and orb UI above creature bodies so multi-row overlap
+    /// does not hide them. Local players in a back row need this too.
     /// </summary>
-    public static void LiftStateDisplayAboveCreatures(NCreature creature)
+    public static void LiftAllyUiAboveCreatures(NCreature creature)
     {
         if (creature == null || !GodotObject.IsInstanceValid(creature))
             return;
@@ -179,34 +227,59 @@ internal static class AlwaysShowState
             if (entity == null || entity.IsDead)
                 return;
 
-            // Players and their pets only — leave enemy HP draw order alone.
+            // Players and their pets only — leave enemy draw order alone.
             if (!entity.IsPlayer && entity.PetOwner == null)
                 return;
 
             var display = creature._stateDisplay;
-            if (display == null || !GodotObject.IsInstanceValid(display))
-                return;
+            if (display != null && GodotObject.IsInstanceValid(display))
+                LiftCanvasItem(display, AllyStateDisplayZIndex);
 
-            LiftStateDisplay(display);
+            LiftOrbManager(creature.OrbManager);
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"Lift state UI z-order failed: {e.Message}");
+            MainFile.Logger.Warn($"Lift ally UI z-order failed: {e.Message}");
         }
     }
 
-    private static void LiftStateDisplay(NCreatureStateDisplay display)
+    /// <summary>Raise a single orb manager (slots + orbs) above creature sprites.</summary>
+    public static void LiftOrbManager(NOrbManager? manager)
     {
-        // Absolute z so this Control draws above other NCreature trees regardless
-        // of MoveChild sibling order used for multi-row lineup.
-        display.ZAsRelative = false;
-        display.ZIndex = AllyStateDisplayZIndex;
+        if (manager == null || !GodotObject.IsInstanceValid(manager))
+            return;
+
+        if (!IsCombatUiActive())
+            return;
+
+        try
+        {
+            LiftCanvasItem(manager, AllyOrbManagerZIndex);
+
+            // Empty slot chrome and orbs live under the container; lift it too in case
+            // it was reparented or uses its own relative z.
+            var container = manager._orbContainer;
+            if (container != null && GodotObject.IsInstanceValid(container))
+                LiftCanvasItem(container, AllyOrbManagerZIndex);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Lift orb manager z-order failed: {e.Message}");
+        }
     }
 
-    private static void ResetStateDisplayZ(NCreatureStateDisplay display)
+    private static void LiftCanvasItem(CanvasItem item, int zIndex)
     {
-        display.ZAsRelative = true;
-        display.ZIndex = 0;
+        // Absolute z so this node draws above other NCreature trees regardless
+        // of MoveChild sibling order used for multi-row lineup.
+        item.ZAsRelative = false;
+        item.ZIndex = zIndex;
+    }
+
+    private static void ResetCanvasItemZ(CanvasItem item)
+    {
+        item.ZAsRelative = true;
+        item.ZIndex = 0;
     }
 
     /// <summary>Collapse remote teammate HP/status UI (combat end / room teardown).</summary>
@@ -224,20 +297,33 @@ internal static class AlwaysShowState
                     continue;
                 try
                 {
-                    var display = creature._stateDisplay;
-                    if (display == null || !GodotObject.IsInstanceValid(display))
-                        continue;
-
-                    // Reset z for every ally we lifted (local + remote).
                     var entity = creature.Entity;
-                    if (entity != null && (entity.IsPlayer || entity.PetOwner != null))
-                        ResetStateDisplayZ(display);
+                    bool isAlly = entity != null && (entity.IsPlayer || entity.PetOwner != null);
 
-                    if (!creature._isRemotePlayerOrPet)
-                        continue;
+                    var display = creature._stateDisplay;
+                    if (display != null && GodotObject.IsInstanceValid(display))
+                    {
+                        if (isAlly)
+                            ResetCanvasItemZ(display);
 
-                    display.HideImmediately();
-                    display.Visible = false;
+                        if (creature._isRemotePlayerOrPet)
+                        {
+                            display.HideImmediately();
+                            display.Visible = false;
+                        }
+                    }
+
+                    if (isAlly)
+                    {
+                        var orbManager = creature.OrbManager;
+                        if (orbManager != null && GodotObject.IsInstanceValid(orbManager))
+                        {
+                            ResetCanvasItemZ(orbManager);
+                            var container = orbManager._orbContainer;
+                            if (container != null && GodotObject.IsInstanceValid(container))
+                                ResetCanvasItemZ(container);
+                        }
+                    }
                 }
                 catch
                 {

@@ -9,7 +9,7 @@ namespace SharedCombatPositions;
 /// <list type="bullet">
 /// <item>Lineup uses lobby/host slot order (not local-player-always-front).</item>
 /// <item>Teammate HP / block / power icons stay visible without hover.</item>
-/// <item>Ally state UI draws above overlapping character sprites.</item>
+/// <item>Ally state UI and orb slots draw above overlapping character sprites.</item>
 /// </list>
 /// </summary>
 [ModInitializer(nameof(Initialize))]
@@ -25,7 +25,7 @@ public static class MainFile
         harmony.PatchAll();
         Logger.Info(
             "Shared Combat Positions loaded — host-order lineup + always-visible teammate HP/status " +
-            "(combat only; ally bars drawn above creature sprites; cleared on end so bars don't leak onto the map). " +
+            "(combat only; ally bars/orbs drawn above creature sprites; cleared on end so bars don't leak onto the map). " +
             "Enable on all peers for a consistent view.");
     }
 }
