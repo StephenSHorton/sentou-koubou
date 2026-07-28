@@ -1,0 +1,12 @@
+{
+  "id": "CombatQueueFix",
+  "name": "Combat Queue Fix",
+  "author": "sentou-koubou",
+  "description": "Prevents multiplayer action-queue softlocks when a NonCombat map vote (VoteForMapCoordAction) is flushed after combat has already started. Drops/cancels blocking NonCombat heads so card plays can execute.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}

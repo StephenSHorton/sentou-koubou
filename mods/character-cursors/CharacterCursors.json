@@ -2,11 +2,16 @@
   "id": "CharacterCursors",
   "name": "Character Cursors",
   "author": "sentou-koubou",
-  "description": "Tints the local mouse cursor (and multiplayer remote cursors) with each character's primary name color. Pure visual QoL.",
-  "version": "v0.1.0",
+  "description": "Tints local + remote cursors with each character's NameColor, or a custom color you pick in mod settings. Pure visual QoL.",
+  "version": "v0.2.0",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.3.0"
+    }
+  ],
   "affects_gameplay": false
 }

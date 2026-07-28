@@ -4,8 +4,8 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>CharacterCursors</RootNamespace>
-        <AssemblyName>CharacterCursors</AssemblyName>
+        <RootNamespace>CombatQueueFix</RootNamespace>
+        <AssemblyName>CombatQueueFix</AssemblyName>
         <AppOutputBase>$(MSBuildProjectDirectory)\</AppOutputBase>
         <PathMap>$(AppOutputBase)=.\</PathMap>
         <NoWarn>$(NoWarn);MSB3270</NoWarn>
@@ -27,13 +27,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.3.5" PrivateAssets="All"/>
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="CharacterCursors.json"/>
+        <None Include="CombatQueueFix.json"/>
     </ItemGroup>
 
     <Target Name="CheckDependencyPaths">
@@ -43,10 +42,10 @@
     </Target>
 
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
-        <Message Text="Copying CharacterCursors dll/json to mods folder." Importance="high"/>
+        <Message Text="Copying CombatQueueFix dll/json to mods folder." Importance="high"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
-        <Copy SourceFiles="CharacterCursors.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
+        <Copy SourceFiles="CombatQueueFix.json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Retries="2" RetryDelayMilliseconds="500" ContinueOnError="WarnAndContinue"/>
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Condition="Exists('$(TargetDir)$(TargetName).pdb')"

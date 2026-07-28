@@ -29,7 +29,7 @@ public class MainFile
         }
 
         Logger.Info(
-            "Battle Draw v0.6.4 — map-style combat ink under cards/UI, map pen palette, " +
+            "Battle Draw v0.7.0 — freehand + line/rect/ellipse/fill/stamp tools, map pen palette, " +
             $"MP sync; default size={BrushConfig.ClampedSize:0.#}.");
         var harmony = new Harmony(ModId);
         harmony.PatchAll();

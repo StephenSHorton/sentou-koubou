@@ -1,3 +1,4 @@
+using BaseLib.Config;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
@@ -5,9 +6,9 @@ using MegaCrit.Sts2.Core.Modding;
 namespace CharacterCursors;
 
 /// <summary>
-/// Tints STS2 cursors with each character's primary color (NameColor).
+/// Tints STS2 cursors with each character's primary color (NameColor), or a player-picked color.
 /// Local cursor: recolored Images via NCursorManager.OverrideCursor.
-/// Remote cursors: desaturate+tint shader on the TextureRect (same idea as LemonSpire color tint).
+/// Remote cursors: desaturate+tint shader on the TextureRect (character color; LemonSpire may override).
 /// </summary>
 [ModInitializer(nameof(Initialize))]
 public static class MainFile
@@ -16,12 +17,22 @@ public static class MainFile
 
     public static Logger Logger { get; } = new(ModId, LogType.Generic);
 
+    public static CursorConfig Config { get; private set; } = null!;
+
     public static void Initialize()
     {
+        Config = new CursorConfig();
+        ModConfigRegistry.Register(ModId, Config);
+        CursorConfig.SettingsChanged += () =>
+        {
+            CursorTint.ClearAppliedCache();
+            CursorTint.ApplyLocalCursor();
+        };
+
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "Character Cursors loaded — local + remote cursors tint to character NameColor. " +
-            "If LemonSpire custom player colors are also enabled, that mod may override remote tints.");
+            "Character Cursors loaded — tint to character NameColor or BaseLib custom color. " +
+            "Settings: Enable Tint / Use Custom Color / Custom Color.");
     }
 }

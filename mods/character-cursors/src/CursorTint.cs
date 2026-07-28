@@ -75,9 +75,27 @@ public static class CursorTint
         }
     }
 
+    /// <summary>
+    /// Local tint: custom color from settings when enabled, else character NameColor.
+    /// </summary>
+    public static Color? ResolveLocalTintColor()
+    {
+        if (!CursorConfig.EnableTint)
+            return null;
+
+        if (CursorConfig.UseCustomColor)
+        {
+            var c = CursorConfig.CustomColor;
+            if (c.A > 0.01f && (c.R + c.G + c.B) > 0.02f)
+                return c;
+        }
+
+        return TryGetLocalPrimaryColor();
+    }
+
     public static void ApplyLocalCursor()
     {
-        var color = TryGetLocalPrimaryColor();
+        var color = ResolveLocalTintColor();
         if (color == null)
             return;
 
@@ -96,8 +114,9 @@ public static class CursorTint
                 _tintedTilted = RecolorImage(_baseTilted, color.Value);
                 _tintedNotTilted = RecolorImage(_baseNotTilted, color.Value);
                 _appliedColor = color.Value;
+                var source = CursorConfig.UseCustomColor ? "custom" : "character";
                 var characterName = TryGetLocalPlayer()?.Character?.Id.ToString() ?? "?";
-                MainFile.Logger.Info($"Local cursor tinted to {color.Value} ({characterName})");
+                MainFile.Logger.Info($"Local cursor tinted to {color.Value} ({source}, {characterName})");
             }
 
             manager.OverrideCursor(_tintedTilted, _tintedNotTilted, DefaultHotSpot);

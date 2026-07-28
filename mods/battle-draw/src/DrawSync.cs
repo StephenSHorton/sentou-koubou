@@ -82,13 +82,13 @@ public sealed class DrawSync : IDisposable
         _lastPointMsec = Time.GetTicksMsec();
     }
 
-    public void SendPoint(int strokeId, Vector2 localPos)
+    public void SendPoint(int strokeId, Vector2 localPos, bool force = false)
     {
         if (!IsMultiplayer)
             return;
         ulong now = Time.GetTicksMsec();
-        // ~20 Hz like map drawing (50ms); use 40ms for slightly smoother remote ink.
-        if (now - _lastPointMsec < 40)
+        // Freehand: ~25 Hz. Shape densify: force every Nth sample (caller decides).
+        if (!force && now - _lastPointMsec < 40)
             return;
         _lastPointMsec = now;
         Vector2 n = Normalize(localPos);

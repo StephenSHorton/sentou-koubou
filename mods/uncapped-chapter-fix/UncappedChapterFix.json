@@ -3,7 +3,7 @@
   "name": "Uncapped Chapter Fix",
   "author": "BlakeHorton",
   "description": "Compat for UncappedSpire MP: Closing the Chapter finish; boss-reward choice harden; PlayerRngSet Seed uint; chapter reseed via DoLocalSeedChange/HandleChapterChangeMessage (Mysterious Door); soft-fail potion procure when belt full. Soft-depends on UncappedSpire (load after it).",
-  "version": "v0.2.4",
+  "version": "v0.2.5",
   "min_game_version": "0.107.0",
   "has_pck": false,
   "has_dll": true,

@@ -9,6 +9,18 @@ public enum DrawTool
     None = 0,
     Brush = 1,
     Eraser = 2,
+    /// <summary>Drag straight line (RMB or armed LMB).</summary>
+    Line = 3,
+    /// <summary>Drag rectangle outline.</summary>
+    Rect = 4,
+    /// <summary>Drag ellipse outline.</summary>
+    Ellipse = 5,
+    /// <summary>Drag filled rectangle.</summary>
+    FillRect = 6,
+    /// <summary>Drag filled ellipse / soft stamp when used as click-fill.</summary>
+    FillEllipse = 7,
+    /// <summary>Click-place filled blob (brush-size stamp).</summary>
+    Stamp = 8,
 }
 
 /// <summary>
@@ -30,9 +42,16 @@ public partial class BrushToolbar : Control
     private Button? _tabButton;
     private PanelContainer? _panel;
     private Button? _brushBtn;
+    private Button? _lineBtn;
+    private Button? _rectBtn;
+    private Button? _ellipseBtn;
+    private Button? _fillRectBtn;
+    private Button? _fillEllipseBtn;
+    private Button? _stampBtn;
     private Button? _clearBtn;
     private Button? _hidePeersBtn;
     private Control? _combatToolsRow;
+    private Control? _shapeToolsRow;
     private ColorPickerButton? _colorPicker;
     private HSlider? _sizeSlider;
     private Label? _sizeValueLabel;
@@ -243,6 +262,8 @@ public partial class BrushToolbar : Control
         _inCombatContext = combat;
         if (_combatToolsRow != null)
             _combatToolsRow.Visible = combat;
+        if (_shapeToolsRow != null)
+            _shapeToolsRow.Visible = combat;
         if (_hidePeersBtn != null)
             _hidePeersBtn.Visible = combat;
 
@@ -326,15 +347,50 @@ public partial class BrushToolbar : Control
         _combatToolsRow.AddThemeConstantOverride("separation", 8);
         vbox.AddChild(_combatToolsRow);
 
-        _brushBtn = MakeDarkButton("Brush", "Brush (B) — LMB when armed; RMB always draws");
-        _brushBtn.CustomMinimumSize = new Vector2(100, 40);
+        _brushBtn = MakeDarkButton("Brush", "Brush (B) — freehand; LMB when armed; RMB always freehand");
+        _brushBtn.CustomMinimumSize = new Vector2(72, 36);
         _brushBtn.Pressed += () => SetTool(DrawTool.Brush);
         _combatToolsRow.AddChild(_brushBtn);
 
         _clearBtn = MakeDarkButton("Clear", "Clear all combat doodles");
-        _clearBtn.CustomMinimumSize = new Vector2(100, 40);
+        _clearBtn.CustomMinimumSize = new Vector2(72, 36);
         _clearBtn.Pressed += () => DrawCanvas.Instance?.ClearAll();
         _combatToolsRow.AddChild(_clearBtn);
+
+        // Shape tools (combat only)
+        _shapeToolsRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
+        _shapeToolsRow.AddThemeConstantOverride("separation", 6);
+        vbox.AddChild(_shapeToolsRow);
+
+        _lineBtn = MakeDarkButton("Line", "Straight line (L) — drag");
+        _lineBtn.CustomMinimumSize = new Vector2(56, 32);
+        _lineBtn.Pressed += () => SetTool(DrawTool.Line);
+        _shapeToolsRow.AddChild(_lineBtn);
+
+        _rectBtn = MakeDarkButton("Rect", "Rectangle outline — drag");
+        _rectBtn.CustomMinimumSize = new Vector2(56, 32);
+        _rectBtn.Pressed += () => SetTool(DrawTool.Rect);
+        _shapeToolsRow.AddChild(_rectBtn);
+
+        _ellipseBtn = MakeDarkButton("Oval", "Ellipse outline — drag");
+        _ellipseBtn.CustomMinimumSize = new Vector2(56, 32);
+        _ellipseBtn.Pressed += () => SetTool(DrawTool.Ellipse);
+        _shapeToolsRow.AddChild(_ellipseBtn);
+
+        _fillRectBtn = MakeDarkButton("■", "Filled rectangle — drag");
+        _fillRectBtn.CustomMinimumSize = new Vector2(40, 32);
+        _fillRectBtn.Pressed += () => SetTool(DrawTool.FillRect);
+        _shapeToolsRow.AddChild(_fillRectBtn);
+
+        _fillEllipseBtn = MakeDarkButton("●", "Filled ellipse — drag");
+        _fillEllipseBtn.CustomMinimumSize = new Vector2(40, 32);
+        _fillEllipseBtn.Pressed += () => SetTool(DrawTool.FillEllipse);
+        _shapeToolsRow.AddChild(_fillEllipseBtn);
+
+        _stampBtn = MakeDarkButton("Stamp", "Click to stamp a filled blob (size = brush)");
+        _stampBtn.CustomMinimumSize = new Vector2(64, 32);
+        _stampBtn.Pressed += () => SetTool(DrawTool.Stamp);
+        _shapeToolsRow.AddChild(_stampBtn);
 
         // Color + size (map + combat)
         var colorRow = new HBoxContainer();
@@ -395,7 +451,7 @@ public partial class BrushToolbar : Control
 
         var tip = new Label
         {
-            Text = "RMB pen · MMB erase · [ ] size · B brush",
+            Text = "RMB freehand · MMB erase · [ ] size · B/L shapes",
             HorizontalAlignment = HorizontalAlignment.Center,
             MouseFilter = MouseFilterEnum.Ignore,
         };
@@ -541,8 +597,8 @@ public partial class BrushToolbar : Control
 
     private void ApplyExpandedOffsets()
     {
-        float h = _inCombatContext ? 280f : 200f;
-        OffsetLeft = OffsetRight - 320;
+        float h = _inCombatContext ? 360f : 200f;
+        OffsetLeft = OffsetRight - 360;
         OffsetTop = OffsetBottom - h;
         if (_panel != null)
         {
@@ -571,6 +627,12 @@ public partial class BrushToolbar : Control
     private void RefreshToolVisuals()
     {
         Highlight(_brushBtn, ActiveTool == DrawTool.Brush);
+        Highlight(_lineBtn, ActiveTool == DrawTool.Line);
+        Highlight(_rectBtn, ActiveTool == DrawTool.Rect);
+        Highlight(_ellipseBtn, ActiveTool == DrawTool.Ellipse);
+        Highlight(_fillRectBtn, ActiveTool == DrawTool.FillRect);
+        Highlight(_fillEllipseBtn, ActiveTool == DrawTool.FillEllipse);
+        Highlight(_stampBtn, ActiveTool == DrawTool.Stamp);
     }
 
     private static void Highlight(Button? btn, bool on)
