@@ -140,6 +140,55 @@ public static class CombineService
         PileType.Deck.GetPile(player).Cards;
 
     /// <summary>
+    /// Deck cards that sit in a full combine bucket (same id + tier, count ≥ 3).
+    /// Shown in the rest-site combine picker so singles / pairs are not listed.
+    /// </summary>
+    public static List<CardModel> GetCombinableDeckCards(Player player)
+    {
+        List<CardModel> deck = GetDeckCards(player).ToList();
+        var buckets = new Dictionary<(string Id, CardRankLevel Rank), List<CardModel>>();
+        foreach (CardModel card in deck)
+        {
+            if (!IsCandidate(card))
+                continue;
+            var key = (CardKey(card), GetRank(card));
+            if (!buckets.TryGetValue(key, out List<CardModel>? list))
+            {
+                list = [];
+                buckets[key] = list;
+            }
+
+            list.Add(card);
+        }
+
+        return buckets.Values
+            .Where(list => list.Count >= CardsPerCombine)
+            .SelectMany(list => list)
+            .ToList();
+    }
+
+    /// <summary>
+    /// True when <paramref name="card"/> plus matching peers in
+    /// <paramref name="pool"/> can form a full combine group.
+    /// </summary>
+    public static bool CanStartCombineWith(CardModel card, IReadOnlyList<CardModel> pool)
+    {
+        if (!IsCandidate(card))
+            return false;
+
+        int matches = 0;
+        foreach (CardModel other in pool)
+        {
+            if (ReferenceEquals(card, other) || CanPair(card, other))
+                matches++;
+            if (matches >= CardsPerCombine)
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Pick survivor and the two sacrifices from a 3-card selection.
     /// Prefer the copy that already has non-rank enchantments (Spiral etc.), then
     /// highest upgrade — so combine does not throw away event/shop enchantments.
