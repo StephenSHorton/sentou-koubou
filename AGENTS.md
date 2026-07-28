@@ -24,10 +24,11 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/uncapped-chapter-fix` — Compat for UncappedSpire MP chapter transition desync (finishes Closing the Chapter on all peers).
 - `mods/mp-teammate-view` — Combined teammate potions + hand cards (BAKAOLC/OLC MIT rewrite; settings/hotkeys/highlights/LemonSpire+Typing interop; requires STS2-RitsuLib; disable the two Workshop originals).
 - `mods/max-hp-size` — Player combat scale from max HP (Workshop MaxHpSizeMod reimplementation; unsubscribe/disable that Workshop item).
-- `mods/character-cursors` — Tint local/remote cursors with character NameColor (visual QoL).
+- `mods/character-cursors` — Tint local/remote cursors with character NameColor or custom color (BaseLib settings).
 - `mods/shared-combat-positions` — MP combat lineup uses host/lobby slot order + always-visible teammate HP/status.
 - `mods/ping-rage` — End-turn Ping: random funny lines, mash-scaled bubble size + wiggle.
-- `mods/battle-draw` — Combat whiteboard (half-res baked ink) + map pen color/size; BaseLib; installable on `main` from v0.5.
+- `mods/battle-draw` — Combat whiteboard (freehand + shapes/fill/stamp) + map pen color/size; BaseLib; installable on `main` from v0.5.
+- `mods/combat-queue-fix` — Drop NonCombat map-vote queue heads during combat (vanilla MP softlock fix).
 
 ## Releases (local, per mod)
 

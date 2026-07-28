@@ -19,18 +19,31 @@ public static class PotionSlotHardenPatches
         int n = 0;
 
         // Prefer early out at procure so game state never adds a phantom potion.
+        // Game builds may return PotionModel? or Task<PotionModel?> — pick a matching prefix.
         MethodInfo? tryProcure = AccessTools.Method(
             typeof(PotionCmd),
             nameof(PotionCmd.TryToProcure),
             [typeof(PotionModel), typeof(Player), typeof(int)]);
         if (tryProcure != null)
         {
-            harmony.Patch(
-                tryProcure,
-                prefix: new HarmonyMethod(typeof(PotionSlotHardenPatches), nameof(TryToProcurePrefix)));
-            n++;
-            MainFile.Logger.Info(
-                "Patched PotionCmd.TryToProcure (skip when no open potion slots).");
+            string prefixName = tryProcure.ReturnType.Name.StartsWith("Task", StringComparison.Ordinal)
+                ? nameof(TryToProcureTaskPrefix)
+                : nameof(TryToProcurePrefix);
+            try
+            {
+                harmony.Patch(
+                    tryProcure,
+                    prefix: new HarmonyMethod(typeof(PotionSlotHardenPatches), prefixName));
+                n++;
+                MainFile.Logger.Info(
+                    $"Patched PotionCmd.TryToProcure via {prefixName} " +
+                    $"(return {tryProcure.ReturnType.Name}; skip when no open potion slots).");
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Warn(
+                    $"PotionCmd.TryToProcure patch skipped ({tryProcure.ReturnType.Name}): {e.Message}");
+            }
         }
 
         // Belt-and-suspenders: never throw from UI holder if slot already filled.
@@ -59,12 +72,37 @@ public static class PotionSlotHardenPatches
         int slotIndex,
         ref PotionModel? __result)
     {
+        if (!ShouldBlockProcure(potion, player, slotIndex, out _))
+            return true;
+        __result = null;
+        return false;
+    }
+
+    /// <summary>Async overload when TryToProcure returns Task&lt;PotionModel?&gt;.</summary>
+    public static bool TryToProcureTaskPrefix(
+        PotionModel potion,
+        Player player,
+        int slotIndex,
+        ref Task<PotionModel?> __result)
+    {
+        if (!ShouldBlockProcure(potion, player, slotIndex, out _))
+            return true;
+        __result = Task.FromResult<PotionModel?>(null);
+        return false;
+    }
+
+    private static bool ShouldBlockProcure(
+        PotionModel? potion,
+        Player? player,
+        int slotIndex,
+        out string reason)
+    {
+        reason = "";
         try
         {
             if (player == null)
-                return true;
+                return false;
 
-            // Explicit slot index: only skip if that slot is already occupied.
             if (slotIndex >= 0)
             {
                 PotionModel? existing = null;
@@ -74,34 +112,34 @@ public static class PotionSlotHardenPatches
                 }
                 catch
                 {
-                    // out of range — let vanilla handle
-                    return true;
+                    return false;
                 }
 
                 if (existing != null)
                 {
-                    MainFile.Logger.Warn(
+                    reason =
                         $"TryToProcure blocked: slot {slotIndex} already has {existing.Id} " +
-                        $"(wanted {potion?.Id}).");
-                    __result = null;
-                    return false;
+                        $"(wanted {potion?.Id}).";
+                    MainFile.Logger.Warn(reason);
+                    return true;
                 }
-                return true;
+
+                return false;
             }
 
             if (!player.HasOpenPotionSlots)
             {
-                MainFile.Logger.Warn(
-                    $"TryToProcure blocked: no open potion slots (wanted {potion?.Id}).");
-                __result = null;
-                return false;
+                reason = $"TryToProcure blocked: no open potion slots (wanted {potion?.Id}).";
+                MainFile.Logger.Warn(reason);
+                return true;
             }
         }
         catch (Exception e)
         {
-            MainFile.Logger.Warn($"TryToProcurePrefix: {e.Message}");
+            MainFile.Logger.Warn($"ShouldBlockProcure: {e.Message}");
         }
-        return true;
+
+        return false;
     }
 
     public static bool AddPotionPrefix(NPotionHolder __instance)

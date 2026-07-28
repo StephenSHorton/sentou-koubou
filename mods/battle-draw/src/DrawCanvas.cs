@@ -36,6 +36,12 @@ public partial class DrawCanvas : Control
     private DrawTool _cursorTool = DrawTool.None;
     private int _strokeLogBudget = 3;
 
+    // Shape tools: drag from press → release, then densify into a stroke.
+    private bool _shapeDragging;
+    private Vector2 _shapeStart;
+    private Vector2 _shapeEnd;
+    private Line2D? _shapePreview;
+
     public bool HideRemoteStrokes { get; private set; }
 
     public static void AttachTo(NCombatRoom room)
@@ -219,6 +225,18 @@ public partial class DrawCanvas : Control
             case Key.B:
                 BrushToolbar.CombatInstance?.SetTool(DrawTool.Brush);
                 break;
+            case Key.L:
+                BrushToolbar.CombatInstance?.SetTool(DrawTool.Line);
+                break;
+            case Key.R:
+                BrushToolbar.CombatInstance?.SetTool(DrawTool.Rect);
+                break;
+            case Key.O:
+                BrushToolbar.CombatInstance?.SetTool(DrawTool.Ellipse);
+                break;
+            case Key.F:
+                BrushToolbar.CombatInstance?.SetTool(DrawTool.FillRect);
+                break;
             // No click-arm eraser (E): MMB always erases; armed LMB eraser removed.
         }
     }
@@ -233,7 +251,9 @@ public partial class DrawCanvas : Control
         {
             if (mb.ButtonIndex is MouseButton.Left or MouseButton.Right or MouseButton.Middle)
             {
-                if (_drawing)
+                if (_shapeDragging)
+                    CommitShape(GetInkMousePos(vp));
+                else if (_drawing)
                     EndStroke();
             }
 
@@ -246,12 +266,18 @@ public partial class DrawCanvas : Control
 
         if (GetBlockReason() != null)
         {
+            if (_shapeDragging)
+                CancelShape();
             if (_drawing)
                 EndStroke();
             return;
         }
 
-        StartStroke(intent.Value, GetInkMousePos(vp));
+        Vector2 pos = GetInkMousePos(vp);
+        if (ShapeGeometry.IsShapeTool(intent.Value))
+            BeginShape(intent.Value, pos);
+        else
+            StartStroke(intent.Value, pos);
     }
 
     private void HandleMouseMotion(InputEventMouseMotion mm)
@@ -259,6 +285,20 @@ public partial class DrawCanvas : Control
         Viewport? vp = GetViewport();
         if (vp == null)
             return;
+
+        Vector2 pos = GetInkMousePos(vp);
+
+        if (_shapeDragging)
+        {
+            if (GetBlockReason() != null)
+            {
+                CancelShape();
+                return;
+            }
+
+            UpdateShapePreview(pos);
+            return;
+        }
 
         DrawTool? intent = IntentFromMask(mm.ButtonMask);
         if (intent == null)
@@ -275,7 +315,10 @@ public partial class DrawCanvas : Control
             return;
         }
 
-        Vector2 pos = GetInkMousePos(vp);
+        // Shape tools only commit on release — ignore freehand motion for them.
+        if (ShapeGeometry.IsShapeTool(intent.Value))
+            return;
+
         if (!_drawing || _strokeTool != intent.Value)
             StartStroke(intent.Value, pos);
         else
@@ -285,9 +328,12 @@ public partial class DrawCanvas : Control
     private DrawTool? IntentFromButton(MouseButton button) => button switch
     {
         MouseButton.Middle => DrawTool.Eraser,
+        // RMB always freehand brush (even when a shape tool is armed).
         MouseButton.Right => DrawTool.Brush,
-        // LMB only arms pen (optional). Eraser is MMB-only — no click-to-arm erase tool.
-        MouseButton.Left when _tool == DrawTool.Brush => DrawTool.Brush,
+        // LMB uses the armed tool (brush or shape).
+        MouseButton.Left when _tool is DrawTool.Brush
+            or DrawTool.Line or DrawTool.Rect or DrawTool.Ellipse
+            or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp => _tool,
         _ => null,
     };
 
@@ -297,9 +343,121 @@ public partial class DrawCanvas : Control
             return DrawTool.Eraser;
         if ((mask & MouseButtonMask.Right) != 0)
             return DrawTool.Brush;
-        if ((mask & MouseButtonMask.Left) != 0 && _tool == DrawTool.Brush)
-            return DrawTool.Brush;
+        if ((mask & MouseButtonMask.Left) != 0
+            && _tool is DrawTool.Brush or DrawTool.Line or DrawTool.Rect or DrawTool.Ellipse
+                or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp)
+            return _tool;
         return null;
+    }
+
+    private void BeginShape(DrawTool tool, Vector2 pos)
+    {
+        if (_drawing)
+            EndStroke();
+        CancelShape();
+
+        _shapeDragging = true;
+        _strokeTool = tool;
+        _shapeStart = pos;
+        _shapeEnd = pos;
+
+        // Stamp places immediately on click (no drag required).
+        if (tool == DrawTool.Stamp)
+        {
+            CommitShape(pos);
+            return;
+        }
+
+        // Local-only preview line (not synced).
+        try
+        {
+            Color preview = MakeInkColor(BrushConfig.CurrentColor);
+            preview.A = 0.55f;
+            _shapePreview = _ink.BeginStroke(
+                erase: false,
+                preview,
+                Math.Max(2f, BrushConfig.ClampedSize),
+                remote: false);
+            _ink.SeedStroke(_shapePreview, pos);
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Shape preview begin failed: {e.Message}");
+        }
+
+        RefreshCursor();
+    }
+
+    private void UpdateShapePreview(Vector2 pos)
+    {
+        _shapeEnd = pos;
+        if (_shapePreview == null || !GodotObject.IsInstanceValid(_shapePreview))
+            return;
+
+        // Rebuild preview points (outline only for filled tools).
+        DrawTool previewTool = _strokeTool switch
+        {
+            DrawTool.FillRect => DrawTool.Rect,
+            DrawTool.FillEllipse => DrawTool.Ellipse,
+            _ => _strokeTool,
+        };
+        var pts = ShapeGeometry.BuildPoints(previewTool, _shapeStart, _shapeEnd, BrushConfig.ClampedSize);
+        _shapePreview.ClearPoints();
+        foreach (Vector2 p in pts)
+            _ink.AddPointScreen(_shapePreview, p);
+    }
+
+    private void CommitShape(Vector2 end)
+    {
+        if (!_shapeDragging)
+            return;
+
+        DrawTool tool = _strokeTool;
+        Vector2 start = _shapeStart;
+        ClearShapePreview();
+        _shapeDragging = false;
+
+        float width = Math.Max(2f, BrushConfig.ClampedSize);
+        var points = ShapeGeometry.BuildPoints(tool, start, end, width);
+        if (points.Count < 2)
+        {
+            _strokeTool = DrawTool.None;
+            RefreshCursor();
+            return;
+        }
+
+        // Emit as one freehand stroke so MP peers reconstruct identically.
+        StartStroke(DrawTool.Brush, points[0]);
+        // Feed remaining points; subsample network points so we don't flood unreliable channel.
+        int netStride = Math.Max(1, points.Count / 64);
+        for (int i = 1; i < points.Count; i++)
+        {
+            if (_activeLine == null || !GodotObject.IsInstanceValid(_activeLine))
+                break;
+            _lastPoint = points[i];
+            _ink.AddPointScreen(_activeLine, points[i]);
+            if (i == points.Count - 1 || i % netStride == 0)
+                DrawSync.Instance?.SendPoint(_activeStrokeId, points[i], force: true);
+        }
+
+        EndStroke();
+        MainFile.Logger.Info($"Shape commit tool={tool} points={points.Count}");
+    }
+
+    private void CancelShape()
+    {
+        ClearShapePreview();
+        _shapeDragging = false;
+        _strokeTool = DrawTool.None;
+        RefreshCursor();
+    }
+
+    private void ClearShapePreview()
+    {
+        if (_shapePreview != null && GodotObject.IsInstanceValid(_shapePreview))
+            _shapePreview.QueueFree();
+        _shapePreview = null;
+        _ink.EndStrokeActivity();
     }
 
     private static Vector2 GetInkMousePos(Viewport vp)
@@ -311,16 +469,21 @@ public partial class DrawCanvas : Control
     public void OnToolChanged(DrawTool tool)
     {
         _tool = tool;
+        if (_shapeDragging)
+            CancelShape();
         EndStroke();
         RefreshCursor();
     }
 
     /// <summary>
     /// Armed tool cursor when idle; active stroke tool (RMB pen / MMB erase) while drawing.
+    /// Shape tools share the pen cursor.
     /// </summary>
     public void RefreshCursor()
     {
-        DrawTool shown = _drawing ? _strokeTool : _tool;
+        DrawTool shown = _drawing || _shapeDragging ? _strokeTool : _tool;
+        if (ShapeGeometry.IsShapeTool(shown))
+            shown = DrawTool.Brush;
         ApplyCursorForTool(shown);
     }
 
@@ -398,6 +561,7 @@ public partial class DrawCanvas : Control
 
     public void ClearAll(bool network = true)
     {
+        CancelShape();
         _activeLine = null;
         _openRemote.Clear();
         _ink.ClearAll();

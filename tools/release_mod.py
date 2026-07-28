@@ -111,6 +111,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "BattleDraw.csproj",
         "assembly": "BattleDraw",
     },
+    "combat-queue-fix": {
+        "folder": "combat-queue-fix",
+        "project": "CombatQueueFix.csproj",
+        "assembly": "CombatQueueFix",
+    },
 }
 
 

@@ -1,6 +1,6 @@
 # Character Cursors
 
-Tints the **mouse cursor** to match each character’s **primary color** (`NameColor` — Ironclad red, Silent green, Defect blue, etc.).
+Tints the **mouse cursor** to match each character’s **primary color** (`NameColor` — Ironclad red, Silent green, Defect blue, etc.), **or a custom color** from BaseLib mod settings.
 
 Yes, this works in Godot: STS2 already uses custom cursor **Images** (`NCursorManager` → `Input.SetCustomMouseCursor`). We recolor those pixels for the local cursor, and shader-tint multiplayer remote cursors.
 
@@ -8,9 +8,17 @@ Yes, this works in Godot: STS2 already uses custom cursor **Images** (`NCursorMa
 
 | Cursor | Behavior |
 |--------|----------|
-| **Local** (your pointer) | Recolored images via `OverrideCursor` from your run character’s `NameColor` |
+| **Local** (your pointer) | Character `NameColor`, or **Custom Color** when enabled in settings |
 | **Remote** (teammates) | Desaturate + tint shader using each teammate’s character color |
 | Map draw tools | Left untinted (quill/eraser stay vanilla) |
+
+### Settings (BaseLib)
+
+| Setting | Default | Meaning |
+|--------|---------|---------|
+| **Enable Tint** | on | Master switch |
+| **Use Custom Color** | off | Local cursor ignores character color |
+| **Custom Color** | red-ish | Free color picker |
 
 Outline stays dark so the pointer stays readable on light and dark UI.
 
@@ -21,7 +29,7 @@ cd mods/character-cursors
 dotnet build -c Release
 ```
 
-Enable **Character Cursors** in the mod list. No dependencies.
+Enable **Character Cursors** in the mod list. Requires **BaseLib**.
 
 ### Note vs LemonSpire
 
