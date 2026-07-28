@@ -4,7 +4,7 @@ Multiplayer combat visual QoL:
 
 1. **Shared lineup** — characters use **lobby / host slot order** instead of always putting you first  
 2. **Always-visible teammate state** — HP, block, and power/status icons stay on screen **without hovering**  
-3. **HP above bodies** — ally state UI uses a higher canvas z-index so multi-row / overlapping characters do not bury health bars
+3. **HP / orbs above bodies** — ally state UI and orb slots use a higher canvas z-index so multi-row / overlapping characters do not bury health bars or orbs
 
 ## Shared lineup
 
@@ -51,7 +51,7 @@ Enable **Shared Combat Positions**. No dependencies.
 | Combat party X/Y layout | host slot order |
 | Draw order | same order |
 | Teammate HP / block / powers | always visible |
-| Ally HP vs overlapping sprites | drawn on top |
+| Ally HP / orb slots vs overlapping sprites | drawn on top |
 | Enemy placement | unchanged |
 | Singleplayer | no-op for lineup; no remote allies |
 | Gameplay / targeting | visual only |
