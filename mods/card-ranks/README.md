@@ -11,7 +11,9 @@ RankUpCards idea (not a fork).
 | **II** | `rank2.png` | ×**2** | **3** Tier I |
 | **III** | `rank3.png` | ×**3** | **3** Tier II (max) |
 
-- Same **card identity** and **same tier** only (picker dims illegal partners).
+- Same **card identity** and **same tier** only.
+- Combine picker only lists cards that already have **3+ matching copies** (no permanent dim clutter).
+- After the first pick, illegal partners stay dimmed.
 - Select **3** cards: keep the highest-upgrade copy, sacrifice the other two.
 - Upgrade levels on all three are **summed** onto the survivor.
 - Rank lives as an enchantment (icon + mult). Bonuses stack beside it when multi-enchant is available (e.g. UncappedSpire).

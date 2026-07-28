@@ -44,9 +44,12 @@ public sealed class CombineSynchronizer : IDisposable
     }
 
     /// <summary>UI-only deck picker; never touches the synced choice-id stream.</summary>
-    private static async Task<IEnumerable<CardModel>> PickCardsFromDeck(Player owner, CardSelectorPrefs prefs)
+    private static async Task<IEnumerable<CardModel>> PickCardsFromDeck(
+        Player owner,
+        CardSelectorPrefs prefs,
+        IReadOnlyList<CardModel>? cardsOverride = null)
     {
-        List<CardModel> cards = owner.Deck.Cards.ToList();
+        List<CardModel> cards = cardsOverride?.ToList() ?? owner.Deck.Cards.ToList();
         if (cards.Count == 0)
         {
             return Enumerable.Empty<CardModel>();
@@ -75,12 +78,22 @@ public sealed class CombineSynchronizer : IDisposable
             RequireManualConfirmation = true,
         };
 
+        // Only list cards that sit in a full 3+ same-id/same-tier bucket.
+        // Otherwise the picker shows the whole deck with most rows permanently dimmed.
+        List<CardModel> combinable = CombineService.GetCombinableDeckCards(owner);
+        if (combinable.Count < RankMath.CardsPerCombine)
+        {
+            MainFile.Logger.Info(
+                $"Combine picker skipped: only {combinable.Count} combinable card(s) in deck.");
+            return false;
+        }
+
         // Drive the deck-select screen directly instead of CardSelectCmd.FromDeckGeneric:
         // the Cmd reserves an id from the synced PlayerChoiceSynchronizer, which only ticks
         // on the combining client (mirrors never run this flow) and desyncs the run checksum
         // (see trading-post PR #13 — same failure, confirmed via RitsuLib divergence dump).
         // The combine itself is synced by CombineCardsMessage, so no synced choice is needed.
-        IEnumerable<CardModel> selection = await PickCardsFromDeck(owner, prefs);
+        IEnumerable<CardModel> selection = await PickCardsFromDeck(owner, prefs, combinable);
 
         List<CardModel> picked = selection.ToList();
         if (picked.Count < RankMath.CardsPerCombine)

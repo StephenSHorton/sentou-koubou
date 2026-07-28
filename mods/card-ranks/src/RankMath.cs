@@ -148,6 +148,29 @@ public static class RankMath
         return false;
     }
 
+    /// <summary>
+    /// Cards that belong to an (id, rank) bucket with at least
+    /// <see cref="CardsPerCombine"/> members — i.e. can actually form a combine.
+    /// Used to hide unusable cards from the rest-site combine picker.
+    /// </summary>
+    public static List<RankCardView> FilterToCombinableGroupMembers(
+        IEnumerable<RankCardView> cards,
+        bool allowBasics)
+    {
+        List<RankCardView> list = cards.Where(c => IsCandidate(c, allowBasics)).ToList();
+        var counts = new Dictionary<(string Id, CardRankLevel Rank), int>();
+        foreach (RankCardView c in list)
+        {
+            var key = (c.Id, c.Rank);
+            counts.TryGetValue(key, out int n);
+            counts[key] = n + 1;
+        }
+
+        return list
+            .Where(c => counts.TryGetValue((c.Id, c.Rank), out int n) && n >= CardsPerCombine)
+            .ToList();
+    }
+
     /// <summary>Legacy name — true when a full combine group exists in the deck.</summary>
     public static bool DeckHasCombinablePair(IEnumerable<RankCardView> cards, bool allowBasics) =>
         DeckHasCombinableGroup(cards, allowBasics);

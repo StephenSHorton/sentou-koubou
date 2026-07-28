@@ -107,6 +107,37 @@ public class RankMathTests
     }
 
     [Fact]
+    public void FilterToCombinableGroupMembers_DropsIncompleteBuckets()
+    {
+        List<RankCardView> deck =
+        [
+            Plain("STRIKE"), Plain("STRIKE"), Plain("STRIKE"),
+            Plain("DEFEND"), Plain("DEFEND"), // only 2 — not combinable
+            T1("BASH"), // singleton
+            T3("STRIKE"), T3("STRIKE"), T3("STRIKE"), // max tier — not candidates
+        ];
+
+        List<RankCardView> filtered = RankMath.FilterToCombinableGroupMembers(deck, allowBasics: true);
+        Assert.Equal(3, filtered.Count);
+        Assert.All(filtered, c => Assert.Equal("STRIKE", c.Id));
+        Assert.All(filtered, c => Assert.Equal(CardRankLevel.None, c.Rank));
+    }
+
+    [Fact]
+    public void FilterToCombinableGroupMembers_KeepsMultipleFullGroups()
+    {
+        List<RankCardView> deck =
+        [
+            Plain("A"), Plain("A"), Plain("A"),
+            T1("B"), T1("B"), T1("B"), T1("B"),
+        ];
+        List<RankCardView> filtered = RankMath.FilterToCombinableGroupMembers(deck, allowBasics: true);
+        Assert.Equal(7, filtered.Count);
+        Assert.Equal(3, filtered.Count(c => c.Id == "A"));
+        Assert.Equal(4, filtered.Count(c => c.Id == "B"));
+    }
+
+    [Fact]
     public void BasicsBlockedWhenSettingOff()
     {
         Assert.False(RankMath.CanGroup(

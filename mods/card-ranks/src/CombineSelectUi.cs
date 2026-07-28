@@ -21,7 +21,11 @@ public static class CombineSelectUi
             return true;
 
         if (screen._selectedCards.Count == 0)
-            return CombineService.IsCandidate(card);
+        {
+            // Only cards that still have a full 3-set among what's on the grid.
+            List<CardModel> pool = CollectDisplayedCards(screen);
+            return CombineService.CanStartCombineWith(card, pool);
+        }
 
         if (screen._selectedCards.Count >= screen._prefs.MaxSelect)
             return false;
@@ -40,6 +44,8 @@ public static class CombineSelectUi
         NCardGrid? grid = screen._grid;
         if (grid == null)
             return;
+
+        List<CardModel> pool = CollectDisplayedCards(screen);
 
         CardModel? anchor = screen._selectedCards.Count >= 1
             ? screen._selectedCards.First()
@@ -64,7 +70,7 @@ public static class CombineSelectUi
             bool allowed;
             if (screen._selectedCards.Count == 0)
             {
-                allowed = CombineService.IsCandidate(model);
+                allowed = CombineService.CanStartCombineWith(model, pool);
             }
             else if (screen._selectedCards.Contains(model))
             {
@@ -99,11 +105,28 @@ public static class CombineSelectUi
             }
         }
 
-        if (anchor != null)
+        if (anchor != null || blockedCount > 0)
         {
             MainFile.Logger.Info(
                 $"Combine filter: allowed={allowedCount} blocked={blockedCount} " +
-                $"(anchorRank={CombineService.GetRank(anchor)})");
+                $"(anchorRank={(anchor != null ? CombineService.GetRank(anchor).ToString() : "-")})");
         }
+    }
+
+    private static List<CardModel> CollectDisplayedCards(NDeckCardSelectScreen screen)
+    {
+        var list = new List<CardModel>();
+        NCardGrid? grid = screen._grid;
+        if (grid == null)
+            return list;
+
+        foreach (NGridCardHolder holder in grid.CurrentlyDisplayedCardHolders)
+        {
+            CardModel? model = holder.CardModel;
+            if (model != null)
+                list.Add(model);
+        }
+
+        return list;
     }
 }
