@@ -284,8 +284,10 @@ public static class SellUi
         if (!SellPricing.CanSellRelic(relic))
         {
             MainFile.Logger.Info(
-                $"Relic sell skipped (not tradable or no merchant cost): {relic.Id} " +
-                $"tradable={relic.IsTradable} cost={relic.MerchantCost}");
+                $"Relic sell skipped (eligibility): {relic.Id} " +
+                $"rarity={relic.Rarity} uponPickup={relic.HasUponPickupEffect} " +
+                $"vanillaTradable={relic.IsTradable} cost={relic.MerchantCost} " +
+                $"pets={relic.SpawnsPets} melted={relic.IsMelted} usedUp={relic.IsUsedUp}");
             return;
         }
 

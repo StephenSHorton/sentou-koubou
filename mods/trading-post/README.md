@@ -15,7 +15,8 @@ Co-op trading for **Slay the Spire 2** multiplayer.
 
 - Sell options only appear **in the merchant room**.
 - Potion prices match the shop rarity ladder (50 / 75 / 100 base), paid at **half** (25 / 37 / 50).
-- Relics require `IsTradable` and a positive `MerchantCost` (starter/untradable relics stay unsellable).
+- Relics need a positive finite `MerchantCost`. Starter / Event / Ancient, pets, melted, and used-up relics stay unsellable.
+- **Upon-pickup relics** (Strawberry, Potion Belt, Lee's Waffle, …) **are sellable**. Vanilla marks them untradable because their bonuses never reverse; on sell we strip max HP / potion-slot grants first, then remove the relic. One-shot deck/gold/reward effects (Whetstone upgrades, Old Coin gold, etc.) are kept.
 - Sales are multiplayer-synced (`SellPotionMessage` / `SellRelicMessage`).
 
 ### UI
