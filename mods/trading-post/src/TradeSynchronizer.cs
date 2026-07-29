@@ -350,6 +350,8 @@ public class TradeSynchronizer : IDisposable
             MainFile.Logger.Warn($"Sell relic: no matching relic {relicId} on {seller.NetId}");
             return;
         }
+        // Undo pickup bonuses (max HP, potion slots) while Owner is still valid.
+        await RelicSellEffects.RevertPermanentEffects(relic);
         await RelicCmd.Remove(relic);
         if (gold > 0)
         {
