@@ -24,13 +24,15 @@ When a combine **reaches** Tier I, II, or III, a random bonus is granted automat
 
 **Clone**, **Soul's Power**, **Steady**, **Spiral**, **Imbued**, **Perfect Fit**, **Royally Approved**.
 
-These are applied as **real vanilla enchantments** when the card can stack them (UncappedSpire MultiEnchantment), plus keyword/Replay side-effects so combat still works. Bonuses from sacrificed copies are **merged** onto the survivor.
+These are applied as **real vanilla enchantments** only when the card can stack them (UncappedSpire MultiEnchantment). Bonuses from sacrificed copies are **merged** onto the survivor.
 
 Eligibility / fair rolls:
 - **Soul's Power** only if the card has **local Exhaust** (vanilla `SoulsPower.CanEnchant`).
 - **Spiral** only on basic Strike/Defend.
-- Rolls are **uniform among bonuses that can actually land** (need MultiEnchantment/stack for leaf enchants). Keyword-only fallbacks: Steady, Royally Approved.
-- No more “flag-only” Perfect Fit / Clone counting as success (that skewed re-rolls toward Royally Approved / Perfect Fit).
+- **Royally Approved** only on **Attack/Skill** (vanilla `CanEnchantCardType` — Powers cannot take it).
+- **Imbued** only on **Skill**.
+- Rolls are **uniform among bonuses that can actually land** as a real Multi/vanilla leaf. **No keyword-only fallbacks** (Innate/Retain from `ApplyKeyword` alone are not in `SerializableCard` and desync multiplayer hand order).
+- No “flag-only” Perfect Fit / Clone / Steady / Royally Approved counting as success.
 
 **Clone** uses the **native** rest-site Clone button (`CLONE`, game art, **spends** the campfire action). We only inject that vanilla option when your deck has a Clone-enchanted card (same path as Paels’ Growth).
 

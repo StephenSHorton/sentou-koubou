@@ -7,8 +7,9 @@ using MegaCrit.Sts2.Core.Models.Enchantments;
 namespace CardRanks;
 
 /// <summary>
-/// Bonuses granted each tier-up. Applied as real vanilla enchantments when possible
-/// (UncappedSpire MultiEnchantment stacks them with rank). Keywords/flags remain as fallback.
+/// Bonuses granted each tier-up. Applied only as real vanilla enchantments
+/// (UncappedSpire MultiEnchantment stacks them with rank). Keyword-only fallbacks are
+/// multiplayer-unsafe (<c>SerializableCard</c> omits local keywords).
 /// </summary>
 public enum TierBonus
 {
@@ -117,6 +118,8 @@ public static class TierBonusService
     /// Soul's Power only if the card has <b>local</b> Exhaust (mirrors vanilla
     /// <c>SoulsPower.CanEnchant</c>).
     /// Spiral only on basic Strike/Defend.
+    /// Royally Approved only on Attack/Skill (vanilla <c>RoyallyApproved.CanEnchantCardType</c>).
+    /// Imbued only on Skill (vanilla <c>Imbued.CanEnchantCardType</c>).
     /// </summary>
     public static bool IsEligible(CardModel card, TierBonus bonus)
     {
@@ -126,28 +129,39 @@ public static class TierBonusService
             return HasLocalExhaust(card);
         if (bonus == TierBonus.Spiral)
             return CanTakeVanillaSpiral(card);
+        if (bonus == TierBonus.RoyallyApproved)
+            return CanTakeVanillaRoyallyApproved(card);
+        if (bonus == TierBonus.Imbued)
+            return CanTakeVanillaImbued(card);
         return true;
     }
 
     /// <summary>
-    /// True when this bonus can actually land as a real result (not a no-op flag).
-    /// Used for fair rolling so Spiral/Imbued/etc. aren't "wasted picks" that re-roll
-    /// into Perfect Fit / Royally Approved every time.
+    /// True when this bonus can actually land as a <b>serialized</b> result.
+    /// Keyword-only fallbacks (Steady/Royally Approved via <c>CardCmd.ApplyKeyword</c>) are
+    /// multiplayer-unsafe: <c>SerializableCard</c> does not store local keywords, so peers
+    /// that rehydrate deck state lose Innate/Retain and desync hand order / draw (RitsuLib
+    /// dump 2026-07-29 checksum #1030 — Defragment Power + Royally Approved).
+    /// Every bonus must land as a real vanilla / MultiEnchantment leaf.
     /// </summary>
     public static bool CanLand(CardModel card, TierBonus bonus)
     {
         if (!IsEligible(card, bonus))
             return false;
 
-        // Steady / Royally Approved can fall back to keywords even without Multi stacking.
-        if (bonus is TierBonus.Steady or TierBonus.RoyallyApproved)
-            return true;
-
-        // Everything else needs a free enchant slot or MultiEnchantment to attach a leaf.
+        // Need a free enchant slot or MultiEnchantment to attach a leaf.
         // Without that, Apply would only set invisible CWT flags (or reject) — biasing the
         // visible outcomes toward keyword-only bonuses.
         return CanStackExtraEnchant(card);
     }
+
+    /// <summary>Mirrors vanilla <c>RoyallyApproved.CanEnchantCardType</c> (Attack or Skill).</summary>
+    public static bool CanTakeVanillaRoyallyApproved(CardModel card) =>
+        card.Type is CardType.Attack or CardType.Skill;
+
+    /// <summary>Mirrors vanilla <c>Imbued.CanEnchantCardType</c> (Skill only).</summary>
+    public static bool CanTakeVanillaImbued(CardModel card) =>
+        card.Type == CardType.Skill;
 
     /// <summary>True if CardCmd.Enchant can add another leaf without replacing rank.</summary>
     public static bool CanStackExtraEnchant(CardModel card)
@@ -292,8 +306,18 @@ public static class TierBonusService
 
         try
         {
-            // Always apply keyword / replay side-effects so combat works even without
-            // the vanilla enchantment instance (or if Multi only shows the icon).
+            // Every bonus must land as a real Multi/vanilla leaf. Keyword-only fallbacks
+            // (old Steady / Royally Approved path) are not in SerializableCard and desync MP.
+            if (!realEnchantOk)
+            {
+                box.Bonuses.Remove(bonus);
+                MainFile.Logger.Info(
+                    $"Tier bonus REJECTED (no real enchant): {DisplayName(bonus)} on {card.Id}");
+                return false;
+            }
+
+            // Side-effects only after a real leaf is present. OnEnchant usually already
+            // applied keywords; ApplyKeyword is idempotent HashSet add (belt and suspenders).
             switch (bonus)
             {
                 case TierBonus.Steady:
@@ -316,18 +340,6 @@ public static class TierBonusService
                 case TierBonus.PerfectFit:
                     // Flags for Clone rest option / RankEnchantment hooks.
                     break;
-            }
-
-            // No invisible "success": flag-only Perfect Fit / Clone / Imbued / Spiral /
-            // Soul's Power used to count as applied, then re-rolls never happened — and when
-            // they did fail later, the remaining pool skewed to Royally Approved / Perfect Fit.
-            // Steady + Royally Approved may keep keyword-only fallback (still a real effect).
-            if (!realEnchantOk && bonus is not (TierBonus.Steady or TierBonus.RoyallyApproved))
-            {
-                box.Bonuses.Remove(bonus);
-                MainFile.Logger.Info(
-                    $"Tier bonus REJECTED (no real enchant): {DisplayName(bonus)} on {card.Id}");
-                return false;
             }
 
             MainFile.Logger.Info(
