@@ -241,6 +241,49 @@ public sealed class InkSurface
         ClearRemote();
     }
 
+    /// <summary>
+    /// Snapshot rendered ink from both layers for flood-fill wall detection.
+    /// Forces an Always update so recent strokes are in the texture.
+    /// </summary>
+    public (Image? Local, Image? Remote, int Width, int Height) CaptureInkImages()
+    {
+        EnsureAssets();
+        if (_localVp != null)
+            _localVp.RenderTargetUpdateMode = SubViewport.UpdateMode.Always;
+        if (_remoteVp != null)
+            _remoteVp.RenderTargetUpdateMode = SubViewport.UpdateMode.Always;
+
+        // One forced frame is not always available mid-input; GetImage usually has last frame.
+        Image? local = TryGetImage(_localVp);
+        Image? remote = TryGetImage(_remoteVp);
+        int w = local?.GetWidth() ?? remote?.GetWidth() ?? 0;
+        int h = local?.GetHeight() ?? remote?.GetHeight() ?? 0;
+        return (local, remote, w, h);
+    }
+
+    private static Image? TryGetImage(SubViewport? vp)
+    {
+        if (vp == null || !GodotObject.IsInstanceValid(vp))
+            return null;
+        try
+        {
+            ViewportTexture? tex = vp.GetTexture();
+            if (tex == null)
+                return null;
+            Image img = tex.GetImage();
+            if (img == null || img.IsEmpty())
+                return null;
+            if (img.GetFormat() != Image.Format.Rgba8)
+                img.Convert(Image.Format.Rgba8);
+            return img;
+        }
+        catch (Exception e)
+        {
+            MainFile.Logger.Warn($"Capture ink image failed: {e.Message}");
+            return null;
+        }
+    }
+
     private static void FreeLines(SubViewport? vp)
     {
         if (vp == null || !GodotObject.IsInstanceValid(vp))

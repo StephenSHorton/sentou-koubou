@@ -21,6 +21,8 @@ public enum DrawTool
     FillEllipse = 7,
     /// <summary>Click-place filled blob (brush-size stamp).</summary>
     Stamp = 8,
+    /// <summary>Click flood-fill of a closed region bounded by drawn ink (not open canvas).</summary>
+    Bucket = 9,
 }
 
 /// <summary>
@@ -47,6 +49,7 @@ public partial class BrushToolbar : Control
     private Button? _fillRectBtn;
     private Button? _fillEllipseBtn;
     private Button? _stampBtn;
+    private Button? _bucketBtn;
     private Button? _clearBtn;
     private Button? _hidePeersBtn;
     private Control? _combatToolsRow;
@@ -387,6 +390,11 @@ public partial class BrushToolbar : Control
         _stampBtn.Pressed += () => SetTool(DrawTool.Stamp);
         _shapeToolsRow.AddChild(_stampBtn);
 
+        _bucketBtn = MakeDarkButton("Fill", "Bucket fill (G) — click inside a closed drawing only");
+        _bucketBtn.CustomMinimumSize = new Vector2(56, 32);
+        _bucketBtn.Pressed += () => SetTool(DrawTool.Bucket);
+        _shapeToolsRow.AddChild(_bucketBtn);
+
         // Color + size (map + combat)
         var colorRow = new HBoxContainer();
         colorRow.AddThemeConstantOverride("separation", 10);
@@ -446,7 +454,7 @@ public partial class BrushToolbar : Control
 
         var tip = new Label
         {
-            Text = "RMB freehand · MMB erase (everyone's ink) · B brush · [ ] size · L line",
+            Text = "RMB freehand · MMB erase · G fill closed · B brush · [ ] size",
             HorizontalAlignment = HorizontalAlignment.Center,
             MouseFilter = MouseFilterEnum.Ignore,
         };
@@ -592,7 +600,7 @@ public partial class BrushToolbar : Control
 
     private void ApplyExpandedOffsets()
     {
-        float h = _inCombatContext ? 320f : 200f;
+        float h = _inCombatContext ? 340f : 200f;
         OffsetLeft = OffsetRight - 360;
         OffsetTop = OffsetBottom - h;
         if (_panel != null)
@@ -627,6 +635,7 @@ public partial class BrushToolbar : Control
         Highlight(_fillRectBtn, ActiveTool == DrawTool.FillRect);
         Highlight(_fillEllipseBtn, ActiveTool == DrawTool.FillEllipse);
         Highlight(_stampBtn, ActiveTool == DrawTool.Stamp);
+        Highlight(_bucketBtn, ActiveTool == DrawTool.Bucket);
     }
 
     private static void Highlight(Button? btn, bool on)

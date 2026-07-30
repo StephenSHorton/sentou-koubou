@@ -9,6 +9,9 @@ public static class ShapeGeometry
         DrawTool.Line or DrawTool.Rect or DrawTool.Ellipse
         or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp;
 
+    /// <summary>Click tools that don't drag (bucket, stamp is also click via shape path).</summary>
+    public static bool IsClickTool(DrawTool tool) => tool is DrawTool.Bucket;
+
     public static bool IsFilledTool(DrawTool tool) => tool is
         DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp;
 

@@ -239,6 +239,9 @@ public partial class DrawCanvas : Control
             case Key.F:
                 BrushToolbar.CombatInstance?.SetTool(DrawTool.FillRect);
                 break;
+            case Key.G:
+                BrushToolbar.CombatInstance?.SetTool(DrawTool.Bucket);
+                break;
             // No click-arm eraser (E): MMB always erases; armed LMB eraser removed.
         }
     }
@@ -276,7 +279,9 @@ public partial class DrawCanvas : Control
         }
 
         Vector2 pos = GetInkMousePos(vp);
-        if (ShapeGeometry.IsShapeTool(intent.Value))
+        if (intent.Value == DrawTool.Bucket)
+            ApplyBucketFill(pos);
+        else if (ShapeGeometry.IsShapeTool(intent.Value))
             BeginShape(intent.Value, pos);
         else
             StartStroke(intent.Value, pos);
@@ -335,7 +340,8 @@ public partial class DrawCanvas : Control
         // LMB uses the armed tool (brush or shape).
         MouseButton.Left when _tool is DrawTool.Brush
             or DrawTool.Line or DrawTool.Rect or DrawTool.Ellipse
-            or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp => _tool,
+            or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp
+            or DrawTool.Bucket => _tool,
         _ => null,
     };
 
@@ -345,11 +351,79 @@ public partial class DrawCanvas : Control
             return DrawTool.Eraser;
         if ((mask & MouseButtonMask.Right) != 0)
             return DrawTool.Brush;
+        // Bucket is click-only — no motion drag.
         if ((mask & MouseButtonMask.Left) != 0
             && _tool is DrawTool.Brush or DrawTool.Line or DrawTool.Rect or DrawTool.Ellipse
                 or DrawTool.FillRect or DrawTool.FillEllipse or DrawTool.Stamp)
             return _tool;
         return null;
+    }
+
+    /// <summary>
+    /// Flood-fill a region enclosed by drawn ink. Aborts if the region touches the canvas
+    /// edge (open space) so we never paint the whole screen.
+    /// </summary>
+    private void ApplyBucketFill(Vector2 screenPos)
+    {
+        if (_drawing)
+            EndStroke();
+        CancelShape();
+
+        Viewport? vp = GetViewport();
+        if (vp != null)
+            _ink.EnsureSize(vp.GetVisibleRect().Size);
+
+        (Image? local, Image? remote, int w, int h) = _ink.CaptureInkImages();
+        if (w <= 0 || h <= 0)
+        {
+            MainFile.Logger.Info("Bucket fill: no ink surface yet.");
+            return;
+        }
+
+        bool[] walls = FloodFill.BuildWallMask(local, remote, out w, out h);
+        if (walls.Length == 0)
+        {
+            MainFile.Logger.Info("Bucket fill: nothing drawn to enclose a region.");
+            return;
+        }
+
+        // Close 1px freehand gaps so almost-closed loops still fill.
+        FloodFill.DilateWalls(walls, w, h);
+
+        float brush = Math.Max(2f, BrushConfig.ClampedSize);
+        FloodFill.Result result = FloodFill.TryFillEnclosed(
+            walls, w, h, screenPos, brush, InkSurface.ResScale);
+
+        if (!result.Ok)
+        {
+            MainFile.Logger.Info($"Bucket fill skipped: {result.Reason}");
+            return;
+        }
+
+        CommitFilledPoints(result.ScreenPoints, brush);
+        MainFile.Logger.Info(
+            $"Bucket fill ok pixels={result.PixelCount} strokePts={result.ScreenPoints.Count}");
+    }
+
+    /// <summary>Emit densified points as one freehand stroke (MP-safe same as shapes).</summary>
+    private void CommitFilledPoints(List<Vector2> points, float width)
+    {
+        if (points.Count < 2)
+            return;
+
+        StartStroke(DrawTool.Brush, points[0]);
+        int netStride = Math.Max(1, points.Count / 96);
+        for (int i = 1; i < points.Count; i++)
+        {
+            if (_activeLine == null || !GodotObject.IsInstanceValid(_activeLine))
+                break;
+            _lastPoint = points[i];
+            _ink.AddPointScreen(_activeLine, points[i]);
+            if (i == points.Count - 1 || i % netStride == 0)
+                DrawSync.Instance?.SendPoint(_activeStrokeId, points[i], force: true);
+        }
+
+        EndStroke();
     }
 
     private void BeginShape(DrawTool tool, Vector2 pos)
@@ -484,7 +558,7 @@ public partial class DrawCanvas : Control
     public void RefreshCursor()
     {
         DrawTool shown = _drawing || _shapeDragging ? _strokeTool : _tool;
-        if (ShapeGeometry.IsShapeTool(shown))
+        if (ShapeGeometry.IsShapeTool(shown) || shown == DrawTool.Bucket)
             shown = DrawTool.Brush;
         ApplyCursorForTool(shown);
     }
