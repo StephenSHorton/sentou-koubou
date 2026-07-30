@@ -116,6 +116,11 @@ MODS: dict[str, dict[str, str]] = {
         "project": "CombatQueueFix.csproj",
         "assembly": "CombatQueueFix",
     },
+    "mp-drop-out": {
+        "folder": "mp-drop-out",
+        "project": "MpDropOut.csproj",
+        "assembly": "MpDropOut",
+    },
 }
 
 

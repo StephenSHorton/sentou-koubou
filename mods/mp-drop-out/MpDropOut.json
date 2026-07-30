@@ -1,0 +1,12 @@
+{
+  "id": "MpDropOut",
+  "name": "MP Drop Out",
+  "author": "sentou-koubou",
+  "description": "Multiplayer leave + host migration: disconnected peers no longer softlock turns/votes; when the host drops, the lowest remaining player NetId becomes the new Steam host and others auto-reconnect.",
+  "version": "v0.2.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}
