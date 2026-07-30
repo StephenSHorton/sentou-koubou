@@ -32,7 +32,7 @@ public static class MainFile
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "Character Cursors loaded — tint to character NameColor or BaseLib custom color. " +
-            "Settings: Enable Tint / Use Custom Color / Custom Color.");
+            "Character Cursors loaded — NameColor or custom tint (BaseLib settings + in-run " +
+            "color chip bottom-left). Peers see your custom color via net sync.");
     }
 }

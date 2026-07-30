@@ -41,7 +41,6 @@ public partial class BrushToolbar : Control
     private bool _inCombatContext;
     private Button? _tabButton;
     private PanelContainer? _panel;
-    private Button? _brushBtn;
     private Button? _lineBtn;
     private Button? _rectBtn;
     private Button? _ellipseBtn;
@@ -342,17 +341,13 @@ public partial class BrushToolbar : Control
         collapse.Pressed += () => SetExpanded(false);
         header.AddChild(collapse);
 
-        // Combat tools row (no click-arm eraser — MMB always erases on map + combat)
+        // Combat tools row — no Brush button (RMB freehand / B hotkey; tip below).
+        // MMB always erases on map + combat (including teammates' ink).
         _combatToolsRow = new HBoxContainer { Alignment = BoxContainer.AlignmentMode.Center };
         _combatToolsRow.AddThemeConstantOverride("separation", 8);
         vbox.AddChild(_combatToolsRow);
 
-        _brushBtn = MakeDarkButton("Brush", "Brush (B) — freehand; LMB when armed; RMB always freehand");
-        _brushBtn.CustomMinimumSize = new Vector2(72, 36);
-        _brushBtn.Pressed += () => SetTool(DrawTool.Brush);
-        _combatToolsRow.AddChild(_brushBtn);
-
-        _clearBtn = MakeDarkButton("Clear", "Clear all combat doodles");
+        _clearBtn = MakeDarkButton("Clear", "Clear all combat doodles (yours + others')");
         _clearBtn.CustomMinimumSize = new Vector2(72, 36);
         _clearBtn.Pressed += () => DrawCanvas.Instance?.ClearAll();
         _combatToolsRow.AddChild(_clearBtn);
@@ -451,7 +446,7 @@ public partial class BrushToolbar : Control
 
         var tip = new Label
         {
-            Text = "RMB freehand · MMB erase · [ ] size · B/L shapes",
+            Text = "RMB freehand · MMB erase (everyone's ink) · B brush · [ ] size · L line",
             HorizontalAlignment = HorizontalAlignment.Center,
             MouseFilter = MouseFilterEnum.Ignore,
         };
@@ -597,7 +592,7 @@ public partial class BrushToolbar : Control
 
     private void ApplyExpandedOffsets()
     {
-        float h = _inCombatContext ? 360f : 200f;
+        float h = _inCombatContext ? 320f : 200f;
         OffsetLeft = OffsetRight - 360;
         OffsetTop = OffsetBottom - h;
         if (_panel != null)
@@ -626,7 +621,6 @@ public partial class BrushToolbar : Control
 
     private void RefreshToolVisuals()
     {
-        Highlight(_brushBtn, ActiveTool == DrawTool.Brush);
         Highlight(_lineBtn, ActiveTool == DrawTool.Line);
         Highlight(_rectBtn, ActiveTool == DrawTool.Rect);
         Highlight(_ellipseBtn, ActiveTool == DrawTool.Ellipse);

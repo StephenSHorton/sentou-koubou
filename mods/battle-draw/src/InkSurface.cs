@@ -147,7 +147,31 @@ public sealed class InkSurface
 
         // Keep updating while someone is actively drawing so strokes appear immediately.
         vp.RenderTargetUpdateMode = SubViewport.UpdateMode.Always;
+        if (erase)
+        {
+            // Eraser may also write the other layer — keep both live.
+            if (_localVp != null)
+                _localVp.RenderTargetUpdateMode = SubViewport.UpdateMode.Always;
+            if (_remoteVp != null)
+                _remoteVp.RenderTargetUpdateMode = SubViewport.UpdateMode.Always;
+        }
 
+        return CreateAndParentStroke(vp, erase, color, width);
+    }
+
+    /// <summary>
+    /// Eraser that hits <b>both</b> local and remote ink layers so players can wipe
+    /// each other's doodles (layers are separate SubViewports).
+    /// </summary>
+    public (Line2D primary, Line2D secondary) BeginEraseAllLayers(Color color, float width, bool primaryRemote)
+    {
+        Line2D primary = BeginStroke(erase: true, color, width, remote: primaryRemote);
+        Line2D secondary = BeginStroke(erase: true, color, width, remote: !primaryRemote);
+        return (primary, secondary);
+    }
+
+    private Line2D CreateAndParentStroke(SubViewport vp, bool erase, Color color, float width)
+    {
         Line2D line = CreateLine(erase);
         // Eraser: white subtracts all channels (combat is multi-color; map uses monochrome per player).
         line.DefaultColor = erase ? Colors.White : color;
@@ -175,12 +199,27 @@ public sealed class InkSurface
         line.AddPoint(screenPos * ResScale);
     }
 
+    public void AddPointScreen(Line2D? a, Line2D? b, Vector2 screenPos)
+    {
+        AddPointScreen(a!, screenPos);
+        if (b != null)
+            AddPointScreen(b, screenPos);
+    }
+
     public void SeedStroke(Line2D line, Vector2 screenPos)
     {
         // Map seeds two near-identical points so caps/texture have length.
         Vector2 p = screenPos * ResScale;
         line.AddPoint(p);
         line.AddPoint(p + new Vector2(0f, 0.5f));
+    }
+
+    public void SeedStroke(Line2D? a, Line2D? b, Vector2 screenPos)
+    {
+        if (a != null)
+            SeedStroke(a, screenPos);
+        if (b != null)
+            SeedStroke(b, screenPos);
     }
 
     public void EndStrokeActivity()

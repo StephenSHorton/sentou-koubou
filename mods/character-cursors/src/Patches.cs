@@ -35,7 +35,10 @@ public static class RunReadyPatch
     public static void Postfix()
     {
         CursorTint.ClearAppliedCache();
+        CursorColorSync.ResetHandlersFlag();
         Callable.From(CursorTint.ApplyLocalCursor).CallDeferred();
+        Callable.From(CursorColorHud.Ensure).CallDeferred();
+        Callable.From(() => CursorColorSync.EnsureHandlers()).CallDeferred();
     }
 }
 
@@ -131,18 +134,17 @@ internal static class RemoteCursorShader
 
         try
         {
-            var player = CursorTint.TryGetPlayerByNetId(cursor.PlayerId);
-            if (player?.Character == null)
+            Color? color = CursorTint.ResolvePeerTintColor(cursor.PlayerId);
+            if (color == null)
                 return;
 
-            var color = CursorTint.GetPrimaryColor(player.Character);
             var textureRect = cursor.GetNodeOrNull<TextureRect>("TextureRect");
             if (textureRect == null)
                 return;
 
             _shader ??= CreateShader();
             var material = new ShaderMaterial { Shader = _shader };
-            material.SetShaderParameter("tint_color", color);
+            material.SetShaderParameter("tint_color", color.Value);
             material.SetShaderParameter("outline_lum_threshold", CursorTint.OutlineLumThreshold);
             textureRect.Material = material;
         }
@@ -150,6 +152,30 @@ internal static class RemoteCursorShader
         {
             MainFile.Logger.Warn($"Remote cursor tint failed: {e.Message}");
         }
+    }
+
+    /// <summary>Re-tint all remote cursors for a peer after a color message.</summary>
+    public static void RefreshPeer(ulong playerId)
+    {
+        try
+        {
+            SceneTree? tree = Engine.GetMainLoop() as SceneTree;
+            if (tree?.Root == null)
+                return;
+            RefreshPeerRecursive(tree.Root, playerId);
+        }
+        catch
+        {
+            // ignore
+        }
+    }
+
+    private static void RefreshPeerRecursive(Node node, ulong playerId)
+    {
+        if (node is NRemoteMouseCursor cursor && cursor.PlayerId == playerId)
+            Apply(cursor);
+        foreach (Node child in node.GetChildren())
+            RefreshPeerRecursive(child, playerId);
     }
 
     public static void Clear(NRemoteMouseCursor cursor)

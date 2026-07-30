@@ -76,7 +76,7 @@ public static class CursorTint
     }
 
     /// <summary>
-    /// Local tint: custom color from settings when enabled, else character NameColor.
+    /// Local tint: custom color (settings or in-run picker) when enabled, else character NameColor.
     /// </summary>
     public static Color? ResolveLocalTintColor()
     {
@@ -91,6 +91,22 @@ public static class CursorTint
         }
 
         return TryGetLocalPrimaryColor();
+    }
+
+    /// <summary>
+    /// Tint for a remote peer: their broadcast custom color if any, else character NameColor.
+    /// </summary>
+    public static Color? ResolvePeerTintColor(ulong netId)
+    {
+        if (!CursorConfig.EnableTint)
+            return null;
+
+        Color? custom = CursorColorSync.TryGetPeerCustom(netId);
+        if (custom is { } c && c.A > 0.01f && (c.R + c.G + c.B) > 0.02f)
+            return c;
+
+        var player = TryGetPlayerByNetId(netId);
+        return player?.Character == null ? null : GetPrimaryColor(player.Character);
     }
 
     public static void ApplyLocalCursor()

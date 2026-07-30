@@ -22,9 +22,11 @@ public partial class DrawCanvas : Control
     public const float HandNoDrawBandFrac = 0.30f;
 
     private readonly InkSurface _ink = new();
-    private readonly Dictionary<(ulong Owner, int Id), Line2D> _openRemote = new();
+    private readonly Dictionary<(ulong Owner, int Id), (Line2D Primary, Line2D? Mirror)> _openRemote = new();
 
     private Line2D? _activeLine;
+    /// <summary>Second eraser line on the other ink layer (erase everyone's doodles).</summary>
+    private Line2D? _activeEraseMirror;
     private Vector2 _lastPoint;
     private Color _activeColor = Colors.White;
     private float _activeWidth = 3.5f;
@@ -508,7 +510,7 @@ public partial class DrawCanvas : Control
             return;
 
         _lastPoint = local;
-        _ink.AddPointScreen(_activeLine, local);
+        _ink.AddPointScreen(_activeLine, _activeEraseMirror, local);
         DrawSync.Instance?.SendPoint(_activeStrokeId, local);
     }
 
@@ -532,8 +534,19 @@ public partial class DrawCanvas : Control
         _activeWidth = Math.Max(2f, BrushConfig.ClampedSize);
         _lastPoint = localPos;
 
-        _activeLine = _ink.BeginStroke(erase, _activeColor, _activeWidth, remote: false);
-        _ink.SeedStroke(_activeLine, localPos);
+        if (erase)
+        {
+            // Hit local + remote layers so MMB can erase partners' combat doodles too.
+            (_activeLine, _activeEraseMirror) =
+                _ink.BeginEraseAllLayers(_activeColor, _activeWidth, primaryRemote: false);
+            _ink.SeedStroke(_activeLine, _activeEraseMirror, localPos);
+        }
+        else
+        {
+            _activeEraseMirror = null;
+            _activeLine = _ink.BeginStroke(erase: false, _activeColor, _activeWidth, remote: false);
+            _ink.SeedStroke(_activeLine, localPos);
+        }
 
         DrawSync.Instance?.SendBegin(_activeStrokeId, localPos, _activeColor, _activeWidth, erase);
 
@@ -552,6 +565,7 @@ public partial class DrawCanvas : Control
 
         // Leave Line2D in the SubViewport (map keeps finished strokes as nodes).
         _activeLine = null;
+        _activeEraseMirror = null;
         _drawing = false;
         _activeStrokeId = 0;
         _strokeTool = DrawTool.None;
@@ -563,6 +577,7 @@ public partial class DrawCanvas : Control
     {
         CancelShape();
         _activeLine = null;
+        _activeEraseMirror = null;
         _openRemote.Clear();
         _ink.ClearAll();
         _drawing = false;
@@ -601,25 +616,36 @@ public partial class DrawCanvas : Control
 
         Color ink = erase ? Colors.White : MakeInkColor(color);
         float w = Math.Max(2f, width);
-        Line2D line = _ink.BeginStroke(erase, ink, w, remote: true);
-        _ink.SeedStroke(line, pos);
-        _openRemote[(ownerId, strokeId)] = line;
+        if (erase)
+        {
+            // Peers' erasers also wipe both layers so co-op wipe works both ways.
+            (Line2D primary, Line2D mirror) =
+                _ink.BeginEraseAllLayers(ink, w, primaryRemote: true);
+            _ink.SeedStroke(primary, mirror, pos);
+            _openRemote[(ownerId, strokeId)] = (primary, mirror);
+        }
+        else
+        {
+            Line2D line = _ink.BeginStroke(erase: false, ink, w, remote: true);
+            _ink.SeedStroke(line, pos);
+            _openRemote[(ownerId, strokeId)] = (line, null);
+        }
     }
 
     public void RemotePoint(ulong ownerId, int strokeId, Vector2 pos)
     {
-        if (!_openRemote.TryGetValue((ownerId, strokeId), out Line2D? line)
-            || line == null
-            || !GodotObject.IsInstanceValid(line))
+        if (!_openRemote.TryGetValue((ownerId, strokeId), out var pair)
+            || pair.Primary == null
+            || !GodotObject.IsInstanceValid(pair.Primary))
         {
             // Unreliable mid-stream: start a thin continuation stroke so ink still appears.
-            line = _ink.BeginStroke(erase: false, Colors.White, 3f, remote: true);
+            Line2D line = _ink.BeginStroke(erase: false, Colors.White, 3f, remote: true);
             _ink.SeedStroke(line, pos);
-            _openRemote[(ownerId, strokeId)] = line;
+            _openRemote[(ownerId, strokeId)] = (line, null);
             return;
         }
 
-        _ink.AddPointScreen(line, pos);
+        _ink.AddPointScreen(pair.Primary, pair.Mirror, pos);
     }
 
     public void RemoteEnd(ulong ownerId, int strokeId)
@@ -631,15 +657,18 @@ public partial class DrawCanvas : Control
     public void RemoteClear()
     {
         _openRemote.Clear();
-        _ink.ClearRemote();
+        // Full clear on clear-all from a peer (wipes everyone's ink).
+        _ink.ClearAll();
     }
 
     private void FreeRemoteLine(ulong ownerId, int strokeId)
     {
-        if (!_openRemote.Remove((ownerId, strokeId), out Line2D? line))
+        if (!_openRemote.Remove((ownerId, strokeId), out var pair))
             return;
-        if (line != null && GodotObject.IsInstanceValid(line))
-            line.QueueFree();
+        if (pair.Primary != null && GodotObject.IsInstanceValid(pair.Primary))
+            pair.Primary.QueueFree();
+        if (pair.Mirror != null && GodotObject.IsInstanceValid(pair.Mirror))
+            pair.Mirror.QueueFree();
     }
 
     private static Color MakeInkColor(Color c)
