@@ -29,6 +29,7 @@ Monorepo of Slay the Spire 2 mods under `mods/`.
 - `mods/ping-rage` — End-turn Ping: random funny lines, mash-scaled bubble size + wiggle.
 - `mods/battle-draw` — Combat whiteboard (freehand + shapes/fill/stamp) + map pen color/size; BaseLib; installable on `main` from v0.5.
 - `mods/combat-queue-fix` — Drop NonCombat map-vote queue heads during combat (vanilla MP softlock fix).
+- `mods/mp-drop-out` — When a multiplayer peer disconnects, remaining players can continue (auto end-turn / skip map·event·act·treasure waits for leavers).
 
 ## Releases (local, per mod)
 

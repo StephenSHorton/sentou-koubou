@@ -1,0 +1,12 @@
+{
+  "id": "MpDropOut",
+  "name": "MP Drop Out",
+  "author": "sentou-koubou",
+  "description": "When a multiplayer peer disconnects mid-run, the remaining players can keep playing: auto end-turn, skip map/event/act/treasure waits for the leaver. Host leave still ends the session (vanilla). Clients can leave via the existing disconnect confirm.",
+  "version": "v0.1.0",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": true
+}
