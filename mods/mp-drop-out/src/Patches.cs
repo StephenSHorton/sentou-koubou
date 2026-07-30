@@ -1,6 +1,7 @@
 using System.Reflection;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Multiplayer.Game;
 using MegaCrit.Sts2.Core.Runs;
@@ -13,13 +14,75 @@ namespace MpDropOut;
 /// </summary>
 public static class Patches
 {
-    // ── Disconnect ────────────────────────────────────────────────────────
+    // ── Disconnect / host migration ───────────────────────────────────────
 
     [HarmonyPatch(typeof(RunManager), "RemotePlayerDisconnected")]
     public static class RunManagerRemoteDisconnectPatch
     {
         public static void Postfix(ulong playerId) =>
             DropOutService.OnRemoteDisconnected(playerId);
+    }
+
+    /// <summary>
+    /// When we lose the host connection, try host migration instead of kicking to main menu.
+    /// </summary>
+    [HarmonyPatch(typeof(RunManager), nameof(RunManager.LocalPlayerDisconnected))]
+    public static class LocalPlayerDisconnectedPatch
+    {
+        public static bool Prefix(RunManager __instance, NetErrorInfo info)
+        {
+            try
+            {
+                HostMigration.NoteHostFromService(__instance.NetService);
+
+                // Still clear peer-input for everyone else (vanilla does this).
+                if (__instance.State != null)
+                {
+                    foreach (Player player in __instance.State.Players)
+                    {
+                        if (!MegaCrit.Sts2.Core.Context.LocalContext.IsMe(player))
+                            __instance.InputSynchronizer.OnPlayerDisconnected(player.NetId);
+                    }
+                }
+
+                if (HostMigration.TryBeginOnLocalDisconnect(info))
+                {
+                    MainFile.Logger.Info(
+                        "Suppressed return-to-menu; host migration in progress.");
+                    return false; // skip vanilla ReturnToMainMenuWithError
+                }
+
+                // Fall through to vanilla for abandon / no remaining players / host side.
+                return true;
+            }
+            catch (Exception e)
+            {
+                MainFile.Logger.Error($"LocalPlayerDisconnected patch failed: {e}");
+                return true;
+            }
+        }
+    }
+
+    /// <summary>Keep host id fresh while the session is healthy.</summary>
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Nodes.NRun), "_Process")]
+    public static class NoteHostIdPatch
+    {
+        private static int _counter;
+
+        public static void Postfix()
+        {
+            // Throttle: every ~60 frames
+            if ((++_counter % 60) != 0)
+                return;
+            try
+            {
+                HostMigration.NoteHostFromService(RunManager.Instance?.NetService);
+            }
+            catch
+            {
+                // ignore
+            }
+        }
     }
 
     // ── Combat: all ready to end turn ─────────────────────────────────────

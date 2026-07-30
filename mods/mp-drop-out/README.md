@@ -1,40 +1,44 @@
 # MP Drop Out
 
-Multiplayer fix for **Slay the Spire 2**: when a peer disconnects mid-run, the rest of the party can keep playing.
+Multiplayer resilience for **Slay the Spire 2**: leavers stop softlocking the party, and **host migration** keeps the run alive when the host disconnects.
 
-## Problem
+## Features
 
-Vanilla only removes the leaver from the lobby connection set and peer-input UI. Shared waits still require **every** `RunState` player:
+### 1. Drop-out (any peer)
 
-- Combat end-turn / begin-enemy-turn
-- Map path votes
-- Shared event option votes
-- Act transition ready
-- Treasure relic picks
+When a **client** disconnects mid-run:
 
-So a disconnect softlocks the table (“they never take their turn”).
+- Combat: host enqueues `EndPlayerTurnAction` for the leaver
+- Map / shared event / treasure: once every **connected** player has acted, the host resolves
+- Act transition: leaver is treated as ready
+- Ongoing “all players ready” checks use `RunLobby.ConnectedPlayerIds`
 
-## What this mod does
+### 2. Host migration (Steam)
 
-1. **On remote disconnect** (every peer):
-   - Combat: host enqueues `EndPlayerTurnAction` for the leaver (clients also mark end-turn locally as a fallback).
-   - Act transition: marks the leaver ready.
-   - Re-checks map / event / treasure gates for “all connected voted”.
-2. **While disconnected**, shared “all players” checks **ignore leavers** via `RunLobby.ConnectedPlayerIds` (same set vanilla already updates).
+When the **host** connection is lost (crash, quit, network):
 
-Reconnect is still vanilla: if they rejoin the run lobby, they become a participant again.
+1. Remaining players elect a successor: **lowest NetId** still in the run  
+2. Successor **creates a new Steam lobby** and becomes host  
+3. Other clients **auto-reconnect** via `ConnectToLobbyOwnedByFriend(successor)`  
+4. Message handlers are copied onto the new net service; synchronizer `_netService` fields are rebound; `RunLobby` is recreated  
+5. The dead host is dropped from waits like any other leaver  
 
-## What it does *not* do
+Clients use the existing disconnect confirm to leave voluntarily. The old host going to menu is expected; the **remaining** party continues.
 
-- **Host leave** still ends the session for everyone (no host migration — vanilla architecture).
-- Clients leave with the existing **disconnect confirm** in the pause/settings UI; this mod makes that safe for the remaining players.
-- Does not kill or remove the leaver’s character from the save (they stay in `Players` for reconnect / history).
+## Limits / requirements
+
+| Topic | Detail |
+|--------|--------|
+| **Steam only** | Migration uses Steam lobbies + P2P. ENet/LAN not supported for promote. |
+| **Same mods** | Everyone needs this mod (gameplay-affecting). |
+| **Friends visibility** | Reconnect uses Steam friend lobby info — successor must be a Steam friend (normal STS2 co-op). |
+| **Best-effort mid-combat** | Networking is rebound in place; edge cases mid-action may still desync — reconnect/rejoin path is the recovery. |
+| **No host → empty** | If no remaining players, vanilla main-menu path runs. |
+| **Abandon** | Host **abandon** still ends the run for everyone (not migrated). |
 
 ## Install
 
 Unzip into `Slay the Spire 2/mods/` → `mods/MpDropOut/`.
-
-Everyone in the lobby should run the same version.
 
 ## Build
 
@@ -42,3 +46,8 @@ Everyone in the lobby should run the same version.
 cd mods/mp-drop-out
 dotnet build -c Release
 ```
+
+## Versions
+
+- **v0.1.0** — drop-out only (non-host leavers)
+- **v0.2.0** — host migration

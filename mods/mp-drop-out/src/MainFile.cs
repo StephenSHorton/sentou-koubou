@@ -22,7 +22,7 @@ public static class MainFile
         var harmony = new Harmony(ModId);
         harmony.PatchAll();
         Logger.Info(
-            "MP Drop Out loaded — disconnected peers no longer block end-turn, " +
-            "map votes, events, act transition, or treasure picks.");
+            "MP Drop Out loaded — disconnected peers no longer block end-turn / votes; " +
+            "host loss elects a successor (lowest NetId) and migrates the Steam lobby.");
     }
 }
