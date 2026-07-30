@@ -225,22 +225,23 @@ public partial class DrawCanvas : Control
                 BrushToolbar.SyncAllSizeSliders();
                 break;
             case Key.B:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Brush);
+                BrushToolbar.CombatInstance?.SetToolFromHotkey(DrawTool.Brush);
                 break;
             case Key.L:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Line);
+                BrushToolbar.CombatInstance?.SetToolFromHotkey(DrawTool.Line);
                 break;
             case Key.R:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Rect);
+                BrushToolbar.CombatInstance?.SetToolFromHotkey(DrawTool.Rect);
                 break;
             case Key.O:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Ellipse);
+                BrushToolbar.CombatInstance?.SetToolFromHotkey(DrawTool.Ellipse);
                 break;
             case Key.F:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.FillRect);
+                // Fill-mode toggle for Rect/Oval (outline ↔ solid) — not a separate tool.
+                BrushToolbar.CombatInstance?.ToggleFillMode();
                 break;
             case Key.G:
-                BrushToolbar.CombatInstance?.SetTool(DrawTool.Bucket);
+                BrushToolbar.CombatInstance?.SetToolFromHotkey(DrawTool.Bucket);
                 break;
             // No click-arm eraser (E): MMB always erases; armed LMB eraser removed.
         }
