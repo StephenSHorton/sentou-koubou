@@ -1,47 +1,45 @@
 # Battle Draw
 
-**Map-style drawing in combat** for Slay the Spire 2, plus **map pen color/size** controls.
+Combat whiteboard + map pen controls for Slay the Spire 2.
 
-## v0.6 — same ink path as the map
+## Drawing dock (v1.0)
 
-Combat now uses the vanilla map drawing stack instead of a custom image stamp:
+UI is modeled after **Excalidraw / FigJam / Canva Draw** rather than a flat list of text buttons:
 
-| Piece | Implementation |
-|-------|----------------|
-| Surface | Half-res transparent **SubViewport** |
-| Pen | `map_line_draw` **Line2D** (trail texture + mix shader) |
-| Eraser | `map_line_erase` **Line2D** (**subtractive** `blend_sub` shader) |
-| Composite | TextureRect with **premultiplied alpha** |
+| Piece | Behavior |
+|-------|----------|
+| **Collapsed pill** | Shows armed tool glyph, ink color, size — one click opens the dock |
+| **Icon tools** | Line · Rect · Oval · Stamp · Bucket (selected = gold rim) |
+| **Fill shapes (F)** | Toggle: Rect/Oval become solid instead of separate “filled” tools |
+| **Quick swatches** | One-tap palette + full color picker |
+| **Width** | Thin ↔ thick slider (`[` `]`) |
+| **Clear / hide peers** | Session actions on the tool row |
 
-That fixes weak erase / “negative residual” multi-swipe erase and makes pen strokes match map ink.
-
-## Combat
+### Inputs
 
 | Input | Action |
 |-------|--------|
-| **RMB drag** | Draw |
-| **MMB drag** | Erase (full-strength subtractive stroke) |
-| **Bottom-right tab** | Collapsible tools palette (color/size; combat also has Brush/Clear) |
-| **Color / size** | Shared with map pen |
-| **Hide others** | Local hide of peer combat ink |
+| **RMB drag** | Freehand pen (always) |
+| **MMB drag** | Erase (yours **and** teammates’ ink) |
+| **LMB** | Armed tool (line, shape, stamp, bucket) |
+| **G** | Bucket fill (closed ink regions only) |
+| **F** | Toggle fill-shapes mode |
+| **B / L / R / O** | Brush / line / rect / oval |
+| **`[` `]`** | Size |
 
-Hand strip / card drag / palette block ink. Combat ink composites **under** the hand, cards, and menus (not a high CanvasLayer). Strokes clear when combat ends. No click-arm eraser — **MMB only**.
+Bucket fill never paints open canvas — only regions fully enclosed by ink.
 
-Shortcuts: **B** arm LMB brush, **`[` / `]`** size.
+## Combat ink
 
-## Map
-
-Vanilla map draw still works. A **map pen palette** (same color + size as combat) sits bottom-right. Local lines use your chosen color/width.
+Half-res SubViewport + map `Line2D` pen/eraser (subtractive erase), composited **under** the hand/cards/menus.
 
 ## Multiplayer
 
-Combat doodles sync (begin / points / end / clear). Eraser is a stroke flag (`isEraser`), not stamp circles. All peers need Battle Draw **≥ 0.6.0**.
+Strokes sync (begin / points / end / clear). Eraser is `isEraser` on the stroke. Everyone needs the same Battle Draw version.
 
 ## Settings
 
-Mod menu → **Battle Draw**: default size + color preset (BaseLib). Color picker overrides preset until you pick a preset again.
-
-Requires **BaseLib** ≥ 3.3.0.
+BaseLib: default size + color preset.
 
 ## Build
 
