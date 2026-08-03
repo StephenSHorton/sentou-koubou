@@ -51,3 +51,4 @@ dotnet build -c Release
 
 - **v0.1.0** — drop-out only (non-host leavers)
 - **v0.2.0** — host migration
+- **v0.2.1** — fix MP state divergence when a player dies during end-of-turn phase one (e.g. Infection): do not treat dead combatants as auto-ready for enemy turn; only disconnected peers are skipped

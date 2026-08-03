@@ -107,6 +107,10 @@ public static class Patches
                     return false;
                 }
 
+                // Connected players must EndTurn explicitly. Dead-but-connected are already
+                // marked ready by vanilla (turn-start auto-ready + death-time EndTurn).
+                // Only disconnected leavers are skipped — do not treat IsDead alone as ready
+                // for the enemy-turn gate (that races phase-one across peers; see below).
                 HashSet<Player> ready = __instance._playersReadyToEndTurn;
                 int participants = 0;
                 foreach (Player player in state.Players)
@@ -174,6 +178,18 @@ public static class Patches
             }
         }
 
+        /// <summary>
+        /// Vanilla waits for ReadyToBeginEnemyTurnAction from <b>every</b> player slot
+        /// (<c>_playersReadyToBeginEnemyTurn.Count == Players.Count</c>). Each peer only
+        /// enqueues its own Ready after local phase-one completes — that is the MP barrier
+        /// that keeps Infection / ethereal / other phase-one effects aligned before phase two.
+        ///
+        /// We may skip <b>disconnected</b> leavers (they can never send Ready). We must
+        /// <b>not</b> treat IsDead as auto-ready: a player who dies during phase one (e.g.
+        /// Infection turn-end damage) still has a connected client that must finish phase one
+        /// and emit Ready. Counting them as ready early lets the last living peer advance to
+        /// phase two while others are mid phase one → state divergence on loss / low HP.
+        /// </summary>
         private static bool ParticipantsReadyToBeginEnemyTurn(CombatManager combat)
         {
             CombatState? state = combat._state;
@@ -187,7 +203,7 @@ public static class Patches
                 if (!DropOutUtil.IsParticipating(p))
                     continue;
                 participants++;
-                if (ready.Contains(p) || p.Creature.IsDead)
+                if (ready.Contains(p))
                     continue;
                 return false;
             }
