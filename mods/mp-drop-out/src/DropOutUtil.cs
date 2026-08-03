@@ -32,8 +32,8 @@ public static class DropOutUtil
 
     /// <summary>
     /// Players that must still satisfy "all ready / all voted" style gates.
-    /// Dead combatants are still listed but combat already auto-ends them; we keep them
-    /// as non-blockers when disconnected.
+    /// Connected dead combatants remain participants (they still emit Ready after phase one).
+    /// Only disconnected leavers are omitted.
     /// </summary>
     public static IEnumerable<Player> ParticipatingPlayers(RunState? state = null)
     {
