@@ -1,36 +1,49 @@
 using System.Reflection;
 using Godot;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Events;
 
 namespace GildedLedger;
 
 /// <summary>
 /// Vanilla event options live in a plain VBox with no scroll — long lists (e.g. every
-/// enchantment on Gilded Ledger) clip off-screen. Wrap <c>%OptionsContainer</c> in a
-/// <see cref="ScrollContainer"/> so excess options can be scrolled.
+/// enchantment on Gilded Ledger) clip off-screen. Only for those long lists, wrap
+/// <c>%OptionsContainer</c> in a <see cref="ScrollContainer"/>.
+/// <para>
+/// Critical: do <b>not</b> wrap short lists (Neow, shops, 2-choice events). A forced
+/// scroll viewport steals vertical space and can push options/continue off-screen.
+/// </para>
 /// </summary>
 [HarmonyPatch(typeof(NEventLayout), nameof(NEventLayout.AddOptions))]
 internal static class EventOptionsScrollPatch
 {
     private const string ScrollName = "GildedLedgerOptionsScroll";
 
-    /// <summary>Fraction of viewport height reserved for the option list.</summary>
-    private const float MaxHeightViewportFraction = 0.48f;
+    /// <summary>
+    /// Only engage scroll when the option count is at least this high.
+    /// Gilded Ledger's enchant page is large; Neow/vanilla events stay untouched.
+    /// </summary>
+    private const int ScrollThreshold = 6;
 
-    /// <summary>Absolute floor/ceiling so tiny/huge windows still work.</summary>
-    private const float MinScrollHeight = 160f;
-    private const float MaxScrollHeight = 560f;
+    /// <summary>Fraction of viewport height reserved for a long option list.</summary>
+    private const float MaxHeightViewportFraction = 0.42f;
+
+    private const float MinScrollHeight = 200f;
+    private const float MaxScrollHeight = 520f;
 
     private static readonly FieldInfo? OptionsField =
         AccessTools.Field(typeof(NEventLayout), "_optionsContainer");
+
+    private static readonly FieldInfo? EventField =
+        AccessTools.Field(typeof(NEventLayout), "_event");
 
     [HarmonyPostfix]
     private static void Postfix(NEventLayout __instance)
     {
         try
         {
-            EnsureScrollable(__instance);
+            AfterAddOptions(__instance);
         }
         catch (Exception e)
         {
@@ -38,7 +51,7 @@ internal static class EventOptionsScrollPatch
         }
     }
 
-    private static void EnsureScrollable(NEventLayout layout)
+    private static void AfterAddOptions(NEventLayout layout)
     {
         VBoxContainer? options = OptionsField?.GetValue(layout) as VBoxContainer;
         if (options == null || !GodotObject.IsInstanceValid(options))
@@ -46,72 +59,135 @@ internal static class EventOptionsScrollPatch
             return;
         }
 
-        ScrollContainer scroll;
-        if (options.GetParent() is ScrollContainer existing
-            && existing.Name == ScrollName)
+        int count = options.GetChildCount();
+        bool wantScroll = count >= ScrollThreshold && IsGildedLedgerEnchantPage(layout);
+
+        if (!wantScroll)
         {
-            scroll = existing;
-        }
-        else
-        {
-            Node? parent = options.GetParent();
-            if (parent == null)
-            {
-                return;
-            }
-
-            // Preserve layout slot (index + size flags) when inserting the scroll wrapper.
-            int index = options.GetIndex();
-            Control.SizeFlags hFlags = options.SizeFlagsHorizontal;
-            Control.SizeFlags vFlags = options.SizeFlagsVertical;
-
-            parent.RemoveChild(options);
-
-            scroll = new ScrollContainer
-            {
-                Name = ScrollName,
-                HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
-                VerticalScrollMode = ScrollContainer.ScrollMode.Auto,
-                SizeFlagsHorizontal = hFlags,
-                SizeFlagsVertical = vFlags,
-                // Clip content so buttons don't paint outside the scroll area.
-                ClipContents = true,
-            };
-
-            // VBox sizes to children; horizontal fill matches option button width.
-            options.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
-            options.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
-
-            parent.AddChild(scroll);
-            parent.MoveChild(scroll, index);
-            scroll.AddChild(options);
+            // Restore vanilla layout for Neow / short pages (also undoes a prior wrap).
+            UnwrapIfNeeded(options);
+            return;
         }
 
+        ScrollContainer scroll = EnsureWrapped(options);
+        float maxH = ComputeMaxHeight(layout);
+
+        // Cap only — do not reserve maxH when content is shorter (deferred measure).
+        scroll.CustomMinimumSize = new Vector2(0, 0);
+        scroll.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
+        Callable.From(() => FitScrollHeight(scroll, options, maxH)).CallDeferred();
+    }
+
+    /// <summary>
+    /// Scroll is only for our multi-enchant page. Other long-option events (if any)
+    /// keep vanilla layout so we never surprise-break Neow or custom ancients.
+    /// </summary>
+    private static bool IsGildedLedgerEnchantPage(NEventLayout layout)
+    {
+        if (EventField?.GetValue(layout) is not EventModel model)
+        {
+            return false;
+        }
+
+        // CustomID is "GILDED_LEDGER"; ModelId / Id.Entry varies by BaseLib version.
+        string id = model.Id.Entry ?? string.Empty;
+        if (id.Contains("GILDED_LEDGER", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        // Fallback: concrete type from this assembly.
+        return model is GildedLedgerEvent;
+    }
+
+    private static float ComputeMaxHeight(NEventLayout layout)
+    {
         float viewportH = layout.GetViewportRect().Size.Y;
         if (viewportH <= 1f)
         {
             viewportH = 720f;
         }
 
-        float maxH = Mathf.Clamp(
+        return Mathf.Clamp(
             viewportH * MaxHeightViewportFraction,
             MinScrollHeight,
             MaxScrollHeight);
+    }
 
-        // Fixed height so ScrollContainer scrolls when the VBox is taller than this.
-        // Width follows parent (expand-fill); height is the scroll viewport.
-        scroll.CustomMinimumSize = new Vector2(0, maxH);
-        // Prefer a hard height so the list doesn't grow past the screen.
-        scroll.Size = new Vector2(scroll.Size.X, maxH);
-
-        // After buttons are added, grow scroll slightly if content is short (avoids
-        // a huge empty scroll area on 2-option pages). Cap at maxH.
-        int count = options.GetChildCount();
-        if (count > 0)
+    private static ScrollContainer EnsureWrapped(VBoxContainer options)
+    {
+        if (options.GetParent() is ScrollContainer existing
+            && existing.Name == ScrollName)
         {
-            // Defer so button minimum sizes are resolved.
-            Callable.From(() => FitScrollHeight(scroll, options, maxH)).CallDeferred();
+            return existing;
         }
+
+        Node parent = options.GetParent()
+            ?? throw new InvalidOperationException("Options container has no parent.");
+
+        int index = options.GetIndex();
+        Control.SizeFlags hFlags = options.SizeFlagsHorizontal;
+        // Remember vanilla vertical flags on the VBox via meta so unwrap can restore.
+        if (!options.HasMeta("gl_orig_vflags"))
+        {
+            options.SetMeta("gl_orig_vflags", (int)options.SizeFlagsVertical);
+            options.SetMeta("gl_orig_hflags", (int)options.SizeFlagsHorizontal);
+        }
+
+        parent.RemoveChild(options);
+
+        var scroll = new ScrollContainer
+        {
+            Name = ScrollName,
+            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+            VerticalScrollMode = ScrollContainer.ScrollMode.Auto,
+            SizeFlagsHorizontal = hFlags,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ClipContents = true,
+        };
+
+        options.SizeFlagsHorizontal = Control.SizeFlags.ExpandFill;
+        options.SizeFlagsVertical = Control.SizeFlags.ShrinkBegin;
+
+        parent.AddChild(scroll);
+        parent.MoveChild(scroll, index);
+        scroll.AddChild(options);
+        return scroll;
+    }
+
+    private static void UnwrapIfNeeded(VBoxContainer options)
+    {
+        if (options.GetParent() is not ScrollContainer scroll
+            || scroll.Name != ScrollName)
+        {
+            return;
+        }
+
+        Node? parent = scroll.GetParent();
+        if (parent == null)
+        {
+            return;
+        }
+
+        int index = scroll.GetIndex();
+        scroll.RemoveChild(options);
+        parent.RemoveChild(scroll);
+        scroll.QueueFree();
+
+        if (options.HasMeta("gl_orig_vflags"))
+        {
+            options.SizeFlagsVertical = (Control.SizeFlags)(int)options.GetMeta("gl_orig_vflags");
+            options.RemoveMeta("gl_orig_vflags");
+        }
+
+        if (options.HasMeta("gl_orig_hflags"))
+        {
+            options.SizeFlagsHorizontal = (Control.SizeFlags)(int)options.GetMeta("gl_orig_hflags");
+            options.RemoveMeta("gl_orig_hflags");
+        }
+
+        parent.AddChild(options);
+        parent.MoveChild(options, index);
     }
 
     private static void FitScrollHeight(ScrollContainer scroll, VBoxContainer options, float maxH)
@@ -121,7 +197,12 @@ internal static class EventOptionsScrollPatch
             return;
         }
 
-        // Sum child minimum heights + separations for a content-sized viewport when short.
+        // If options were unwrapped since defer, do nothing.
+        if (options.GetParent() != scroll)
+        {
+            return;
+        }
+
         float contentH = 0f;
         int visible = 0;
         foreach (Node child in options.GetChildren())
@@ -130,30 +211,31 @@ internal static class EventOptionsScrollPatch
             {
                 continue;
             }
+
             visible++;
             float h = c.GetCombinedMinimumSize().Y;
             if (h < 1f)
             {
                 h = c.Size.Y;
             }
+
             if (h < 1f)
             {
-                h = 48f; // fallback estimate for option buttons
+                h = 52f;
             }
+
             contentH += h;
         }
 
         if (visible > 1)
         {
-            // VBox theme separation is typically a few pixels; small fudge is fine.
             contentH += (visible - 1) * 6f;
         }
 
-        // Small padding so the last button isn't flush against the clip edge.
-        contentH += 8f;
+        contentH += 12f;
 
+        // Scroll viewport = min(content, max). Only caps overflow; no giant empty panel.
         float hFinal = Mathf.Min(contentH, maxH);
-        hFinal = Mathf.Max(hFinal, MinScrollHeight * 0.5f);
-        scroll.CustomMinimumSize = new Vector2(scroll.CustomMinimumSize.X, hFinal);
+        scroll.CustomMinimumSize = new Vector2(0, hFinal);
     }
 }

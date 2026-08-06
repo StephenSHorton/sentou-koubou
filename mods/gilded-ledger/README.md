@@ -10,7 +10,7 @@ Random **question-mark** event for Slay the Spire 2 (BaseLib).
 | **Remove cards** | Remove **any number** of cards from your deck (pick 1…N removable). |
 
 - Appears in **all acts** (shared event pool).
-- Enchantment option list is **scrollable** when it would otherwise go off-screen.
+- Enchantment option list is **scrollable** when it would otherwise go off-screen (only on this event’s long list — does not touch Neow / other events).
 - Locked options when you lack gold / enchantable cards, or lack removable cards.
 - Card pick for Gild is cancelable (returns to the enchantment list; gold not taken until the enchant lands).
 - Multiplayer: non-shared event (each player resolves their own ledger). Gold spent is synced.
