@@ -1,0 +1,13 @@
+{
+  "hoopAboveFloor": 300,
+  "rimOffsetX": -0.499,
+  "rimOffsetY": 0.05,
+  "openingHalfW": 0.444,
+  "rimAngleDeg": -0.8,
+  "sideRadius": 0.039,
+  "boardAX": 0.121,
+  "boardAY": -0.942,
+  "boardBX": 0.121,
+  "boardBY": 0.227,
+  "comment": "Calibrated bounce line + rim posts. board A→B is backboard collision."
+}
