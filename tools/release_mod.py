@@ -19,7 +19,7 @@ Usage:
   python tools/release_mod.py whitney 0.2.1 --push
 
 Known mods: whitney, brennen, blake, trading-post, card-ranks, mp-player-limit,
-rmp-player-limit, uncapped-chapter-fix
+rmp-player-limit, uncapped-chapter-fix, gilded-ledger, …
 See docs/releasing.md and AGENTS.md.
 """
 from __future__ import annotations
@@ -120,6 +120,11 @@ MODS: dict[str, dict[str, str]] = {
         "folder": "mp-drop-out",
         "project": "MpDropOut.csproj",
         "assembly": "MpDropOut",
+    },
+    "gilded-ledger": {
+        "folder": "gilded-ledger",
+        "project": "GildedLedger.csproj",
+        "assembly": "GildedLedger",
     },
 }
 
