@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Battle Ball — Hoop Calibrator</title>
+<style>
+  :root { font-family: system-ui, sans-serif; color: #eee; background: #1a1a22; }
+  body { margin: 16px; max-width: 1320px; }
+  h1 { font-size: 1.2rem; font-weight: 600; margin-bottom: 8px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  canvas {
+    background: #0d0d12; border: 1px solid #444; border-radius: 8px;
+    cursor: default; touch-action: none;
+  }
+  .panel { min-width: 300px; flex: 1; max-width: 380px; }
+  label { display: block; margin: 8px 0 2px; font-size: 12px; color: #aaa; }
+  input[type=number] {
+    width: 100%; padding: 6px 8px; background: #2a2a35; border: 1px solid #555;
+    color: #fff; border-radius: 4px; box-sizing: border-box;
+  }
+  button, .tabs button {
+    margin: 6px 6px 0 0; padding: 8px 12px; border-radius: 6px; border: 1px solid #666;
+    background: #3a3a4a; color: #fff; cursor: pointer;
+  }
+  button.primary { background: #c45a12; border-color: #e07020; }
+  button.danger { background: #5a2030; border-color: #a35; }
+  button.active { outline: 2px solid #4af; }
+  .tabs button.active { background: #2a5a8a; border-color: #4af; outline: none; }
+  pre {
+    background: #111; padding: 12px; border-radius: 6px; overflow: auto;
+    font-size: 11px; max-height: 180px;
+  }
+  .hint { color: #9a9; font-size: 13px; line-height: 1.45; margin-bottom: 10px; }
+  .status { font-size: 12px; color: #8cf; margin-top: 6px; min-height: 1.2em; }
+  .view-note {
+    background: #1e2a3a; border: 1px solid #345; border-radius: 6px;
+    padding: 8px 10px; font-size: 12px; color: #bcd; margin: 8px 0;
+  }
+  .tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .legend span { display: inline-block; margin-right: 10px; font-size: 12px; }
+  .sw {
+    display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+    margin-right: 4px; vertical-align: middle;
+  }
+  kbd {
+    background: #333; border: 1px solid #555; border-radius: 3px;
+    padding: 0 4px; font-size: 11px;
+  }
+</style>
+</head>
+<body>
+<h1>Battle Ball — hoop calibrator</h1>
+<p class="hint">
+  <strong>Collisions</strong> = physics handles.<br/>
+  <strong>Front cut</strong> = polygon tool — click points around the front rim, close the shape, it becomes the layer over the ball.
+</p>
+
+<div class="tabs" id="tabs">
+  <button data-view="collisions" class="active">1. Collisions</button>
+  <button data-view="poly">2. Front cut (polygon)</button>
+  <button data-view="depth">3. Depth preview</button>
+</div>
+
+<div class="row">
+  <div>
+    <canvas id="c" width="720" height="720"></canvas>
+    <div class="legend" style="margin-top:8px">
+      <span><i class="sw" style="background:#5f5"></i>posts</span>
+      <span><i class="sw" style="background:#59f;border-radius:2px"></i>board line</span>
+      <span><i class="sw" style="background:#0ff;border-radius:2px"></i>front cut</span>
+      <span><i class="sw" style="background:#fc5"></i>polygon points</span>
+    </div>
+    <div class="status" id="status">Loading…</div>
+  </div>
+  <div class="panel">
+    <div class="view-note" id="viewNote">Collision mode.</div>
+
+    <div id="polyPanel" style="display:none">
+      <div class="tools">
+        <button id="btnUndo">Undo point</button>
+        <button id="btnClose" class="primary">Close polygon</button>
+        <button id="btnCancel">Cancel open poly</button>
+        <button id="btnClear" class="danger">Clear all cuts</button>
+      </div>
+      <label>
+        <input type="checkbox" id="showTint" checked/>
+        Highlight filled cut in cyan
+      </label>
+      <label>
+        <input type="checkbox" id="onlyOpaque" checked/>
+        Clip fill to opaque hoop pixels only
+      </label>
+      <label>
+        <input type="checkbox" id="addMode" checked/>
+        Add polygons (off = subtract / hole)
+      </label>
+      <div style="margin-top:8px">
+        <button class="primary" id="downloadFront">Download hoop_front.png</button>
+        <button id="reloadFront">Reload saved front cut</button>
+      </div>
+      <p class="hint" style="margin-top:8px">
+        Click to place vertices around the front rim lip.<br/>
+        Click near the <strong>first point</strong> (or press <kbd>Enter</kbd> / <strong>Close polygon</strong>) to finish and fill.<br/>
+        <kbd>Backspace</kbd> undoes last point · <kbd>Esc</kbd> cancels open polygon.<br/>
+        You can draw several polygons (e.g. rim + a bit of net).
+      </p>
+      <div class="status" id="polyStatus">No open polygon — click to start.</div>
+    </div>
+
+    <div id="collisionFields">
+      <label>hoopAboveFloor (px)</label>
+      <input type="number" id="hoopAboveFloor" step="1" value="300"/>
+      <label>rimOffsetX / rimOffsetY</label>
+      <input type="number" id="rimOffsetX" step="0.01" value="-0.499"/>
+      <input type="number" id="rimOffsetY" step="0.01" value="0.05"/>
+      <label>openingHalfW / rimAngleDeg / sideRadius</label>
+      <input type="number" id="openingHalfW" step="0.01" value="0.444"/>
+      <input type="number" id="rimAngleDeg" step="0.5" value="-0.8"/>
+      <input type="number" id="sideRadius" step="0.01" value="0.039"/>
+      <label>board bounce line A → B</label>
+      <input type="number" id="boardAX" step="0.01" value="0.121"/>
+      <input type="number" id="boardAY" step="0.01" value="-0.942"/>
+      <input type="number" id="boardBX" step="0.01" value="0.121"/>
+      <input type="number" id="boardBY" step="0.01" value="0.227"/>
+      <div>
+        <button class="primary" id="export">Copy layout JSON</button>
+        <button id="download">Download hoop_layout.json</button>
+        <button id="flip">Toggle FlipH</button>
+        <button id="reloadLayout">Reload layout</button>
+      </div>
+      <pre id="out"></pre>
+    </div>
+  </div>
+</div>
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
+const statusEl = document.getElementById('status');
+const viewNote = document.getElementById('viewNote');
+const polyStatus = document.getElementById('polyStatus');
+const keys = [
+  'hoopAboveFloor','rimOffsetX','rimOffsetY','openingHalfW','rimAngleDeg','sideRadius',
+  'boardAX','boardAY','boardBX','boardBY'
+];
+
+let img = null;
+let flipH = true;
+let drag = null;
+/** @type {'collisions'|'poly'|'depth'} */
+let view = 'collisions';
+/** Current open polygon in source-pixel space [{x,y}, ...] */
+let openPoly = [];
+/** Cursor in canvas space while drawing */
+let hoverCanvas = null;
+
+// Filled mask in source hoop resolution
+const mask = document.createElement('canvas');
+const mctx = mask.getContext('2d', { willReadFrequently: true });
+
+const DRAW_H = 360;
+const DEFAULT_HOOP = new URL('../assets/hoop.png', window.location.href).href;
+const DEFAULT_FRONT = new URL('../assets/hoop_front.png', window.location.href).href;
+const DEFAULT_LAYOUT = new URL('../assets/hoop_layout.json', window.location.href).href;
+const HANDLE = 9;
+const ROT_ARM = 70;
+const CLOSE_THRESH = 12; // canvas px — click near first point closes
+
+const NOTES = {
+  collisions: 'Physics only. Drag handles.',
+  poly: 'Polygon line tool: click vertices around the front rim, close to fill. Multiple polygons OK.',
+  depth: 'Draw order: full hoop → ball → your front cut.',
+};
+
+function val(id) {
+  const n = parseFloat(document.getElementById(id).value);
+  return Number.isFinite(n) ? n : 0;
+}
+function set(id, v) {
+  const el = document.getElementById(id);
+  if (id === 'hoopAboveFloor') el.value = Math.round(v);
+  else if (id === 'rimAngleDeg') el.value = (+v).toFixed(1);
+  else el.value = (+v).toFixed(3);
+}
+function layout() {
+  const o = {};
+  for (const k of keys) o[k] = val(k);
+  return o;
+}
+function deg2rad(d) { return d * Math.PI / 180; }
+function rad2deg(r) { return r * 180 / Math.PI; }
+
+function geom() {
+  const L = layout();
+  if (!img || !img.naturalHeight) return null;
+  const scale = DRAW_H / img.naturalHeight;
+  const sw = img.naturalWidth * scale;
+  const sh = img.naturalHeight * scale;
+  const halfW = sw / 2, halfH = sh / 2;
+  const cx = canvas.width / 2, cy = canvas.height / 2;
+  const rim = { x: cx + L.rimOffsetX * halfW, y: cy + L.rimOffsetY * halfH };
+  const open = L.openingHalfW * halfW;
+  const sideR = Math.max(4, L.sideRadius * halfW);
+  const ang = deg2rad(L.rimAngleDeg);
+  const axis = { x: Math.cos(ang), y: Math.sin(ang) };
+  const left = { x: rim.x - axis.x * open, y: rim.y - axis.y * open, r: sideR };
+  const right = { x: rim.x + axis.x * open, y: rim.y + axis.y * open, r: sideR };
+  const rot = {
+    x: rim.x + Math.cos(ang - Math.PI / 2) * ROT_ARM,
+    y: rim.y + Math.sin(ang - Math.PI / 2) * ROT_ARM
+  };
+  const boardA = { x: cx + L.boardAX * halfW, y: cy + L.boardAY * halfH };
+  const boardB = { x: cx + L.boardBX * halfW, y: cy + L.boardBY * halfH };
+  const boardMid = { x: (boardA.x + boardB.x) / 2, y: (boardA.y + boardB.y) / 2 };
+  return { cx, cy, halfW, halfH, sw, sh, scale, rim, left, right, open, ang, axis, rot, boardA, boardB, boardMid };
+}
+
+function drawHandle(x, y, color, diamond) {
+  ctx.fillStyle = color;
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  if (diamond) {
+    ctx.moveTo(x, y - HANDLE / 2 - 1);
+    ctx.lineTo(x + HANDLE / 2 + 1, y);
+    ctx.lineTo(x, y + HANDLE / 2 + 1);
+    ctx.lineTo(x - HANDLE / 2 - 1, y);
+    ctx.closePath();
+  } else {
+    ctx.rect(x - HANDLE / 2, y - HANDLE / 2, HANDLE, HANDLE);
+  }
+  ctx.fill();
+  ctx.stroke();
+}
+
+function buildFrontCanvas() {
+  if (!img) return null;
+  const out = document.createElement('canvas');
+  out.width = img.naturalWidth;
+  out.height = img.naturalHeight;
+  const octx = out.getContext('2d');
+  octx.clearRect(0, 0, out.width, out.height);
+  octx.drawImage(img, 0, 0);
+  octx.globalCompositeOperation = 'destination-in';
+  octx.drawImage(mask, 0, 0);
+  octx.globalCompositeOperation = 'source-over';
+  return out;
+}
+
+function drawSpriteBase(g) {
+  ctx.save();
+  ctx.translate(g.cx, g.cy);
+  if (flipH) ctx.scale(-1, 1);
+  ctx.drawImage(img, -g.sw / 2, -g.sh / 2, g.sw, g.sh);
+  ctx.restore();
+}
+
+function drawFrontNatural(g) {
+  const front = buildFrontCanvas();
+  if (!front) return;
+  ctx.save();
+  ctx.translate(g.cx, g.cy);
+  if (flipH) ctx.scale(-1, 1);
+  ctx.drawImage(front, -g.sw / 2, -g.sh / 2, g.sw, g.sh);
+  ctx.restore();
+}
+
+function drawFrontTinted(g) {
+  const front = buildFrontCanvas();
+  if (!front) return;
+  const tint = document.createElement('canvas');
+  tint.width = front.width;
+  tint.height = front.height;
+  const tctx = tint.getContext('2d');
+  tctx.drawImage(front, 0, 0);
+  const id = tctx.getImageData(0, 0, tint.width, tint.height);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    if (d[i + 3] < 10) continue;
+    d[i] = Math.min(255, d[i] * 0.2);
+    d[i + 1] = Math.min(255, d[i + 1] * 0.35 + 230);
+    d[i + 2] = Math.min(255, d[i + 2] * 0.35 + 255);
+    d[i + 3] = Math.min(255, d[i + 3] + 40);
+  }
+  tctx.putImageData(id, 0, 0);
+  ctx.save();
+  ctx.translate(g.cx, g.cy);
+  if (flipH) ctx.scale(-1, 1);
+  ctx.drawImage(tint, -g.sw / 2, -g.sh / 2, g.sw, g.sh);
+  ctx.restore();
+}
+
+function drawBallDemo(g) {
+  ctx.save();
+  ctx.translate(g.cx, g.cy);
+  if (flipH) ctx.scale(-1, 1);
+  const lx = (g.rim.x - g.cx) * (flipH ? -1 : 1);
+  const ly = g.rim.y - g.cy + 10;
+  ctx.beginPath();
+  ctx.arc(lx, ly, 34, 0, Math.PI * 2);
+  const grd = ctx.createRadialGradient(lx - 10, ly - 12, 4, lx, ly, 34);
+  grd.addColorStop(0, '#ffc060');
+  grd.addColorStop(1, '#c05010');
+  ctx.fillStyle = grd;
+  ctx.fill();
+  ctx.strokeStyle = '#402010';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+}
+
+function sourceToCanvas(sx, sy, g) {
+  let lx = sx * g.scale - g.sw / 2;
+  let ly = sy * g.scale - g.sh / 2;
+  if (flipH) lx = -lx;
+  return { x: g.cx + lx, y: g.cy + ly };
+}
+
+function canvasToSource(mx, my, g) {
+  let lx = mx - g.cx;
+  let ly = my - g.cy;
+  if (flipH) lx = -lx;
+  return {
+    x: (lx + g.sw / 2) / g.scale,
+    y: (ly + g.sh / 2) / g.scale
+  };
+}
+
+function drawOpenPolygon(g) {
+  if (openPoly.length === 0) return;
+  const pts = openPoly.map(p => sourceToCanvas(p.x, p.y, g));
+  ctx.strokeStyle = '#fc5';
+  ctx.fillStyle = '#fc54';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+  if (hoverCanvas && openPoly.length >= 1) {
+    ctx.lineTo(hoverCanvas.x, hoverCanvas.y);
+  }
+  ctx.stroke();
+
+  // ghost close to first point
+  if (openPoly.length >= 3 && hoverCanvas) {
+    const d0 = Math.hypot(hoverCanvas.x - pts[0].x, hoverCanvas.y - pts[0].y);
+    if (d0 < CLOSE_THRESH + 8) {
+      ctx.strokeStyle = '#0f0';
+      ctx.setLineDash([4, 3]);
+      ctx.beginPath();
+      ctx.moveTo(hoverCanvas.x, hoverCanvas.y);
+      ctx.lineTo(pts[0].x, pts[0].y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }
+
+  for (let i = 0; i < pts.length; i++) {
+    ctx.beginPath();
+    ctx.arc(pts[i].x, pts[i].y, i === 0 ? 6 : 4, 0, Math.PI * 2);
+    ctx.fillStyle = i === 0 ? '#0f0' : '#fc5';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+}
+
+function drawCollisions(g) {
+  ctx.strokeStyle = '#fc5';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([6, 4]);
+  ctx.beginPath();
+  ctx.moveTo(g.left.x, g.left.y);
+  ctx.lineTo(g.right.x, g.right.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.strokeStyle = '#f5f';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(g.rim.x, g.rim.y);
+  ctx.lineTo(g.rot.x, g.rot.y);
+  ctx.stroke();
+
+  ctx.strokeStyle = '#59f6';
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(g.boardA.x, g.boardA.y);
+  ctx.lineTo(g.boardB.x, g.boardB.y);
+  ctx.stroke();
+  ctx.strokeStyle = '#59f';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(g.boardA.x, g.boardA.y);
+  ctx.lineTo(g.boardB.x, g.boardB.y);
+  ctx.stroke();
+
+  for (const p of [g.left, g.right]) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = '#5f54';
+    ctx.fill();
+    ctx.strokeStyle = '#5f5';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+  drawHandle(g.left.x - g.axis.x * g.left.r, g.left.y - g.axis.y * g.left.r, '#fc5');
+  drawHandle(g.right.x + g.axis.x * g.right.r, g.right.y + g.axis.y * g.right.r, '#fc5');
+  drawHandle(g.boardA.x, g.boardA.y, '#59f');
+  drawHandle(g.boardB.x, g.boardB.y, '#59f');
+  drawHandle(g.boardMid.x, g.boardMid.y, '#8af');
+
+  ctx.beginPath();
+  ctx.arc(g.rim.x, g.rim.y, 7, 0, Math.PI * 2);
+  ctx.fillStyle = '#f55';
+  ctx.fill();
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  drawHandle(g.rot.x, g.rot.y, '#f5f', true);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#0d0d12';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const g = geom();
+  if (!g) {
+    ctx.fillStyle = '#666';
+    ctx.fillText('Load hoop.png…', 20, 30);
+    return;
+  }
+
+  if (view === 'collisions') {
+    drawSpriteBase(g);
+    drawCollisions(g);
+  } else if (view === 'poly') {
+    drawSpriteBase(g);
+    if (document.getElementById('showTint').checked) drawFrontTinted(g);
+    else drawFrontNatural(g);
+    drawOpenPolygon(g);
+  } else if (view === 'depth') {
+    drawSpriteBase(g);
+    drawBallDemo(g);
+    drawFrontNatural(g);
+  }
+
+  document.getElementById('out').textContent = JSON.stringify({
+    ...layout(),
+    comment: 'board A→B bounce line. Front cut from polygon tool → hoop_front.png'
+  }, null, 2);
+
+  updatePolyStatus();
+}
+
+function updatePolyStatus() {
+  if (view !== 'poly') return;
+  if (openPoly.length === 0) {
+    polyStatus.textContent = 'Click on the hoop to place the first vertex.';
+  } else if (openPoly.length < 3) {
+    polyStatus.textContent = `Polygon: ${openPoly.length} point(s) — need at least 3 to close.`;
+  } else {
+    polyStatus.textContent = `Polygon: ${openPoly.length} points — click first point (green) or Close polygon.`;
+  }
+}
+
+// ---- polygon fill into mask ----
+function closePolygon() {
+  if (openPoly.length < 3) {
+    statusEl.textContent = 'Need at least 3 points to close.';
+    return;
+  }
+  const add = document.getElementById('addMode').checked;
+  mctx.save();
+  mctx.globalCompositeOperation = add ? 'source-over' : 'destination-out';
+  mctx.fillStyle = '#ffffff';
+  mctx.beginPath();
+  mctx.moveTo(openPoly[0].x, openPoly[0].y);
+  for (let i = 1; i < openPoly.length; i++) mctx.lineTo(openPoly[i].x, openPoly[i].y);
+  mctx.closePath();
+  mctx.fill();
+  mctx.restore();
+
+  if (add && document.getElementById('onlyOpaque').checked && img) {
+    const tmp = document.createElement('canvas');
+    tmp.width = mask.width;
+    tmp.height = mask.height;
+    const t = tmp.getContext('2d');
+    t.drawImage(img, 0, 0);
+    t.globalCompositeOperation = 'source-in';
+    t.drawImage(mask, 0, 0);
+    mctx.clearRect(0, 0, mask.width, mask.height);
+    mctx.drawImage(tmp, 0, 0);
+  }
+
+  openPoly = [];
+  hoverCanvas = null;
+  statusEl.textContent = add ? 'Polygon filled into front cut.' : 'Polygon subtracted from front cut.';
+  draw();
+}
+
+function undoPoint() {
+  if (openPoly.length === 0) return;
+  openPoly.pop();
+  draw();
+}
+
+function cancelPoly() {
+  openPoly = [];
+  hoverCanvas = null;
+  statusEl.textContent = 'Open polygon cancelled.';
+  draw();
+}
+
+function clearCut() {
+  if (!confirm('Clear the entire front cut?')) return;
+  mctx.clearRect(0, 0, mask.width, mask.height);
+  openPoly = [];
+  statusEl.textContent = 'Front cut cleared.';
+  draw();
+}
+
+// ---- collisions hit testing ----
+function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+function distToSegment(p, a, b) {
+  const abx = b.x - a.x, aby = b.y - a.y;
+  const len2 = abx * abx + aby * aby;
+  if (len2 < 1e-6) return dist(p, a);
+  let t = ((p.x - a.x) * abx + (p.y - a.y) * aby) / len2;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(p.x - (a.x + t * abx), p.y - (a.y + t * aby));
+}
+
+function hit(mx, my) {
+  if (view !== 'collisions') return null;
+  const g = geom();
+  if (!g) return null;
+  const p = { x: mx, y: my };
+  const H = HANDLE + 5;
+  if (dist(p, g.rot) < H + 4) return { type: 'rotate' };
+  const lrh = { x: g.left.x - g.axis.x * g.left.r, y: g.left.y - g.axis.y * g.left.r };
+  const rrh = { x: g.right.x + g.axis.x * g.right.r, y: g.right.y + g.axis.y * g.right.r };
+  if (dist(p, lrh) < H || dist(p, rrh) < H) return { type: 'sideR' };
+  if (dist(p, g.boardA) < H) return { type: 'boardA' };
+  if (dist(p, g.boardB) < H) return { type: 'boardB' };
+  if (dist(p, g.boardMid) < H + 2 || distToSegment(p, g.boardA, g.boardB) < 10)
+    return { type: 'boardMid', ox: mx - g.boardMid.x, oy: my - g.boardMid.y };
+  if (dist(p, g.rim) < 14) return { type: 'rim' };
+  if (dist(p, g.left) < g.left.r + 6) return { type: 'left' };
+  if (dist(p, g.right) < g.right.r + 6) return { type: 'right' };
+  return null;
+}
+
+function applyDrag(mx, my) {
+  if (!drag || view !== 'collisions') return;
+  const g = geom();
+  if (!g) return;
+  const L = layout();
+  if (drag.type === 'rim') {
+    set('rimOffsetX', (mx - g.cx) / g.halfW);
+    set('rimOffsetY', (my - g.cy) / g.halfH);
+  } else if (drag.type === 'rotate') {
+    let deg = rad2deg(Math.atan2(my - g.rim.y, mx - g.rim.x) + Math.PI / 2);
+    while (deg > 180) deg -= 360;
+    while (deg < -180) deg += 360;
+    set('rimAngleDeg', deg);
+  } else if (drag.type === 'left' || drag.type === 'right') {
+    const dx = mx - g.rim.x, dy = my - g.rim.y;
+    set('openingHalfW', Math.max(0.05, Math.min(1.5, Math.abs(dx * g.axis.x + dy * g.axis.y) / g.halfW)));
+  } else if (drag.type === 'sideR') {
+    const dx = mx - g.rim.x, dy = my - g.rim.y;
+    const along = Math.abs(dx * g.axis.x + dy * g.axis.y);
+    set('sideRadius', Math.max(0.03, Math.min(0.5, Math.abs(along - L.openingHalfW * g.halfW) / g.halfW)));
+  } else if (drag.type === 'boardA') {
+    set('boardAX', (mx - g.cx) / g.halfW);
+    set('boardAY', (my - g.cy) / g.halfH);
+  } else if (drag.type === 'boardB') {
+    set('boardBX', (mx - g.cx) / g.halfW);
+    set('boardBY', (my - g.cy) / g.halfH);
+  } else if (drag.type === 'boardMid') {
+    const midX = mx - (drag.ox || 0);
+    const midY = my - (drag.oy || 0);
+    const halfDx = (g.boardB.x - g.boardA.x) / 2;
+    const halfDy = (g.boardB.y - g.boardA.y) / 2;
+    set('boardAX', (midX - halfDx - g.cx) / g.halfW);
+    set('boardAY', (midY - halfDy - g.cy) / g.halfH);
+    set('boardBX', (midX + halfDx - g.cx) / g.halfW);
+    set('boardBY', (midY + halfDy - g.cy) / g.halfH);
+  }
+  draw();
+}
+
+function canvasPos(e) {
+  const r = canvas.getBoundingClientRect();
+  return {
+    x: (e.clientX - r.left) * (canvas.width / r.width),
+    y: (e.clientY - r.top) * (canvas.height / r.height)
+  };
+}
+
+canvas.addEventListener('mousedown', e => {
+  const { x, y } = canvasPos(e);
+  const g = geom();
+  if (!g) return;
+
+  if (view === 'poly') {
+    // Close if near first point
+    if (openPoly.length >= 3) {
+      const first = sourceToCanvas(openPoly[0].x, openPoly[0].y, g);
+      if (Math.hypot(x - first.x, y - first.y) < CLOSE_THRESH) {
+        closePolygon();
+        e.preventDefault();
+        return;
+      }
+    }
+    const s = canvasToSource(x, y, g);
+    // clamp lightly to image bounds
+    s.x = Math.max(0, Math.min(mask.width, s.x));
+    s.y = Math.max(0, Math.min(mask.height, s.y));
+    openPoly.push(s);
+    draw();
+    e.preventDefault();
+    return;
+  }
+
+  if (view === 'collisions') {
+    drag = hit(x, y);
+    if (drag) e.preventDefault();
+  }
+});
+
+window.addEventListener('mouseup', () => { drag = null; });
+
+canvas.addEventListener('mousemove', e => {
+  const { x, y } = canvasPos(e);
+  if (view === 'poly') {
+    hoverCanvas = { x, y };
+    canvas.style.cursor = 'crosshair';
+    draw();
+    return;
+  }
+  hoverCanvas = null;
+  if (drag) applyDrag(x, y);
+  else canvas.style.cursor = hit(x, y) ? 'pointer' : 'default';
+});
+
+canvas.addEventListener('dblclick', e => {
+  if (view === 'poly' && openPoly.length >= 3) {
+    closePolygon();
+    e.preventDefault();
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (view !== 'poly') return;
+  if (e.key === 'Enter') { closePolygon(); e.preventDefault(); }
+  if (e.key === 'Backspace') { undoPoint(); e.preventDefault(); }
+  if (e.key === 'Escape') { cancelPoly(); e.preventDefault(); }
+});
+
+keys.forEach(k => document.getElementById(k).addEventListener('input', draw));
+
+document.getElementById('btnUndo').onclick = undoPoint;
+document.getElementById('btnClose').onclick = closePolygon;
+document.getElementById('btnCancel').onclick = cancelPoly;
+document.getElementById('btnClear').onclick = clearCut;
+document.getElementById('showTint').addEventListener('change', draw);
+
+document.querySelectorAll('#tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    view = btn.dataset.view;
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('active', b === btn));
+    viewNote.textContent = NOTES[view];
+    document.getElementById('polyPanel').style.display = view === 'poly' ? 'block' : 'none';
+    document.getElementById('collisionFields').style.display = view === 'poly' ? 'none' : 'block';
+    hoverCanvas = null;
+    draw();
+    statusEl.textContent = NOTES[view];
+  });
+});
+
+document.getElementById('flip').onclick = () => {
+  flipH = !flipH;
+  statusEl.textContent = flipH ? 'FlipH ON (in-game).' : 'FlipH OFF.';
+  draw();
+};
+document.getElementById('export').onclick = async () => {
+  await navigator.clipboard.writeText(document.getElementById('out').textContent);
+  statusEl.textContent = 'Layout JSON copied.';
+};
+document.getElementById('download').onclick = () => {
+  const blob = new Blob([document.getElementById('out').textContent], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'hoop_layout.json';
+  a.click();
+};
+document.getElementById('reloadLayout').onclick = () => loadLayout(DEFAULT_LAYOUT);
+
+document.getElementById('downloadFront').onclick = () => {
+  const front = buildFrontCanvas();
+  if (!front) return;
+  front.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'hoop_front.png';
+    a.click();
+    statusEl.textContent = 'Downloaded hoop_front.png — drop into mods/BattleBall/ and assets/.';
+  });
+};
+document.getElementById('reloadFront').onclick = () => loadFrontMask(DEFAULT_FRONT);
+
+function initMask(sizeImg) {
+  mask.width = sizeImg.naturalWidth;
+  mask.height = sizeImg.naturalHeight;
+  mctx.clearRect(0, 0, mask.width, mask.height);
+}
+
+async function loadFrontMask(url) {
+  try {
+    const im = await loadImage(url);
+    if (!img) return;
+    initMask(img);
+    const tmp = document.createElement('canvas');
+    tmp.width = mask.width;
+    tmp.height = mask.height;
+    const t = tmp.getContext('2d');
+    t.drawImage(im, 0, 0, tmp.width, tmp.height);
+    const id = t.getImageData(0, 0, tmp.width, tmp.height);
+    const d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const a = d[i + 3];
+      d[i] = d[i + 1] = d[i + 2] = 255;
+      d[i + 3] = a > 20 ? 255 : 0;
+    }
+    t.putImageData(id, 0, 0);
+    mctx.clearRect(0, 0, mask.width, mask.height);
+    mctx.drawImage(tmp, 0, 0);
+    openPoly = [];
+    draw();
+    statusEl.textContent = 'Loaded existing hoop_front.png as mask (edit with new polygons).';
+  } catch {
+    if (img) initMask(img);
+    openPoly = [];
+    statusEl.textContent = 'Blank front cut — use polygon tool to define it.';
+    draw();
+  }
+}
+
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = () => resolve(im);
+    im.onerror = () => reject(new Error(url));
+    im.src = url;
+  });
+}
+
+async function loadLayout(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    if (data.boardAX == null && data.boardLeft != null) {
+      data.boardAX = data.boardLeft;
+      data.boardAY = data.boardTop ?? -0.9;
+      data.boardBX = data.boardLeft;
+      data.boardBY = (data.boardTop ?? -0.9) + (data.boardH ?? 1.55);
+    }
+    for (const k of keys) if (data[k] != null) set(k, data[k]);
+    draw();
+  } catch (e) {
+    statusEl.textContent = 'Layout defaults (' + e.message + ').';
+    draw();
+  }
+}
+
+async function boot() {
+  try {
+    img = await loadImage(DEFAULT_HOOP);
+    initMask(img);
+    statusEl.textContent = `hoop.png loaded (${img.naturalWidth}×${img.naturalHeight}).`;
+  } catch {
+    statusEl.textContent = 'Failed to load hoop.png';
+    return;
+  }
+  // Start blank so user defines cut — still offer reload of old file
+  await loadFrontMask(DEFAULT_FRONT);
+  // Prefer blank if they want to redo — keep loaded so they can refine
+  await loadLayout(DEFAULT_LAYOUT);
+  viewNote.textContent = NOTES.collisions;
+  draw();
+}
+
+boot();
+</script>
+</body>
+</html>
