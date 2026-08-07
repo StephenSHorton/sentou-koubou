@@ -1,0 +1,17 @@
+{
+  "id": "GildedLedger",
+  "name": "Gilded Ledger",
+  "author": "Stephen Horton",
+  "description": "Adds a random event: The Gilded Ledger. Choose to lose all gold for any enchantment on a card, or remove any number of cards from your deck. Enchantment list is paged (More/Previous). Requires BaseLib.",
+  "version": "v0.1.3",
+  "min_game_version": "0.107.0",
+  "has_pck": false,
+  "has_dll": true,
+  "dependencies": [
+    {
+      "id": "BaseLib",
+      "min_version": "3.3.0"
+    }
+  ],
+  "affects_gameplay": true
+}
