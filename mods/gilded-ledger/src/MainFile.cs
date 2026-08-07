@@ -1,4 +1,3 @@
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 
@@ -17,11 +16,12 @@ public static class MainFile
         // BaseLib registers the event into the shared-act pool even if discovery order differs.
         _ = new GildedLedgerEvent();
 
-        var harmony = new Harmony(ModId);
-        harmony.PatchAll();
+        // No Harmony — earlier ScrollContainer wrap on NEventLayout.AddOptions broke Neow
+        // (container grew with content / stole layout space; wheel had nothing to scroll).
+        // Enchant lists use in-event pagination instead.
 
         Logger.Info(
-            "Gilded Ledger loaded — ?-room event: lose all gold for any enchantment, "
-            + "or remove any number of cards (scrollable enchant list).");
+            "Gilded Ledger loaded — ?-room event: lose all gold for any enchantment "
+            + $"(paged ×{GildedLedgerEvent.EnchantmentsPerPage}), or remove any number of cards.");
     }
 }

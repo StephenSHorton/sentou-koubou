@@ -8,7 +8,6 @@ using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Events;
 using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Enchantments;
@@ -25,6 +24,12 @@ namespace GildedLedger;
 [CustomID("GILDED_LEDGER")]
 public sealed class GildedLedgerEvent : CustomEventModel
 {
+    /// <summary>
+    /// How many enchantment buttons per page. Vanilla event UI has no scroll; paging
+    /// keeps every option on-screen without Harmony layout hacks (which broke Neow).
+    /// </summary>
+    public const int EnchantmentsPerPage = 5;
+
     /// <summary>Empty Acts → BaseLib SharedCustomEvents → rolled in every act.</summary>
     public override ActModel[] Acts => Array.Empty<ActModel>();
 
@@ -57,7 +62,19 @@ public sealed class GildedLedgerEvent : CustomEventModel
                 "You need at least 1 removable card.")),
         new EventPageLoc(
             "CHOOSE_ENCHANT",
-            "Which enchantment should the ledger bind? (You will choose a card next, then lose all gold.)"),
+            "Which enchantment should the ledger bind? (You will choose a card next, then lose all gold.)",
+            new EventOptionLoc(
+                "ENCHANT_NEXT",
+                "More enchantments…",
+                "Show the next set of enchantments."),
+            new EventOptionLoc(
+                "ENCHANT_PREV",
+                "Previous enchantments…",
+                "Show the previous set of enchantments."),
+            new EventOptionLoc(
+                "ENCHANT_BACK",
+                "Back",
+                "Return to the ledger without spending gold.")),
         new EventPageLoc(
             "GILD_DONE",
             "The ledger drinks every coin. Your card shines with new ink."),
@@ -100,8 +117,11 @@ public sealed class GildedLedgerEvent : CustomEventModel
         return options;
     }
 
-    /// <summary>Open a page of every enchantment that can hit at least one deck card.</summary>
-    public async Task Gild()
+    /// <summary>Open page 0 of applicable enchantments.</summary>
+    public Task Gild() => ShowEnchantPage(0);
+
+    /// <summary>Show one page of enchantments plus next/prev/back navigation.</summary>
+    public async Task ShowEnchantPage(int page)
     {
         Player owner = Owner!;
         List<EnchantmentModel> choices = GetApplicableEnchantments(owner).ToList();
@@ -111,11 +131,16 @@ public sealed class GildedLedgerEvent : CustomEventModel
             return;
         }
 
-        // Many enchants → event options list scrolls (see EventOptionsScrollPatch).
-        var options = new List<EventOption>(choices.Count);
-        foreach (EnchantmentModel ench in choices)
+        int pageCount = Math.Max(1, (choices.Count + EnchantmentsPerPage - 1) / EnchantmentsPerPage);
+        page = Math.Clamp(page, 0, pageCount - 1);
+
+        int start = page * EnchantmentsPerPage;
+        int end = Math.Min(start + EnchantmentsPerPage, choices.Count);
+
+        var options = new List<EventOption>(EnchantmentsPerPage + 3);
+        for (int i = start; i < end; i++)
         {
-            EnchantmentModel captured = ench;
+            EnchantmentModel captured = choices[i];
             LocString title = captured.Title;
             LocString desc = L10NLookup(Id.Entry + ".pages.INITIAL.options.GILD.description");
             options.Add(Option(
@@ -125,8 +150,44 @@ public sealed class GildedLedgerEvent : CustomEventModel
                 captured.HoverTip));
         }
 
+        if (page > 0)
+        {
+            int prev = page - 1;
+            options.Add(Option(
+                () => ShowEnchantPage(prev),
+                OptionTitle("CHOOSE_ENCHANT", "ENCHANT_PREV"),
+                OptionDesc("CHOOSE_ENCHANT", "ENCHANT_PREV")));
+        }
+
+        if (page < pageCount - 1)
+        {
+            int next = page + 1;
+            options.Add(Option(
+                () => ShowEnchantPage(next),
+                OptionTitle("CHOOSE_ENCHANT", "ENCHANT_NEXT"),
+                OptionDesc("CHOOSE_ENCHANT", "ENCHANT_NEXT")));
+        }
+
+        // Always allow returning to the ledger without spending gold.
+        options.Add(Option(
+            BackToInitial,
+            OptionTitle("CHOOSE_ENCHANT", "ENCHANT_BACK"),
+            OptionDesc("CHOOSE_ENCHANT", "ENCHANT_BACK")));
+
         SetEventState(PageDescription("CHOOSE_ENCHANT"), options);
         await Task.CompletedTask;
+    }
+
+    private LocString OptionTitle(string page, string option) =>
+        L10NLookup($"{Id.Entry}.pages.{page}.options.{option}.title");
+
+    private LocString OptionDesc(string page, string option) =>
+        L10NLookup($"{Id.Entry}.pages.{page}.options.{option}.description");
+
+    public Task BackToInitial()
+    {
+        SetEventState(InitialDescription, GenerateInitialOptions());
+        return Task.CompletedTask;
     }
 
     public async Task ApplyGild(EnchantmentModel enchantment)
@@ -144,8 +205,8 @@ public sealed class GildedLedgerEvent : CustomEventModel
 
         if (card == null)
         {
-            // Re-open enchantment list so the player can pick another.
-            await Gild();
+            // Re-open enchantment list (page 0) so the player can pick another.
+            await ShowEnchantPage(0);
             return;
         }
 
